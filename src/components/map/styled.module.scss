@@ -1,0 +1,68 @@
+.main {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #3a63b8;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  display: flex;
+  gap: 10px;
+  button {
+    font-size: 16px;
+    cursor: pointer;
+    padding: 2px 5px;
+  }
+}
+
+.gridpath {
+  transition: 0.15s all;
+  fill-opacity: 0;
+  stroke-opacity: 0.5;
+  stroke-width: 1px;
+  stroke-miterlimit: 1;
+  stroke: #fff;
+  cursor: pointer;
+
+  &:hover {
+    fill-opacity: 0.5;
+    stroke-opacity: 0.8;
+    fill: #15ff00;
+    stroke: #15ff00;
+  }
+}
+
+.item {
+  cursor: pointer;
+  transition: 0.3s all;
+  &:hover {
+    filter: drop-shadow(0 0 5px #fff);
+
+    .window {
+      fill: red;
+      animation: blink 1s linear infinite;
+    }
+  }
+}
+
+.listItems:hover .item:not(:hover) {
+  filter: brightness(0.8) opacity(0.9);
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
