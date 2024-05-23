@@ -21,8 +21,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "local": "SET NODE_OPTIONS=--openssl-legacy-provider && env-cmd -f .env.local react-scripts start",
-    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
+    "start": "react-scripts start",
+    "local": "env-cmd -f .env.local react-scripts start",
     "development": "env-cmd -f .env.development react-scripts build",
     "staging": "env-cmd -f .env.staging react-scripts build",
     "production": "env-cmd -f .env.production react-scripts build",
@@ -41,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
