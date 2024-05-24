@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as utils from "services/web3/utils";
+import * as utils from "utils/web3Utils";
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000/api";
 
 const _isAddress = (address: string) => {
