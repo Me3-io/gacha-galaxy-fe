@@ -1,4 +1,4 @@
-const waitForElement = (selector) => {
+const waitForElement = (selector: string) => {
   return new Promise((resolve) => {
     if (document.querySelector(selector)) {
       return resolve(document.querySelector(selector));

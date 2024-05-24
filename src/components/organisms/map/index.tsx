@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import useResizeObserver from "use-resize-observer";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import { ReactSvgPanZoomLoader } from "react-svg-pan-zoom-loader";
-import waitForElement from "../../hooks/waitForElement";
+import waitForElement from "hooks/waitForElement";
 
-import mapBG from "../../assets/images/tokyo_bg.svg";
+import mapBG from "assets/images/tokyo_bg.svg";
 import styled from "./styled.module.scss";
 
 const MAX_ZOOM = 1;
