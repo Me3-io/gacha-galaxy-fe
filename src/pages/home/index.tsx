@@ -1,12 +1,36 @@
 import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map";
 
-import "./styled.module.scss";
+import { Box, Container, Drawer } from "@mui/material";
+import { useState } from "react";
+
+import styled from "./styled.module.scss";
 
 const Home = () => {
+  const [openDrawer, setOpenDrawer] = useState<boolean>(true);
   return (
     <Layout>
-      <InteractiveMap />
+      <Container maxWidth={false} disableGutters={true}>
+        <Box height={"100%"} overflow={"hidden"}>
+          <InteractiveMap />
+        </Box>
+        <Drawer
+          open={openDrawer}
+          anchor="left"
+          variant="persistent"
+          onClose={() => setOpenDrawer(false)}
+          className={styled.mainDrawer}
+          sx={{
+            "& .MuiDrawer-paper": {
+              backgroundColor: "transparent",
+              boxSizing: "border-box",
+              overflow: "hidden",
+            },
+          }}
+        >
+          <Box className={styled.container}></Box>
+        </Drawer>
+      </Container>
     </Layout>
   );
 };

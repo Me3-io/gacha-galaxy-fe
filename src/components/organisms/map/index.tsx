@@ -7,6 +7,7 @@ import waitForElement from "utils/waitForElement";
 
 import mapBG from "assets/images/tokyo_bg.svg";
 import styled from "./styled.module.scss";
+import { Grid } from "@mui/material";
 
 const MAX_ZOOM = 1;
 const PATH_GRID = 200;
@@ -15,12 +16,12 @@ const InteractiveMap = () => {
   const Viewer = useRef<any>(null);
 
   const { ref, width, height } = useResizeObserver();
-  const [svgMap, setSvgMap] = useState(false);
+  const [svgMap, setSvgMap] = useState<boolean>(false);
 
-  const [value, setValue] = useState<any>();
+  const [value, setValue] = useState<any>({});
   const [tool, setTool] = useState<any>(TOOL_AUTO);
   const [svgDimensions, setSvgDimensions] = useState({ width: 1024, height: 1024 });
-  const [showGrid, setShowGrid] = useState(true);
+  const [showGrid, setShowGrid] = useState<boolean>(false);
 
   // grid
   const [renderGrid, setRenderGrid] = useState<any[]>([]);
@@ -79,12 +80,11 @@ const InteractiveMap = () => {
 
   const _drawPath = ({ key, posX, posY }: any) => {
     return (
-      <>
-        <text x={posX + 10} y={posY + 2} fill="#fff" font-size="6">
+      <g key={key}>
+        <text x={posX + 10} y={posY + 2} fill="#fff" fontSize="6">
           {posX} - {posY - PATH_GRID / 4}
         </text>
         <polygon
-          key={key}
           points={`
             ${posX},${posY} 
             ${posX + PATH_GRID / 2},${posY - PATH_GRID / 4} 
@@ -96,7 +96,7 @@ const InteractiveMap = () => {
           //onMouseLeave={_pathMouseLeave}
           className={styled.gridpath}
         />
-      </>
+      </g>
     );
   };
 
@@ -110,16 +110,22 @@ const InteractiveMap = () => {
   };
 
   const _fitCenter = () => {
-    Viewer.current?.fitToViewer("center", "center");
+    //Viewer.current?.fitToViewer("center");
+    console.log(Viewer.current)
+    const posTop =
+      height && svgDimensions.height > height ? (svgDimensions.height - height) / 4 : 0;
+    Viewer.current?.fitSelection(0, posTop, svgDimensions.width, 0);
   };
 
+  
   if (!svgMap) {
     return (
-      <div>
+      <Grid container justifyContent={"center"} p={2}>
         <span>loading map...</span>
-      </div>
+      </Grid>
     );
   }
+
 
   return (
     <div ref={ref} className="main" style={{ height: "100%", width: "100%" }}>

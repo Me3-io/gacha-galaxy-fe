@@ -1,0 +1,9 @@
+.mainDrawer {
+  .container {
+    background: rgba(24, 9, 36, 0.50);
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+    min-width: 400px;
+    height: 100%;
+  }
+}
