@@ -1,64 +1,44 @@
 import { useEffect, useRef, useState } from "react";
-
-import useResizeObserver from "use-resize-observer";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
-import { ReactSvgPanZoomLoader } from "react-svg-pan-zoom-loader";
+import useResizeObserver from "use-resize-observer";
 import waitForElement from "utils/waitForElement";
 
-import mapBG from "assets/images/tokyo_bg.svg";
+import MapTokyoBg from "assets/images/tokyo_bg";
 import styled from "./styled.module.scss";
-import { Grid } from "@mui/material";
 
-const MAX_ZOOM = 1;
+const MAX_ZOOM = 2;
 const PATH_GRID = 200;
+const SVG_SIZE = { width: 2304, height: 1489 };
+const ID_MAP = "svg-tokyo-map";
 
 const InteractiveMap = () => {
   const Viewer = useRef<any>(null);
 
   const { ref, width, height } = useResizeObserver();
-  const [svgMap, setSvgMap] = useState<boolean>(false);
-
   const [value, setValue] = useState<any>({});
   const [tool, setTool] = useState<any>(TOOL_AUTO);
-  const [svgDimensions, setSvgDimensions] = useState({ width: 1024, height: 1024 });
-  const [showGrid, setShowGrid] = useState<boolean>(false);
 
   // grid
+  const [showMap, setShowMap] = useState<boolean>(true);
+  const [showGrid, setShowGrid] = useState<boolean>(false);
   const [renderGrid, setRenderGrid] = useState<any[]>([]);
   const [gridConfig, setGridConfig] = useState({ originX: 0, originY: 0, width: 0, height: 0 });
 
-  useEffect(() => {
-    const img = new Image();
-    img.onload = (event: any) => {
-      setSvgMap(true);
-      const { naturalWidth, naturalHeight } = event.target;
-      setSvgDimensions({ width: naturalWidth, height: naturalHeight });
-      waitForElement(".injected-svg").then(() => _fitCenter());
-    };
-
-    img.src = mapBG;
-    _drawGrid();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // calculate grid data ---
+  // calculate grid data and events ---
   useEffect(() => {
     setGridConfig({
       originX: 0,
       originY: PATH_GRID / 4,
-      width: svgDimensions.width / (PATH_GRID / 2) - 2,
-      height: svgDimensions.height / (PATH_GRID / 2) - 1,
+      width: SVG_SIZE.width / (PATH_GRID / 2) - 2,
+      height: SVG_SIZE.height / (PATH_GRID / 2) - 1,
     });
-  }, [svgDimensions.width, svgDimensions.height]);
+  }, []);
 
   useEffect(() => {
     _drawGrid();
-    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gridConfig.width, gridConfig.height]);
 
-  // grid events ---
   const _drawGrid = () => {
     const renderGrid = [];
     for (let y = 0; y < gridConfig.height; y++) {
@@ -111,21 +91,17 @@ const InteractiveMap = () => {
 
   const _fitCenter = () => {
     //Viewer.current?.fitToViewer("center");
-    console.log(Viewer.current)
-    const posTop =
-      height && svgDimensions.height > height ? (svgDimensions.height - height) / 4 : 0;
-    Viewer.current?.fitSelection(0, posTop, svgDimensions.width, 0);
+    //const posTop = height && SVG_SIZE.height > height ? (SVG_SIZE.height - height) / 4 : 0;
+    Viewer.current?.fitSelection(0, 0, SVG_SIZE.width, 0);
   };
 
-  
-  if (!svgMap) {
-    return (
-      <Grid container justifyContent={"center"} p={2}>
-        <span>loading map...</span>
-      </Grid>
-    );
-  }
-
+  // window resize ---
+  useEffect(() => {
+    if (Viewer.current?.fitSelection !== undefined && height && width) {
+      waitForElement(`#${ID_MAP}`).then(() => _fitCenter());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Viewer.current?.fitSelection, height, width]);
 
   return (
     <div ref={ref} className="main" style={{ height: "100%", width: "100%" }}>
@@ -134,43 +110,38 @@ const InteractiveMap = () => {
         <button onClick={_zoomOut}>zoom out</button>
         <button onClick={_fitCenter}>center</button>
         <button onClick={() => setShowGrid((prev) => !prev)}>show grid</button>
+        <button onClick={() => setShowMap((prev) => !prev)}>show map</button>
       </div>
-      <ReactSvgPanZoomLoader
-        src={mapBG}
-        render={(renderMap) => {
-          return (
-            <ReactSVGPanZoom
-              ref={Viewer}
-              value={value}
-              tool={tool}
-              onChangeValue={setValue}
-              onChangeTool={setTool}
-              width={width || 100}
-              height={height || 100}
-              SVGBackground={"transparent"}
-              background={"#000000cc"}
-              scaleFactorMax={MAX_ZOOM}
-              scaleFactorMin={0.5}
-              toolbarProps={{
-                position: "none",
-              }}
-              miniatureProps={{
-                position: "none",
-                background: "#000000cc",
-                width: 250,
-                height: 250,
-              }}
-              detectAutoPan={false}
-              preventPanOutside={true}
-            >
-              <svg width={svgDimensions.width} height={svgDimensions.height}>
-                {renderMap}
-                {showGrid && <g>{renderGrid}</g>}
-              </svg>
-            </ReactSVGPanZoom>
-          );
+
+      <ReactSVGPanZoom
+        ref={Viewer}
+        value={value}
+        tool={tool}
+        onChangeValue={setValue}
+        onChangeTool={setTool}
+        width={width || 100}
+        height={height || 100}
+        SVGBackground={"transparent"}
+        background={"#000000cc"}
+        scaleFactorMax={MAX_ZOOM}
+        scaleFactorMin={0.2}
+        toolbarProps={{
+          position: "none",
         }}
-      />
+        miniatureProps={{
+          position: "none",
+          background: "#000000cc",
+          width: 250,
+          height: 250,
+        }}
+        detectAutoPan={false}
+        preventPanOutside={true}
+      >
+        <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
+          <g className="map">{showMap && <MapTokyoBg id={ID_MAP} />}</g>
+          <g className="grid">{showGrid && renderGrid}</g>
+        </svg>
+      </ReactSVGPanZoom>
     </div>
   );
 };
