@@ -1,28 +1,37 @@
-import { useEffect, useRef, useState } from "react";
-import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
+import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactSVGPanZoom, TOOL_AUTO, fitSelection } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 import waitForElement from "utils/waitForElement";
 
 import MapTokyoBg from "assets/images/tokyo_bg";
 import styled from "./styled.module.scss";
 
+import ListItems from "./listItems";
+
 const MAX_ZOOM = 2;
 const PATH_GRID = 200;
 const SVG_SIZE = { width: 2304, height: 1489 };
-const ID_MAP = "svg-tokyo-map";
+const ID_MAP = "svgTokyoMap";
 
 const InteractiveMap = () => {
   const Viewer = useRef<any>(null);
 
   const { ref, width, height } = useResizeObserver();
   const [value, setValue] = useState<any>({});
+  const [initValue, setInitValue] = useState<any>({});
   const [tool, setTool] = useState<any>(TOOL_AUTO);
+  const [reload, setReload] = useState<boolean>(false);
 
   // grid
   const [showMap, setShowMap] = useState<boolean>(true);
   const [showGrid, setShowGrid] = useState<boolean>(false);
-  const [renderGrid, setRenderGrid] = useState<any[]>([]);
-  const [gridConfig, setGridConfig] = useState({ originX: 0, originY: 0, width: 0, height: 0 });
+  const [renderGrid, setRenderGrid] = useState<ReactElement[]>([]);
+  const [gridConfig, setGridConfig] = useState<{
+    originX: number;
+    originY: number;
+    width: number;
+    height: number;
+  }>({ originX: 0, originY: 0, width: 0, height: 0 });
 
   // calculate grid data and events ---
   useEffect(() => {
@@ -80,7 +89,7 @@ const InteractiveMap = () => {
     );
   };
 
-  // zoom events ---
+  // events ---
   const _zoomIn = () => {
     Viewer.current?.zoomOnViewerCenter(1.1);
   };
@@ -90,10 +99,36 @@ const InteractiveMap = () => {
   };
 
   const _fitCenter = () => {
-    //Viewer.current?.fitToViewer("center");
-    //const posTop = height && SVG_SIZE.height > height ? (SVG_SIZE.height - height) / 4 : 0;
+    setReload(true);
+    //CALCULAR ESTA LOGICA ###########
     Viewer.current?.fitSelection(0, 0, SVG_SIZE.width, 0);
   };
+
+  const handlerClick = (id: number, evt: any) => {
+    console.log("id:", id, " - target:", evt.currentTarget);
+  };
+
+  // limit pan and zoom in viewer
+  const _calculateLimit = (value: any) => {
+    if (value.a < initValue.a) return;
+
+    const limitF = value.viewerHeight - value.a * value.SVGHeight;
+    const limitE = value.viewerWidth - value.a * value.SVGWidth;
+
+    const f = value.f > 1 ? 0 : value.f < limitF ? limitF : value.f;
+    const e = value.e > 1 ? 0 : value.e < limitE ? limitE : value.e;
+
+    setValue({ ...value, e, f });
+  };
+
+  useEffect(() => {
+    if (reload) {
+      const minFit = fitSelection(value, 0, 0, SVG_SIZE.width, 0);
+      setInitValue(minFit);
+      setReload(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reload, value]);
 
   // window resize ---
   useEffect(() => {
@@ -117,7 +152,7 @@ const InteractiveMap = () => {
         ref={Viewer}
         value={value}
         tool={tool}
-        onChangeValue={setValue}
+        onChangeValue={_calculateLimit}
         onChangeTool={setTool}
         width={width || 100}
         height={height || 100}
@@ -125,6 +160,8 @@ const InteractiveMap = () => {
         background={"#000000cc"}
         scaleFactorMax={MAX_ZOOM}
         scaleFactorMin={0.2}
+        //onPan={calculateLimit}
+        //onZoom={calculateLimit}
         toolbarProps={{
           position: "none",
         }}
@@ -140,6 +177,7 @@ const InteractiveMap = () => {
         <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
           <g className="map">{showMap && <MapTokyoBg id={ID_MAP} />}</g>
           <g className="grid">{showGrid && renderGrid}</g>
+          <g className="items">{<ListItems handlerClick={handlerClick} />}</g>
         </svg>
       </ReactSVGPanZoom>
     </div>
