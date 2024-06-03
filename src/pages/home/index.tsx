@@ -1,10 +1,11 @@
 import Layout from "components/templates/layout";
-import InteractiveMap from "components/organisms/map";
+import InteractiveMap from "components/organisms/map/index2";
 
 import { Box, Container, Drawer } from "@mui/material";
 import { useState } from "react";
 
 import styled from "./styled.module.scss";
+import Leaderboard from "components/organisms/leaderboard";
 
 const Home = () => {
   const [openDrawer, setOpenDrawer] = useState<boolean>(true);
@@ -28,7 +29,9 @@ const Home = () => {
             },
           }}
         >
-          <Box className={styled.container}></Box>
+          <Box className={styled.container}>
+            <Leaderboard />
+          </Box>
         </Drawer>
       </Container>
     </Layout>

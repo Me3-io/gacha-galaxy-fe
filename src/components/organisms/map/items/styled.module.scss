@@ -2,19 +2,30 @@
   cursor: pointer;
   transition: 0.2s all;
 
-  .window,
   .title {
     animation: blink 1s linear infinite;
   }
 
+  .window {
+    animation: blink 1.2s linear infinite;
+  }
+
+  .window2 {
+    animation: blink2 1s linear infinite;
+  }
+
   &:hover {
-    filter: drop-shadow(1px -7px 14px rgba(103, 231, 254, 1));
+    filter: drop-shadow(1px -7px 14px rgba(103, 231, 254, 0.8));
     path {
       animation: translate 1s ease-in-out infinite;
       transform-origin: center;
     }
     .window {
       animation: translate 1s ease-in-out infinite, blink 1s linear infinite;
+    }
+
+    .window2 {
+      animation: translate 1s ease-in-out infinite, blink2 1s linear infinite;
     }
   }
 }
@@ -24,7 +35,7 @@
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
   100% {
     transform: translateY(0px);
@@ -32,14 +43,34 @@
 }
 
 @keyframes blink {
+  0% {
+    filter: brightness(1);
+  }
+  10% {
+    filter: brightness(0.6);
+  }
+  20% {
+    filter: brightness(1);
+  }
+  30% {
+    filter: brightness(0.6);
+  }
+  40% {
+    filter: brightness(1);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+
+@keyframes blink2 {
   30% {
     filter: brightness(1);
   }
-
   50% {
     filter: brightness(0.6);
   }
-
   70% {
     filter: brightness(1);
   }

@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "Teko";
+  src: url("assets/fonts/Teko-Medium.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "TitilliumWeb";
+  src: url("assets/fonts/TitilliumWeb-Regular.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/Poppins-Regular.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "PoppinsBold";
+  src: url("assets/fonts/Poppins-Bold.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "Aldrich";
+  src: url("assets/fonts/Aldrich-Regular.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "KronaOne";
+  src: url("assets/fonts/KronaOne-Regular.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "Orbitron";
+  src: url("assets/fonts/Orbitron-Regular.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "OrbitronBold";
+  src: url("assets/fonts/Orbitron-Bold.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "OrbitronBlack";
+  src: url("assets/fonts/Orbitron-Black.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "ChakraPetch";
+  src: url("assets/fonts/ChakraPetch-Regular.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "ChakraPetchLight";
+  src: url("assets/fonts/ChakraPetch-Light.ttf") format("woff");
+}
+
+@font-face {
+  font-family: "ChakraPetchBold";
+  src: url("assets/fonts/ChakraPetch-Bold.ttf") format("woff");
+}
