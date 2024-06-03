@@ -1,5 +1,5 @@
 import Layout from "components/templates/layout";
-import InteractiveMap from "components/organisms/map/index2";
+import InteractiveMap from "components/organisms/map";
 
 import { Box, Container, Drawer } from "@mui/material";
 import { useState } from "react";

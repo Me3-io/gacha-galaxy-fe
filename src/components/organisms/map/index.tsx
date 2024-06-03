@@ -2,25 +2,26 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
+import { Add, Remove, CropFree, GridView, Map } from "@mui/icons-material";
 import MapTokyoBg from "assets/images/tokyo_bg";
-import styled from "./styled.module.scss";
 
 import ListItems from "./items";
+import Tooltip from "components/atoms/tooltip";
+import Button from "components/atoms/button";
 
-const MAX_ZOOM = 2;
+import styled from "./styled.module.scss";
+
+const MAX_ZOOM = 1.2;
 const PATH_GRID = 200;
 const SVG_SIZE = { width: 2304, height: 1489 };
-const ID_MAP = "svgTokyoMap";
 
 const InteractiveMap = () => {
   const Viewer = useRef<any>(null);
 
   const { ref, width, height } = useResizeObserver();
-
   const [value, setValue] = useState<any>({});
-  const [initValue, setInitValue] = useState<any>({});
   const [tool, setTool] = useState<any>(TOOL_AUTO);
-  const [resize, setResize] = useState<boolean>(false);
+  const [tooltipData, setTooltipData] = useState({ visible: false, text: "" });
 
   // grid
   const [showMap, setShowMap] = useState<boolean>(true);
@@ -80,9 +81,6 @@ const InteractiveMap = () => {
             ${posX + PATH_GRID},${posY} 
             ${posX + PATH_GRID / 2},${posY + PATH_GRID / 4}
             `}
-          //onClick={_pathClick}
-          //onMouseOver={_pathMouseOver}
-          //onMouseLeave={_pathMouseLeave}
           className={styled.gridpath}
         />
       </g>
@@ -99,75 +97,67 @@ const InteractiveMap = () => {
   };
 
   const _fitCenter = () => {
-    /// ALGO ESTA MAL - revisar
-    setResize(true);
-    const limitH = (SVG_SIZE.height / (height || 1)) * value.a;
-
-    if (limitH <= 1) {
-      Viewer.current?.fitSelection(0, 0, 0, SVG_SIZE.height);
-    } else {
-      Viewer.current?.fitSelection(0, 0, SVG_SIZE.width, 0);
-    }
+    Viewer.current?.fitToViewer("right", "center");
   };
 
   const handlerClick = (id: number, evt: any) => {
     console.log("id:", id, " - target:", evt.currentTarget);
   };
 
-  // limit pan and zoom in viewer
-  const _calculateLimit = (value: any) => {
-    if (resize) {
-      setValue(value);
-    } else {
-      if (value.a < initValue.a) return;
-      const limitF = value.viewerHeight - value.a * value.SVGHeight;
-      const limitE = value.viewerWidth - value.a * value.SVGWidth;
-
-      const f = value.f > 1 ? 0 : value.f < limitF ? limitF : value.f;
-      const e = value.e > 1 ? 0 : value.e < limitE ? limitE : value.e;
-
-      setValue({ ...value, e, f });
-    }
-  };
-
-  useEffect(() => {
-    if (resize) {
-      setInitValue(value);
-      setResize(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resize, value]);
-
   // window resize ---
   useEffect(() => {
-    if (Viewer.current?.fitSelection !== undefined && height && width) {
+    if (Viewer.current?.fitToViewer !== undefined && height && width) {
       setTimeout(() => _fitCenter(), 500);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Viewer.current?.fitSelection, height, width]);
+  }, [Viewer.current?.fitToViewer, height, width]);
+
+  const handlerOver = (item: { text: any }) => {
+    setTooltipData({ text: item.text, visible: true });
+  };
+
+  const handlerLeave = () => {
+    setTooltipData({ visible: false, text: "" });
+  };
 
   return (
-    <div ref={ref} className="main" style={{ height: "100%", width: "100%" }}>
+    <div ref={ref} className={styled.mainBG} style={{ height: "100%", width: "100%" }}>
+      <div className={styled.backgroundImage}></div>
+
+      <div className={styled.actionsTest}>
+      <Button onClick={() => setShowGrid((prev) => !prev)}>
+          <GridView />
+        </Button>
+        <Button onClick={() => setShowMap((prev) => !prev)}>
+          <Map />
+        </Button>
+      </div>
       <div className={styled.actions}>
-        <button onClick={_zoomIn}>zoom in</button>
-        <button onClick={_zoomOut}>zoom out</button>
-        <button onClick={_fitCenter}>center</button>
-        <button onClick={() => setShowGrid((prev) => !prev)}>show grid</button>
-        <button onClick={() => setShowMap((prev) => !prev)}>show map</button>
+        <Button onClick={_zoomIn}>
+          <Add />
+        </Button>
+        <Button onClick={_zoomOut}>
+          <Remove />
+        </Button>
+        <Button onClick={_fitCenter}>
+          <CropFree />
+        </Button>
+    
+
       </div>
 
       <ReactSVGPanZoom
         ref={Viewer}
         value={value}
         tool={tool}
-        onChangeValue={_calculateLimit}
+        onChangeValue={setValue}
         onChangeTool={setTool}
         width={width || 100}
         height={height || 100}
         SVGBackground={"transparent"}
-        background={"#000000cc"}
+        background={"transparent"}
         scaleFactorMax={MAX_ZOOM}
-        scaleFactorMin={0.2}
+        scaleFactorMin={0.3}
         toolbarProps={{
           position: "none",
         }}
@@ -181,11 +171,20 @@ const InteractiveMap = () => {
         preventPanOutside={true}
       >
         <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
-          <g className="map">{showMap && <MapTokyoBg id={ID_MAP} />}</g>
+          <g className="map">{showMap && <MapTokyoBg id="mainSVG" />}</g>
           <g className="grid">{showGrid && renderGrid}</g>
-          <g className="items">{<ListItems handlerClick={handlerClick} />}</g>
+          <g className="items">
+            {
+              <ListItems
+                handlerClick={handlerClick}
+                handlerOver={handlerOver}
+                handlerLeave={handlerLeave}
+              />
+            }
+          </g>
         </svg>
       </ReactSVGPanZoom>
+      <Tooltip {...tooltipData} />
     </div>
   );
 };

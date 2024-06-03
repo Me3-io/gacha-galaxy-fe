@@ -16,8 +16,11 @@ const InteractiveMap = () => {
   const Viewer = useRef<any>(null);
 
   const { ref, width, height } = useResizeObserver();
+
   const [value, setValue] = useState<any>({});
+  const [initValue, setInitValue] = useState<any>({});
   const [tool, setTool] = useState<any>(TOOL_AUTO);
+  const [resize, setResize] = useState<boolean>(false);
 
   // grid
   const [showMap, setShowMap] = useState<boolean>(true);
@@ -77,6 +80,9 @@ const InteractiveMap = () => {
             ${posX + PATH_GRID},${posY} 
             ${posX + PATH_GRID / 2},${posY + PATH_GRID / 4}
             `}
+          //onClick={_pathClick}
+          //onMouseOver={_pathMouseOver}
+          //onMouseLeave={_pathMouseLeave}
           className={styled.gridpath}
         />
       </g>
@@ -93,25 +99,55 @@ const InteractiveMap = () => {
   };
 
   const _fitCenter = () => {
-    Viewer.current?.fitToViewer("right", "center");
+    /// ALGO ESTA MAL - revisar
+    setResize(true);
+    const limitH = (SVG_SIZE.height / (height || 1)) * value.a;
+
+    if (limitH <= 1) {
+      Viewer.current?.fitSelection(0, 0, 0, SVG_SIZE.height);
+    } else {
+      Viewer.current?.fitSelection(0, 0, SVG_SIZE.width, 0);
+    }
   };
 
   const handlerClick = (id: number, evt: any) => {
     console.log("id:", id, " - target:", evt.currentTarget);
   };
 
+  // limit pan and zoom in viewer
+  const _calculateLimit = (value: any) => {
+    if (resize) {
+      setValue(value);
+    } else {
+      if (value.a < initValue.a) return;
+      const limitF = value.viewerHeight - value.a * value.SVGHeight;
+      const limitE = value.viewerWidth - value.a * value.SVGWidth;
+
+      const f = value.f > 1 ? 0 : value.f < limitF ? limitF : value.f;
+      const e = value.e > 1 ? 0 : value.e < limitE ? limitE : value.e;
+
+      setValue({ ...value, e, f });
+    }
+  };
+
+  useEffect(() => {
+    if (resize) {
+      setInitValue(value);
+      setResize(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resize, value]);
 
   // window resize ---
   useEffect(() => {
-    if (Viewer.current?.fitToViewer !== undefined && height && width) {
+    if (Viewer.current?.fitSelection !== undefined && height && width) {
       setTimeout(() => _fitCenter(), 500);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Viewer.current?.fitToViewer, height, width]);
+  }, [Viewer.current?.fitSelection, height, width]);
 
   return (
-    <div ref={ref} className={styled.mainBG} style={{ height: "100%", width: "100%" }}>
-      <div className={styled.backgroundImage}></div>
+    <div ref={ref} className="main" style={{ height: "100%", width: "100%" }}>
       <div className={styled.actions}>
         <button onClick={_zoomIn}>zoom in</button>
         <button onClick={_zoomOut}>zoom out</button>
@@ -124,12 +160,12 @@ const InteractiveMap = () => {
         ref={Viewer}
         value={value}
         tool={tool}
-        onChangeValue={setValue}
+        onChangeValue={_calculateLimit}
         onChangeTool={setTool}
         width={width || 100}
         height={height || 100}
         SVGBackground={"transparent"}
-        background={"transparent"}
+        background={"#000000cc"}
         scaleFactorMax={MAX_ZOOM}
         scaleFactorMin={0.2}
         toolbarProps={{

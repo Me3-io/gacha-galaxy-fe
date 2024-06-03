@@ -1,0 +1,7 @@
+.button {
+  border: 1px solid #ba00fb !important;
+  background: rgba(232, 168, 255, 0.7) !important;
+  color: #fff;
+  clip-path: polygon(calc(100% - 10px) 0%, 100% 10px, 100% 100%, 0% 100%, 0% 0%);
+  padding: 5px !important;
+}

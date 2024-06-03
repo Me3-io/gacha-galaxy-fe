@@ -28,18 +28,24 @@
   }
 }
 
-.actions {
+.actionsTest {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  flex-direction: column;
+  top: 16px;
+  right: 16px;
   z-index: 1;
   display: flex;
   gap: 10px;
-  button {
-    font-size: 16px;
-    cursor: pointer;
-    padding: 2px 5px;
-  }
+}
+
+.actions {
+  position: absolute;
+  flex-direction: column;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1;
+  display: flex;
+  gap: 10px;
 }
 
 .gridpath {

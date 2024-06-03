@@ -1,0 +1,28 @@
+.tooltip {
+  position: fixed;
+  min-width: 120px;
+  color: #fff;
+  background-color: #000000ff;
+  border-radius: 5px;
+  opacity: 1;
+  z-index: 100;
+  padding: 3px;
+  text-overflow: ellipsis;
+  text-align: center;
+  padding: 10px;
+  font-family: "ChakraPetchLight";
+  font-size: 1rem;
+  box-shadow: 0 0 10px #ffffff80;
+
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #000000ff transparent transparent transparent;
+  }
+}

@@ -28,16 +28,37 @@
     }
 
     .listData {
-      padding: 16px 8px;
+      padding: 24px 16px 0 16px;
       box-sizing: border-box;
       height: 100%;
       position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: " ";
+        position: absolute;
+        right: 10px;
+        top: 0px;
+        background-image: url("/assets/icons/plus.svg");
+        height: 21px;
+        width: 19px;
+      }
+
+      &::after {
+        content: " ";
+        position: absolute;
+        left: 2px;
+        top: 220px;
+        background-image: url("/assets/icons/plus.svg");
+        height: 21px;
+        width: 19px;
+      }
 
       .border {
         position: absolute;
         border: 2px solid #ba00fb;
-        top: 0;
-        left: 0;
+        top: 10px;
+        left: 10px;
         width: calc(100% - 50px);
         height: 200px;
         pointer-events: none;

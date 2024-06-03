@@ -10,7 +10,6 @@ import menu from "assets/icons/menu.svg";
 import user from "assets/icons/user.svg";
 import arrowUp from "assets/icons/arrowUp.svg";
 import arrowDown from "assets/icons/arrowDown.svg";
-import plus from "assets/icons/plus.svg";
 
 import styled from "./styled.module.scss";
 
@@ -35,22 +34,16 @@ const rows = [
 const Leaderboard = () => {
   return (
     <Grid container flexDirection="column" className={styled.main}>
-      <Box px={3} py={2} className={styled.header}>
+      <Box p={2} className={styled.header}>
         <img src={menu} alt="menu" width={36} />
       </Box>
 
-      <Box pl={3} pt={1} pb={0} pr={2} className={styled.container}>
+      <Box p={2} className={styled.container}>
         <Typography pb={2} className={styled.title}>
           LEADERBOARD
         </Typography>
         <Box className={styled.listData}>
           <Box className={styled.border}></Box>
-          <Box className={styled.plusTop}>
-            <img src={plus} alt="plus" />
-          </Box>
-          <Box className={styled.plusLeft}>
-            <img src={plus} alt="plus" />
-          </Box>
           <TableContainer className={styled.table}>
             <Table>
               <TableBody>
@@ -73,7 +66,7 @@ const Leaderboard = () => {
         </Box>
       </Box>
 
-      <Box p={3} mt={2} className={styled.footer}>
+      <Box p={2} className={styled.footer}>
         Ranking
       </Box>
     </Grid>
