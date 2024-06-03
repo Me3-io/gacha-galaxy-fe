@@ -2,8 +2,8 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
-import { Add, Remove, CropFree, GridView, Map } from "@mui/icons-material";
 import MapTokyoBg from "assets/images/tokyo_bg";
+import { Add, Remove, CropFree, GridView, Map } from "@mui/icons-material";
 
 import ListItems from "./items";
 import Tooltip from "components/atoms/tooltip";
@@ -34,7 +34,7 @@ const InteractiveMap = () => {
     height: number;
   }>({ originX: 0, originY: 0, width: 0, height: 0 });
 
-  // calculate grid data and events ---
+  // calculate grid data ---
   useEffect(() => {
     setGridConfig({
       originX: 0,
@@ -104,14 +104,6 @@ const InteractiveMap = () => {
     console.log("id:", id, " - target:", evt.currentTarget);
   };
 
-  // window resize ---
-  useEffect(() => {
-    if (Viewer.current?.fitToViewer !== undefined && height && width) {
-      setTimeout(() => _fitCenter(), 500);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Viewer.current?.fitToViewer, height, width]);
-
   const handlerOver = (item: { text: any }) => {
     setTooltipData({ text: item.text, visible: true });
   };
@@ -120,12 +112,20 @@ const InteractiveMap = () => {
     setTooltipData({ visible: false, text: "" });
   };
 
+  // window resize ---
+  useEffect(() => {
+    if (Viewer.current?.fitToViewer !== undefined && height && width) {
+      setTimeout(() => _fitCenter(), 500);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Viewer.current?.fitToViewer, height, width]);
+
   return (
     <div ref={ref} className={styled.mainBG} style={{ height: "100%", width: "100%" }}>
       <div className={styled.backgroundImage}></div>
 
       <div className={styled.actionsTest}>
-      <Button onClick={() => setShowGrid((prev) => !prev)}>
+        <Button onClick={() => setShowGrid((prev) => !prev)}>
           <GridView />
         </Button>
         <Button onClick={() => setShowMap((prev) => !prev)}>
@@ -142,8 +142,6 @@ const InteractiveMap = () => {
         <Button onClick={_fitCenter}>
           <CropFree />
         </Button>
-    
-
       </div>
 
       <ReactSVGPanZoom
