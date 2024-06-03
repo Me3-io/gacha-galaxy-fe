@@ -64,15 +64,7 @@
         pointer-events: none;
         border-bottom: none;
         border-right: none;
-        clip-path: polygon(
-          20px 0%,
-          0% 20px,
-          0% 100%,
-          100% 100%,
-          100% 2px,
-          100% 2px,
-          100% 0%
-        );
+        clip-path: polygon(20px 0%, 0% 20px, 0% 100%, 100% 100%, 100% 2px, 100% 2px, 100% 0%);
 
         &::before {
           content: " ";
@@ -124,7 +116,27 @@
   }
 
   .footer {
-    border-top: 2px solid #BA00FB;
+    border-top: 2px solid #ba00fb;
+    display: flex;
+    justify-content: space-between;
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+
+      p {
+        color: #7b13ff;
+        font-family: "PoppinsBold";
+        font-size: 2.2rem;
+      }
+      
+      span {
+        color: #fff;
+        font-family: "Poppins";
+        font-size: 1rem;
+      }
+    }
   }
 }
 

@@ -66,8 +66,19 @@ const Leaderboard = () => {
         </Box>
       </Box>
 
-      <Box p={2} className={styled.footer}>
-        Ranking
+      <Box px={4} py={2} className={styled.footer}>
+        <Box className={styled.item}>
+          <Typography>34</Typography>
+          <span>Ranking</span>
+        </Box>
+        <Box className={styled.item}>
+          <Typography>125.000</Typography>
+          <span>Points</span>
+        </Box>
+        <Box className={styled.item}>
+          <Typography>650</Typography>
+          <span>Tokens</span>
+        </Box>
       </Box>
     </Grid>
   );
