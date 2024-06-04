@@ -10,6 +10,8 @@ import Tooltip from "components/atoms/tooltip";
 import Button from "components/atoms/button";
 
 import styled from "./styled.module.scss";
+import GameMachines from "../gameMachines";
+import { Box } from "@mui/material";
 
 const MAX_ZOOM = 1.2;
 const PATH_GRID = 200;
@@ -22,6 +24,7 @@ const InteractiveMap = () => {
   const [value, setValue] = useState<any>({});
   const [tool, setTool] = useState<any>(TOOL_AUTO);
   const [tooltipData, setTooltipData] = useState({ visible: false, text: "" });
+  const [openGames, setOpenGames] = useState(false);
 
   // grid
   const [showMap, setShowMap] = useState<boolean>(true);
@@ -102,6 +105,7 @@ const InteractiveMap = () => {
 
   const handlerClick = (id: number, evt: any) => {
     console.log("id:", id, " - target:", evt.currentTarget);
+    setOpenGames(true);
   };
 
   const handlerOver = (item: { text: any }) => {
@@ -110,6 +114,12 @@ const InteractiveMap = () => {
 
   const handlerLeave = () => {
     setTooltipData({ visible: false, text: "" });
+  };
+
+  const handleCloseModal = (evt: any, reason: string) => {
+    //if (reason !== "backdropClick") {
+    setOpenGames(false);
+    // }
   };
 
   // window resize ---
@@ -121,18 +131,19 @@ const InteractiveMap = () => {
   }, [Viewer.current?.fitToViewer, height, width]);
 
   return (
-    <div ref={ref} className={styled.mainBG} style={{ height: "100%", width: "100%" }}>
-      <div className={styled.backgroundImage}></div>
+    <Box ref={ref} className={styled.mainBG} style={{ height: "100%", width: "100%" }}>
+      <Box className={styled.backgroundImage}></Box>
 
-      <div className={styled.actionsTest}>
+      <Box className={styled.actionsTest}>
         <Button onClick={() => setShowGrid((prev) => !prev)}>
           <GridView />
         </Button>
         <Button onClick={() => setShowMap((prev) => !prev)}>
           <Map />
         </Button>
-      </div>
-      <div className={styled.actions}>
+      </Box>
+      
+      <Box className={styled.actions}>
         <Button onClick={_zoomIn}>
           <Add />
         </Button>
@@ -142,7 +153,7 @@ const InteractiveMap = () => {
         <Button onClick={_fitCenter}>
           <CropFree />
         </Button>
-      </div>
+      </Box>
 
       <ReactSVGPanZoom
         ref={Viewer}
@@ -182,8 +193,12 @@ const InteractiveMap = () => {
           </g>
         </svg>
       </ReactSVGPanZoom>
+
       <Tooltip {...tooltipData} />
-    </div>
+
+      <GameMachines open={openGames} handleClose={handleCloseModal} />
+
+    </Box>
   );
 };
 
