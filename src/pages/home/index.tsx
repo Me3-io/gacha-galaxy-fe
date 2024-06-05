@@ -1,11 +1,11 @@
+import { useState } from "react";
+import { Box, Container, Drawer } from "@mui/material";
+
 import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map";
-
-import { Box, Container, Drawer } from "@mui/material";
-import { useState } from "react";
+import Leaderboard from "components/organisms/leaderboard";
 
 import styled from "./styled.module.scss";
-import Leaderboard from "components/organisms/leaderboard";
 
 const Home = () => {
   const [openDrawer, setOpenDrawer] = useState<boolean>(true);
@@ -13,8 +13,9 @@ const Home = () => {
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
         <Box height={"100%"} overflow={"hidden"}>
-          <InteractiveMap />
+          <InteractiveMap openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
         </Box>
+
         <Drawer
           open={openDrawer}
           anchor="left"
@@ -30,7 +31,7 @@ const Home = () => {
           }}
         >
           <Box className={styled.container}>
-            <Leaderboard />
+            <Leaderboard setOpenDrawer={setOpenDrawer} />
           </Box>
         </Drawer>
       </Container>

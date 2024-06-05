@@ -1,6 +1,6 @@
 .modalContainer {
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.8);
+  //backdrop-filter: blur(5px);
   z-index: 1300;
   overflow-y: auto;
   display: flex;
@@ -8,12 +8,11 @@
   align-items: center;
   flex-wrap: wrap;
 
-
   .modal {
     position: relative;
     max-width: 1000px;
     width: 100%;
-    padding: 10px;
+    padding: 0px;
     color: #fff;
     box-sizing: border-box;
     display: flex;
@@ -22,20 +21,27 @@
     height: auto;
     outline: none;
 
-  }
+    .close {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      cursor: pointer;
+    }
 
-  .card {
-    height: 450px;
-    width: 400px;
-    padding: 10px;
-    font-size: 2rem;
-    background-color: #000;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #444;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-
+    .card {
+      height: 450px;
+      width: 400px;
+      padding: 10px;
+      margin: 0 10px;
+      box-sizing: border-box;
+      font-size: 2rem;
+      background-color: #000;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #444;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+    }
   }
 }

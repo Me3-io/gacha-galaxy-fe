@@ -4,6 +4,7 @@ import useResizeObserver from "use-resize-observer";
 
 import MapTokyoBg from "assets/images/tokyo_bg";
 import { Add, Remove, CropFree, GridView, Map } from "@mui/icons-material";
+import menu from "assets/icons/menu.svg";
 
 import ListItems from "./items";
 import Tooltip from "components/atoms/tooltip";
@@ -17,7 +18,7 @@ const MAX_ZOOM = 1.2;
 const PATH_GRID = 200;
 const SVG_SIZE = { width: 2304, height: 1489 };
 
-const InteractiveMap = () => {
+const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
   const Viewer = useRef<any>(null);
 
   const { ref, width, height } = useResizeObserver();
@@ -100,7 +101,11 @@ const InteractiveMap = () => {
   };
 
   const _fitCenter = () => {
-    Viewer.current?.fitToViewer("right", "center");
+    if (!openDrawer) {
+      Viewer.current?.fitToViewer("center", "center");
+    } else {
+      Viewer.current?.fitToViewer("right", "center");
+    }
   };
 
   const handlerClick = (id: number, evt: any) => {
@@ -130,11 +135,23 @@ const InteractiveMap = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Viewer.current?.fitToViewer, height, width]);
 
+  // fit on openDrawer  ---
+  useEffect(() => {
+    //_fitCenter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openDrawer]);
+
   return (
     <Box ref={ref} className={styled.mainBG} style={{ height: "100%", width: "100%" }}>
       <Box className={styled.backgroundImage}></Box>
 
-      <Box className={styled.actionsTest}>
+      <Box p={2} className={styled.menuIcon}>
+        <Box component="span" onClick={() => setOpenDrawer(true)}>
+          <img src={menu} alt="menu" width={36} />
+        </Box>
+      </Box>
+
+      <Box className={styled.actionsTest} display={"none"}>
         <Button onClick={() => setShowGrid((prev) => !prev)}>
           <GridView />
         </Button>
@@ -142,7 +159,7 @@ const InteractiveMap = () => {
           <Map />
         </Button>
       </Box>
-      
+
       <Box className={styled.actions}>
         <Button onClick={_zoomIn}>
           <Add />
@@ -166,7 +183,7 @@ const InteractiveMap = () => {
         SVGBackground={"transparent"}
         background={"transparent"}
         scaleFactorMax={MAX_ZOOM}
-        scaleFactorMin={0.3}
+        scaleFactorMin={0.1}
         toolbarProps={{
           position: "none",
         }}
@@ -197,7 +214,6 @@ const InteractiveMap = () => {
       <Tooltip {...tooltipData} />
 
       <GameMachines open={openGames} handleClose={handleCloseModal} />
-
     </Box>
   );
 };

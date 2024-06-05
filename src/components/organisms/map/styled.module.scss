@@ -48,6 +48,15 @@
   gap: 10px;
 }
 
+.menuIcon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  display: flex;
+  cursor: pointer;
+}
+
 .gridpath {
   transition: 0.15s all;
   fill-opacity: 0;

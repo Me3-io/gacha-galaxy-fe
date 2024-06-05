@@ -31,11 +31,13 @@ const rows = [
   { id: 15, name: "StormHunter", arrowUp: true, points: 419.7 },
 ];
 
-const Leaderboard = () => {
+const Leaderboard = ({ setOpenDrawer }: any) => {
   return (
     <Grid container flexDirection="column" className={styled.main}>
       <Box p={2} className={styled.header}>
-        <img src={menu} alt="menu" width={36} />
+        <Box component="span" onClick={() => setOpenDrawer(false)}>
+          <img src={menu} alt="menu" width={36} />
+        </Box>
       </Box>
 
       <Box p={2} className={styled.container}>
