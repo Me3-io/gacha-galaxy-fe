@@ -1,4 +1,4 @@
-import styled from "./styled.module.scss";
+//import styled from "./styled.module.scss";
 
 const MapBg = ({ id }: any) => {
   return (
@@ -10,7 +10,7 @@ const MapBg = ({ id }: any) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      className={styled.map}
+      //className={styled.map}
     >
       <rect width="1728" height="1506" fill="url(#pattern0_97_2)" />
       <defs>

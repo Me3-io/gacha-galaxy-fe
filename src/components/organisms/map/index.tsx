@@ -197,15 +197,17 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
       >
         <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
           <g className="grid">{showGrid && renderGrid}</g>
-          <g className="map">{showMap && <MapBg id="mainSVG" />}</g>
-          <g className="items">
-            {
-              <ListItems
-                handlerClick={handlerClick}
-                handlerOver={handlerOver}
-                handlerLeave={handlerLeave}
-              />
-            }
+          <g className={styled.map}>
+            <g className="bg">{showMap && <MapBg id="mainSVG" />}</g>
+            <g className="items">
+              {
+                <ListItems
+                  handlerClick={handlerClick}
+                  handlerOver={handlerOver}
+                  handlerLeave={handlerLeave}
+                />
+              }
+            </g>
           </g>
         </svg>
       </ReactSVGPanZoom>
