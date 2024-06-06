@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
-import MapTokyoBg from "assets/images/tokyo_bg_isometrica";
+import MapBg from "./bg";
 import { Add, Remove, CropFree, GridView, Map } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import menu from "assets/icons/menu.svg";
@@ -73,6 +73,8 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
   };
 
   const _drawPath = ({ key, posX, posY }: any) => {
+    // grid gradient opacity
+    const opacity = (key.split("-")[1] / 100) * 2 + 0.1 || 0.2;
     return (
       <polygon
         key={key}
@@ -83,6 +85,7 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
             ${posX + PATH_GRID / 2},${posY + PATH_GRID / 4}
             `}
         className={styled.gridpath}
+        style={{ strokeOpacity: opacity }}
       />
     );
   };
@@ -97,11 +100,7 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
   };
 
   const _fitCenter = () => {
-    //if (!openDrawer) {
     Viewer.current?.fitToViewer("center", "center");
-    //} else {
-    //  Viewer.current?.fitToViewer("right", "center");
-    //}
   };
 
   const handlerClick = (id: number, evt: any) => {
@@ -132,10 +131,10 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
   }, [Viewer.current?.fitToViewer, height, width]);
 
   // fit on openDrawer  ---
-  useEffect(() => {
-    //_fitCenter();
+  /*useEffect(() => {
+    _fitCenter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openDrawer]);
+  }, [openDrawer]);*/
 
   return (
     <Box
@@ -198,7 +197,7 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
       >
         <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
           <g className="grid">{showGrid && renderGrid}</g>
-          <g className="map">{showMap && <MapTokyoBg id="mainSVG" />}</g>
+          <g className="map">{showMap && <MapBg id="mainSVG" />}</g>
           <g className="items">
             {
               <ListItems

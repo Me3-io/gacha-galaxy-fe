@@ -13,6 +13,7 @@
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
+  background: #150a21;
 
   .backgroundImage {
     position: absolute;
@@ -20,12 +21,12 @@
     left: -10px;
     background-image: url("/assets/images/mapBG.png");
     background-size: cover;
-    background-color: #150a21;
     //background-repeat: repeat;
     //background-size: 200px 200px;
     width: calc(100% + 20px);
     height: calc(100% + 20px);
-    filter: blur(5px) brightness(.6);
+    filter: blur(4px) brightness(.8);
+    mask-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0.3));
   }
 }
 
@@ -75,31 +76,3 @@
   }*/
 }
 
-/*.item {
-  cursor: pointer;
-  transition: 0.3s all;
-  &:hover {
-    filter: drop-shadow(0 0 5px #fff);
-
-    .window {
-      fill: red;
-      animation: blink 1s linear infinite;
-    }
-  }
-}*/
-
-/*.listItems:hover .item:not(:hover) {
-  filter: brightness(0.8) opacity(0.9);
-}*/
-/*
-@keyframes blink {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}*/

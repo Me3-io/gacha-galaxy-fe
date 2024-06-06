@@ -1,4 +1,6 @@
-const TokioBgIsometrica = ({ id }: any) => {
+import styled from "./styled.module.scss";
+
+const MapBg = ({ id }: any) => {
   return (
     <svg
       id={id}
@@ -8,7 +10,7 @@ const TokioBgIsometrica = ({ id }: any) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      style={{ filter: "drop-shadow(0px -30px 15px rgba(0, 0, 0, 0.25))" }}
+      className={styled.map}
     >
       <rect width="1728" height="1506" fill="url(#pattern0_97_2)" />
       <defs>
@@ -25,4 +27,4 @@ const TokioBgIsometrica = ({ id }: any) => {
     </svg>
   );
 };
-export default TokioBgIsometrica;
+export default MapBg;
