@@ -1,17 +1,17 @@
 import Shop1 from "./shop1";
-import Shop2 from "./shop2";
-import Shop3 from "./shop3";
+//import Shop2 from "./shop2";
+//import Shop3 from "./shop3";
 
 const ListItems = ({ handlerClick, handlerOver, handlerLeave }: any) => {
   const elements = [
     {
       id: 1,
       component: <Shop1 />,
-      position: { x: 1392, y: 852 },
-      scale: "1.3",
-      text: "3 games available",
+      position: { x: 1104, y: 778 },
+      scale: "1.1",
+      text: "10 games available",
     },
-    {
+    /*{
       id: 2,
       component: <Shop2 />,
       position: { x: 1224, y: 645 },
@@ -24,7 +24,7 @@ const ListItems = ({ handlerClick, handlerOver, handlerLeave }: any) => {
       position: { x: 1496, y: 898 },
       scale: "1.3",
       text: "5 games available",
-    },
+    },*/
   ];
 
   return (

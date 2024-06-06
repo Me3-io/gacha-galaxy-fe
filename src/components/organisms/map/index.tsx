@@ -2,21 +2,21 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
-import MapTokyoBg from "assets/images/tokyo_bg";
+import MapTokyoBg from "assets/images/tokyo_bg_isometrica";
 import { Add, Remove, CropFree, GridView, Map } from "@mui/icons-material";
+import { Box } from "@mui/material";
 import menu from "assets/icons/menu.svg";
 
-import ListItems from "./items";
 import Tooltip from "components/atoms/tooltip";
 import Button from "components/atoms/button";
+import ListItems from "./items";
+import GameMachines from "../gameMachines";
 
 import styled from "./styled.module.scss";
-import GameMachines from "../gameMachines";
-import { Box } from "@mui/material";
 
 const MAX_ZOOM = 1.2;
 const PATH_GRID = 200;
-const SVG_SIZE = { width: 2304, height: 1489 };
+const SVG_SIZE = { width: 1728, height: 1506 };
 
 const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
   const Viewer = useRef<any>(null);
@@ -29,7 +29,7 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
 
   // grid
   const [showMap, setShowMap] = useState<boolean>(true);
-  const [showGrid, setShowGrid] = useState<boolean>(false);
+  const [showGrid, setShowGrid] = useState<boolean>(true);
   const [renderGrid, setRenderGrid] = useState<ReactElement[]>([]);
   const [gridConfig, setGridConfig] = useState<{
     originX: number;
@@ -41,10 +41,10 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
   // calculate grid data ---
   useEffect(() => {
     setGridConfig({
-      originX: 0,
-      originY: PATH_GRID / 4,
-      width: SVG_SIZE.width / (PATH_GRID / 2) - 2,
-      height: SVG_SIZE.height / (PATH_GRID / 2) - 1,
+      originX: (SVG_SIZE.width / 2) * -1,
+      originY: (SVG_SIZE.height / 2) * -1,
+      width: SVG_SIZE.width / (PATH_GRID / 4),
+      height: SVG_SIZE.height / (PATH_GRID / 4),
     });
   }, []);
 
@@ -74,20 +74,16 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
 
   const _drawPath = ({ key, posX, posY }: any) => {
     return (
-      <g key={key}>
-        <text x={posX + 10} y={posY + 2} fill="#fff" fontSize="6">
-          {posX} - {posY - PATH_GRID / 4}
-        </text>
-        <polygon
-          points={`
+      <polygon
+        key={key}
+        points={`
             ${posX},${posY} 
             ${posX + PATH_GRID / 2},${posY - PATH_GRID / 4} 
             ${posX + PATH_GRID},${posY} 
             ${posX + PATH_GRID / 2},${posY + PATH_GRID / 4}
             `}
-          className={styled.gridpath}
-        />
-      </g>
+        className={styled.gridpath}
+      />
     );
   };
 
@@ -101,11 +97,11 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
   };
 
   const _fitCenter = () => {
-    if (!openDrawer) {
-      Viewer.current?.fitToViewer("center", "center");
-    } else {
-      Viewer.current?.fitToViewer("right", "center");
-    }
+    //if (!openDrawer) {
+    Viewer.current?.fitToViewer("center", "center");
+    //} else {
+    //  Viewer.current?.fitToViewer("right", "center");
+    //}
   };
 
   const handlerClick = (id: number, evt: any) => {
@@ -142,7 +138,11 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
   }, [openDrawer]);
 
   return (
-    <Box ref={ref} className={styled.mainBG} style={{ height: "100%", width: "100%" }}>
+    <Box
+      ref={ref}
+      className={styled.mainBG}
+      style={{ height: "100%", width: "100%", paddingLeft: openDrawer ? "400px" : "0" }}
+    >
       <Box className={styled.backgroundImage}></Box>
 
       <Box p={2} className={styled.menuIcon}>
@@ -151,7 +151,7 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
         </Box>
       </Box>
 
-      <Box className={styled.actionsTest} display={"none"}>
+      <Box className={styled.actionsTest}>
         <Button onClick={() => setShowGrid((prev) => !prev)}>
           <GridView />
         </Button>
@@ -197,8 +197,8 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
         preventPanOutside={true}
       >
         <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
-          <g className="map">{showMap && <MapTokyoBg id="mainSVG" />}</g>
           <g className="grid">{showGrid && renderGrid}</g>
+          <g className="map">{showMap && <MapTokyoBg id="mainSVG" />}</g>
           <g className="items">
             {
               <ListItems

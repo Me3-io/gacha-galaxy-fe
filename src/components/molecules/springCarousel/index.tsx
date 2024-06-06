@@ -3,10 +3,10 @@ import { useState, useEffect, SetStateAction } from "react";
 import { config } from "react-spring";
 
 let lastTime = 0;
+let lastPos = 0;
 const INTERVAL_MS = 100;
 
 const SpringCarousel = (props: any) => {
-
   const table = props.cards.map((element: any, index: SetStateAction<number>) => {
     return { ...element, onClick: () => setGoToSlide(index) };
   });
@@ -26,9 +26,28 @@ const SpringCarousel = (props: any) => {
     }
   };
 
+  const handleTouch = (e: any) => {
+    const actualTime = new Date().getTime();
+    if (lastTime + 1000 < actualTime) {
+      lastTime = actualTime;
+      
+      const currentPos = e?.touches[0].clientX;
+      if (currentPos > lastPos) {
+        setGoToSlide((prev) => (prev > 0 ? --prev : table.length - 1));
+      } else {
+        setGoToSlide((prev) => (prev < table.length - 1 ? ++prev : 0));
+      }
+      lastPos = currentPos;
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("wheel", handleWheel);
-    return () => window.removeEventListener("wheel", handleWheel);
+    window.addEventListener("touchmove", handleTouch);
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchmove", handleTouch);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
