@@ -198,8 +198,10 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
         <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
           <g className="grid">{showGrid && renderGrid}</g>
           <g className={styled.map}>
-            <g className="bg">{showMap && <MapBg id="mainSVG" />}</g>
-            <g className="items">
+            <g className={styled.bg}>
+              {showMap && <MapBg id="mainSVG" />}
+            </g>
+            <g className={styled.items}>
               {
                 <ListItems
                   handlerClick={handlerClick}
