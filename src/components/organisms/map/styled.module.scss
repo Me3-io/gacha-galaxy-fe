@@ -74,7 +74,7 @@
 
   g.bg,
   g.items {
-    //animation: jump 2s infinite;
+    animation: jump 2s infinite ease-in-out;
   }
 
   &:hover {
@@ -82,7 +82,7 @@
 
     g.bg,
     g.items {
-      //animation: none;
+      animation: none;
     }
   }
 }
