@@ -10,6 +10,7 @@ import menu from "assets/icons/menu.svg";
 import user from "assets/icons/user.svg";
 import arrowUp from "assets/icons/arrowUp.svg";
 import arrowDown from "assets/icons/arrowDown.svg";
+import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
 import styled from "./styled.module.scss";
 
@@ -31,13 +32,19 @@ const rows = [
   { id: 15, name: "StormHunter", arrowUp: true, points: 419.7 },
 ];
 
-const Leaderboard = ({ setOpenDrawer }: any) => {
+const Leaderboard = ({ showBack = false, goToMap }: any) => {
   return (
     <Grid container flexDirection="column" className={styled.main}>
       <Box p={2} className={styled.header}>
-        <Box component="span" onClick={() => setOpenDrawer(false)}>
+        <Box component="span">
           <img src={menu} alt="menu" width={36} />
         </Box>
+        {showBack && (
+          <Box className={styled.upIcon} onClick={goToMap}>
+            <span>map</span>
+            <UpIcon />
+          </Box>
+        )}
       </Box>
 
       <Box p={2} className={styled.container}>

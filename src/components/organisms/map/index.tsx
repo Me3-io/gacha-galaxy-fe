@@ -3,14 +3,13 @@ import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
 import MapBg from "./bg";
-import { Add, Remove, CropFree, GridView, Map } from "@mui/icons-material";
+import { Add, Remove, CropFree, GridView, Map, Extension } from "@mui/icons-material";
+
 import { Box } from "@mui/material";
-import menu from "assets/icons/menu.svg";
 
 import Tooltip from "components/atoms/tooltip";
 import Button from "components/atoms/button";
 import ListItems from "./items";
-import GameMachines from "../gameMachines";
 
 import styled from "./styled.module.scss";
 
@@ -18,18 +17,19 @@ const MAX_ZOOM = 1.2;
 const PATH_GRID = 200;
 const SVG_SIZE = { width: 1728, height: 1506 };
 
-const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
+const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   const Viewer = useRef<any>(null);
 
   const { ref, width, height } = useResizeObserver();
   const [value, setValue] = useState<any>({});
   const [tool, setTool] = useState<any>(TOOL_AUTO);
   const [tooltipData, setTooltipData] = useState({ visible: false, text: "" });
-  const [openGames, setOpenGames] = useState(false);
 
   // grid
   const [showMap, setShowMap] = useState<boolean>(true);
   const [showGrid, setShowGrid] = useState<boolean>(true);
+  const [showItems, setShowItems] = useState<boolean>(true);
+
   const [renderGrid, setRenderGrid] = useState<ReactElement[]>([]);
   const [gridConfig, setGridConfig] = useState<{
     originX: number;
@@ -106,6 +106,10 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
   const handlerClick = (id: number, evt: any) => {
     console.log("id:", id, " - target:", evt.currentTarget);
     setOpenGames(true);
+    setShowGrid(false);
+    setShowMap(false);
+    setShowItems(false);
+    setTooltipData({ visible: false, text: "" });
   };
 
   const handlerOver = (item: { text: any }) => {
@@ -116,39 +120,26 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
     setTooltipData({ visible: false, text: "" });
   };
 
-  const handleCloseModal = (evt: any, reason: string) => {
-    //if (reason !== "backdropClick") {
-    setOpenGames(false);
-    // }
-  };
-
   // window resize ---
   useEffect(() => {
     if (Viewer.current?.fitToViewer !== undefined && height && width) {
-      setTimeout(() => _fitCenter(), 500);
+      setTimeout(() => _fitCenter(), 50);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Viewer.current?.fitToViewer, height, width]);
 
-  // fit on openDrawer  ---
-  /*useEffect(() => {
-    _fitCenter();
+  useEffect(() => {
+    if (!openGames) {
+      setShowGrid(true);
+      setShowMap(true);
+      setShowItems(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openDrawer]);*/
+  }, [openGames]);
 
   return (
-    <Box
-      ref={ref}
-      className={styled.mainBG}
-      style={{ height: "100%", width: "100%", paddingLeft: openDrawer ? "400px" : "0" }}
-    >
+    <Box ref={ref} className={styled.main}>
       <Box className={styled.backgroundImage}></Box>
-
-      <Box p={2} className={styled.menuIcon}>
-        <Box component="span" onClick={() => setOpenDrawer(true)}>
-          <img src={menu} alt="menu" width={36} />
-        </Box>
-      </Box>
 
       <Box className={styled.actionsTest}>
         <Button onClick={() => setShowGrid((prev) => !prev)}>
@@ -156,6 +147,9 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
         </Button>
         <Button onClick={() => setShowMap((prev) => !prev)}>
           <Map />
+        </Button>
+        <Button onClick={() => setShowItems((prev) => !prev)}>
+          <Extension />
         </Button>
       </Box>
 
@@ -198,25 +192,21 @@ const InteractiveMap = ({ openDrawer, setOpenDrawer }: any) => {
         <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
           <g className="grid">{showGrid && renderGrid}</g>
           <g className={styled.map}>
-            <g className={styled.bg}>
-              {showMap && <MapBg id="mainSVG" />}
-            </g>
+            <g className={styled.bg}>{showMap && <MapBg id="mainSVG" />}</g>
             <g className={styled.items}>
-              {
+              {showItems && (
                 <ListItems
                   handlerClick={handlerClick}
                   handlerOver={handlerOver}
                   handlerLeave={handlerLeave}
                 />
-              }
+              )}
             </g>
           </g>
         </svg>
       </ReactSVGPanZoom>
 
       <Tooltip {...tooltipData} />
-
-      <GameMachines open={openGames} handleClose={handleCloseModal} />
     </Box>
   );
 };

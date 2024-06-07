@@ -1,39 +1,62 @@
 import { useState } from "react";
-import { Box, Container, Drawer } from "@mui/material";
+import { Box, Container, Drawer, Grid } from "@mui/material";
 
 import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map";
 import Leaderboard from "components/organisms/leaderboard";
+import GameMachines from "components/organisms/gameMachines";
+
+import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 import styled from "./styled.module.scss";
 
 const Home = () => {
-  const [openDrawer, setOpenDrawer] = useState<boolean>(true);
+  const [openGames, setOpenGames] = useState<boolean>(false);
+
+  const goToLeaderboard = () => window.scrollTo(0, document.body.scrollHeight);
+  const goToMap = () => window.scrollTo(0, 0);
+
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-        <Box height={"100%"} overflow={"hidden"}>
-          <InteractiveMap openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
-        </Box>
+        <Grid container>
+          <Grid item xs={12}>
+            <Box height={"100%"} overflow={"hidden"}>
+              <InteractiveMap openGames={openGames} setOpenGames={setOpenGames} />
+            </Box>
 
-        <Drawer
-          open={openDrawer}
-          anchor="left"
-          variant="persistent"
-          onClose={() => setOpenDrawer(false)}
-          className={styled.mainDrawer}
-          sx={{
-            "& .MuiDrawer-paper": {
-              backgroundColor: "transparent",
-              boxSizing: "border-box",
-              overflow: "hidden",
-            },
-          }}
-        >
-          <Box className={styled.container}>
-            <Leaderboard setOpenDrawer={setOpenDrawer} />
-          </Box>
-        </Drawer>
+            <Box display={{ xs: "none", md: "flex" }}>
+              <Drawer
+                open={true}
+                anchor="left"
+                variant="persistent"
+                className={styled.mainDrawer}
+                sx={{
+                  "& .MuiDrawer-paper": {
+                    backgroundColor: "transparent",
+                    boxSizing: "border-box",
+                    overflow: "hidden",
+                  },
+                }}
+              >
+                <Box className={styled.container}>
+                  <Leaderboard />
+                </Box>
+              </Drawer>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
+              <Box className={styled.downIcon} onClick={goToLeaderboard}>
+                <span>leaderboard</span>
+                <DownIcon />
+              </Box>
+
+              <Leaderboard showBack={true} goToMap={goToMap} />
+            </Box>
+          </Grid>
+        </Grid>
+        <GameMachines open={openGames} handleClose={() => setOpenGames(false)} />
       </Container>
     </Layout>
   );

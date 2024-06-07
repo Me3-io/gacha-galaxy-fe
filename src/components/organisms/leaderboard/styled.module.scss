@@ -5,8 +5,17 @@
   box-sizing: border-box;
 
   .header {
+    display: flex;
+    justify-content: space-between;
     img {
       cursor: pointer;
+    }
+
+    .upIcon {
+      cursor: pointer;
+      display: flex; 
+      justify-content: center;
+      gap: 5px;
     }
   }
 
