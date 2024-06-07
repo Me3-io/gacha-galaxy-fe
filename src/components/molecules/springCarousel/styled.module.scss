@@ -1,0 +1,16 @@
+.main {
+  width: 100%;
+  overflow: hidden;
+  & > div {
+
+    div:last-child,
+    div:first-child {
+      display: none;
+    }
+
+    div:nth-child(2) > div,
+    div:nth-last-child(2) > div {
+      box-shadow: none !important;
+    }
+  }
+}

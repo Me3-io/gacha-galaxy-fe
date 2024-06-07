@@ -31,7 +31,7 @@ const GameMachines = ({ open, handleClose }: any) => {
     <Modal open={open} onClose={handleClose} className={styled.modalContainer}>
       <Box className={styled.modal}>
         <CloseIcon className={styled.close} onClick={handleClose} />
-        <SpringCarousel cards={games} height="500px" />
+        <SpringCarousel cards={games} height="600px" />
       </Box>
     </Modal>
   );

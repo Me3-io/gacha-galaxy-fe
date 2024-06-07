@@ -2,6 +2,8 @@ import Carousel from "react-spring-3d-carousel";
 import { useState, useEffect, SetStateAction } from "react";
 import { config } from "react-spring";
 
+import styled from "./styled.module.scss";
+
 let lastTime = 0;
 let lastPos = 0;
 const INTERVAL_MS = 100;
@@ -53,13 +55,14 @@ const SpringCarousel = (props: any) => {
   }, []);
 
   return (
-    <div style={{ width: "100%", height: props.height, overflow: "hidden" }}>
+    <div style={{ height: props.height }} className={styled.main}>
       <Carousel
         slides={cards}
         offsetRadius={2}
         goToSlide={goToSlide}
         showNavigation={false}
         animationConfig={config.default}
+        
       />
     </div>
   );
