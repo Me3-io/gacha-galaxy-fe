@@ -26,27 +26,28 @@ const SpringCarousel = (props: any) => {
     }
   };
 
-  const handleTouch = (e: any) => {
-    const actualTime = new Date().getTime();
-    if (lastTime + 1000 < actualTime) {
-      lastTime = actualTime;
-      
-      const currentPos = e?.touches[0].clientX;
-      if (currentPos > lastPos) {
-        setGoToSlide((prev) => (prev > 0 ? --prev : table.length - 1));
-      } else {
-        setGoToSlide((prev) => (prev < table.length - 1 ? ++prev : 0));
-      }
-      lastPos = currentPos;
+  const handleTouchStart = (e: any) => {
+    lastPos = e?.changedTouches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: any) => {
+    const currentPos = e?.changedTouches[0].clientX;
+    if (currentPos > lastPos) {
+      setGoToSlide((prev) => (prev > 0 ? --prev : table.length - 1));
+    } else if (currentPos < lastPos) {
+      setGoToSlide((prev) => (prev < table.length - 1 ? ++prev : 0));
     }
   };
 
   useEffect(() => {
     window.addEventListener("wheel", handleWheel);
-    window.addEventListener("touchmove", handleTouch);
+    window.addEventListener("touchend", handleTouchEnd);
+    window.addEventListener("touchstart", handleTouchStart);
+
     return () => {
       window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("touchmove", handleTouch);
+      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("touchstart", handleTouchStart);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

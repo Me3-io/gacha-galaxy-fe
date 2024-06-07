@@ -106,9 +106,9 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   const handlerClick = (id: number, evt: any) => {
     console.log("id:", id, " - target:", evt.currentTarget);
     setOpenGames(true);
-    setShowGrid(false);
     setShowMap(false);
     setShowItems(false);
+    setShowGrid(false);
     setTooltipData({ visible: false, text: "" });
   };
 
@@ -130,9 +130,9 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
 
   useEffect(() => {
     if (!openGames) {
-      setShowGrid(true);
       setShowMap(true);
       setShowItems(true);
+      setShowGrid(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openGames]);

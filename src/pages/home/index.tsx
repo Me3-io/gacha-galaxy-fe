@@ -19,31 +19,33 @@ const Home = () => {
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
+        
         <Grid container>
           <Grid item xs={12}>
             <Box height={"100%"} overflow={"hidden"}>
               <InteractiveMap openGames={openGames} setOpenGames={setOpenGames} />
             </Box>
-
-            <Box display={{ xs: "none", md: "flex" }}>
-              <Drawer
-                open={true}
-                anchor="left"
-                variant="persistent"
-                className={styled.mainDrawer}
-                sx={{
-                  "& .MuiDrawer-paper": {
-                    backgroundColor: "transparent",
-                    boxSizing: "border-box",
-                    overflow: "hidden",
-                  },
-                }}
-              >
-                <Box className={styled.container}>
-                  <Leaderboard />
-                </Box>
-              </Drawer>
-            </Box>
+            {!openGames && (
+              <Box display={{ xs: "none", md: "flex" }}>
+                <Drawer
+                  open={true}
+                  anchor="left"
+                  variant="persistent"
+                  className={styled.mainDrawer}
+                  sx={{
+                    "& .MuiDrawer-paper": {
+                      backgroundColor: "transparent",
+                      boxSizing: "border-box",
+                      overflow: "hidden",
+                    },
+                  }}
+                >
+                  <Box className={styled.container}>
+                    <Leaderboard />
+                  </Box>
+                </Drawer>
+              </Box>
+            )}
           </Grid>
           <Grid item xs={12}>
             <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
@@ -56,7 +58,9 @@ const Home = () => {
             </Box>
           </Grid>
         </Grid>
+
         <GameMachines open={openGames} handleClose={() => setOpenGames(false)} />
+        
       </Container>
     </Layout>
   );
