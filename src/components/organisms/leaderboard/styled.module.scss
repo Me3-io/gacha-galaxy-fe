@@ -13,7 +13,7 @@
 
     .upIcon {
       cursor: pointer;
-      display: flex; 
+      display: flex;
       justify-content: center;
       gap: 5px;
     }
@@ -108,8 +108,7 @@
           border: 0;
           color: #fff;
           font-family: "ChakraPetchLight";
-          font-size: 1rem;
-          padding: 8px 16px;
+          padding: 8px;
         }
 
         .user {
@@ -139,7 +138,7 @@
         font-family: "PoppinsBold";
         font-size: 1.6rem;
       }
-      
+
       span {
         color: #fff;
         font-family: "Poppins";
@@ -163,4 +162,14 @@
 ::-webkit-scrollbar-thumb {
   background: #ba00fb60;
   border-radius: 10px;
+}
+
+@media screen and (min-width: 600px) {
+  table {
+    td,
+    th {
+      font-size: 1rem!important;
+      padding: 8px 16px!important;
+    }
+  }
 }
