@@ -44,33 +44,33 @@
 
 @keyframes blink {
   0% {
-    filter: brightness(1);
+    opacity: 1;
   }
   10% {
-    filter: brightness(0.6);
+    opacity: 0.2;
   }
   20% {
-    filter: brightness(1);
+    opacity: 1;
   }
   30% {
-    filter: brightness(0.6);
+    opacity: 0.2;
   }
   40% {
-    filter: brightness(1);
+    opacity: 1;
   }
   100% {
-    filter: brightness(1);
+    opacity: 1;
   }
 }
 
 @keyframes blink2 {
   30% {
-    filter: brightness(1);
+    opacity: 1;
   }
   50% {
-    filter: brightness(0.6);
+    opacity: 0.2;
   }
   70% {
-    filter: brightness(1);
+    opacity: 1;
   }
 }
