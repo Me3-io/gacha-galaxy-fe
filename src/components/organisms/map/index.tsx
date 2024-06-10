@@ -101,6 +101,11 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
 
   const _fitCenter = () => {
     Viewer.current?.fitToViewer("center", "center");
+
+    // zoomIn only mobile
+    if (navigator.userAgent.includes("Mobi") && width && width < 500) {
+      setTimeout(() => Viewer.current?.zoomOnViewerCenter(1.5), 50);
+    }
   };
 
   const handlerClick = (id: number, evt: any) => {
@@ -141,7 +146,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     <Box ref={ref} className={styled.main}>
       <Box className={styled.backgroundImage}></Box>
 
-      <Box className={styled.actionsTest}>
+      <Box className={styled.actionsTest} display={"none"}>
         <Button onClick={() => setShowGrid((prev) => !prev)}>
           <GridView />
         </Button>

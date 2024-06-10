@@ -62,7 +62,6 @@ const SpringCarousel = (props: any) => {
         goToSlide={goToSlide}
         showNavigation={false}
         animationConfig={config.default}
-        
       />
     </div>
   );
