@@ -4,7 +4,7 @@ import { Box, Container, Drawer, Grid } from "@mui/material";
 import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map";
 import Leaderboard from "components/organisms/leaderboard";
-import GameMachines from "components/organisms/gameMachines";
+import GameMachines from "components/organisms/machines";
 
 import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 

@@ -2,18 +2,26 @@
   width: 100%;
   overflow: hidden;
   & > div {
+    & > div:nth-child(1),
+    & > div:nth-last-child(1) {
+      display: none;
+    }
+
     div {
       width: 100%;
       max-width: 450px;
 
-      &:last-child,
-      &:first-child {
-        display: none;
-      }
-
       &:nth-child(2) > div,
       &:nth-last-child(2) > div {
-        box-shadow: none !important;
+        box-shadow: none;
+        cursor: pointer;
+        
+        button {
+          pointer-events: none;
+          span {
+            animation: unset;
+          }
+        }
       }
     }
   }

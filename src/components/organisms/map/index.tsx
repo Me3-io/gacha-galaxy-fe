@@ -8,7 +8,7 @@ import { Add, Remove, CropFree, GridView, Map, Extension } from "@mui/icons-mate
 import { Box } from "@mui/material";
 
 import Tooltip from "components/atoms/tooltip";
-import Button from "components/atoms/button";
+import Button from "components/atoms/buttons/base";
 import ListItems from "./items";
 
 import styled from "./styled.module.scss";
@@ -193,6 +193,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
         }}
         detectAutoPan={false}
         preventPanOutside={true}
+
       >
         <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
           <g className="grid">{showGrid && renderGrid}</g>

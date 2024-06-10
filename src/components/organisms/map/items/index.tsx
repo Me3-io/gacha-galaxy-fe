@@ -9,7 +9,7 @@ const ListItems = ({ handlerClick, handlerOver, handlerLeave }: any) => {
       component: <Shop1 />,
       position: { x: 1104, y: 778 },
       scale: "1.1",
-      text: "10 games available",
+      text: "3 games available",
     },
     /*{
       id: 2,

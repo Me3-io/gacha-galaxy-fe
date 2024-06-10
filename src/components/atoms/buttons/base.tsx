@@ -3,7 +3,7 @@ import styled from "./styled.module.scss";
 
 const Button = ({ children, onClick }: any) => {
   return (
-    <ButtonBase onClick={onClick} className={styled.button}>
+    <ButtonBase onClick={onClick} className={styled.base}>
       {children}
     </ButtonBase>
   );
