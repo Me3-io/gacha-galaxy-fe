@@ -1,9 +1,18 @@
 import { Box, Typography } from "@mui/material";
 import Button from "components/atoms/buttons/animated";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import styled from "./styled.module.scss";
 
-const Card = ({ name, bet }: any) => {
+const Card = ({ id, name, bet }: any) => {
+  const { i18n } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleClick = (idgame: number) => {
+    navigate(`/${i18n.language}/${idgame}`);
+  };
+
   return (
     <Box className={styled.cardWrap}>
       <Box className={styled.card}>
@@ -15,7 +24,7 @@ const Card = ({ name, bet }: any) => {
             <span className={styled.points}>{bet | 0}</span>
             <span className={styled.info}>Tokens</span>
           </Box>
-          <Button onClick={() => alert("play game")}>PLAY</Button>
+          <Button onClick={() => handleClick(id)}>PLAY</Button>
         </Box>
       </Box>
     </Box>

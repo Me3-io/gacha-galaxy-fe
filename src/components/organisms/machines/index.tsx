@@ -6,21 +6,23 @@ import Card from "./card";
 
 import styled from "./styled.module.scss";
 
+const games = [
+  { id: "spin-the-wheel", name: "SPIN THE WHEEL", bet: 120 },
+  { id: "claw-machine", name: "CLAW MACHINE", bet: 150 },
+  { id: "capsule", name: "CAPSULE", bet: 350 },
+  { id: "spin-the-wheel", name: "SPIN THE WHEEL", bet: 120 },
+  { id: "claw-machine", name: "CLAW MACHINE", bet: 150 },
+  { id: "capsule", name: "CAPSULE", bet: 350 },
+];
+
 const GameMachines = ({ open, handleClose }: any) => {
-  const games = [
-    { key: 1, content: <Card name="SPIN THE WHEEL" bet={120} /> },
-    { key: 2, content: <Card name="CLAW MACHINE" bet={150} /> },
-    { key: 3, content: <Card name="CAPSULE" bet={350} /> },
-    { key: 4, content: <Card name="SPIN THE WHEEL" bet={120} /> },
-    { key: 5, content: <Card name="CLAW MACHINE" bet={150} /> },
-    { key: 6, content: <Card name="CAPSULE" bet={350} /> },
-  ];
+  const cards = games.map((item, key) => ({ key, content: <Card {...item} /> }));
 
   return (
     <Modal open={open} onClose={handleClose} className={styled.modalContainer}>
       <Box className={styled.modal}>
         <CloseIcon className={styled.close} onClick={handleClose} />
-        <SpringCarousel cards={games} height="600px" />
+        <SpringCarousel cards={cards} height="600px" />
       </Box>
     </Modal>
   );
