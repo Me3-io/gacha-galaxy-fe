@@ -111,9 +111,6 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   const handlerClick = (id: number, evt: any) => {
     console.log("id:", id, " - target:", evt.currentTarget);
     setOpenGames(true);
-    setShowMap(false);
-    setShowItems(false);
-    setShowGrid(false);
     setTooltipData({ visible: false, text: "" });
   };
 
@@ -133,14 +130,6 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Viewer.current?.fitToViewer, height, width]);
 
-  useEffect(() => {
-    if (!openGames) {
-      setShowMap(true);
-      setShowItems(true);
-      setShowGrid(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openGames]);
 
   return (
     <Box ref={ref} className={styled.main}>
@@ -170,47 +159,48 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
         </Button>
       </Box>
 
-      <ReactSVGPanZoom
-        ref={Viewer}
-        value={value}
-        tool={tool}
-        onChangeValue={setValue}
-        onChangeTool={setTool}
-        width={width || 100}
-        height={height || 100}
-        SVGBackground={"transparent"}
-        background={"transparent"}
-        scaleFactorMax={MAX_ZOOM}
-        scaleFactorMin={0.1}
-        toolbarProps={{
-          position: "none",
-        }}
-        miniatureProps={{
-          position: "none",
-          background: "#000000cc",
-          width: 250,
-          height: 250,
-        }}
-        detectAutoPan={false}
-        preventPanOutside={true}
-
-      >
-        <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
-          <g className="grid">{showGrid && renderGrid}</g>
-          <g className={styled.map}>
-            <g className={styled.bg}>{showMap && <MapBg id="mainSVG" />}</g>
-            <g className={styled.items}>
-              {showItems && (
-                <ListItems
-                  handlerClick={handlerClick}
-                  handlerOver={handlerOver}
-                  handlerLeave={handlerLeave}
-                />
-              )}
+      <Box sx={{ opacity: openGames ? 0 : 1 }}>
+        <ReactSVGPanZoom
+          ref={Viewer}
+          value={value}
+          tool={tool}
+          onChangeValue={setValue}
+          onChangeTool={setTool}
+          width={width || 100}
+          height={height || 100}
+          SVGBackground={"transparent"}
+          background={"transparent"}
+          scaleFactorMax={MAX_ZOOM}
+          scaleFactorMin={0.1}
+          toolbarProps={{
+            position: "none",
+          }}
+          miniatureProps={{
+            position: "none",
+            background: "#000000cc",
+            width: 250,
+            height: 250,
+          }}
+          detectAutoPan={false}
+          preventPanOutside={true}
+        >
+          <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
+            <g className="grid">{showGrid && renderGrid}</g>
+            <g className={styled.map}>
+              <g className={styled.bg}>{showMap && <MapBg id="mainSVG" />}</g>
+              <g className={styled.items}>
+                {showItems && (
+                  <ListItems
+                    handlerClick={handlerClick}
+                    handlerOver={handlerOver}
+                    handlerLeave={handlerLeave}
+                  />
+                )}
+              </g>
             </g>
-          </g>
-        </svg>
-      </ReactSVGPanZoom>
+          </svg>
+        </ReactSVGPanZoom>
+      </Box>
 
       <Tooltip {...tooltipData} />
     </Box>

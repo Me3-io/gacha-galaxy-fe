@@ -19,34 +19,34 @@ const Home = () => {
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-        
         <Grid container>
+          
           <Grid item xs={12}>
             <Box height={"100%"} overflow={"hidden"}>
               <InteractiveMap openGames={openGames} setOpenGames={setOpenGames} />
             </Box>
-            {!openGames && (
-              <Box display={{ xs: "none", md: "flex" }}>
-                <Drawer
-                  open={true}
-                  anchor="left"
-                  variant="persistent"
-                  className={styled.mainDrawer}
-                  sx={{
-                    "& .MuiDrawer-paper": {
-                      backgroundColor: "transparent",
-                      boxSizing: "border-box",
-                      overflow: "hidden",
-                    },
-                  }}
-                >
-                  <Box className={styled.container}>
-                    <Leaderboard />
-                  </Box>
-                </Drawer>
-              </Box>
-            )}
+
+            <Box display={{ xs: "none", md: "flex" }} sx={{ opacity: openGames ? 0 : 1 }}>
+              <Drawer
+                open={true}
+                anchor="left"
+                variant="persistent"
+                className={styled.mainDrawer}
+                sx={{
+                  "& .MuiDrawer-paper": {
+                    backgroundColor: "transparent",
+                    boxSizing: "border-box",
+                    overflow: "hidden",
+                  },
+                }}
+              >
+                <Box className={styled.container}>
+                  <Leaderboard />
+                </Box>
+              </Drawer>
+            </Box>
           </Grid>
+
           <Grid item xs={12}>
             <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
               <Box className={styled.downIcon} onClick={goToLeaderboard}>
@@ -60,7 +60,6 @@ const Home = () => {
         </Grid>
 
         <GameMachines open={openGames} handleClose={() => setOpenGames(false)} />
-        
       </Container>
     </Layout>
   );
