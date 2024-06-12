@@ -27,7 +27,7 @@ const ListItems = ({ handlerClick, handlerOver, handlerLeave }: any) => {
       component: <Patner2 />,
       position: { x: 644, y: 263 },
       scale: 1,
-      text: "Paid",
+      text: "Emerge",
       clickable: false,
     },
     {
