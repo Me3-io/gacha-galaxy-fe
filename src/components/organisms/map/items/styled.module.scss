@@ -1,31 +1,80 @@
-.container {
+.shop,
+.patner {
   cursor: pointer;
   transition: 0.2s all;
+  animation: shadow 1s linear infinite;
+  opacity: 0.9;
 
   .title {
-    animation: blink 1s linear infinite;
+    animation: blinkDouble 1s linear infinite;
   }
 
   .window {
-    animation: blink 1.2s linear infinite;
+    animation: blinkDouble 1s linear infinite;
   }
 
   .window2 {
-    animation: blink2 1s linear infinite;
+    animation: blinkSimple 1s linear infinite;
+  }
+
+  .window3 {
+    animation: blinkSimple2 2s linear infinite;
+  }
+
+  .window4 {
+    animation: blinkDouble2 2s linear infinite;
   }
 
   &:hover {
-    filter: drop-shadow(1px -7px 14px rgba(103, 231, 254, 0.8));
+    filter: drop-shadow(0px 0px 50px rgba(141, 0, 251, 1));
+    animation: none;
+    opacity: 1;
+
     path {
       animation: translate 1s ease-in-out infinite;
       transform-origin: center;
     }
     .window {
-      animation: translate 1s ease-in-out infinite, blink 1s linear infinite;
+      animation: translate 1s ease-in-out infinite;
     }
 
     .window2 {
-      animation: translate 1s ease-in-out infinite, blink2 1s linear infinite;
+      animation: translate 1s ease-in-out infinite, blinkSimple 1s linear infinite;
+    }
+
+    .window3 {
+      animation: translate 1s ease-in-out infinite, blinkSimple2 2s linear infinite;
+    }
+
+    .window4 {
+      animation: translate 1s ease-in-out infinite, blinkDouble2 2s linear infinite;
+    }
+  }
+}
+
+.patner {
+  opacity: 1;
+  animation: none;
+  cursor: default;
+
+  &:hover {
+    path {
+      animation: none;
+    }
+    .window {
+      animation: none;
+    }
+
+    .window2 {
+      animation: blinkSimple 1s linear infinite;
+    }
+
+    .window3 {
+      animation: blinkSimple2 2s linear infinite;
+    }
+
+    .window4 {
+      animation: blinkDouble2 2s linear infinite;
     }
   }
 }
@@ -35,25 +84,25 @@
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
   }
   100% {
     transform: translateY(0px);
   }
 }
 
-@keyframes blink {
+@keyframes blinkDouble {
   0% {
     opacity: 1;
   }
   10% {
-    opacity: 0.2;
+    opacity: 0.5;
   }
   20% {
     opacity: 1;
   }
   30% {
-    opacity: 0.2;
+    opacity: 0.5;
   }
   40% {
     opacity: 1;
@@ -63,14 +112,59 @@
   }
 }
 
-@keyframes blink2 {
+@keyframes blinkSimple {
   30% {
     opacity: 1;
   }
   50% {
-    opacity: 0.2;
+    opacity: 0.5;
   }
   70% {
     opacity: 1;
+  }
+}
+
+@keyframes blinkSimple2 {
+  45% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  55% {
+    opacity: 1;
+  }
+}
+
+@keyframes blinkDouble2 {
+  5% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  15% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes shadow {
+  20% {
+    filter: none;
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(103, 231, 254, 0.6));
+  }
+  80% {
+    filter: none;
   }
 }

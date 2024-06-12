@@ -1,30 +1,51 @@
+import Patner1 from "./patner1";
+import Patner2 from "./patner2";
+import Patner3 from "./patner3";
+import Patner4 from "./patner4";
 import Shop1 from "./shop1";
-//import Shop2 from "./shop2";
-//import Shop3 from "./shop3";
 
 const ListItems = ({ handlerClick, handlerOver, handlerLeave }: any) => {
   const elements = [
     {
       id: 1,
       component: <Shop1 />,
-      position: { x: 1104, y: 778 },
-      scale: "1.1",
-      text: "3 games available",
+      position: { x: 777, y: 612 },
+      scale: 1,
+      text: "3 Games Available",
+      clickable: true,
     },
-    /*{
+    {
       id: 2,
-      component: <Shop2 />,
-      position: { x: 1224, y: 645 },
-      scale: "1.3",
-      text: "6 games available",
+      component: <Patner1 />,
+      position: { x: 1097, y: 154 },
+      scale: 1,
+      text: "Ampverse",
+      clickable: false,
     },
     {
       id: 3,
-      component: <Shop3 />,
-      position: { x: 1496, y: 898 },
-      scale: "1.3",
-      text: "5 games available",
-    },*/
+      component: <Patner2 />,
+      position: { x: 644, y: 263 },
+      scale: 1,
+      text: "Paid",
+      clickable: false,
+    },
+    {
+      id: 4,
+      component: <Patner3 />,
+      position: { x: 295, y: 678 },
+      scale: 1,
+      text: "Yield App",
+      clickable: false,
+    },
+    {
+      id: 5,
+      component: <Patner4 />,
+      position: { x: 1197, y: 505 },
+      scale: 1,
+      text: "Haven1",
+      clickable: false,
+    },
   ];
 
   return (
@@ -33,7 +54,7 @@ const ListItems = ({ handlerClick, handlerOver, handlerLeave }: any) => {
         <g
           key={item.id}
           transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
-          onClick={(evt) => handlerClick(item.id, evt)}
+          onClick={(evt) => (item.clickable ? handlerClick(item.id, evt) : evt.stopPropagation())}
           onTouchStart={(evt) => evt.stopPropagation()}
           onMouseOver={() => handlerOver(item)}
           onMouseLeave={handlerLeave}
