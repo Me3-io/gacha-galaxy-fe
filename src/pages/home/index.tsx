@@ -20,7 +20,6 @@ const Home = () => {
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
         <Grid container>
-          
           <Grid item xs={12}>
             <Box height={"100%"} overflow={"hidden"}>
               <InteractiveMap openGames={openGames} setOpenGames={setOpenGames} />

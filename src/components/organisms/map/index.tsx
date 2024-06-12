@@ -16,6 +16,7 @@ import styled from "./styled.module.scss";
 const MAX_ZOOM = 1.2;
 const PATH_GRID = 200;
 const SVG_SIZE = { width: 1728, height: 1506 };
+const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   const Viewer = useRef<any>(null);
@@ -103,7 +104,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     Viewer.current?.fitToViewer("center", "center");
 
     // zoomIn only mobile
-    if (navigator.userAgent.includes("Mobi") && width && width < 500) {
+    if (isMobile && width && width < 500) {
       setTimeout(() => Viewer.current?.zoomOnViewerCenter(1.5), 50);
     }
   };
@@ -111,6 +112,12 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   const handlerClick = (id: number, evt: any) => {
     console.log("id:", id, " - target:", evt.currentTarget);
     setOpenGames(true);
+
+    if (isMobile) {
+      setShowGrid(false);
+      setShowMap(false);
+      setShowItems(false);
+    }
     setTooltipData({ visible: false, text: "" });
   };
 
@@ -130,6 +137,13 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Viewer.current?.fitToViewer, height, width]);
 
+  useEffect(() => {
+    if (!openGames && isMobile) {
+      setShowGrid(true);
+      setShowMap(true);
+      setShowItems(true);
+    }
+  }, [openGames]);
 
   return (
     <Box ref={ref} className={styled.main}>
