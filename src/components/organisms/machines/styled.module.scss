@@ -1,5 +1,5 @@
 .modalContainer {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(20, 20, 20, 0.5);
   //backdrop-filter: blur(2px);
   z-index: 901;
   overflow-y: auto;
@@ -23,11 +23,13 @@
 
     .close {
       position: fixed;
-      top: 24px;
-      right: 24px;
+      top: 1.2rem;
+      right: 1.2rem;
       cursor: pointer;
       z-index: 902;
       padding: 10px;
+      background-color: #000;
+      border-radius: 50%;
     }
   }
 }

@@ -1,12 +1,37 @@
+.panel {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+// submenu section
+.submenu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 100%;
+  width: 100%;
+  transition: 0.2s all;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  color: #fff;
+}
+
+// main section
 .main {
   height: 100%;
   color: white;
   flex-flow: column;
   box-sizing: border-box;
+  transition: 0.2s all;
 
   .header {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
+
     img {
       cursor: pointer;
     }
@@ -16,6 +41,26 @@
       display: flex;
       justify-content: center;
       gap: 5px;
+    }
+
+    button {
+      border: none !important;
+      background-color: rgba(99, 67, 115, 0.4) !important;
+      color: #db74ff;
+      font-size: .9rem;
+      padding: 8px 16px !important;
+      display: flex;
+      justify-content: space-between;
+      gap: 5px;
+    }
+
+    .title {
+      font-family: "OrbitronBlack";
+      font-size: 1.2rem;
+      background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   }
 
@@ -128,21 +173,37 @@
     display: flex;
     justify-content: space-between;
 
+    .item:first-child {
+      border-right: 1px dotted #ba00fb;
+    }
+
     .item {
       display: flex;
       flex-direction: column;
       line-height: 1;
+      text-transform: uppercase;
+      width: 50%;
 
       p {
         color: #7b13ff;
-        font-family: "PoppinsBold";
-        font-size: 1.6rem;
+        font-family: "ChakraPetchBold";
+        font-size: 2rem;
       }
 
       span {
-        color: #fff;
-        font-family: "Poppins";
+        color: #e4bcf2;
+        font-family: "ChakraPetch";
+        font-size: 0.9rem;
+      }
+
+      button {
+        border: none !important;
+        background-color: rgba(99, 67, 115, 0.4) !important;
+        color: #db74ff;
         font-size: 1rem;
+        padding: 8px 16px !important;
+        display: flex;
+        justify-content: space-between;
       }
     }
   }
@@ -168,8 +229,8 @@
   table {
     td,
     th {
-      font-size: 1rem!important;
-      padding: 8px 16px!important;
+      font-size: 1rem !important;
+      padding: 8px 16px !important;
     }
   }
 }

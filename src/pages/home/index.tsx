@@ -5,11 +5,11 @@ import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map";
 import Leaderboard from "components/organisms/leaderboard";
 import GameMachines from "components/organisms/machines";
+import Navbar from "components/organisms/header";
 
 import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 import styled from "./styled.module.scss";
-import Navbar from "components/organisms/header";
 
 const Home = () => {
   const [openGames, setOpenGames] = useState<boolean>(false);
@@ -25,7 +25,7 @@ const Home = () => {
         <Grid container>
           <Grid item xs={12}>
             <Box height={"100%"} overflow={"hidden"}>
-              <InteractiveMap openGames={openGames} setOpenGames={setOpenGames} />
+               <InteractiveMap openGames={openGames} setOpenGames={setOpenGames} />
             </Box>
 
             <Box display={{ xs: "none", md: "flex" }} sx={{ opacity: openGames ? 0 : 1 }}>
