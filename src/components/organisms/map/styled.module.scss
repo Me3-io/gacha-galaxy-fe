@@ -24,7 +24,7 @@
   flex-direction: column;
   top: 16px;
   right: 16px;
-  z-index: 1;
+  z-index: 900;
   display: flex;
   gap: 10px;
 }
@@ -32,9 +32,9 @@
 .actions {
   position: absolute;
   flex-direction: column;
-  right: 16px;
-  bottom: 16px;
-  z-index: 1;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  z-index: 900;
   display: flex;
   gap: 10px;
 }
@@ -43,7 +43,7 @@
   position: absolute;
   top: 8px;
   left: 8px;
-  z-index: 1;
+  z-index: 900;
   display: flex;
   cursor: pointer;
 }

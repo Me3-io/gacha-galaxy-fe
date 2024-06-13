@@ -12,16 +12,16 @@ $color: #ba00fb;
 // button default ---
 .btnDefault {
   border: 1px solid $color !important;
-  background: rgba(8, 4, 15, 0.61);
+  background-color: rgba(8, 4, 15, 0.61) !important;
   color: #fff;
-  clip-path: polygon(calc(100% - 20px) 0%, 100% 20px, 100% 100%, 0% 100%, 0% 0%);
-  padding: 15px 30px;
+  clip-path: polygon(calc(100% - 15px) 0%, 100% 15px, 100% 100%, 0% 100%, 0% 0%);
+  padding: 10px 20px!important;
   position: relative;
 
   &::before {
     content: " ";
-    height: 20px;
-    width: 20px;
+    height: 15px;
+    width: 15px;
     position: absolute;
     right: 0;
     top: 0;
@@ -31,7 +31,7 @@ $color: #ba00fb;
   }
 
   span {
-    font-family: "Orbitron";
+    font-family: "OrbitronBlack";
     font-size: 1rem;
     font-weight: 900;
     background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);

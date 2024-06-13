@@ -9,6 +9,7 @@ import GameMachines from "components/organisms/machines";
 import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 import styled from "./styled.module.scss";
+import Navbar from "components/organisms/header";
 
 const Home = () => {
   const [openGames, setOpenGames] = useState<boolean>(false);
@@ -19,6 +20,8 @@ const Home = () => {
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
+        <Navbar />
+
         <Grid container>
           <Grid item xs={12}>
             <Box height={"100%"} overflow={"hidden"}>
@@ -36,6 +39,7 @@ const Home = () => {
                     backgroundColor: "transparent",
                     boxSizing: "border-box",
                     overflow: "hidden",
+                    zIndex: 900,
                   },
                 }}
               >
