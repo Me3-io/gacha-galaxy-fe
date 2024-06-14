@@ -3,8 +3,7 @@ import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
 import MapBg from "./bg";
-import { Add, Remove, CropFree, GridView, Map, Extension } from "@mui/icons-material";
-
+import { Add, Remove, CropFree, Map } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
 import Tooltip from "components/atoms/tooltip";
@@ -15,7 +14,7 @@ import styled from "./styled.module.scss";
 
 const MAX_ZOOM = 1.2;
 const PATH_GRID = 200;
-const SVG_SIZE = { width: 1728, height: 1506 };
+const SVG_SIZE = { width: 2304, height: 2008 };
 const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = ({ openGames, setOpenGames }: any) => {
@@ -26,10 +25,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   const [tool, setTool] = useState<any>(TOOL_AUTO);
   const [tooltipData, setTooltipData] = useState({ visible: false, text: "" });
 
-  // grid
   const [showMap, setShowMap] = useState<boolean>(true);
-  const [showGrid, setShowGrid] = useState<boolean>(true);
-  const [showItems, setShowItems] = useState<boolean>(true);
 
   const [renderGrid, setRenderGrid] = useState<ReactElement[]>([]);
   const [gridConfig, setGridConfig] = useState<{
@@ -114,9 +110,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     setOpenGames(true);
 
     if (isMobile) {
-      setShowGrid(false);
       setShowMap(false);
-      setShowItems(false);
     }
     setTooltipData({ visible: false, text: "" });
   };
@@ -138,28 +132,12 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   }, [Viewer.current?.fitToViewer, height, width]);
 
   useEffect(() => {
-    if (!openGames && isMobile) {
-      setShowGrid(true);
-      setShowMap(true);
-      setShowItems(true);
-    }
+    if (!openGames && isMobile) setShowMap(true);
   }, [openGames]);
 
   return (
     <Box ref={ref} className={styled.main}>
       <Box className={styled.backgroundImage}></Box>
-
-      <Box className={styled.actionsTest} display={"none"}>
-        <Button onClick={() => setShowGrid((prev) => !prev)}>
-          <GridView />
-        </Button>
-        <Button onClick={() => setShowMap((prev) => !prev)}>
-          <Map />
-        </Button>
-        <Button onClick={() => setShowItems((prev) => !prev)}>
-          <Extension />
-        </Button>
-      </Box>
 
       <Box className={styled.actions}>
         <Button onClick={_zoomIn}>
@@ -170,6 +148,9 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
         </Button>
         <Button onClick={_fitCenter}>
           <CropFree />
+        </Button>
+        <Button onClick={() => setShowMap((prev) => !prev)}>
+          <Map />
         </Button>
       </Box>
 
@@ -199,19 +180,21 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
           preventPanOutside={true}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
-            <g className="grid">{showGrid && renderGrid}</g>
-            <g className={styled.map}>
-              <g className={styled.bg}>{showMap && <MapBg id="mainSVG" />}</g>
-              <g className={styled.items}>
-                {showItems && (
+            {showMap && <g className="grid">{renderGrid}</g>}
+            {showMap && (
+              <g className={styled.map}>
+                <g className={styled.bg}>
+                  <MapBg id="mainSVG" />
+                </g>
+                <g className={styled.items}>
                   <ListItems
                     handlerClick={handlerClick}
                     handlerOver={handlerOver}
                     handlerLeave={handlerLeave}
                   />
-                )}
+                </g>
               </g>
-            </g>
+            )}
           </svg>
         </ReactSVGPanZoom>
       </Box>
