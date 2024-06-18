@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Container, Drawer, Grid } from "@mui/material";
 
 import Layout from "components/templates/layout";
-import InteractiveMap from "components/organisms/map";
+import InteractiveMap from "components/organisms/map/dinamicMap";
 import Leaderboard from "components/organisms/leaderboard";
 import GameMachines from "components/organisms/machines";
 import Navbar from "components/organisms/header";
