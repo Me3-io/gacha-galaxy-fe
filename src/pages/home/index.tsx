@@ -3,9 +3,9 @@ import { Box, Container, Drawer, Grid } from "@mui/material";
 
 import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map/dinamicMap";
-import Leaderboard from "components/organisms/leaderboard";
 import GameMachines from "components/organisms/machines";
-import Navbar from "components/organisms/header";
+import MainMenu from "components/organisms/menu";
+import Navbar from "components/organisms/navbar";
 
 import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
@@ -44,7 +44,7 @@ const Home = () => {
                 }}
               >
                 <Box className={styled.container}>
-                  <Leaderboard />
+                  <MainMenu />
                 </Box>
               </Drawer>
             </Box>
@@ -57,7 +57,7 @@ const Home = () => {
                 <DownIcon />
               </Box>
 
-              <Leaderboard showBack={true} goToMap={goToMap} />
+              <MainMenu showBack={true} goToMap={goToMap} />
             </Box>
           </Grid>
         </Grid>

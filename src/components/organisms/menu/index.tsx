@@ -1,20 +1,20 @@
 import { Box } from "@mui/material";
 import { useState } from "react";
 
-import Main from "./sections/main";
-
-import styled from "./styled.module.scss";
+import Leaderboard from "./sections/leaderboard";
 import EarnPoints from "./sections/earnPoints";
 import GetTokens from "./sections/getTokens";
 
-const Leaderboard = ({ showBack = false, goToMap }: any) => {
+import styled from "./styled.module.scss";
+
+const MainMenu = ({ showBack = false, goToMap }: any) => {
   const [openPoints, setOpenPoints] = useState(false);
   const [openTokens, setOpenTokens] = useState(false);
 
   return (
     <Box className={styled.panel}>
 
-      <Main
+      <Leaderboard
         showBack={showBack}
         goToMap={goToMap}
         setOpenPoints={setOpenPoints}
@@ -40,4 +40,4 @@ const Leaderboard = ({ showBack = false, goToMap }: any) => {
     </Box>
   );
 };
-export default Leaderboard;
+export default MainMenu;

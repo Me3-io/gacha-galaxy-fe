@@ -186,7 +186,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
             height: 250,
           }}
           detectAutoPan={false}
-          preventPanOutside={false}
+          preventPanOutside={true}
           onPan={calculateGrid}
           onZoom={calculateGrid}
         >

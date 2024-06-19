@@ -40,7 +40,7 @@ createWeb3Modal({
   enableOnramp: true,     // Optional - false as default
   themeMode: "dark",
   themeVariables: {
-    "--w3m-font-family": "Orbitron",
+    "--w3m-font-family": "ChakraPetch",
     "--w3m-border-radius-master": "2px",
   },
   featuredWalletIds: [

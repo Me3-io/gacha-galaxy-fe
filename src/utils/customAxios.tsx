@@ -38,7 +38,7 @@ const _getAccessToken = () => {
   return `Bearer ${token}`;
 };
 
-const customAxios = (contentType: string) => {
+const customAxios = (contentType?: string) => {
   const accessToken = _getAccessToken();
   const config = {
     baseURL: API_URL,
