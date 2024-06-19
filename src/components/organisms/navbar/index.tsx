@@ -32,6 +32,7 @@ const Navbar = () => {
   const { open } = useWeb3Modal();
   const { disconnect } = useDisconnect();
   const { isConnected, address, status } = useAccount();
+  const account = useAccount();
   const { data: signMessageData, signMessage } = useSignMessage();
 
   useEffect(() => {
@@ -43,6 +44,11 @@ const Navbar = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, status, signMessageData, tokenLS]);
+
+  useEffect(() => {
+    console.log("connector type: ", account?.connector?.type);
+  }, [account]);
+
 
   return (
     <Box className={styled.navbar}>
