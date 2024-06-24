@@ -1,16 +1,16 @@
 import customAxios from "utils/customAxios";
 
 import {
-  setAuthFailure,
-  setAuthStart,
-  setAuthSuccess,
+  setMessageFailure,
+  setMessageStart,
+  setMessageSuccess,
   clearMessageAuth,
-} from "../slices/messageAuth";
+} from "reduxConfig/slices/messageAuth";
 
 export const fetchChallengeRequest =
   ({ address, from }: any) =>
   async (dispatch: any) => {
-    dispatch(setAuthStart());
+    dispatch(setMessageStart());
     const data = {
       address: address,
       chainid: "1",
@@ -19,10 +19,10 @@ export const fetchChallengeRequest =
 
     try {
       const response = await customAxios().post("wallet/challengerequest", data);
-      dispatch(setAuthSuccess(response.data));
+      dispatch(setMessageSuccess(response.data));
       return response.data;
     } catch (error: any) {
-      dispatch(setAuthFailure(error?.message));
+      dispatch(setMessageFailure(error?.message));
     }
   };
 
@@ -30,7 +30,7 @@ export const clearMessageAuthUpdate = () => async (dispatch: any) => {
   try {
     dispatch(clearMessageAuth);
   } catch (error: any) {
-    dispatch(setAuthFailure(error?.message));
+    dispatch(setMessageFailure(error?.message));
   }
 };
 

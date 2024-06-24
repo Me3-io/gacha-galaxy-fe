@@ -10,15 +10,15 @@ const messageAuthSlice = createSlice({
   name: "messageAuth",
   initialState,
   reducers: {
-    setAuthStart(state) {
+    setMessageStart(state) {
       state.loading = true;
       state.error = null;
     },
-    setAuthSuccess(state, { payload }) {
+    setMessageSuccess(state, { payload }) {
       state.data = payload;
       state.loading = false;
     },
-    setAuthFailure(state, { payload }) {
+    setMessageFailure(state, { payload }) {
       state.loading = false;
       state.error = payload;
     },
@@ -30,7 +30,7 @@ const messageAuthSlice = createSlice({
   },
 });
 
-export const { setAuthStart, setAuthSuccess, setAuthFailure, clearMessageAuth } =
+export const { setMessageStart, setMessageSuccess, setMessageFailure, clearMessageAuth } =
   messageAuthSlice.actions;
 
 export default messageAuthSlice.reducer;
