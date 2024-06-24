@@ -36,7 +36,12 @@ const Navbar = () => {
   const { open } = useWeb3Modal();
   const { disconnect } = useDisconnect();
   const { isConnected, isConnecting, address } = useAccount();
-  const { data: dataMessage, error: errorMessage, reset: resetMessage, signMessage } = useSignMessage();
+  const {
+    data: dataMessage,
+    error: errorMessage,
+    reset: resetMessage,
+    signMessage,
+  } = useSignMessage();
 
   const [loadSign, setLoadSign] = useState(false);
   const dataMessageAuth = useSelector(selectMessageAuth);
@@ -55,7 +60,12 @@ const Navbar = () => {
       const from = window.location.hostname;
       setLoadSign(true);
       dispatch(fetchChallengeRequest({ address, from }) as any).then(async (response: any) => {
-        signMessage({ message: response?.message });
+        if (response?.message) {
+          signMessage({ message: response?.message });
+        } else {
+          console.error("Error to challenge request: ", response);
+          logout();
+        }
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,9 +77,10 @@ const Navbar = () => {
         fetchChallengeVerify({ signature: dataMessage, message: dataMessageAuth.message }) as any
       ).then(async (response: any) => {
         setLoadSign(false);
-        if (response && response?.sessionToken) {
+        if (response?.sessionToken) {
           localStorage.setItem("sessionToken", response?.sessionToken);
         } else {
+          console.error("Error to challenge verify: ", response);
           logout();
         }
       });
