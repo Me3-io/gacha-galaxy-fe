@@ -26,6 +26,7 @@
   flex-flow: column;
   box-sizing: border-box;
   transition: 0.2s all;
+  position: relative;
 
   .header {
     display: flex;
@@ -172,6 +173,7 @@
     border-top: 2px solid #ba00fb;
     display: flex;
     justify-content: space-between;
+
 
     .item:first-child {
       border-right: 1px dotted #ba00fb;

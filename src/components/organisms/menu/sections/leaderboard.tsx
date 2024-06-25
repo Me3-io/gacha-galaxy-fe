@@ -34,7 +34,7 @@ const rows = [
   { id: 15, name: "StormHunter", arrowUp: true, points: 419.7 },
 ];
 
-const Main = ({ showBack, goToMap, setOpenPoints, setOpenTokens, opacity }: any) => {
+const Leaderboard = ({ showBack, goToMap, setOpenPoints, setOpenTokens, opacity }: any) => {
   return (
     <Grid
       container
@@ -102,4 +102,4 @@ const Main = ({ showBack, goToMap, setOpenPoints, setOpenTokens, opacity }: any)
     </Grid>
   );
 };
-export default Main;
+export default Leaderboard;
