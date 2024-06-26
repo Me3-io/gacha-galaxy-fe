@@ -104,7 +104,7 @@ const Navbar = () => {
       <LanguageIcon onClick={!openLng ? handleOpen : handleClose} className={styled.lngIcon} />
       <LanguageMenu anchorEl={anchorEl} open={openLng} handleClose={handleClose} />
 
-      {isConnected ? (
+      {isConnected && !isConnecting ? (
         <Box className={styled.loggedBox}>
           {loadSign ? (
             <>

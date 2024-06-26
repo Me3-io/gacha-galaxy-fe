@@ -36,19 +36,6 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   }>({ originX: 0, originY: 0, width: 0, height: 0 });
 
   // calculate grid data ---
-  useEffect(() => {
-    setGridConfig({
-      originX: (SVG_SIZE.width / 2) * -1,
-      originY: (SVG_SIZE.height / 2) * -1,
-      width: SVG_SIZE.width / (PATH_GRID / 4),
-      height: SVG_SIZE.height / (PATH_GRID / 4),
-    });
-  }, []);
-
-  useEffect(() => {
-    _drawGrid();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gridConfig.width, gridConfig.height]);
 
   const _drawGrid = () => {
     const renderGrid = [];
@@ -71,7 +58,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
 
   const _drawPath = ({ key, posX, posY }: any) => {
     // grid gradient opacity
-    const opacity = (key.split("-")[1] / 100) * 2 + 0.1 || 0.2;
+    const opacity = (key.split("-")[1] / 100) * 2 + 0.5 || 0.2;
     return (
       <polygon
         key={key}
@@ -86,6 +73,28 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
       />
     );
   };
+
+  const calculateGrid = (value: any) => {
+    if (value?.mode !== "idle" && !value?.a) return;
+
+    const posX = value?.e / value?.a;
+    const posY = value?.f / value?.a;
+
+    const marginX = PATH_GRID / 2;
+    const marginY = PATH_GRID / 4;
+
+    setGridConfig({
+      originX: (posX - (posX % PATH_GRID) + marginX) * -1,
+      originY: (posY - (posY % PATH_GRID) + marginY) * -1,
+      width: (value?.viewerWidth + marginX) / ((PATH_GRID / 2) * value?.a),
+      height: (value?.viewerHeight + marginY) / ((PATH_GRID / 2) * value?.a),
+    });
+  };
+
+  useEffect(() => {
+    _drawGrid();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gridConfig]);
 
   // events ---
   const _zoomIn = () => {
@@ -178,9 +187,11 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
           }}
           detectAutoPan={false}
           preventPanOutside={true}
+          onPan={calculateGrid}
+          onZoom={calculateGrid}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
-            {showMap && <g className="grid">{renderGrid}</g>}
+            {<g className="grid">{renderGrid}</g>}
             {showMap && (
               <g className={styled.map}>
                 <g className={styled.bg}>

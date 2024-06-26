@@ -2,19 +2,19 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
-import MapBg from "./bg";
-import { Add, Remove, CropFree, Map } from "@mui/icons-material";
+//import MapBg from "./bg";
+import { Add, Remove, CropFree, Map, Numbers } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
 import Tooltip from "components/atoms/tooltip";
 import Button from "components/atoms/buttons/base";
-import ListItems from "./items";
+import Buildings from "./buildings";
 
 import styled from "./styled.module.scss";
 
-const MAX_ZOOM = 1.2;
+const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
-const SVG_SIZE = { width: 2304, height: 2008 };
+const SVG_SIZE = { width: 1920, height: 1080 };
 const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = ({ openGames, setOpenGames }: any) => {
@@ -26,6 +26,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   const [tooltipData, setTooltipData] = useState({ visible: false, text: "" });
 
   const [showMap, setShowMap] = useState<boolean>(true);
+  const [showNumbers, setShowNumbers] = useState<boolean>(true);
 
   const [renderGrid, setRenderGrid] = useState<ReactElement[]>([]);
   const [gridConfig, setGridConfig] = useState<{
@@ -60,17 +61,23 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     // grid gradient opacity
     const opacity = (key.split("-")[1] / 100) * 2 + 0.5 || 0.2;
     return (
-      <polygon
-        key={key}
-        points={`
+      <g key={key}>
+        {showNumbers && (
+          <text x={posX + 20} y={posY + 5} fill="#db74ff" fontSize="12">
+            {posX},{posY}
+          </text>
+        )}
+        <polygon
+          points={`
             ${posX},${posY} 
             ${posX + PATH_GRID / 2},${posY - PATH_GRID / 4} 
             ${posX + PATH_GRID},${posY} 
             ${posX + PATH_GRID / 2},${posY + PATH_GRID / 4}
             `}
-        className={styled.gridpath}
-        style={{ strokeOpacity: opacity }}
-      />
+          className={styled.gridpath}
+          style={{ strokeOpacity: opacity }}
+        />
+      </g>
     );
   };
 
@@ -79,22 +86,20 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
 
     const posX = value?.e / value?.a;
     const posY = value?.f / value?.a;
-
-    const marginX = PATH_GRID / 2;
-    const marginY = PATH_GRID / 4;
+    const margin = PATH_GRID / 2;
 
     setGridConfig({
-      originX: (posX - (posX % PATH_GRID) + marginX) * -1,
-      originY: (posY - (posY % PATH_GRID) + marginY) * -1,
-      width: (value?.viewerWidth + marginX) / ((PATH_GRID / 2) * value?.a),
-      height: (value?.viewerHeight + marginY) / ((PATH_GRID / 2) * value?.a),
+      originX: (posX - (posX % PATH_GRID) + margin) * -1,
+      originY: (posY - (posY % PATH_GRID) + margin) * -1,
+      width: (value?.viewerWidth + margin) / ((PATH_GRID / 2) * value?.a),
+      height: (value?.viewerHeight + margin * 2) / ((PATH_GRID / 2) * value?.a),
     });
   };
 
   useEffect(() => {
     _drawGrid();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gridConfig]);
+  }, [gridConfig, showNumbers]);
 
   // events ---
   const _zoomIn = () => {
@@ -161,6 +166,9 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
         <Button onClick={() => setShowMap((prev) => !prev)}>
           <Map />
         </Button>
+        <Button onClick={() => setShowNumbers((prev) => !prev)}>
+          <Numbers />
+        </Button>
       </Box>
 
       <Box sx={{ opacity: openGames ? 0 : 1 }}>
@@ -175,7 +183,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
           SVGBackground={"transparent"}
           background={"transparent"}
           scaleFactorMax={MAX_ZOOM}
-          scaleFactorMin={0.1}
+          scaleFactorMin={0.5}
           toolbarProps={{
             position: "none",
           }}
@@ -193,17 +201,12 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
             {<g className="grid">{renderGrid}</g>}
             {showMap && (
-              <g className={styled.map}>
-                <g className={styled.bg}>
-                  <MapBg id="mainSVG" />
-                </g>
-                <g className={styled.items}>
-                  <ListItems
-                    handlerClick={handlerClick}
-                    handlerOver={handlerOver}
-                    handlerLeave={handlerLeave}
-                  />
-                </g>
+              <g className={styled.buildings}>
+                <Buildings
+                  handlerClick={handlerClick}
+                  handlerOver={handlerOver}
+                  handlerLeave={handlerLeave}
+                />
               </g>
             )}
           </svg>

@@ -25,7 +25,7 @@ const MainMenu = ({ showBack = false, goToMap }: any) => {
       <Box
         component="section"
         className={styled.submenu}
-        right={openPoints ? "0!important" : "100%"}
+        left={openPoints ? "0!important" : "100%"}
       >
         <EarnPoints setOpenPoints={setOpenPoints} />
       </Box>
@@ -33,7 +33,7 @@ const MainMenu = ({ showBack = false, goToMap }: any) => {
       <Box
         component="section"
         className={styled.submenu}
-        right={openTokens ? "0!important" : "100%"}
+        left={openTokens ? "0!important" : "100%"}
       >
         <GetTokens setOpenTokens={setOpenTokens} />
       </Box>
