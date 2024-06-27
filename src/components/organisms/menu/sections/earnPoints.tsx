@@ -31,10 +31,7 @@ const rows2 = [
   { name: "all games" },
   { name: "all games" },
   { name: "all games" },
-  { name: "all games" },
-  { name: "all games" },
-  { name: "all games" },
-  { name: "all games" },
+
 ];
 
 const MainTable = ({ data }: any) => (
@@ -56,10 +53,7 @@ const MainTable = ({ data }: any) => (
 
 const EarnPoints = ({ setOpenPoints }: any) => {
   const [value, setValue] = useState("1");
-
-  const handleChange = (evt: any, newValue: string) => {
-    setValue(newValue);
-  };
+  const handleChange = (evt: any, newValue: string) => setValue(newValue);
 
   return (
     <Grid container flexDirection="column" className={styled.main}>
@@ -72,25 +66,27 @@ const EarnPoints = ({ setOpenPoints }: any) => {
         </Typography>
       </Box>
       <Box p={2} className={styled.container}>
-        <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: "#7A57A5" }}>
-            <TabList
-              onChange={handleChange}
-              textColor="inherit"
-              variant="fullWidth"
-              indicatorColor="secondary"
-            >
-              <Tab label="CLAIMR CAMPAIGNS" value="1" />
-              <Tab label="ALL GAMES" value="2" />
-            </TabList>
-          </Box>
-          <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "hidden" }}>
-            <MainTable data={rows} />
-          </TabPanel>
-          <TabPanel value="2" sx={{ padding: "1rem 0", overflow: "hidden" }}>
-            <MainTable data={rows2} />
-          </TabPanel>
-        </TabContext>
+        <Box className={styled.earnPointsContainer}>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "#7A57A5" }}>
+              <TabList
+                onChange={handleChange}
+                textColor="inherit"
+                variant="fullWidth"
+                indicatorColor="secondary"
+              >
+                <Tab label="CLAIMR CAMPAIGNS" value="1" />
+                <Tab label="ALL GAMES" value="2" />
+              </TabList>
+            </Box>
+            <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "hidden" }}>
+              <MainTable data={rows} />
+            </TabPanel>
+            <TabPanel value="2" sx={{ padding: "1rem 0", overflow: "hidden" }}>
+              <MainTable data={rows2} />
+            </TabPanel>
+          </TabContext>
+        </Box>
       </Box>
     </Grid>
   );

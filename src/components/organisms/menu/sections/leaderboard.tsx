@@ -34,7 +34,14 @@ const rows = [
   { id: 15, name: "StormHunter", arrowUp: true, points: 419.7 },
 ];
 
-const Leaderboard = ({ showBack, goToMap, setOpenPoints, setOpenTokens, opacity }: any) => {
+const Leaderboard = ({
+  showBack,
+  goToMap,
+  setOpenPoints,
+  setOpenTokens,
+  setOpenMenu,
+  opacity,
+}: any) => {
   return (
     <Grid
       container
@@ -44,7 +51,7 @@ const Leaderboard = ({ showBack, goToMap, setOpenPoints, setOpenTokens, opacity 
       sx={{ opacity: opacity }}
     >
       <Box p={2} className={styled.header}>
-        <Box component="span">
+        <Box component="span" onClick={() => setOpenMenu(true)}>
           <img src={menu} alt="menu" width={36} />
         </Box>
         {showBack && (

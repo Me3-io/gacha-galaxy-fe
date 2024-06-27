@@ -4,12 +4,14 @@ import { useState } from "react";
 import Leaderboard from "./sections/leaderboard";
 import EarnPoints from "./sections/earnPoints";
 import GetTokens from "./sections/getTokens";
+import Menu from "./sections/menu";
 
 import styled from "./styled.module.scss";
 
 const MainMenu = ({ showBack = false, goToMap }: any) => {
   const [openPoints, setOpenPoints] = useState(false);
   const [openTokens, setOpenTokens] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
 
   return (
     <Box className={styled.panel}>
@@ -19,7 +21,8 @@ const MainMenu = ({ showBack = false, goToMap }: any) => {
         goToMap={goToMap}
         setOpenPoints={setOpenPoints}
         setOpenTokens={setOpenTokens}
-        opacity={openPoints || openTokens ? 0 : 1}
+        setOpenMenu={setOpenMenu}
+        opacity={openPoints || openTokens || openMenu ? 0 : 1}
       />
 
       <Box
@@ -36,6 +39,14 @@ const MainMenu = ({ showBack = false, goToMap }: any) => {
         left={openTokens ? "0!important" : "100%"}
       >
         <GetTokens setOpenTokens={setOpenTokens} />
+      </Box>
+
+      <Box
+        component="section"
+        className={styled.submenu}
+        left={openMenu ? "0!important" : "100%"}
+      >
+        <Menu setOpenMenu={setOpenMenu} />
       </Box>
     </Box>
   );

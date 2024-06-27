@@ -20,7 +20,7 @@
   color: #fff;
 }
 
-// main section
+// main (global classes)
 .main {
   height: 100%;
   color: white;
@@ -167,24 +167,6 @@
           font-weight: 700;
         }
       }
-
-      .earnRow {
-        border-bottom: 1px dashed #e7c4f5;
-        display: flex;
-        justify-content: space-between;
-        margin: 0 10px;
-
-        td {
-          padding: 16px !important;
-        }
-
-        button {
-          padding: 8px 16px !important;
-          border: none !important;
-          background-color: rgba(99, 67, 115, 0.4) !important;
-          color: #db74ff;
-        }
-      }
     }
   }
 
@@ -229,6 +211,7 @@
   }
 }
 
+// sections ---
 .tokensContainer {
   display: flex;
   flex-direction: column;
@@ -243,6 +226,64 @@
   button {
     padding: 1rem !important;
     min-width: 200px;
+  }
+}
+
+.earnPointsContainer {
+  .table {
+    box-sizing: border-box;
+    height: 100%;
+
+    td,
+    th {
+      border: 0;
+      color: #fff;
+      font-family: "ChakraPetchLight";
+      padding: 8px;
+    }
+
+    .earnRow {
+      border-bottom: 1px dashed #e7c4f5;
+      display: flex;
+      justify-content: space-between;
+      margin: 0 10px;
+
+      td {
+        padding: 16px !important;
+      }
+
+      button {
+        padding: 8px 16px !important;
+        border: none !important;
+        background-color: rgba(99, 67, 115, 0.4) !important;
+        color: #db74ff;
+      }
+    }
+  }
+}
+
+.menuContainer {
+  margin-top: 20px;
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed #ba00fbaa;
+    padding: 24px 8px;
+    color: #e4bcf2;
+    cursor: pointer;
+    p {
+      width: 100%;
+      padding: 0 20px;
+      text-align: start;
+      font-family: "ChakraPetch";
+      font-size: 1rem;
+
+      font-weight: 400;
+    }
+    svg {
+      fill: #db74ff;
+    }
   }
 }
 
