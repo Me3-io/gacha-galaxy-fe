@@ -11,6 +11,7 @@ import Button from "components/atoms/buttons/base";
 import Buildings from "./buildings";
 
 import styled from "./styled.module.scss";
+//import MapBg from "./bg";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
@@ -64,7 +65,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
       <g key={key}>
         {showNumbers && (
           <text x={posX + 20} y={posY + 5} fill="#db74ff" fontSize="12">
-            {posX},{posY}
+            {posX / 100 - 1},{posY / 50}
           </text>
         )}
         <polygon
@@ -183,7 +184,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
           SVGBackground={"transparent"}
           background={"transparent"}
           scaleFactorMax={MAX_ZOOM}
-          scaleFactorMin={0.5}
+          scaleFactorMin={0.1}
           toolbarProps={{
             position: "none",
           }}
@@ -199,7 +200,8 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
           onZoom={calculateGrid}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
-            {<g className="grid">{renderGrid}</g>}
+            <g className="grid">{renderGrid}</g>
+
             {showMap && (
               <g className={styled.buildings}>
                 <Buildings

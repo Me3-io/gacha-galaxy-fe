@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import test from "../items/test";
 
 const Buildings = ({ handlerClick, handlerOver, handlerLeave }: any) => {
   const [svg, setSvg] = useState<any>();
-  const url = "https://targets-assets.s3.ap-southeast-1.amazonaws.com/GG-Building1.svg";
+  const url = "https://targets-assets.s3.ap-southeast-1.amazonaws.com/building1.svg";
 
   useEffect(() => {
     fetch(url)
@@ -12,11 +13,27 @@ const Buildings = ({ handlerClick, handlerOver, handlerLeave }: any) => {
   }, [url]);
 
   const elements = [
+    /*{
+      id: 1,
+      component: test,
+      position: { x: 224, y: 43 },
+      scale: 2.65,
+      text: "3 Games Available",
+      clickable: true,
+    },
+    {
+      id: 2,
+      component: test,
+      position: { x: 124, y: 93 },
+      scale: 2.65,
+      text: "1 Games Available",
+      clickable: true,
+    },*/
     {
       id: 1,
       component: svg,
-      position: { x: 0, y: 0 },
-      scale: 1,
+      position: { x: 25, y: -6 },
+      scale: 2.65,
       text: "3 Games Available",
       clickable: true,
     },
@@ -28,6 +45,7 @@ const Buildings = ({ handlerClick, handlerOver, handlerLeave }: any) => {
         <g
           key={item.id}
           transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
+          transform-origin="-59 1"
           onClick={(evt) => (item.clickable ? handlerClick(item.id, evt) : evt.stopPropagation())}
           onTouchStart={(evt) => evt.stopPropagation()}
           onMouseOver={() => handlerOver(item)}
