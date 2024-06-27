@@ -145,26 +145,44 @@
         top: 210px;
         left: -9px;
       }
+    }
 
-      .table {
-        box-sizing: border-box;
-        height: 100%;
+    .table {
+      box-sizing: border-box;
+      height: 100%;
 
-        td,
-        th {
-          border: 0;
-          color: #fff;
-          font-family: "ChakraPetchLight";
-          padding: 8px;
+      td,
+      th {
+        border: 0;
+        color: #fff;
+        font-family: "ChakraPetchLight";
+        padding: 8px;
+      }
+
+      .user {
+        display: flex;
+        gap: 10px;
+        font-weight: 500;
+        > span {
+          font-weight: 700;
+        }
+      }
+
+      .earnRow {
+        border-bottom: 1px dashed #e7c4f5;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 10px;
+
+        td {
+          padding: 16px !important;
         }
 
-        .user {
-          display: flex;
-          gap: 10px;
-          font-weight: 500;
-          > span {
-            font-weight: 700;
-          }
+        button {
+          padding: 8px 16px !important;
+          border: none !important;
+          background-color: rgba(99, 67, 115, 0.4) !important;
+          color: #db74ff;
         }
       }
     }
@@ -217,7 +235,7 @@
   gap: 2rem;
   align-items: center;
 
-  .divider{
+  .divider {
     border-top: 1px dashed #ba00fbaa;
     width: 100%;
   }
@@ -236,7 +254,7 @@
 ::-webkit-scrollbar-track {
   background: #b800fb20;
   border-radius: 10px;
-  margin: 10px 0;
+  margin: 10px;
 }
 
 ::-webkit-scrollbar-thumb {

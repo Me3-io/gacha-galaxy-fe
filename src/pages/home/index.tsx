@@ -25,7 +25,7 @@ const Home = () => {
         <Grid container>
           <Grid item xs={12}>
             <Box height={"100%"} overflow={"hidden"}>
-               <InteractiveMap openGames={openGames} setOpenGames={setOpenGames} />
+              <InteractiveMap openGames={openGames} setOpenGames={setOpenGames} />
             </Box>
 
             <Box display={{ xs: "none", md: "flex" }} sx={{ opacity: openGames ? 0 : 1 }}>

@@ -15,7 +15,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 
 import styled from "../styled.module.scss";
-import { posix } from "path";
 
 const rows = [
   { name: "Lorem ipsum campaign" },
@@ -24,6 +23,36 @@ const rows = [
   { name: "Lorem ipsum campaign" },
   { name: "Lorem ipsum campaign" },
 ];
+
+const rows2 = [
+  { name: "all games" },
+  { name: "all games" },
+  { name: "all games" },
+  { name: "all games" },
+  { name: "all games" },
+  { name: "all games" },
+  { name: "all games" },
+  { name: "all games" },
+  { name: "all games" },
+  { name: "all games" },
+];
+
+const MainTable = ({ data }: any) => (
+  <TableContainer className={styled.table}>
+    <Table>
+      <TableBody>
+        {data.map((row: any, pos: number) => (
+          <TableRow key={pos} className={styled.earnRow}>
+            <TableCell align="left">{row.name}</TableCell>
+            <TableCell align="right">
+              <Button>GO</Button>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+);
 
 const EarnPoints = ({ setOpenPoints }: any) => {
   const [value, setValue] = useState("1");
@@ -55,25 +84,12 @@ const EarnPoints = ({ setOpenPoints }: any) => {
               <Tab label="ALL GAMES" value="2" />
             </TabList>
           </Box>
-          <TabPanel value="1" sx={{padding: "1rem 0"}}>
-            <TableContainer>
-              <Table>
-                <TableBody>
-                  {rows.map((row, pos) => (
-                    <TableRow key={pos}>
-                      <TableCell align="left">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">
-                        <Button>GO</Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+          <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "hidden" }}>
+            <MainTable data={rows} />
           </TabPanel>
-          <TabPanel value="2">all items</TabPanel>
+          <TabPanel value="2" sx={{ padding: "1rem 0", overflow: "hidden" }}>
+            <MainTable data={rows2} />
+          </TabPanel>
         </TabContext>
       </Box>
     </Grid>
