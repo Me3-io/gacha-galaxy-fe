@@ -28,23 +28,23 @@ const Home = () => {
               <InteractiveMap openGames={openGames} setOpenGames={setOpenGames} />
             </Box>
 
-            <Box display={{ xs: "none", md: "flex" }} sx={{ opacity: openGames ? 0 : 1 }}>
+            <Box display={{ xs: "none", md: "flex" }}>
               <Drawer
                 open={true}
                 anchor="left"
-                variant="persistent"
+                variant="permanent"
                 className={styled.mainDrawer}
                 sx={{
                   "& .MuiDrawer-paper": {
                     backgroundColor: "transparent",
                     boxSizing: "border-box",
                     overflow: "hidden",
-                    zIndex: 900,
+                    zIndex: 1,
                   },
                 }}
               >
                 <Box className={styled.container}>
-                  <MainMenu />
+                  <MainMenu openGames={openGames} />
                 </Box>
               </Drawer>
             </Box>
