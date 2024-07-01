@@ -8,7 +8,7 @@ import Menu from "./sections/menu";
 
 import styled from "./styled.module.scss";
 
-const MainMenu = ({ showBack = false, goToMap, openGames }: any) => {
+const MainMenu = ({ showBack = false, goToMap, openGames = false }: any) => {
   const [openPoints, setOpenPoints] = useState(false);
   const [openTokens, setOpenTokens] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);

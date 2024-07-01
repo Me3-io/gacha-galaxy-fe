@@ -2,6 +2,9 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBuildings, getBuildings } from "reduxConfig/thunks/buildings";
+
 //import MapBg from "./bg";
 import { Add, Remove, CropFree, Map, Numbers } from "@mui/icons-material";
 import { Box } from "@mui/material";
@@ -20,6 +23,7 @@ const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   const Viewer = useRef<any>(null);
+  const dispatch = useDispatch();
 
   const { ref, width, height } = useResizeObserver();
   const [value, setValue] = useState<any>({});
@@ -37,8 +41,14 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     height: number;
   }>({ originX: 0, originY: 0, width: 0, height: 0 });
 
-  // calculate grid data ---
+  const buildingsData = useSelector(getBuildings);
 
+  useEffect(() => {
+    dispatch(fetchBuildings() as any);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // calculate grid data ---
   const _drawGrid = () => {
     const renderGrid = [];
     for (let y = 0; y < gridConfig.height; y++) {
@@ -205,6 +215,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
             {showMap && (
               <g className={styled.buildings}>
                 <Buildings
+                  buildingsData={buildingsData}
                   handlerClick={handlerClick}
                   handlerOver={handlerOver}
                   handlerLeave={handlerLeave}
