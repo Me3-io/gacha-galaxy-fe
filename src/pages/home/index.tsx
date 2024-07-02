@@ -28,6 +28,7 @@ const Home = () => {
     script.setAttribute("data-campaign", "me3-alpha-journey");
     script.setAttribute("data-autoresize", "true");
     script.setAttribute("data-container", "claimr-id");
+    script.setAttribute("data-organization", "me3");
 
     document.head.appendChild(script);
   }
