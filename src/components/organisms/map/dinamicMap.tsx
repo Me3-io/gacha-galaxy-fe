@@ -17,6 +17,7 @@ import styled from "./styled.module.scss";
 //import MapBg from "./bg";
 
 const MAX_ZOOM = 1.5;
+const MIN_ZOOM = 0.5
 const PATH_GRID = 200;
 const SVG_SIZE = { width: 1920, height: 1080 };
 const isMobile = navigator.userAgent.includes("Mobi");
@@ -70,7 +71,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
 
   const _drawPath = ({ key, posX, posY }: any) => {
     // grid gradient opacity
-    const opacity = (key.split("-")[1] / 100) * 2 + 0.5 || 0.2;
+    //const opacity = (key.split("-")[1] / 100) * 2 + 0.5 || 0.2;
     return (
       <g key={key}>
         {showNumbers && (
@@ -86,7 +87,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
             ${posX + PATH_GRID / 2},${posY + PATH_GRID / 4}
             `}
           className={styled.gridpath}
-          style={{ strokeOpacity: opacity }}
+          //style={{ strokeOpacity: opacity }}
         />
       </g>
     );
@@ -194,7 +195,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
           SVGBackground={"transparent"}
           background={"transparent"}
           scaleFactorMax={MAX_ZOOM}
-          scaleFactorMin={0.1}
+          scaleFactorMin={MIN_ZOOM}
           toolbarProps={{
             position: "none",
           }}
@@ -219,6 +220,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
                   handlerClick={handlerClick}
                   handlerOver={handlerOver}
                   handlerLeave={handlerLeave}
+                  pathGrid={PATH_GRID}
                 />
               </g>
             )}
