@@ -15,7 +15,7 @@ import Buildings from "./buildings";
 import styled from "./styled.module.scss";
 
 const MAX_ZOOM = 1.5;
-const MIN_ZOOM = 0.5;
+
 const PATH_GRID = 200;
 const SVG_SIZE = { width: 1000, height: 1000 };
 const CENTER_MAP = { x: 500, y: 800 };
@@ -32,7 +32,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   const [tooltipData, setTooltipData] = useState({ visible: false, text: "" });
 
   const [showMap, setShowMap] = useState<boolean>(true);
-  const [showNumbers, setShowNumbers] = useState<boolean>(true);
+  const [showNumbers, setShowNumbers] = useState<boolean>(false);
 
   const [renderGrid, setRenderGrid] = useState<ReactElement[]>([]);
   const [gridConfig, setGridConfig] = useState<{
@@ -41,7 +41,6 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     width: number;
     height: number;
   }>({ originX: 0, originY: 0, width: 0, height: 0 });
-
 
   useEffect(() => {
     dispatch(fetchBuildings() as any);
@@ -145,21 +144,17 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     );
   };
   // events ---
-  const _zoomIn = () => {
-    Viewer.current?.zoomOnViewerCenter(1.1);
-  };
+  const _zoomIn = () => Viewer.current?.zoomOnViewerCenter(1.1);
 
-  const _zoomOut = () => {
-    Viewer.current?.zoomOnViewerCenter(0.9);
-  };
+  const _zoomOut = () => Viewer.current?.zoomOnViewerCenter(0.9);
 
   const _fitCenter = () => {
     Viewer.current?.fitToViewer("center", "center");
 
     // zoomIn only mobile
-    if (isMobile && width && width < 500) {
+    /*if (isMobile && width && width < 500) {
       setTimeout(() => Viewer.current?.zoomOnViewerCenter(1.5), 50);
-    }
+    }*/
   };
 
   const handlerClick = (id: number, evt: any) => {
@@ -226,7 +221,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
           SVGBackground={"transparent"}
           background={"transparent"}
           scaleFactorMax={MAX_ZOOM}
-          scaleFactorMin={MIN_ZOOM}
+          scaleFactorMin={isMobile ? 0.1 : 0.5}
           toolbarProps={{
             position: "none",
           }}
@@ -240,6 +235,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
           preventPanOutside={true}
           onPan={calculateGrid}
           onZoom={calculateGrid}
+          onClick={(evt) => console.log(evt?.originalEvent.target)}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
             <g className="grid">{renderGrid}</g>
@@ -252,12 +248,11 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
                   handlerLeave={handlerLeave}
                   PATH_GRID={PATH_GRID}
                   CENTER_MAP={CENTER_MAP}
-                  />
+                />
               </g>
             )}
-            
+
             {false && _drawCentralGuide()}
-          
           </svg>
         </ReactSVGPanZoom>
       </Box>
