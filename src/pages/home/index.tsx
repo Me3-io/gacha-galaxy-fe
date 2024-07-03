@@ -18,8 +18,7 @@ const Home = () => {
   const goToMap = () => window.scrollTo(0, 0);
 
   useEffect(() => {
-
-    console.log("Adding claimr script...")
+    console.log("Adding claimr script...");
     const script = document.createElement("script");
     script.defer = true;
     script.src = "https://widgets.claimr.io/claimr.min.js";
@@ -31,13 +30,11 @@ const Home = () => {
     script.setAttribute("data-organization", "me3");
 
     document.head.appendChild(script);
-  }
-  , []);
-
+  }, []);
 
   return (
     <Layout>
-       <div id="claimr-id"></div>
+      <div id="claimr-id"></div>
       <Container maxWidth={false} disableGutters={true}>
         <Navbar />
 
@@ -46,7 +43,6 @@ const Home = () => {
             <Box height={"100%"} overflow={"hidden"}>
               <InteractiveMap openGames={openGames} setOpenGames={setOpenGames} />
             </Box>
-            
 
             <Box display={{ xs: "none", md: "flex" }}>
               <Drawer
@@ -67,12 +63,10 @@ const Home = () => {
                   <MainMenu openGames={openGames} />
                 </Box>
               </Drawer>
-              
             </Box>
           </Grid>
 
           <Grid item xs={12}>
-            
             <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
               <Box className={styled.downIcon} onClick={goToLeaderboard}>
                 <span>leaderboard</span>
@@ -85,7 +79,6 @@ const Home = () => {
         </Grid>
 
         <GameMachines open={openGames} handleClose={() => setOpenGames(false)} />
-       
       </Container>
     </Layout>
   );

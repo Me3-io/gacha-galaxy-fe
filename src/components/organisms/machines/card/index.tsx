@@ -1,7 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import Button from "components/atoms/buttons/animated";
+import Button from "components/atoms/buttons/default";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+
+import machineIcon from "assets/images/maquina-capsule.svg";
 
 import styled from "./styled.module.scss";
 
@@ -14,18 +16,14 @@ const Card = ({ id, name, bet }: any) => {
   };
 
   return (
-    <Box className={styled.cardWrap}>
-      <Box className={styled.card}>
-        <Box className={styled.dotted}></Box>
-        <Box className={styled.container}>
-          <Typography className={styled.title}>{name}</Typography>
-          <Box className={styled.tokens}>
-            <span className={styled.minbet}>Minimum bet</span>
-            <span className={styled.points}>{bet | 0}</span>
-            <span className={styled.info}>Tokens</span>
-          </Box>
-          <Button onClick={() => handleClick(id)}>PLAY</Button>
+    <Box className={styled.card}>
+      <Box className={styled.dotted}></Box>
+      <Box className={styled.container}>
+        <Box className={styled.machine}>
+          <img src={machineIcon} alt={"machine"}  />
         </Box>
+        <Typography className={styled.title}>{name}</Typography>
+        <Button onClick={() => handleClick(id)}>SELECT</Button>
       </Box>
     </Box>
   );

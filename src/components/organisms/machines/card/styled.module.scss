@@ -2,35 +2,16 @@ $clip-size: 15px;
 $clip-size2: 25px;
 $mask-size: 150px;
 
-.cardWrap {
-  filter: drop-shadow(0px 0px 20px rgba(141, 0, 251, 0.6));
-  height: 500px;
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0 20px;
-  user-select: none;
-  transition: 0.2s all;
-  z-index: 903;
-}
-
 .card {
-  height: 100%;
+  filter: drop-shadow(0px 0px 20px rgba(141, 0, 251, 0.6));
+  height: 400px;
   padding: 20px;
-  border-radius: 10px;
+  margin: 0 10px;
+  border-radius: 16px;
   background: linear-gradient(180deg, #3a1f50 0%, #140e23 78.71%);
-  //box-shadow: 0px 0px 50px 10px rgba(141, 0, 251, 0.4);
-  //filter: drop-shadow(0px 0px 50px rgba(141, 0, 251, 0.4));
+  filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 0.4));
   box-sizing: border-box;
   position: relative;
-
-  clip-path: polygon(
-    100% calc(100% - $clip-size2),
-    calc(100% - $clip-size2) 100%,
-    0% 100%,
-    0% $clip-size2,
-    $clip-size2 0%,
-    100% 0%
-  );
 
   .dotted {
     position: absolute;
@@ -40,81 +21,53 @@ $mask-size: 150px;
     left: 0;
     width: 100%;
     height: 40%;
+    border-radius: 16px 16px 0 0;
   }
 
   .container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     height: 100%;
-    border: 1px solid #ba00fb;
+
     padding: 20px;
     box-sizing: border-box;
     font-size: 2rem;
     position: relative;
-    clip-path: polygon(
-      calc(100% - 2px) calc(100% - $mask-size),
-      calc(100% - 2px) 2px,
-      $mask-size 2px,
-      $mask-size 0%,
-      $clip-size 0%,
-      0% $clip-size,
-      0% $mask-size,
-      2px $mask-size,
-      2px calc(100% - 2px),
-      calc(100% - $mask-size) calc(100% - 2px),
-      calc(100% - $mask-size) 100%,
-      calc(100% - $clip-size) 100%,
-      100% calc(100% - $clip-size),
-      100% calc(100% - $mask-size)
-    );
-
-    &::before {
-      content: " ";
-      height: $clip-size;
-      width: $clip-size;
-      position: absolute;
-      left: 0;
-      top: 0;
-      clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
-      background-color: #ba00fb;
-    }
-
-    &::after {
-      content: " ";
-      height: $clip-size;
-      width: $clip-size;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      clip-path: polygon(100% 100%, 100% 0%, 0% 100%);
-      background-color: #ba00fb;
-    }
 
     .title {
       text-align: center;
       font-family: "OrbitronBlack";
-      font-size: 2.6rem;
+      font-size: 1.2rem;
       line-height: normal;
       background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      padding-bottom: 20px;
+      padding: 10px 0;
       min-height: 100px;
       display: flex;
       align-items: center;
     }
 
-    .tokens {
-      background: #2d1b43!important;
+    .machine {
+      position: absolute;
+      top: -60px;
+      img {
+        height: 250px;
+        filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 0.6));
+      }
+    }
+
+   /* .tokens {
+      background: #2d1b43 !important;
       padding: 0 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: auto;
-      clip-path: polygon(calc(100% - 30px) 0%, 100% 30px, 100% 100%, 0% 100%, 0% 0%)!important;
+      clip-path: polygon(calc(100% - 30px) 0%, 100% 30px, 100% 100%, 0% 100%, 0% 0%) !important;
       min-width: 200px;
       margin: 20px 0;
 
@@ -143,6 +96,6 @@ $mask-size: 150px;
         font-size: 5rem;
         padding: 0 10px;
       }
-    }
+    }*/
   }
 }

@@ -1,6 +1,4 @@
 .modalContainer {
-  background: rgba(20, 20, 20, 0.5);
-  //backdrop-filter: blur(2px);
   z-index: 901;
   overflow-y: auto;
   display: flex;
@@ -8,10 +6,24 @@
   align-items: center;
   flex-wrap: wrap;
 
+  &::before {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-image: url("/assets/images/playroom.png");
+    filter: blur(6px);
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    //opacity: 0.5;
+    z-index: -1;
+  }
+
   .modal {
     position: relative;
-    max-width: 1000px;
-    width: 100%;
+    //max-width: 1000px;
+    width: calc(100% - 100px);
     padding: 0px;
     color: #fff;
     box-sizing: border-box;
@@ -30,6 +42,48 @@
       padding: 10px;
       background-color: #000;
       border-radius: 50%;
+    }
+  }
+
+  .carousel {
+    padding: 0;
+    width: 100%;
+    height: 500px;
+    box-sizing: border-box;
+    mask-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 10%,
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0) 90%
+    );
+  }
+
+  .arrowLeft {
+    position: absolute;
+    top: 50%;
+    left: 50px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 903;
+    color: #db74ff;
+    font-size: 2.5rem;
+  }
+
+  .arrowRight {
+    position: absolute;
+    top: 50%;
+    right: 50px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 903;
+    color: #db74ff;
+    font-size: 2.5rem;
+  }
+
+  @media screen and (max-width: 500px) {
+    .carousel {
+      mask-image: none !important;
     }
   }
 }
