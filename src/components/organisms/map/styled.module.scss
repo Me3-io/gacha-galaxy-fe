@@ -4,7 +4,7 @@
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
-  padding-left: 400px;
+  padding-left: 426px;
 
   .backgroundImage {
     position: absolute;
@@ -59,10 +59,10 @@
 
 .buildings g > svg,
 .buildings g > image {
-  transition: 0.2s all;
+  transition: 0.25s all;
 
   &:hover {
-    filter: drop-shadow(0px 0px 20px rgba(141, 0, 251, 1));
+    filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 1)) brightness(1.05);
   }
 }
 

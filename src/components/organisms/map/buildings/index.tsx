@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { getBuildings } from "reduxConfig/thunks/buildings";
 
-const Buildings = ({ handlerClick, handlerOver, handlerLeave, buildingsData, pathGrid }: any) => {
+const Buildings = ({ handlerClick, handlerOver, handlerLeave, PATH_GRID, CENTER_MAP }: any) => {
+  const buildingsData = useSelector(getBuildings);
   const [buildings, setBuildings] = useState<any>([]);
 
   /*const getSVG = async (url: string) => {
@@ -12,8 +15,8 @@ const Buildings = ({ handlerClick, handlerOver, handlerLeave, buildingsData, pat
 
   const calculatePosition = (anchorAddress: string, offset: string) => {
     const address = {
-      x: (parseInt(anchorAddress.split(",")[0]) * pathGrid) / 2 + pathGrid / 2,
-      y: (parseInt(anchorAddress.split(",")[1]) * pathGrid) / 4,
+      x: (parseInt(anchorAddress.split(",")[0]) * PATH_GRID) / 2 + CENTER_MAP.x,
+      y: (parseInt(anchorAddress.split(",")[1]) * PATH_GRID) / 4 + CENTER_MAP.y,
     };
 
     return {

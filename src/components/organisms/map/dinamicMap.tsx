@@ -2,10 +2,9 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
-import { useDispatch, useSelector } from "react-redux";
-import { fetchBuildings, getBuildings } from "reduxConfig/thunks/buildings";
+import { useDispatch } from "react-redux";
+import { fetchBuildings } from "reduxConfig/thunks/buildings";
 
-//import MapBg from "./bg";
 import { Add, Remove, CropFree, Map, Numbers } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
@@ -14,12 +13,13 @@ import Button from "components/atoms/buttons/base";
 import Buildings from "./buildings";
 
 import styled from "./styled.module.scss";
-//import MapBg from "./bg";
 
 const MAX_ZOOM = 1.5;
-const MIN_ZOOM = 0.5
+const MIN_ZOOM = 0.5;
 const PATH_GRID = 200;
-const SVG_SIZE = { width: 1920, height: 1080 };
+const SVG_SIZE = { width: 1000, height: 1000 };
+const CENTER_MAP = { x: 500, y: 800 };
+
 const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = ({ openGames, setOpenGames }: any) => {
@@ -42,7 +42,6 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     height: number;
   }>({ originX: 0, originY: 0, width: 0, height: 0 });
 
-  const buildingsData = useSelector(getBuildings);
 
   useEffect(() => {
     dispatch(fetchBuildings() as any);
@@ -76,7 +75,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
       <g key={key}>
         {showNumbers && (
           <text x={posX + 20} y={posY + 5} fill="#db74ff" fontSize="12">
-            {posX / 100 - 1},{posY / 50}
+            {(posX - CENTER_MAP.x) / 100},{(posY - CENTER_MAP.y) / 50}
           </text>
         )}
         <polygon
@@ -113,6 +112,38 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gridConfig, showNumbers]);
 
+  const _drawCentralGuide = () => {
+    return (
+      <g>
+        <rect
+          x="0"
+          y="0"
+          width={SVG_SIZE.width}
+          height={SVG_SIZE.height}
+          stroke="red"
+          strokeWidth="1px"
+          fill="transparent"
+        />
+
+        <line
+          x1="0"
+          y1={CENTER_MAP.y}
+          x2={SVG_SIZE.width}
+          y2={CENTER_MAP.y}
+          stroke="red"
+          strokeWidth="1px"
+        />
+        <line
+          x1={CENTER_MAP.x}
+          y1="0"
+          x2={CENTER_MAP.x}
+          y2={SVG_SIZE.height}
+          stroke="red"
+          strokeWidth="1px"
+        />
+      </g>
+    );
+  };
   // events ---
   const _zoomIn = () => {
     Viewer.current?.zoomOnViewerCenter(1.1);
@@ -216,14 +247,17 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
             {showMap && (
               <g className={styled.buildings}>
                 <Buildings
-                  buildingsData={buildingsData}
                   handlerClick={handlerClick}
                   handlerOver={handlerOver}
                   handlerLeave={handlerLeave}
-                  pathGrid={PATH_GRID}
-                />
+                  PATH_GRID={PATH_GRID}
+                  CENTER_MAP={CENTER_MAP}
+                  />
               </g>
             )}
+            
+            {false && _drawCentralGuide()}
+          
           </svg>
         </ReactSVGPanZoom>
       </Box>
