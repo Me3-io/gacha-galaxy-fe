@@ -5,10 +5,11 @@ import styled from "./styled.module.scss";
 import { useEffect } from "react";
 
 const Campaing = ({ campaing, handleClose }: any) => {
+
   useEffect(() => {
     if (campaing.id) {
+      
       const preLoad = document.querySelector(`script[data-container="${campaing.id}"]`);
-
       if (!preLoad) {
         console.log("Adding claimr script...", campaing.id);
 
@@ -34,7 +35,7 @@ const Campaing = ({ campaing, handleClose }: any) => {
       <>
         <CloseIcon className={styled.close} onClick={handleClose} />
         <Box className={styled.modal}>
-          <div id={campaing.id}></div>
+          <Box id={campaing.id} className={styled.campaign}></Box>
         </Box>
       </>
     </Modal>
