@@ -1,10 +1,10 @@
+import { useState } from "react";
 import { Box, Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import SpringCarousel from "components/molecules/springCarousel";
-import Card from "./card";
-
 import styled from "./styled.module.scss";
+import CarouselGames from "./carousel";
+import GameDetails from "./details";
 
 const games = [
   { id: "spin-the-wheel", name: "SPIN THE WHEEL", bet: 120 },
@@ -16,13 +16,19 @@ const games = [
 ];
 
 const GameMachines = ({ open, handleClose }: any) => {
-  const cards = games.map((item, key) => ({ key, content: <Card {...item} /> }));
+  const [openGames, setOpenGames] = useState(false);
 
   return (
     <Modal open={open} onClose={handleClose} className={styled.modalContainer}>
       <Box className={styled.modal}>
         <CloseIcon className={styled.close} onClick={handleClose} />
-        <SpringCarousel cards={cards} height="600px" />
+
+        {!openGames ? (
+          <CarouselGames games={games} setOpenGames={setOpenGames} />
+        ) : (
+          <GameDetails setOpenGames={setOpenGames} />
+        )}
+        
       </Box>
     </Modal>
   );

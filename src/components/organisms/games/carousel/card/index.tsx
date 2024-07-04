@@ -1,19 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import Button from "components/atoms/buttons/default";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 import machineIcon from "assets/images/maquina-capsule.svg";
-
 import styled from "./styled.module.scss";
 
-const Card = ({ id, name, bet }: any) => {
-  const { i18n } = useTranslation();
-  const navigate = useNavigate();
-
-  const handleClick = (idgame: number) => {
-    navigate(`/${i18n.language}/${idgame}`);
-  };
+const Card = ({ id, name, setOpenGames }: any) => {
 
   return (
     <Box className={styled.card}>
@@ -23,7 +14,7 @@ const Card = ({ id, name, bet }: any) => {
           <img src={machineIcon} alt={"machine"}  />
         </Box>
         <Typography className={styled.title}>{name}</Typography>
-        <Button onClick={() => handleClick(id)}>SELECT</Button>
+        <Button onClick={() => setOpenGames(true)}>SELECT</Button>
       </Box>
     </Box>
   );

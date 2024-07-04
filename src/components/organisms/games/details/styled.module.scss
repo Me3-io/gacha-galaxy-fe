@@ -1,0 +1,22 @@
+.gameDetail {
+  border-radius: 16px;
+  background: linear-gradient(180deg, #3a1f50 0%, #140e23 78%);
+  box-shadow: 0px 0px 36px 8px rgba(141, 0, 251, 0.45);
+  max-width: 800px;
+  width: 100%;
+  height: 600px;
+  position: relative;
+
+  & > button {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: #DB74FF;
+    border: none !important;
+    background-color: rgba(99, 67, 115, 0.4) !important;
+    font-size: .8rem;
+    padding: 8px 16px !important;
+    display: flex;
+    justify-content: space-between;
+  }
+}

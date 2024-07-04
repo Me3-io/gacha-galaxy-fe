@@ -3,7 +3,7 @@ import { Box, Container, Drawer, Grid } from "@mui/material";
 
 import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map/dinamicMap";
-import GameMachines from "components/organisms/machines";
+import GameMachines from "components/organisms/games";
 import MainMenu from "components/organisms/menu";
 import Navbar from "components/organisms/navbar";
 

@@ -1,0 +1,46 @@
+.carousel {
+  padding: 0;
+  width: 100%;
+  height: 500px;
+  box-sizing: border-box;
+  mask-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 10%,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0) 90%
+  );
+
+  ul li {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.arrowLeft {
+  position: absolute;
+  top: 50%;
+  left: 50px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 903;
+  color: #db74ff;
+  font-size: 2.5rem;
+}
+
+.arrowRight {
+  position: absolute;
+  top: 50%;
+  right: 50px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 903;
+  color: #db74ff;
+  font-size: 2.5rem;
+}
+
+@media screen and (max-width: 500px) {
+  .carousel {
+    mask-image: none !important;
+  }
+}
