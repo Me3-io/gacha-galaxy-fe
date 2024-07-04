@@ -19,16 +19,6 @@
   }
 }
 
-.actionsTest {
-  position: absolute;
-  flex-direction: column;
-  top: 16px;
-  right: 16px;
-  z-index: 900;
-  display: flex;
-  gap: 10px;
-}
-
 .actions {
   position: absolute;
   flex-direction: column;
@@ -39,17 +29,7 @@
   gap: 10px;
 }
 
-.menuIcon {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  z-index: 900;
-  display: flex;
-  cursor: pointer;
-}
-
 .gridpath {
-  //transition: 0.15s all;
   fill-opacity: 0;
   stroke-opacity: 0.4;
   stroke-width: 1px;
@@ -57,12 +37,19 @@
   stroke: #ba00fb;
 }
 
-.buildings g > svg,
-.buildings g > image {
-  transition: 0.25s all;
+// map svg ---
+.buildings g {
+  & > image,
+  & > svg {
+    transition: 0.25s all;
 
-  &:hover {
-    filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 1)) brightness(1.05);
+    &:hover {
+      filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 1)) brightness(1.05);
+    }
+  }
+
+  & g > image {
+    animation: blinkDouble 1s linear infinite;
   }
 }
 
@@ -72,33 +59,70 @@
   }
 }
 
-// svg map styles ---
-/*.map {
-  filter: drop-shadow(0px -30px 15px rgba(0, 0, 0, 0.3));
+// keyframes animations ---
 
-  g.bg,
-  g.items {
-    animation: jump 2s infinite ease-in-out;
+@keyframes blinkDouble {
+  0% {
+    opacity: 1;
   }
-
-  &:hover {
-    filter: drop-shadow(0px -30px 15px rgba(0, 0, 0, 0.5));
-
-    g.bg,
-    g.items {
-      animation: none;
-    }
+  10% {
+    opacity: 0.5;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
-@keyframes jump {
-  0% {
-    transform: translateY(5px);
+@keyframes blinkSimple {
+  30% {
+    opacity: 1;
   }
   50% {
-    transform: translateY(-5px);
+    opacity: 0.5;
+  }
+  70% {
+    opacity: 1;
+  }
+}
+
+@keyframes blinkSimple2 {
+  45% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  55% {
+    opacity: 1;
+  }
+}
+
+@keyframes blinkDouble2 {
+  5% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  15% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  25% {
+    opacity: 1;
   }
   100% {
-    transform: translateY(5px);
+    opacity: 1;
   }
-}*/
+}

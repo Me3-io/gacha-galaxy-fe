@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Box, Container, Drawer, Grid } from "@mui/material";
 
 import Layout from "components/templates/layout";
-import InteractiveMap from "components/organisms/map/dinamicMap";
+import InteractiveMap from "components/organisms/map";
 import GameMachines from "components/organisms/games";
 import MainMenu from "components/organisms/menu";
 import Navbar from "components/organisms/navbar";
+import Campaign from "components/organisms/campaing";
 
 import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
@@ -13,35 +14,20 @@ import styled from "./styled.module.scss";
 
 const Home = () => {
   const [openGames, setOpenGames] = useState<boolean>(false);
+  const [campaing, setCampaing] = useState({ open: false, id: "" });
 
   const goToLeaderboard = () => window.scrollTo(0, document.body.scrollHeight);
   const goToMap = () => window.scrollTo(0, 0);
 
-  useEffect(() => {
-    console.log("Adding claimr script...");
-    const script = document.createElement("script");
-    script.defer = true;
-    script.src = "https://widgets.claimr.io/claimr.min.js";
-    script.id = "claimr-script";
-    script.setAttribute("data-addons", "sup,sur");
-    script.setAttribute("data-campaign", "me3-alpha-journey");
-    script.setAttribute("data-autoresize", "true");
-    script.setAttribute("data-container", "claimr-id");
-    script.setAttribute("data-organization", "me3");
-
-    document.head.appendChild(script);
-  }, []);
-
   return (
     <Layout>
-      <div id="claimr-id"></div>
       <Container maxWidth={false} disableGutters={true}>
         <Navbar />
 
         <Grid container>
           <Grid item xs={12}>
             <Box height={"100%"} overflow={"hidden"}>
-              <InteractiveMap openGames={openGames} setOpenGames={setOpenGames} />
+              <InteractiveMap setOpenGames={setOpenGames} setCampaing={setCampaing} />
             </Box>
 
             <Box display={{ xs: "none", md: "flex" }}>
@@ -60,7 +46,7 @@ const Home = () => {
                 }}
               >
                 <Box className={styled.container}>
-                  <MainMenu openGames={openGames} />
+                  <MainMenu />
                 </Box>
               </Drawer>
             </Box>
@@ -79,6 +65,8 @@ const Home = () => {
         </Grid>
 
         <GameMachines open={openGames} handleClose={() => setOpenGames(false)} />
+        <Campaign campaing={campaing} handleClose={() => setCampaing({ open: false, id: "" })} />
+        
       </Container>
     </Layout>
   );

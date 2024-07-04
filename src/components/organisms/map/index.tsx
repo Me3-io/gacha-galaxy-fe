@@ -2,23 +2,29 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
-import MapBg from "./bg";
-import { Add, Remove, CropFree, Map } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import { fetchBuildings } from "reduxConfig/thunks/buildings";
+
+import { Add, Remove, CropFree, Map, Numbers } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
 import Tooltip from "components/atoms/tooltip";
 import Button from "components/atoms/buttons/base";
-import ListItems from "./items";
+import Buildings from "./buildings";
 
 import styled from "./styled.module.scss";
 
-const MAX_ZOOM = 1.2;
+const MAX_ZOOM = 1.5;
+
 const PATH_GRID = 200;
-const SVG_SIZE = { width: 2304, height: 2008 };
+const SVG_SIZE = { width: 1000, height: 1000 };
+const CENTER_MAP = { x: 500, y: 800 };
+
 const isMobile = navigator.userAgent.includes("Mobi");
 
-const InteractiveMap = ({ openGames, setOpenGames }: any) => {
+const InteractiveMap = ({ setOpenGames, setCampaing }: any) => {
   const Viewer = useRef<any>(null);
+  const dispatch = useDispatch();
 
   const { ref, width, height } = useResizeObserver();
   const [value, setValue] = useState<any>({});
@@ -26,6 +32,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
   const [tooltipData, setTooltipData] = useState({ visible: false, text: "" });
 
   const [showMap, setShowMap] = useState<boolean>(true);
+  const [showNumbers, setShowNumbers] = useState<boolean>(false);
 
   const [renderGrid, setRenderGrid] = useState<ReactElement[]>([]);
   const [gridConfig, setGridConfig] = useState<{
@@ -35,8 +42,12 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     height: number;
   }>({ originX: 0, originY: 0, width: 0, height: 0 });
 
-  // calculate grid data ---
+  useEffect(() => {
+    dispatch(fetchBuildings() as any);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  // calculate grid data ---
   const _drawGrid = () => {
     const renderGrid = [];
     for (let y = 0; y < gridConfig.height; y++) {
@@ -58,19 +69,25 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
 
   const _drawPath = ({ key, posX, posY }: any) => {
     // grid gradient opacity
-    const opacity = (key.split("-")[1] / 100) * 2 + 0.5 || 0.2;
+    //const opacity = (key.split("-")[1] / 100) * 2 + 0.5 || 0.2;
     return (
-      <polygon
-        key={key}
-        points={`
+      <g key={key}>
+        {showNumbers && (
+          <text x={posX + 20} y={posY + 5} fill="#db74ff" fontSize="12">
+            {(posX - CENTER_MAP.x) / 100},{(posY - CENTER_MAP.y) / 50}
+          </text>
+        )}
+        <polygon
+          points={`
             ${posX},${posY} 
             ${posX + PATH_GRID / 2},${posY - PATH_GRID / 4} 
             ${posX + PATH_GRID},${posY} 
             ${posX + PATH_GRID / 2},${posY + PATH_GRID / 4}
             `}
-        className={styled.gridpath}
-        style={{ strokeOpacity: opacity }}
-      />
+          className={styled.gridpath}
+          //style={{ strokeOpacity: opacity }}
+        />
+      </g>
     );
   };
 
@@ -79,49 +96,76 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
 
     const posX = value?.e / value?.a;
     const posY = value?.f / value?.a;
-
-    const marginX = PATH_GRID / 2;
-    const marginY = PATH_GRID / 4;
+    const margin = PATH_GRID / 2;
 
     setGridConfig({
-      originX: (posX - (posX % PATH_GRID) + marginX) * -1,
-      originY: (posY - (posY % PATH_GRID) + marginY) * -1,
-      width: (value?.viewerWidth + marginX) / ((PATH_GRID / 2) * value?.a),
-      height: (value?.viewerHeight + marginY) / ((PATH_GRID / 2) * value?.a),
+      originX: (posX - (posX % PATH_GRID) + margin) * -1,
+      originY: (posY - (posY % PATH_GRID) + margin) * -1,
+      width: (value?.viewerWidth + margin) / ((PATH_GRID / 2) * value?.a),
+      height: (value?.viewerHeight + margin * 2) / ((PATH_GRID / 2) * value?.a),
     });
   };
 
   useEffect(() => {
     _drawGrid();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gridConfig]);
+  }, [gridConfig, showNumbers]);
 
+  const _drawCentralGuide = () => {
+    return (
+      <g>
+        <rect
+          x="0"
+          y="0"
+          width={SVG_SIZE.width}
+          height={SVG_SIZE.height}
+          stroke="red"
+          strokeWidth="1px"
+          fill="transparent"
+        />
+
+        <line
+          x1="0"
+          y1={CENTER_MAP.y}
+          x2={SVG_SIZE.width}
+          y2={CENTER_MAP.y}
+          stroke="red"
+          strokeWidth="1px"
+        />
+        <line
+          x1={CENTER_MAP.x}
+          y1="0"
+          x2={CENTER_MAP.x}
+          y2={SVG_SIZE.height}
+          stroke="red"
+          strokeWidth="1px"
+        />
+      </g>
+    );
+  };
   // events ---
-  const _zoomIn = () => {
-    Viewer.current?.zoomOnViewerCenter(1.1);
-  };
+  const _zoomIn = () => Viewer.current?.zoomOnViewerCenter(1.1);
 
-  const _zoomOut = () => {
-    Viewer.current?.zoomOnViewerCenter(0.9);
-  };
+  const _zoomOut = () => Viewer.current?.zoomOnViewerCenter(0.9);
 
   const _fitCenter = () => {
     Viewer.current?.fitToViewer("center", "center");
 
     // zoomIn only mobile
-    if (isMobile && width && width < 500) {
+    /*if (isMobile && width && width < 500) {
       setTimeout(() => Viewer.current?.zoomOnViewerCenter(1.5), 50);
-    }
+    }*/
   };
 
-  const handlerClick = (id: number, evt: any) => {
-    console.log("id:", id, " - target:", evt.currentTarget);
+  const handlerBuildingClick = (games: number) => {
+    console.log("data:", games);
     setOpenGames(true);
-
-    if (isMobile) {
-      setShowMap(false);
-    }
     setTooltipData({ visible: false, text: "" });
+  };
+
+  const handlerPartnerClick = (claimrId: any) => {
+    console.log("claimrId:", claimrId);
+    setCampaing({ open: true, id: claimrId });
   };
 
   const handlerOver = (item: { text: any }) => {
@@ -140,9 +184,9 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Viewer.current?.fitToViewer, height, width]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (!openGames && isMobile) setShowMap(true);
-  }, [openGames]);
+  }, [openGames]);*/
 
   return (
     <Box ref={ref} className={styled.main}>
@@ -161,9 +205,12 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
         <Button onClick={() => setShowMap((prev) => !prev)}>
           <Map />
         </Button>
+        <Button onClick={() => setShowNumbers((prev) => !prev)}>
+          <Numbers />
+        </Button>
       </Box>
 
-      <Box sx={{ opacity: openGames ? 0 : 1 }}>
+      <Box>
         <ReactSVGPanZoom
           ref={Viewer}
           value={value}
@@ -175,7 +222,7 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
           SVGBackground={"transparent"}
           background={"transparent"}
           scaleFactorMax={MAX_ZOOM}
-          scaleFactorMin={0.1}
+          scaleFactorMin={isMobile ? 0.1 : 0.5}
           toolbarProps={{
             position: "none",
           }}
@@ -191,21 +238,22 @@ const InteractiveMap = ({ openGames, setOpenGames }: any) => {
           onZoom={calculateGrid}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
-            {<g className="grid">{renderGrid}</g>}
+            <g className="grid">{renderGrid}</g>
+
             {showMap && (
-              <g className={styled.map}>
-                <g className={styled.bg}>
-                  <MapBg id="mainSVG" />
-                </g>
-                <g className={styled.items}>
-                  <ListItems
-                    handlerClick={handlerClick}
-                    handlerOver={handlerOver}
-                    handlerLeave={handlerLeave}
-                  />
-                </g>
+              <g className={styled.buildings}>
+                <Buildings
+                  handlerBuildingClick={handlerBuildingClick}
+                  handlerPartnerClick={handlerPartnerClick}
+                  handlerOver={handlerOver}
+                  handlerLeave={handlerLeave}
+                  PATH_GRID={PATH_GRID}
+                  CENTER_MAP={CENTER_MAP}
+                />
               </g>
             )}
+
+            {false && _drawCentralGuide()}
           </svg>
         </ReactSVGPanZoom>
       </Box>

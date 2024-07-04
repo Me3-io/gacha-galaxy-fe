@@ -19,7 +19,7 @@ const ButtonGroup = ({ next, previous }: any) => {
 
 const CarouselGames = ({ games, setOpenGames }: any) => {
 
-  const length = games.length >= 5 ? 5 : games.length;
+  const length = games.length >= 3 ? 3 : games.length;
   
   const responsive = {
     superLargeDesktop: {
@@ -31,11 +31,11 @@ const CarouselGames = ({ games, setOpenGames }: any) => {
       items: length,
     },
     tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 3,
+      breakpoint: { max: 1024, min: 600 },
+      items: 2,
     },
     mobile: {
-      breakpoint: { max: 464, min: 0 },
+      breakpoint: { max: 600, min: 0 },
       items: 1,
     },
   };
