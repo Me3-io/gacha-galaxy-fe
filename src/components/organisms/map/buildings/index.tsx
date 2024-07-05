@@ -40,7 +40,7 @@ const Buildings = ({
       },
       img: item?.svg[0],
       scale: item.scale || 1,
-      text: item.name || "",
+      name: item.name || "",
       opacity: item.alpha || 1,
       clickable: !!item.gameId,
       partner: item.partner
@@ -48,9 +48,11 @@ const Buildings = ({
             name: item.partner.displayName,
             img: item.partner.logo[0],
             color: item.partner.bGColor,
+            orientation: item.partnerOrientation === "LEFT" ? 26.5 : -26.5,
+            scale: item.partnerScale || 1,
             position: {
-              x: 0 /*parseInt(item?.partnerOffset.split(",")[0])*/ - item.svg[0].width || 0,
-              y: 0 /*parseInt(item?.partnerOffset.split(",")[1])*/ - item.svg[0].height || 0,
+              x: parseInt(item?.partnerOffset.split(",")[0]) - item.svg[0].width || 0,
+              y: parseInt(item?.partnerOffset.split(",")[1]) - item.svg[0].height || 0,
             },
           }
         : null,
@@ -110,14 +112,16 @@ const Buildings = ({
             x={item.img.width * -1}
             y={item.img.height * -1}
             href={item.img.url}
-            onMouseMove={() => handlerOver(item)}
+            onMouseMove={() => handlerOver(item.name)}
             onMouseLeave={handlerLeave}
           />
 
           {item.partner && (
             <g
               onClick={(evt) => handlerPartner(evt, item)}
-              transform={`translate(${item.partner.position.x} ${item.partner.position.y}) scale(.8) skewY(27)`}
+              transform={`translate(${item.partner.position.x} ${item.partner.position.y}) scale(${item.partner.scale}) skewY(${item.partner.orientation})`}
+              onMouseMove={() => handlerOver(item.partner.name)}
+              onMouseLeave={handlerLeave}
             >
               <rect
                 x={0}
@@ -125,7 +129,7 @@ const Buildings = ({
                 width={item.partner.img.width}
                 height={item.partner.img.height}
                 fill={item.partner.color}
-              ></rect>
+              />
               <image x={0} y={0} href={item.partner.img.url} style={{ cursor: "pointer" }} />
             </g>
           )}

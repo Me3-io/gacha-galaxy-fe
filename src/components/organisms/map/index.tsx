@@ -168,8 +168,8 @@ const InteractiveMap = ({ setOpenGames, setCampaing }: any) => {
     setCampaing({ open: true, id: claimrId });
   };
 
-  const handlerOver = (item: { text: any }) => {
-    setTooltipData({ text: item.text, visible: true });
+  const handlerOver = ( text: any ) => {
+    setTooltipData({ text: text, visible: true });
   };
 
   const handlerLeave = () => {
