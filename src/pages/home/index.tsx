@@ -46,7 +46,7 @@ const Home = () => {
                 }}
               >
                 <Box className={styled.container}>
-                  <MainMenu />
+                  <MainMenu openGames={openGames} />
                 </Box>
               </Drawer>
             </Box>
