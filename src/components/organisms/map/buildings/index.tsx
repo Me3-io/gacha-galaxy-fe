@@ -9,16 +9,11 @@ const Buildings = ({
   handlerLeave,
   PATH_GRID,
   CENTER_MAP,
+  setLoading,
 }: any) => {
   const buildingsData = useSelector(getBuildings);
   const [buildings, setBuildings] = useState<any>([]);
 
-  /*const getSVG = async (url: string) => {
-    return await fetch(url)
-      .then((res) => res.text())
-      .then((response) => response)
-      .catch((error) => console.error("error: " + error.message));
-  };*/
 
   // events ---
   const handlerBuilding = (evt: any, item: any) => {
@@ -31,14 +26,23 @@ const Buildings = ({
 
   // data buildings ---
 
+  const getResource = async (url: string) => {
+    return await fetch(url)
+      .then((res) => res.blob())
+      .then((res) => URL.createObjectURL(res))
+      .catch((error) => console.error("error: " + error.message));
+  };
+
   const loadBuildings = (buildings: any[]) => {
-    const data = buildings.map((item: any) => ({
+    setLoading(true);
+    const data = buildings.map(async (item: any) => ({
       position: calculatePosition(item.anchorAddress, item.offset),
       order: {
         x: parseInt(item.anchorAddress.split(",")[0]),
         y: parseInt(item.anchorAddress.split(",")[1]),
       },
       img: item?.svg[0],
+      component: await getResource(item?.svg[0].url),
       scale: item.scale || 1,
       name: item.name || "",
       opacity: item.alpha || 1,
@@ -47,7 +51,8 @@ const Buildings = ({
         ? {
             name: item.partner.displayName,
             img: item.partner.logo[0],
-            color: item.partner.bGColor,
+            component: await getResource(item.partner.logo[0].url),
+            color: item.partner.bGColor || "transparent",
             orientation: item.partnerOrientation === "LEFT" ? 26.5 : -26.5,
             scale: item.partnerScale || 1,
             position: {
@@ -60,9 +65,11 @@ const Buildings = ({
       campaign: item.campaign,
     }));
 
-    data.sort(sortBuildings);
-
-    return data;
+    Promise.all(data).then((resolvedData) => {
+      setLoading(false);
+      resolvedData.sort(sortBuildings);
+      setBuildings(resolvedData);
+    });
   };
 
   const sortBuildings = (a: any, b: any) => {
@@ -91,10 +98,7 @@ const Buildings = ({
   };
 
   useEffect(() => {
-    if (buildingsData) {
-      const data = loadBuildings(buildingsData);
-      setBuildings(data);
-    }
+    if (buildingsData) loadBuildings(buildingsData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buildingsData]);
 
@@ -111,7 +115,8 @@ const Buildings = ({
             style={{ cursor: item.clickable ? "pointer" : "default", opacity: item.opacity }}
             x={item.img.width * -1}
             y={item.img.height * -1}
-            href={item.img.url}
+            href={item.component}
+            //href={item.img.url}
             onMouseMove={() => handlerOver(item.name)}
             onMouseLeave={handlerLeave}
           />
@@ -130,7 +135,13 @@ const Buildings = ({
                 height={item.partner.img.height}
                 fill={item.partner.color}
               />
-              <image x={0} y={0} href={item.partner.img.url} style={{ cursor: "pointer" }} />
+              <image
+                x={0}
+                y={0}
+                //href={item.partner.img.url}
+                href={item.partner.component}
+                style={{ cursor: "pointer" }}
+              />
             </g>
           )}
         </g>

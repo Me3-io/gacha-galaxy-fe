@@ -2,11 +2,12 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
-import { useDispatch } from "react-redux";
-import { fetchBuildings } from "reduxConfig/thunks/buildings";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import { Add, Remove, CropFree, Map, Numbers } from "@mui/icons-material";
 import { Box } from "@mui/material";
+
+import { useDispatch } from "react-redux";
+import { fetchBuildings } from "reduxConfig/thunks/buildings";
 
 import Tooltip from "components/atoms/tooltip";
 import Button from "components/atoms/buttons/base";
@@ -30,6 +31,7 @@ const InteractiveMap = ({ setOpenGames, setCampaing }: any) => {
   const [value, setValue] = useState<any>({});
   const [tool, setTool] = useState<any>(TOOL_AUTO);
   const [tooltipData, setTooltipData] = useState({ visible: false, text: "" });
+  const [loading, setLoading] = useState(true);
 
   const [showMap, setShowMap] = useState<boolean>(true);
   const [showNumbers, setShowNumbers] = useState<boolean>(false);
@@ -168,7 +170,7 @@ const InteractiveMap = ({ setOpenGames, setCampaing }: any) => {
     setCampaing({ open: true, id: claimrId });
   };
 
-  const handlerOver = ( text: any ) => {
+  const handlerOver = (text: any) => {
     setTooltipData({ text: text, visible: true });
   };
 
@@ -190,6 +192,12 @@ const InteractiveMap = ({ setOpenGames, setCampaing }: any) => {
 
   return (
     <Box ref={ref} className={styled.main}>
+      {loading && (
+        <Box className={styled.loading}>
+          <CircularProgress className={styled.spinner} size={40} />
+          loading map...
+        </Box>
+      )}
       <Box className={styled.backgroundImage}></Box>
 
       <Box className={styled.actions}>
@@ -247,6 +255,7 @@ const InteractiveMap = ({ setOpenGames, setCampaing }: any) => {
                   handlerPartnerClick={handlerPartnerClick}
                   handlerOver={handlerOver}
                   handlerLeave={handlerLeave}
+                  setLoading={setLoading}
                   PATH_GRID={PATH_GRID}
                   CENTER_MAP={CENTER_MAP}
                 />

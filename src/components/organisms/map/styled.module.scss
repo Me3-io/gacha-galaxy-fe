@@ -17,6 +17,29 @@
     filter: blur(4px) brightness(0.8);
     mask-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3));
   }
+
+  .loading {
+    position: absolute;
+    top: 0;
+    left: 426px;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #e4bcf2;
+    font-family: "ChakraPetch";
+    font-size: 1.5rem;
+    gap: 2rem;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.3);
+    
+    .spinner {
+      color: #D490EC!important;
+    }
+  }
 }
 
 .actions {
