@@ -194,7 +194,7 @@ const InteractiveMap = ({ setOpenGames, setCampaing }: any) => {
     <Box ref={ref} className={styled.main}>
       {loading && (
         <Box className={styled.loading}>
-          <CircularProgress className={styled.spinner} size={40} />
+          <CircularProgress className={styled.spinner} size={36} />
           loading map...
         </Box>
       )}
@@ -244,6 +244,7 @@ const InteractiveMap = ({ setOpenGames, setCampaing }: any) => {
           preventPanOutside={true}
           onPan={calculateGrid}
           onZoom={calculateGrid}
+          onClick={evt => console.log("click", evt)}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
             <g className="grid">{renderGrid}</g>

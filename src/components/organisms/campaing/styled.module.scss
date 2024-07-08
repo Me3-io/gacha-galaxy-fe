@@ -38,5 +38,28 @@
     .campaign {
       height: 100%!important;
     }
+
+    .loading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #e4bcf2;
+      font-family: "ChakraPetch";
+      font-size: 1.5rem;
+      gap: 2rem;
+      box-sizing: border-box;
+      background-color: rgba(0, 0, 0, 0.5);
+  
+      .spinner {
+        color: #d490ec !important;
+      }
+    }
   }
 }

@@ -14,14 +14,15 @@ const Buildings = ({
   const buildingsData = useSelector(getBuildings);
   const [buildings, setBuildings] = useState<any>([]);
 
-
   // events ---
   const handlerBuilding = (evt: any, item: any) => {
-    item.clickable ? handlerBuildingClick(item.games) : evt.stopPropagation();
+    evt.stopPropagation();
+    item.games && handlerBuildingClick(item.games);
   };
 
   const handlerPartner = (evt: any, item: any) => {
-    item?.campaign ? handlerPartnerClick(item.campaign.claimrId) : evt.stopPropagation();
+    evt.stopPropagation();
+    item?.campaign && handlerPartnerClick(item.campaign.claimrId);
   };
 
   // data buildings ---
@@ -35,18 +36,18 @@ const Buildings = ({
 
   const loadBuildings = (buildings: any[]) => {
     setLoading(true);
+
     const data = buildings.map(async (item: any) => ({
       position: calculatePosition(item.anchorAddress, item.offset),
       order: {
-        x: parseInt(item.anchorAddress.split(",")[0]),
-        y: parseInt(item.anchorAddress.split(",")[1]),
+        x: item?.anchorAddress ? parseInt(item.anchorAddress.split(",")[0]) : 0,
+        y: item?.anchorAddress ? parseInt(item.anchorAddress.split(",")[1]) : 0,
       },
       img: item?.svg[0],
       component: await getResource(item?.svg[0].url),
       scale: item.scale || 1,
       name: item.name || "",
       opacity: item.alpha || 1,
-      clickable: !!item.gameId,
       partner: item.partner
         ? {
             name: item.partner.displayName,
@@ -56,12 +57,16 @@ const Buildings = ({
             orientation: item.partnerOrientation === "LEFT" ? 26.5 : -26.5,
             scale: item.partnerScale || 1,
             position: {
-              x: parseInt(item?.partnerOffset.split(",")[0]) - item.svg[0].width || 0,
-              y: parseInt(item?.partnerOffset.split(",")[1]) - item.svg[0].height || 0,
+              x: item?.partnerOffset
+                ? parseInt(item.partnerOffset.split(",")[0]) - item.svg[0].width
+                : 0,
+              y: item?.partnerOffset
+                ? parseInt(item.partnerOffset.split(",")[1]) - item.svg[0].height
+                : 0,
             },
           }
         : null,
-      games: item.gameId,
+      games: item.games,
       campaign: item.campaign,
     }));
 
@@ -86,6 +91,8 @@ const Buildings = ({
   };
 
   const calculatePosition = (anchorAddress: string, offset: string) => {
+    if (!anchorAddress || !offset) return { x: 0, y: 0 };
+
     const address = {
       x: (parseInt(anchorAddress.split(",")[0]) * PATH_GRID) / 2 + CENTER_MAP.x,
       y: (parseInt(anchorAddress.split(",")[1]) * PATH_GRID) / 4 + CENTER_MAP.y,
@@ -109,10 +116,10 @@ const Buildings = ({
           key={pos}
           transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
           onClick={(evt) => handlerBuilding(evt, item)}
-          onTouchStart={(evt) => evt.stopPropagation()}
+          onTouchStart={(evt) => (item.games ? evt.stopPropagation() : null)}
         >
           <image
-            style={{ cursor: item.clickable ? "pointer" : "default", opacity: item.opacity }}
+            style={{ cursor: item.games ? "pointer" : "default", opacity: item.opacity }}
             x={item.img.width * -1}
             y={item.img.height * -1}
             href={item.component}
@@ -127,6 +134,7 @@ const Buildings = ({
               transform={`translate(${item.partner.position.x} ${item.partner.position.y}) scale(${item.partner.scale}) skewY(${item.partner.orientation})`}
               onMouseMove={() => handlerOver(item.partner.name)}
               onMouseLeave={handlerLeave}
+              onTouchStart={(evt) => (item.campaign ? evt.stopPropagation() : null)}
             >
               <rect
                 x={0}

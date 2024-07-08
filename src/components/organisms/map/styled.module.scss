@@ -4,7 +4,7 @@
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
-  padding-left: 426px;
+  padding-left: 425px;
 
   .backgroundImage {
     position: absolute;
@@ -21,7 +21,7 @@
   .loading {
     position: absolute;
     top: 0;
-    left: 426px;
+    left: 420px;
     right: 0;
     bottom: 0;
     z-index: 1000;
@@ -35,9 +35,9 @@
     gap: 2rem;
     box-sizing: border-box;
     background-color: rgba(0, 0, 0, 0.3);
-    
+
     .spinner {
-      color: #D490EC!important;
+      color: #d490ec !important;
     }
   }
 }
@@ -79,6 +79,10 @@
 @media screen and (max-width: 900px) {
   .main {
     padding-left: 0;
+
+    .loading {
+      left: 0;
+    }
   }
 }
 
