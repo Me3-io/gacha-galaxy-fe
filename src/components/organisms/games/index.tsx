@@ -16,17 +16,22 @@ const games = [
 ];
 
 const GameMachines = ({ open, handleClose }: any) => {
-  const [openGames, setOpenGames] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
+
+  const onClose = () => { 
+    setOpenDetails(false);
+    handleClose();
+  }
 
   return (
-    <Modal open={open} onClose={handleClose} className={styled.modalContainer}>
+    <Modal open={open} onClose={onClose} className={styled.modalContainer}>
       <Box className={styled.modal}>
-        <CloseIcon className={styled.close} onClick={handleClose} />
+        <CloseIcon className={styled.close} onClick={onClose} />
 
-        {!openGames ? (
-          <CarouselGames games={games} setOpenGames={setOpenGames} />
+        {!openDetails ? (
+          <CarouselGames games={games} setOpenGames={setOpenDetails} />
         ) : (
-          <GameDetails setOpenGames={setOpenGames} />
+          <GameDetails setOpenDetails={setOpenDetails} />
         )}
         
       </Box>

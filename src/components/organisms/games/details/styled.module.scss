@@ -1,15 +1,16 @@
 $clip-size: 20px;
+$clip-min: 10px;
 
 .gameDetail {
   border-radius: 16px;
   background: linear-gradient(180deg, #3a1f50 0%, #140e23 78%);
   box-shadow: 0px 0px 36px 8px rgba(141, 0, 251, 0.45);
-  max-width: 800px;
+  max-width: 1000px;
   width: 100%;
-  height: 600px;
   position: relative;
   padding: 1.5rem;
   box-sizing: border-box;
+  overflow: hidden;
 
   & > button {
     position: absolute;
@@ -25,6 +26,17 @@ $clip-size: 20px;
     z-index: 999;
   }
 
+  .dotted {
+    position: absolute;
+    background-image: radial-gradient(#c66ae620 1px, transparent 0);
+    background-size: 10px 10px;
+    top: 0;
+    left: 36%;
+    width: 100%;
+    height: 40%;
+    border-radius: 16px 16px 0 0;
+  }
+
   .container {
     border: 1px solid #ba00fb;
     height: 100%;
@@ -32,16 +44,16 @@ $clip-size: 20px;
 
     clip-path: polygon(
       100% calc(100% - 100px),
-      calc(100% - 2px) calc(100% - 100px),
-      calc(100% - 2px) 2px,
-      50% 2px,
+      calc(100% - 1px) calc(100% - 100px),
+      calc(100% - 1px) 1px,
+      50% 1px,
       50% 0%,
       $clip-size 0%,
       0% $clip-size,
       0% 100px,
-      2px 100px,
-      2px calc(100% - 2px),
-      50% calc(100% - 2px),
+      1px 100px,
+      1px calc(100% - 1px),
+      50% calc(100% - 1px),
       50% 100%,
       calc(100% - $clip-size) 100%,
       100% calc(100% - $clip-size)
@@ -69,21 +81,12 @@ $clip-size: 20px;
       background-color: #ba00fb;
     }
 
+
+
     .leftCol {
       display: flex;
       padding: 1rem;
       flex-direction: column;
-
-      .title {
-        font-family: "OrbitronBlack";
-        font-size: 2.5rem;
-        text-align: center;
-        background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin: 2rem 0 1rem 0;
-      }
 
       .image {
         display: flex;
@@ -98,10 +101,120 @@ $clip-size: 20px;
 
     .rightCol {
       display: flex;
-      padding: 3rem 2rem 2rem 2rem;
+      padding: 3rem 0 2rem 0;
       align-content: space-between;
+      gap: 1.5rem;
 
+      .info {
+        display: flex;
+        border: 1px solid #9a41cc;
+        color: white;
+        padding: 1.5rem;
+        position: relative;
+        flex-direction: column;
+        gap: 10px;
 
+        clip-path: polygon(
+          calc(70% + $clip-min) calc(100% - $clip-min),
+          100% calc(100% - $clip-min),
+          100% 0%,
+          30% 0%,
+          calc(30% - $clip-min) $clip-min,
+          0% $clip-min,
+          0% 100%,
+          70% 100%
+        );
+
+        &::before {
+          content: " ";
+          height: $clip-min;
+          width: 30%;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          clip-path: polygon($clip-min 0%, 100% 0%, 100% 100%, 0% 100%, 0% $clip-min);
+          background-color: #9a41cc;
+        }
+
+        &::after {
+          content: " ";
+          height: $clip-min;
+          width: 30%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          clip-path: polygon(
+            100% 0%,
+            100% calc(100% - $clip-min),
+            calc(100% - $clip-min) 100%,
+            0% 100%,
+            0% 0%
+          );
+          background-color: #9a41cc;
+        }
+
+        img {
+          width: 36px;
+          object-fit: cover;
+        }
+      }
+
+      .level {
+        background: linear-gradient(90deg, #1b112b 0%, #503076 50.5%, #1a112b 100%);
+        padding: 1rem;
+      }
+
+      .itemChance {
+        background: linear-gradient(180deg, #483167 0%, #1e122f 100%);
+        padding: 0.5rem;
+        color: #9a57ee;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 5px;
+        border-radius: 5px;
+
+        p {
+          text-align: center;
+          font-family: "ChakraPetch";
+          font-size: 0.7rem;
+          max-width: 70px;
+          line-height: 1.2;
+        }
+
+        .percent {
+          font-size: 1rem;
+        }
+      }
+
+      button {
+        padding: .8rem 3rem!important;
+      }
+    }
+
+    .title {
+      font-family: "OrbitronBlack";
+      font-size: 2.5rem;
+      text-align: center;
+      background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 2rem 0 1rem 0;
+    }
+
+    .subtitle {
+      color: #c3a0e9;
+      font-family: "ChakraPetch";
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+
+    .text {
+      color: #c3a0e9;
+      font-family: "ChakraPetch";
+      font-size: 0.7rem;
+      line-height: 1.5;
     }
   }
 }

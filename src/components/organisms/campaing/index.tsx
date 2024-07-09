@@ -12,7 +12,6 @@ const Campaing = ({ campaing, handleClose }: any) => {
     if (campaing.id) {
       const preLoad = document.querySelector(`script[data-container="${campaing.id}"]`);
       if (!preLoad) {
-
         setLoading(true);
         console.log("Adding claimr script...", campaing.id);
 
@@ -35,8 +34,6 @@ const Campaing = ({ campaing, handleClose }: any) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaing.id]);
-
-
 
   return (
     <Modal open={campaing.open} onClose={handleClose} className={styled.modalContainer}>
