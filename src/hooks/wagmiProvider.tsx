@@ -25,8 +25,8 @@ const config = defaultWagmiConfig({
   projectId,
   metadata,
   auth: {
-    email: false,
-    //socials: ["google", "x"],
+    email: true,
+    socials: ["google", "x"],
     showWallets: true,
     walletFeatures: true,
   },

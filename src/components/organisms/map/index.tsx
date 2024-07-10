@@ -16,7 +16,6 @@ import Buildings from "./buildings";
 import styled from "./styled.module.scss";
 
 const MAX_ZOOM = 1.5;
-
 const PATH_GRID = 200;
 const SVG_SIZE = { width: 1000, height: 1000 };
 const CENTER_MAP = { x: 500, y: 800 };
@@ -245,6 +244,7 @@ const InteractiveMap = ({ setOpenGames, setCampaing }: any) => {
           onPan={calculateGrid}
           onZoom={calculateGrid}
           onClick={evt => console.log("click", evt)}
+
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
             <g className="grid">{renderGrid}</g>

@@ -25,8 +25,8 @@ const Buildings = ({
     item?.campaign && handlerPartnerClick(item.campaign.claimrId);
   };
 
-  // data buildings ---
 
+  // data buildings ---
   const getResource = async (url: string) => {
     return await fetch(url)
       .then((res) => res.blob())
@@ -104,6 +104,7 @@ const Buildings = ({
     };
   };
 
+  // onload ---
   useEffect(() => {
     if (buildingsData) loadBuildings(buildingsData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -116,7 +117,7 @@ const Buildings = ({
           key={pos}
           transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
           onClick={(evt) => handlerBuilding(evt, item)}
-          onTouchStart={(evt) => (item.games ? evt.stopPropagation() : null)}
+          onTouchEnd={(evt) => evt.stopPropagation()}
         >
           <image
             style={{ cursor: item.games ? "pointer" : "default", opacity: item.opacity }}
@@ -134,7 +135,7 @@ const Buildings = ({
               transform={`translate(${item.partner.position.x} ${item.partner.position.y}) scale(${item.partner.scale}) skewY(${item.partner.orientation})`}
               onMouseMove={() => handlerOver(item.partner.name)}
               onMouseLeave={handlerLeave}
-              onTouchStart={(evt) => (item.campaign ? evt.stopPropagation() : null)}
+              onTouchEnd={(evt) => evt.stopPropagation()}
             >
               <rect
                 x={0}

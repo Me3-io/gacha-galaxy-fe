@@ -22,7 +22,7 @@ const Home = () => {
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-        <Navbar />
+        <Navbar hiddenLogo/>
 
         <Grid container>
           <Grid item xs={12}>
