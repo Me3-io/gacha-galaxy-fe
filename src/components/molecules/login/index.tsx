@@ -105,11 +105,11 @@ const LoginBar = ({ showLoginButton = false }: any) => {
     //console.log(errorMessage?.toString());
     const msg = errorMsg?.toString();
     if (msg?.includes("UnknownRpcError")) {
-      setOnError({ show: true, msg: "UnknownRpcError" });
+      setOnError({ show: true, msg: "Unknown Rpc Error" });
       logout();
     }
     if (msg?.includes("UserRejectedRequestError")) {
-      setOnError({ show: true, msg: "UserRejectedRequestError" });
+      setOnError({ show: true, msg: "User Rejected Request" });
       logout();
     }
 
