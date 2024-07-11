@@ -8,15 +8,17 @@ import Button from "components/atoms/buttons/default";
 import Logo from "assets/logo.svg";
 
 import styled from "./styled.module.scss";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
+  const { t } = useTranslation();
   const { open } = useWeb3Modal();
   const { isConnected, isConnecting } = useAccount();
 
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-        <ActionsBar />
+        <ActionsBar openModal />
 
         <Box className={styled.logo}>
           <img src={Logo} alt="Logo" className={styled.imgLogo} />
@@ -29,11 +31,10 @@ const Login = () => {
             <Typography variant="h1" className={styled.title}>
               Gacha Galaxy
             </Typography>
-            {!isConnected && (
-              <Button onClick={() => open()} isLoading={isConnecting}>
-                ENTER GAME
-              </Button>
-            )}
+
+            <Button onClick={() => open()} isLoading={isConnecting} disabled={isConnected}>
+              {t("enter-game")}
+            </Button>
           </Box>
         </Box>
       </Container>

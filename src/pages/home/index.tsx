@@ -11,8 +11,10 @@ import Campaign from "components/organisms/campaing";
 import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 import styled from "./styled.module.scss";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
+  const { t } = useTranslation();
   const [openGames, setOpenGames] = useState<boolean>(false);
   const [campaing, setCampaing] = useState({ open: false, id: "" });
 
@@ -55,7 +57,7 @@ const Home = () => {
           <Grid item xs={12}>
             <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
               <Box className={styled.downIcon} onClick={goToLeaderboard}>
-                <span>leaderboard</span>
+                <span>{t("leaderboard")}</span>
                 <DownIcon />
               </Box>
 

@@ -4,7 +4,6 @@ import { Alert, Box } from "@mui/material";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 import { bsc, sepolia } from "wagmi/chains";
-
 import { useTranslation } from "react-i18next";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -45,18 +44,15 @@ const LoginBar = ({ showLoginButton = false }: any) => {
 
   const logout = () => {
     setLoadLogout(true);
+    setLoadSigning(false);
     disconnect();
     resetMsg();
     dispatch(clearAuthToken());
     dispatch(clearMessageAuth());
-    setLoadSigning(false);
-    localStorage.removeItem("sessionToken");
   };
 
   useEffect(() => {
-    const isLoginView = !location.pathname.split("/")[2];
     const sameChain = account.chainId === chains[0].id;
-
     if (isConnected && address && !dataMsg && !tokenLS && sameChain) {
       const from = window.location.hostname;
       setLoadSigning(true);
@@ -69,14 +65,6 @@ const LoginBar = ({ showLoginButton = false }: any) => {
           logout();
         }
       });
-    }
-
-    if (!isLoginView && !isConnected && !tokenLS && !address) {
-      navigate(`/${i18n.language}/`);
-    }
-
-    if (isLoginView && isConnected && tokenLS) {
-      navigate(`/${i18n.language}/home/`);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -102,7 +90,6 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   }, [dataMsg, dataMessageAuth?.message]);
 
   useEffect(() => {
-    //console.log(errorMessage?.toString());
     const msg = errorMsg?.toString();
     if (msg?.includes("UnknownRpcError")) {
       setOnError({ show: true, msg: "Unknown Rpc Error" });
@@ -116,20 +103,32 @@ const LoginBar = ({ showLoginButton = false }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorMsg]);
 
-  /*useEffect(() => {
-    console.log("account.chainId", account.chainId);
-  }, [account.chainId]);*/
+  useEffect(() => {
+    const isLoginView = !location.pathname.split("/")[2];
+    if (!isLoginView && !tokenLS && !isConnecting) {
+      navigate(`/${i18n.language}/`);
+    }
+
+    if (isLoginView && isConnected && tokenLS) {
+      navigate(`/${i18n.language}/home/`);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tokenLS, isConnected, isConnecting]);
 
   useEffect(() => {
     if (isDisconnected) {
-      //console.log("pasa por aca");
-      logout();
       setLoadLogout(false);
+      localStorage.removeItem("sessionToken");
       const isLoginView = !location.pathname.split("/")[2];
       if (!isLoginView) navigate(`/${i18n.language}/`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDisconnected]);
+
+  /*useEffect(() => {
+    console.log("account.chainId", account.chainId);
+  }, [account.chainId]);*/
 
   return (
     <>

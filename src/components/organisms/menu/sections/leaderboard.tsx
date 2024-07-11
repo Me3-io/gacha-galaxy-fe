@@ -15,6 +15,7 @@ import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
 import styled from "../styled.module.scss";
 import Button from "components/atoms/buttons/base";
+import { useTranslation } from "react-i18next";
 
 const rows = [
   { id: 1, name: "UserGamer123", arrowUp: true, points: 487.5 },
@@ -42,6 +43,8 @@ const Leaderboard = ({
   setOpenMenu,
   opacity,
 }: any) => {
+  const { t } = useTranslation();
+
   return (
     <Grid
       container
@@ -56,7 +59,7 @@ const Leaderboard = ({
         </Box>
         {showBack && (
           <Box className={styled.upIcon} onClick={goToMap}>
-            <span>map</span>
+            <span> {t("map")}</span>
             <UpIcon />
           </Box>
         )}
@@ -64,7 +67,7 @@ const Leaderboard = ({
 
       <Box p={2} className={styled.container}>
         <Typography pb={2} className={styled.title}>
-          LEADERBOARD
+          {t("leaderboard").toUpperCase()}
         </Typography>
         <Box className={styled.listData}>
           <Box className={styled.border}></Box>
@@ -92,17 +95,17 @@ const Leaderboard = ({
 
       <Box px={4} py={2} className={styled.footer}>
         <Box className={styled.item} pr={2}>
-          <span>Points</span>
+          <span>{t("points")}</span>
           <Typography>125.000</Typography>
           <Button onClick={() => setOpenPoints(true)}>
-            Earn Points <ArrowForwardIcon />
+            {t("earn-points")} <ArrowForwardIcon />
           </Button>
         </Box>
         <Box className={styled.item} pl={2}>
-          <span>Tokens</span>
+          <span>{t("keys")}</span>
           <Typography>650</Typography>
           <Button onClick={() => setOpenTokens(true)}>
-            Get Tokens <ArrowForwardIcon />
+            {t("get-keys")} <ArrowForwardIcon />
           </Button>
         </Box>
       </Box>

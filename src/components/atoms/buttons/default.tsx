@@ -3,9 +3,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import styled from "./styled.module.scss";
 
-const Button = ({ children, onClick, isLoading }: any) => {
+const Button = ({ children, onClick, isLoading, disabled = false }: any) => {
   return (
-    <ButtonBase onClick={onClick} className={styled.btnDefault}>
+    <ButtonBase onClick={onClick} className={styled.btnDefault} disabled={disabled}>
       {isLoading ? (
         <CircularProgress className={styled.spinner} size={20} />
       ) : (
