@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 import { bsc, sepolia } from "wagmi/chains";
@@ -28,6 +28,7 @@ const chains = [process.env.REACT_APP_CHAIN === "bsc" ? bsc : sepolia] as const;
 const LoginBar = ({ showLoginButton = false }: any) => {
   const [loadSigning, setLoadSigning] = useState(false);
   const [loadLogout, setLoadLogout] = useState(false);
+  const [onError, setOnError] = useState({ show: false, msg: "" });
 
   const { i18n } = useTranslation();
   const navigate = useNavigate();
@@ -37,12 +38,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   const { disconnect } = useDisconnect();
   const account = useAccount();
   const { isConnected, isConnecting, isDisconnected, address } = useAccount();
-  const {
-    data: dataMessage,
-    error: errorMessage,
-    reset: resetMessage,
-    signMessage,
-  } = useSignMessage();
+  const { data: dataMsg, error: errorMsg, reset: resetMsg, signMessage } = useSignMessage();
 
   const tokenLS = localStorage.getItem("sessionToken");
   const dataMessageAuth = useSelector(selectMessageAuth);
@@ -50,7 +46,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   const logout = () => {
     setLoadLogout(true);
     disconnect();
-    resetMessage();
+    resetMsg();
     dispatch(clearAuthToken());
     dispatch(clearMessageAuth());
     setLoadSigning(false);
@@ -58,24 +54,24 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   };
 
   useEffect(() => {
-    console.log("location.pathname", location.pathname);
     const isLoginView = !location.pathname.split("/")[2];
     const sameChain = account.chainId === chains[0].id;
 
-    if (isConnected && address && !dataMessage && !tokenLS && sameChain) {
+    if (isConnected && address && !dataMsg && !tokenLS && sameChain) {
       const from = window.location.hostname;
       setLoadSigning(true);
       dispatch(fetchChallengeRequest({ address, from }) as any).then(async (response: any) => {
         if (response?.message) {
           signMessage({ message: response?.message });
         } else {
+          setOnError({ show: true, msg: "Error to challenge request" });
           console.error("Error to challenge request: ", response);
           logout();
         }
       });
     }
 
-    if (!isConnected && !tokenLS && !address && !isLoginView) {
+    if (!isLoginView && !isConnected && !tokenLS && !address) {
       navigate(`/${i18n.language}/`);
     }
 
@@ -87,30 +83,38 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   }, [isConnected, address, account.chainId]);
 
   useEffect(() => {
-    if (dataMessage && dataMessageAuth?.message) {
+    if (dataMsg && dataMessageAuth?.message) {
       dispatch(
-        fetchChallengeVerify({ signature: dataMessage, message: dataMessageAuth.message }) as any
+        fetchChallengeVerify({ signature: dataMsg, message: dataMessageAuth.message }) as any
       ).then(async (response: any) => {
         setLoadSigning(false);
         if (response?.sessionToken) {
           localStorage.setItem("sessionToken", response?.sessionToken);
           navigate(`/${i18n.language}/home/`);
         } else {
+          setOnError({ show: true, msg: "Error to challenge verify" });
           console.error("Error to challenge verify: ", response);
           logout();
         }
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataMessage, dataMessageAuth?.message]);
+  }, [dataMsg, dataMessageAuth?.message]);
 
   useEffect(() => {
-    console.log(errorMessage?.toString());
-    const msg = errorMessage?.toString();
-    if (msg?.includes("UnknownRpcError") || msg?.includes("UserRejectedRequestError")) logout();
+    //console.log(errorMessage?.toString());
+    const msg = errorMsg?.toString();
+    if (msg?.includes("UnknownRpcError")) {
+      setOnError({ show: true, msg: "UnknownRpcError" });
+      logout();
+    }
+    if (msg?.includes("UserRejectedRequestError")) {
+      setOnError({ show: true, msg: "UserRejectedRequestError" });
+      logout();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorMessage]);
+  }, [errorMsg]);
 
   /*useEffect(() => {
     console.log("account.chainId", account.chainId);
@@ -167,6 +171,16 @@ const LoginBar = ({ showLoginButton = false }: any) => {
             </Button>
           )}
         </>
+      )}
+
+      {onError.show && (
+        <Alert
+          severity="error"
+          className={styled.alert}
+          onClose={() => setOnError({ show: false, msg: "" })}
+        >
+          {onError.msg || "Error to login."}
+        </Alert>
       )}
     </>
   );

@@ -16,7 +16,6 @@ const ActionsBar = ({ showLoginButton = false }: any) => {
 
   return (
     <Box component={"header"} className={styled.actionsBar}>
-
       <Box className={styled.lngBar}>
         <LanguageIcon onClick={!openLng ? handleOpen : handleClose} className={styled.lngIcon} />
         <LanguageMenu anchorEl={anchorEl} open={openLng} handleClose={handleClose} />
