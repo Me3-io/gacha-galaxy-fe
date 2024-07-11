@@ -1,11 +1,11 @@
 import { Box, Container, Typography } from "@mui/material";
-
-import Layout from "components/templates/layout";
-import Navbar from "components/organisms/navbar";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount } from "wagmi";
 
+import Layout from "components/templates/layout";
+import ActionsBar from "components/organisms/actionsbar";
 import Button from "components/atoms/buttons/default";
+import Logo from "assets/logo.svg";
 
 import styled from "./styled.module.scss";
 
@@ -16,7 +16,11 @@ const Login = () => {
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-        <Navbar />
+        <ActionsBar />
+
+        <Box className={styled.logo}>
+          <img src={Logo} alt="Logo" className={styled.imgLogo} />
+        </Box>
 
         <Box className={styled.backgroundImage}></Box>
 

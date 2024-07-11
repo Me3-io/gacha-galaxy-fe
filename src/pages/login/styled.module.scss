@@ -10,6 +10,18 @@
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5));
 }
 
+.logo {
+  position: absolute;
+  display: flex;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 1;
+
+  .imgLogo {
+    max-width: 130px;
+  }
+}
+
 .main {
   position: absolute;
   height: 100%;

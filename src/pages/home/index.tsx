@@ -5,7 +5,7 @@ import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map";
 import GameMachines from "components/organisms/games";
 import MainMenu from "components/organisms/menu";
-import Navbar from "components/organisms/navbar";
+import ActionsBar from "components/organisms/actionsbar";
 import Campaign from "components/organisms/campaing";
 
 import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
@@ -22,7 +22,7 @@ const Home = () => {
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-        <Navbar hiddenLogo/>
+        <ActionsBar hiddenLogo/>
 
         <Grid container>
           <Grid item xs={12}>

@@ -4,13 +4,16 @@ import Game from "pages/game";
 import Login from "pages/login";
 
 const AppRouter = () => {
+
+  const lang = "en"; // <- TODO: Detect language from browser
+
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="*" element={<Navigate to={`/${lang}/`} />} />
+      <Route path="/" element={<Navigate to={`/${lang}/`} />} />
       <Route path="/:lang" element={<Login />} />
       <Route path="/:lang/home/" element={<Home />} />
       <Route path="/:lang/home/:idgame" element={<Game />} />
-      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
