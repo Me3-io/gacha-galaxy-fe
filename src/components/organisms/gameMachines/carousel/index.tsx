@@ -17,7 +17,7 @@ const ButtonGroup = ({ next, previous }: any) => {
   );
 };
 
-const CarouselGames = ({ games, setOpenGames }: any) => {
+const CarouselGames = ({ games, setDetails }: any) => {
 
   const length = games.length >= 3 ? 3 : games.length;
   
@@ -53,7 +53,7 @@ const CarouselGames = ({ games, setOpenGames }: any) => {
       containerClass={styled.carousel}
     >
       {games.map((item: any, i: any) => (
-        <Card key={i} {...item} setOpenGames={setOpenGames} />
+        <Card key={i} item={item} setDetails={setDetails} />
       ))}
     </Carousel>
   );

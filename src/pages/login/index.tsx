@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 const Login = () => {
   const { t } = useTranslation();
   const { open } = useWeb3Modal();
-  const { isConnected, isConnecting } = useAccount();
+  const { isConnected } = useAccount();
 
   return (
     <Layout>
@@ -32,7 +32,7 @@ const Login = () => {
               Gacha Galaxy
             </Typography>
 
-            <Button onClick={() => open()} isLoading={isConnecting} disabled={isConnected}>
+            <Button onClick={() => open()} disabled={isConnected}>
               {t("enter-game")}
             </Button>
           </Box>

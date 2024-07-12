@@ -13,7 +13,7 @@ const AppRouter = () => {
       <Route path="/" element={<Navigate to={`/${lang}/`} />} />
       <Route path="/:lang" element={<Login />} />
       <Route path="/:lang/home/" element={<Home />} />
-      <Route path="/:lang/home/:idgame" element={<Game />} />
+      <Route path="/:lang/game/:idgame" element={<Game />} />
     </Routes>
   );
 };

@@ -22,7 +22,7 @@ const CENTER_MAP = { x: 500, y: 800 };
 
 const isMobile = navigator.userAgent.includes("Mobi");
 
-const InteractiveMap = ({ setOpenGames, setCampaing }: any) => {
+const InteractiveMap = ({ setGames, setCampaing }: any) => {
   const Viewer = useRef<any>(null);
   const dispatch = useDispatch();
 
@@ -160,7 +160,7 @@ const InteractiveMap = ({ setOpenGames, setCampaing }: any) => {
 
   const handlerBuildingClick = (games: number) => {
     console.log("data:", games);
-    setOpenGames(true);
+    setGames({open: true, data: games});
     setTooltipData({ visible: false, text: "" });
   };
 

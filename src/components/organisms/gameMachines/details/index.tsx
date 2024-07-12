@@ -1,14 +1,16 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
-import styled from "./styled.module.scss";
-
-import machineIcon from "assets/images/maquina-capsule.svg";
 
 import Button from "components/atoms/buttons/base";
 import ButtonDefault from "components/atoms/buttons/default";
 
+import machineIcon from "assets/images/maquina-capsule.svg";
 import joystick from "assets/icons/joystick.svg";
 import prize from "assets/icons/prize.svg";
 import chance from "assets/icons/chance.svg";
+
+import styled from "./styled.module.scss";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ItemChance = ({ text, percent }: any) => {
   return (
@@ -20,16 +22,24 @@ const ItemChance = ({ text, percent }: any) => {
   );
 };
 
-const GameDetails = ({ setOpenDetails }: any) => {
+const GameDetails = ({ details, setDetails }: any) => {
+  const navigate = useNavigate();
+  const { i18n } = useTranslation();
+  
+  const goToGame = () => { 
+    const gameName = details.name.replace(/\s/g, "_").toLowerCase();
+    navigate(`/${i18n.language}/game/${gameName}`);
+  }
+
   return (
     <Box className={styled.gameDetail}>
-      <Button onClick={() => setOpenDetails(false)}>close</Button>
+      <Button onClick={() => setDetails({ open: false })}>close</Button>
 
       <Box className={styled.dotted}></Box>
       <Grid container className={styled.container}>
         <Grid item xs={12} sm={5} className={styled.leftCol}>
           <Typography variant="h4" className={styled.title}>
-            CAPSULE
+            {details.name}
           </Typography>
 
           <Box className={styled.image}>
@@ -75,21 +85,31 @@ const GameDetails = ({ setOpenDetails }: any) => {
             </Grid>
           </Grid>
           <Grid item xs={12} className={styled.info}>
-            <Stack direction="row" spacing={2}>
+            <Box display={"flex"} flexDirection={"row"}>
               <Typography className={styled.subtitle}>
                 DROP <br /> CHANCES
               </Typography>
-              <ItemChance text="Lorem ipsum dolor" percent="3" />
-              <ItemChance text="Lorem ipsum dolor" percent="1.88" />
-              <ItemChance text="Lorem ipsum dolor" percent="3.8" />
-              <ItemChance text="Lorem ipsum dolor" percent="4.40" />
-            </Stack>
+              <Stack direction="row" spacing={3} flex={1} justifyContent={"center"}>
+                <ItemChance
+                  text="Odds For Points"
+                  percent={(details?.oddsForPoints * 100).toFixed(2) || "-"}
+                />
+                <ItemChance
+                  text="Odds For Prize"
+                  percent={(details?.oddsForPrize * 100).toFixed(2) || "-"}
+                />
+                <ItemChance
+                  text="Odds For Nothing"
+                  percent={(details?.oddsForNothing * 100).toFixed(2) || "-"}
+                />
+              </Stack>
+            </Box>
           </Grid>
-          <Grid item xs={12}>
+          {/*<Grid item xs={12}>
             <Box className={styled.level}>LEVEL</Box>
-          </Grid>
+          </Grid>*/}
           <Grid item xs={12} pt={2} display={"flex"} justifyContent={"center"}>
-            <ButtonDefault>PLAY</ButtonDefault>
+            <ButtonDefault onClick={goToGame}>PLAY</ButtonDefault>
           </Grid>
         </Grid>
       </Grid>

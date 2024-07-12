@@ -39,7 +39,7 @@ $mask-size: 150px;
     .title {
       text-align: center;
       font-family: "OrbitronBlack";
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       line-height: normal;
       background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
       background-clip: text;
@@ -49,6 +49,7 @@ $mask-size: 150px;
       min-height: 100px;
       display: flex;
       align-items: center;
+      max-width: 170px;
     }
 
     .machine {

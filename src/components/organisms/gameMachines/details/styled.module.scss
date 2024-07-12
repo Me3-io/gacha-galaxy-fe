@@ -173,6 +173,7 @@ $clip-min: 10px;
         flex-direction: column;
         gap: 5px;
         border-radius: 5px;
+        cursor: pointer;
 
         p {
           text-align: center;
@@ -183,7 +184,8 @@ $clip-min: 10px;
         }
 
         .percent {
-          font-size: 1rem;
+          font-size: 0.9rem;
+          font-weight: 800;
         }
       }
 

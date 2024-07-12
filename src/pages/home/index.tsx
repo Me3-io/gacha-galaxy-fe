@@ -3,7 +3,7 @@ import { Box, Container, Drawer, Grid } from "@mui/material";
 
 import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map";
-import GameMachines from "components/organisms/games";
+import GameMachines from "components/organisms/gameMachines";
 import MainMenu from "components/organisms/menu";
 import ActionsBar from "components/organisms/actionsbar";
 import Campaign from "components/organisms/campaing";
@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const { t } = useTranslation();
-  const [openGames, setOpenGames] = useState<boolean>(false);
+  const [games, setGames] = useState({ open: false, data: [] });
   const [campaing, setCampaing] = useState({ open: false, id: "" });
 
   const goToLeaderboard = () => window.scrollTo(0, document.body.scrollHeight);
@@ -24,12 +24,12 @@ const Home = () => {
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-        <ActionsBar hiddenLogo/>
+        <ActionsBar />
 
         <Grid container>
           <Grid item xs={12}>
             <Box height={"100%"} overflow={"hidden"}>
-              <InteractiveMap setOpenGames={setOpenGames} setCampaing={setCampaing} />
+              <InteractiveMap setGames={setGames} setCampaing={setCampaing} />
             </Box>
 
             <Box display={{ xs: "none", md: "flex" }}>
@@ -48,7 +48,7 @@ const Home = () => {
                 }}
               >
                 <Box className={styled.container}>
-                  <MainMenu openGames={openGames} />
+                  <MainMenu openGames={games.open} />
                 </Box>
               </Drawer>
             </Box>
@@ -66,9 +66,8 @@ const Home = () => {
           </Grid>
         </Grid>
 
-        <GameMachines open={openGames} handleClose={() => setOpenGames(false)} />
+        <GameMachines games={games} handleClose={() => setGames({ open: false, data: [] })} />
         <Campaign campaing={campaing} handleClose={() => setCampaing({ open: false, id: "" })} />
-        
       </Container>
     </Layout>
   );
