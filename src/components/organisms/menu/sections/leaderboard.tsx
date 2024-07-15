@@ -12,10 +12,12 @@ import arrowUp from "assets/icons/arrowUp.svg";
 import arrowDown from "assets/icons/arrowDown.svg";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import keyIcon from "assets/icons/key.svg";
 
-import styled from "../styled.module.scss";
 import Button from "components/atoms/buttons/base";
 import { useTranslation } from "react-i18next";
+
+import styled from "../styled.module.scss";
 
 const rows = [
   { id: 1, name: "UserGamer123", arrowUp: true, points: 487.5 },
@@ -95,15 +97,21 @@ const Leaderboard = ({
 
       <Box px={4} py={2} className={styled.footer}>
         <Box className={styled.item} pr={2}>
-          <span>{t("points")}</span>
-          <Typography>125.000</Typography>
+          <Box display={"flex"} alignItems={"center"} gap={1}>
+            <span>{t("points")}</span>
+            <Typography className={styled.position}>#345</Typography>
+          </Box>
+          <Typography>125,000</Typography>
           <Button onClick={() => setOpenPoints(true)}>
             {t("earn-points")} <ArrowForwardIcon />
           </Button>
         </Box>
         <Box className={styled.item} pl={2}>
           <span>{t("keys")}</span>
-          <Typography>650</Typography>
+          <Box display={"flex"} gap={2} alignItems={"center"}>
+            <img src={keyIcon} alt="key" height={"28px"} />
+            <Typography>7</Typography>
+          </Box>
           <Button onClick={() => setOpenTokens(true)}>
             {t("get-keys")} <ArrowForwardIcon />
           </Button>

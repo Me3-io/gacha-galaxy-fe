@@ -7,9 +7,11 @@ import ActionsBar from "components/organisms/actionsbar";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-import styled from "./styled.module.scss";
 import Button from "components/atoms/buttons/base";
 import ButtonDefault from "components/atoms/buttons/default";
+
+import styled from "./styled.module.scss";
+import keyIcon from "assets/icons/key.svg";
 
 const Game = () => {
   const { i18n } = useTranslation();
@@ -51,12 +53,26 @@ const Game = () => {
                 </Typography>
               </Grid>
 
-              <Grid item xs={12} className={styled.balance}>
+              <Grid item xs={12} className={styled.balanceContainer}>
                 <Typography variant="h5" className={styled.title}>
-                  YOUR KEYS <br/> BALANCE
+                  YOUR KEYS <br /> BALANCE
                 </Typography>
 
-                <Typography className={styled.text}>7</Typography>
+                <Box className={styled.balance}>
+                  <img src={keyIcon} alt="key" height={"40px"} />
+                  <Typography className={styled.text}>7</Typography>
+                </Box>
+              </Grid>
+
+              <Grid item xs={12} className={styled.keyContainer}>
+                <Typography variant="h5" className={styled.title}>
+                  PLAY PRICE
+                </Typography>
+
+                <Box className={styled.keys}>
+                  <img src={keyIcon} alt="key" />
+                  <Typography className={styled.text}>1 KEY</Typography>
+                </Box>
               </Grid>
             </Grid>
 

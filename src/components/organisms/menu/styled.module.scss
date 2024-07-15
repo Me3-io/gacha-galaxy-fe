@@ -185,17 +185,20 @@
       line-height: 1;
       text-transform: uppercase;
       width: 50%;
-
+      justify-content: space-evenly;
+      
       p {
-        color: #7b13ff;
+        color: #9a4aff;
         font-family: "ChakraPetchBold";
         font-size: 2rem;
+        padding: 5px 0;
       }
 
       span {
         color: #e4bcf2;
         font-family: "ChakraPetch";
         font-size: 0.9rem;
+        font-weight: 700;
       }
 
       button {
@@ -206,6 +209,16 @@
         padding: 8px 16px !important;
         display: flex;
         justify-content: space-between;
+        width: 160px;
+      }
+
+      .position {
+        color: #e5c7f1;
+        font-family: "ChakraPetch";
+        font-size: 0.8rem;
+        background: #4F3662;
+        padding: 0 5px;
+        border-radius: 2px;
       }
     }
   }

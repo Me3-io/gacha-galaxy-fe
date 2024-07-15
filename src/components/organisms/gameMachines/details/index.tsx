@@ -7,10 +7,12 @@ import machineIcon from "assets/images/maquina-capsule.svg";
 import joystick from "assets/icons/joystick.svg";
 import prize from "assets/icons/prize.svg";
 import chance from "assets/icons/chance.svg";
+import keyIcon from "assets/icons/key.svg";
 
-import styled from "./styled.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
+import styled from "./styled.module.scss";
 
 const ItemChance = ({ text, percent }: any) => {
   return (
@@ -25,11 +27,11 @@ const ItemChance = ({ text, percent }: any) => {
 const GameDetails = ({ details, setDetails }: any) => {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
-  
-  const goToGame = () => { 
+
+  const goToGame = () => {
     const gameName = details.name.replace(/\s/g, "_").toLowerCase();
     navigate(`/${i18n.language}/game/${gameName}`);
-  }
+  };
 
   return (
     <Box className={styled.gameDetail}>
@@ -106,9 +108,18 @@ const GameDetails = ({ details, setDetails }: any) => {
             </Box>
           </Grid>
           {/*<Grid item xs={12}>
-            <Box className={styled.level}>LEVEL</Box>
           </Grid>*/}
-          <Grid item xs={12} pt={2} display={"flex"} justifyContent={"center"}>
+          <Grid item xs={12} className={styled.footer}>
+            <Box className={styled.keysContainer}>
+              <Typography>
+                AVAILABLE <br />
+                KEYS
+              </Typography>
+              <Box className={styled.keys}>
+                <img src={keyIcon} alt="key" height={"36px"} />
+                <span>7</span>
+              </Box>
+            </Box>
             <ButtonDefault onClick={goToGame}>PLAY</ButtonDefault>
           </Grid>
         </Grid>

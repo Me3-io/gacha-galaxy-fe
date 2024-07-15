@@ -38,22 +38,22 @@ $clip-min: 10px;
   }
 
   .container {
-    border: 1px solid #ba00fb;
+    border: 2px solid #ba00fb;
     height: 100%;
     position: relative;
 
     clip-path: polygon(
       100% calc(100% - 100px),
-      calc(100% - 1px) calc(100% - 100px),
-      calc(100% - 1px) 1px,
-      50% 1px,
+      calc(100% - 2px) calc(100% - 100px),
+      calc(100% - 2px) 2px,
+      50% 2px,
       50% 0%,
       $clip-size 0%,
       0% $clip-size,
       0% 100px,
-      1px 100px,
-      1px calc(100% - 1px),
-      50% calc(100% - 1px),
+      2px 100px,
+      2px calc(100% - 2px),
+      50% calc(100% - 2px),
       50% 100%,
       calc(100% - $clip-size) 100%,
       100% calc(100% - $clip-size)
@@ -81,8 +81,6 @@ $clip-min: 10px;
       background-color: #ba00fb;
     }
 
-
-
     .leftCol {
       display: flex;
       padding: 1rem;
@@ -101,13 +99,13 @@ $clip-min: 10px;
 
     .rightCol {
       display: flex;
-      padding: 3rem 0 2rem 0;
+      padding-top: 3rem;
       align-content: space-between;
       gap: 1.5rem;
 
       .info {
         display: flex;
-        border: 1px solid #9a41cc;
+        border: 2px solid #9a41cc;
         color: white;
         padding: 1.5rem;
         position: relative;
@@ -159,11 +157,6 @@ $clip-min: 10px;
         }
       }
 
-      .level {
-        background: linear-gradient(90deg, #1b112b 0%, #503076 50.5%, #1a112b 100%);
-        padding: 1rem;
-      }
-
       .itemChance {
         background: linear-gradient(180deg, #483167 0%, #1e122f 100%);
         padding: 0.5rem;
@@ -189,8 +182,52 @@ $clip-min: 10px;
         }
       }
 
-      button {
-        padding: .8rem 3rem!important;
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 2rem 2rem 2rem 0;
+
+        .keysContainer {
+          background: linear-gradient(90deg, #483167 0%, #140e23 100%);
+          padding: 0.5rem 1rem;
+          width: 50%;
+          display: flex;
+          justify-content: space-between;
+          box-sizing: border-box;
+          align-items: center;
+          text-transform: uppercase;
+          
+          p {
+            font-family: "ChakraPetch";
+            color: #e4bcf2;
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.4;
+          }
+
+          .keys{
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            
+            span {
+              font-family: "ChakraPetchBold";
+              color: #9a57ee;
+              font-size: 2.6rem;
+              font-weight: 800;
+            }
+          }
+        }
+
+        button {
+          padding: 1rem 4rem !important;
+
+          span {
+            font-family: "OrbitronBlack";
+            font-size: 1.2rem;
+            font-weight: 600;
+          }
+        }
       }
     }
 
@@ -203,19 +240,21 @@ $clip-min: 10px;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin: 2rem 0 1rem 0;
+      padding: 0 1rem;
     }
 
     .subtitle {
       color: #c3a0e9;
       font-family: "ChakraPetch";
-      font-size: 1rem;
+      font-size: 1.2rem;
+      font-weight: 700;
       text-transform: uppercase;
     }
 
     .text {
       color: #c3a0e9;
       font-family: "ChakraPetch";
-      font-size: 0.7rem;
+      font-size: 0.8rem;
       line-height: 1.5;
     }
   }
