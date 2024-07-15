@@ -17,8 +17,8 @@ import styled from "./styled.module.scss";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
-const SVG_SIZE = { width: 1000, height: 1000 };
-const CENTER_MAP = { x: 500, y: 800 };
+const SVG_SIZE = { width: 1200, height: 1200 };
+const CENTER_MAP = { x: 600, y: 900 };
 
 const isMobile = navigator.userAgent.includes("Mobi");
 
