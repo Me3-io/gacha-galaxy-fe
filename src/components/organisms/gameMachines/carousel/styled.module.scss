@@ -26,7 +26,7 @@
   cursor: pointer;
   z-index: 903;
   color: #db74ff;
-  font-size: 2rem!important;
+  font-size: 2rem !important;
 }
 
 .arrowRight {
@@ -37,12 +37,23 @@
   cursor: pointer;
   z-index: 903;
   color: #db74ff;
-  font-size: 2rem!important;
+  font-size: 2rem !important;
 }
 
 @media screen and (max-width: 500px) {
+
+  .arrowLeft {
+    left: 25px;
+  }
+
+  .arrowRight {
+    right: 25px;
+  }
+}
+
+@media screen and (max-height: 500px) {
   .carousel {
-    mask-image: none !important;
+    height: 400px;
   }
 
   .arrowLeft {

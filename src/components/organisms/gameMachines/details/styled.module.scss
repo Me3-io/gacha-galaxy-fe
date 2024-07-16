@@ -282,3 +282,10 @@ $clip-min: 10px;
     }
   }
 }
+
+@media screen and (max-height: 500px) {
+  .gameDetail {
+    border-radius: 0 !important;
+  }
+}
+

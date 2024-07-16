@@ -64,43 +64,16 @@ $mask-size: 150px;
     button > span {
       padding: .2rem;
     }
-
-   /* .tokens {
-      background: #2d1b43 !important;
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: auto;
-      clip-path: polygon(calc(100% - 30px) 0%, 100% 30px, 100% 100%, 0% 100%, 0% 0%) !important;
-      min-width: 200px;
-      margin: 20px 0;
-
-      .minbet,
-      .info {
-        text-orientation: sideways;
-        writing-mode: vertical-rl;
-        transform: rotate(-180deg);
-      }
-
-      .minbet {
-        color: #7b54a5;
-        font-family: "OrbitronBold";
-        font-size: 0.6rem;
-        text-transform: uppercase;
-      }
-
-      .info {
-        color: #e1b0f2;
-        font-family: "ChakraPetch";
-        font-size: 1.1rem;
-      }
-      .points {
-        color: #7b13ff;
-        font-family: "ChakraPetchBold";
-        font-size: 5rem;
-        padding: 0 10px;
-      }
-    }*/
   }
 }
+
+@media screen and (max-height: 500px) {
+  .card {
+    height: 350px;
+
+    .machine img {
+      height: 200px!important;
+    }
+  }
+}
+
