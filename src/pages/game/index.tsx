@@ -34,12 +34,12 @@ const Game = () => {
         </Box>
 
         <Grid container className={styled.main}>
-          <Grid item xs>
+          <Grid item xs overflow={"hidden"}>
             <Typography color={"#fff"} textAlign={"center"} p={5} fontSize={"2rem"}>
               game: {idgame}
             </Typography>
           </Grid>
-          <Grid item container className={styled.rightCol}>
+          <Grid item xs="auto" container className={styled.rightCol}>
             <Box className={styled.dotted}></Box>
             <Grid item container xs={12} className={styled.container}>
               <Grid item xs={12} className={styled.info}>

@@ -20,12 +20,13 @@ $clip-size: 20px;
 .main {
   height: 100vh;
   box-sizing: border-box;
+  justify-content: flex-end;
 
   .rightCol {
     padding: 1.5rem;
     padding-top: 8rem;
     background: linear-gradient(180deg, #3a1f50 0%, #140e23 78.71%);
-    width: 400px;
+    width: 450px;
     display: flex;
     gap: 1.5rem;
     position: relative;
