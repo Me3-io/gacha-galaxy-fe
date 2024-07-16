@@ -61,14 +61,14 @@ const Leaderboard = ({
         </Box>
         {showBack && (
           <Box className={styled.upIcon} onClick={goToMap}>
-            <span> {t("map")}</span>
+            <span>{t("map")}</span>
             <UpIcon />
           </Box>
         )}
       </Box>
 
-      <Box p={2} className={styled.container}>
-        <Typography pb={2} className={styled.title}>
+      <Box px={2} py={2} className={styled.container}>
+        <Typography pb={1} className={styled.title}>
           {t("leaderboard").toUpperCase()}
         </Typography>
         <Box className={styled.listData}>

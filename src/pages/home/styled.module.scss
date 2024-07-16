@@ -3,9 +3,12 @@
     background: rgba(24, 9, 36, 0.5);
     backdrop-filter: blur(10px);
     overflow-y: auto;
-    max-width: 500px;
-    width: 100%;
+    width: 450px;
     height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
   }
 }
 
@@ -29,8 +32,6 @@
     width: 100px !important;
   }
 }
-
-
 
 @keyframes translate {
   0% {

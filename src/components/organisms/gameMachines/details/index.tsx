@@ -39,7 +39,7 @@ const GameDetails = ({ details, setDetails }: any) => {
 
       <Box className={styled.dotted}></Box>
       <Grid container className={styled.container}>
-        <Grid item xs={12} sm={5} className={styled.leftCol}>
+        <Grid item xs={12} sm={6} md={5} className={styled.leftCol}>
           <Typography variant="h4" className={styled.title}>
             {details.name}
           </Typography>
@@ -49,11 +49,12 @@ const GameDetails = ({ details, setDetails }: any) => {
           </Box>
         </Grid>
 
-        <Grid item container xs={12} sm={7} className={styled.rightCol}>
-          <Grid item xs={12} gap={4} display={"flex"}>
+        <Grid item container xs={12} sm={6} md={7} className={styled.rightCol}>
+          <Grid item container xs={12} gap={"1.5rem"} flexWrap={{ md: "nowrap" }}>
             <Grid
               item
-              xs={6}
+              sm={12}
+              md={6}
               className={styled.info}
               alignItems={"flex-end"}
               textAlign={"right"}
@@ -70,7 +71,8 @@ const GameDetails = ({ details, setDetails }: any) => {
             </Grid>
             <Grid
               item
-              xs={6}
+              sm={12}
+              md={6}
               className={styled.info}
               alignItems={"flex-start"}
               textAlign={"left"}
@@ -109,8 +111,8 @@ const GameDetails = ({ details, setDetails }: any) => {
           </Grid>
           {/*<Grid item xs={12}>
           </Grid>*/}
-          <Grid item xs={12} className={styled.footer}>
-            <Box className={styled.keysContainer}>
+          <Grid item container xs={12} className={styled.footer} alignItems="center">
+            <Grid item xs={12} md={6} className={styled.keysContainer}>
               <Typography>
                 AVAILABLE <br />
                 KEYS
@@ -119,8 +121,17 @@ const GameDetails = ({ details, setDetails }: any) => {
                 <img src={keyIcon} alt="key" height={"36px"} />
                 <span>7</span>
               </Box>
-            </Box>
-            <ButtonDefault onClick={goToGame}>PLAY</ButtonDefault>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              display={"flex"}
+              justifyContent={{ xs: "center", sm: "flex-end" }}
+              pt={{ xs: "1.5rem", md: "0" }}
+            >
+              <ButtonDefault onClick={goToGame}>PLAY</ButtonDefault>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

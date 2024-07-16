@@ -11,6 +11,7 @@ $clip-min: 10px;
   padding: 1.5rem;
   box-sizing: border-box;
   overflow: hidden;
+  z-index: 903;
 
   & > button {
     position: absolute;
@@ -38,22 +39,23 @@ $clip-min: 10px;
   }
 
   .container {
-    border: 2px solid #ba00fb;
+    border: 2px solid #9a41cc;
     height: 100%;
     position: relative;
+    padding: 1px;
 
     clip-path: polygon(
       100% calc(100% - 100px),
-      calc(100% - 2px) calc(100% - 100px),
-      calc(100% - 2px) 2px,
-      50% 2px,
+      calc(100% - 3px) calc(100% - 100px),
+      calc(100% - 3px) 3px,
+      50% 3px,
       50% 0%,
       $clip-size 0%,
       0% $clip-size,
       0% 100px,
-      2px 100px,
-      2px calc(100% - 2px),
-      50% calc(100% - 2px),
+      3px 100px,
+      3px calc(100% - 3px),
+      50% calc(100% - 3px),
       50% 100%,
       calc(100% - $clip-size) 100%,
       100% calc(100% - $clip-size)
@@ -64,10 +66,10 @@ $clip-min: 10px;
       height: $clip-size;
       width: $clip-size;
       position: absolute;
-      left: 0;
+      left: -1px;
       top: 0;
       clip-path: polygon(0% 100%, 100% 0%, 0% 0%);
-      background-color: #ba00fb;
+      background-color: #9a41cc;
     }
 
     &::after {
@@ -75,10 +77,10 @@ $clip-min: 10px;
       height: $clip-size;
       width: $clip-size;
       position: absolute;
-      right: 0;
+      right: -1px;
       bottom: 0;
       clip-path: polygon(100% 100%, 100% 0%, 0% 100%);
-      background-color: #ba00fb;
+      background-color: #9a41cc;
     }
 
     .leftCol {
@@ -91,6 +93,7 @@ $clip-min: 10px;
         justify-content: center;
         padding: 1rem;
         height: 100%;
+        overflow: hidden;
         img {
           object-fit: cover;
         }
@@ -111,6 +114,7 @@ $clip-min: 10px;
         position: relative;
         flex-direction: column;
         gap: 10px;
+        height: auto;
 
         clip-path: polygon(
           calc(70% + $clip-min) calc(100% - $clip-min),
@@ -185,7 +189,8 @@ $clip-min: 10px;
       .footer {
         display: flex;
         justify-content: space-between;
-        padding: 2rem 2rem 2rem 0;
+        padding: 1.5rem;
+        padding-left: 0;
 
         .keysContainer {
           background: linear-gradient(90deg, #483167 0%, #140e23 100%);
@@ -196,20 +201,20 @@ $clip-min: 10px;
           box-sizing: border-box;
           align-items: center;
           text-transform: uppercase;
-          
+
           p {
             font-family: "ChakraPetch";
             color: #e4bcf2;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             line-height: 1.4;
           }
 
-          .keys{
+          .keys {
             display: flex;
             gap: 1rem;
             align-items: center;
-            
+
             span {
               font-family: "ChakraPetchBold";
               color: #9a57ee;
@@ -256,6 +261,24 @@ $clip-min: 10px;
       font-family: "ChakraPetch";
       font-size: 0.8rem;
       line-height: 1.5;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .gameDetail {
+    border-radius: 0 !important;
+
+    .container {
+      border: none;
+      clip-path: none;
+
+      &::before {
+        display: none;
+      }
+      &::after {
+        display: none;
+      }
     }
   }
 }

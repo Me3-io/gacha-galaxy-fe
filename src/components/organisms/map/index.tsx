@@ -14,6 +14,7 @@ import Button from "components/atoms/buttons/base";
 import Buildings from "./buildings";
 
 import styled from "./styled.module.scss";
+import zIndex from "@mui/material/styles/zIndex";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;

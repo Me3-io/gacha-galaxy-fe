@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Container, Drawer, Grid } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 
 import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map";
@@ -32,8 +32,11 @@ const Home = () => {
               <InteractiveMap setGames={setGames} setCampaing={setCampaing} />
             </Box>
 
-            <Box display={{ xs: "none", md: "flex" }}>
-              <Drawer
+            <Box display={{ xs: "none", md: "flex" }} className={styled.mainDrawer}>
+              <Box className={styled.container}>
+                <MainMenu openGames={games.open} />
+              </Box>
+              {/*<Drawer
                 open={true}
                 anchor="left"
                 variant="permanent"
@@ -46,11 +49,7 @@ const Home = () => {
                     zIndex: 1,
                   },
                 }}
-              >
-                <Box className={styled.container}>
-                  <MainMenu openGames={games.open} />
-                </Box>
-              </Drawer>
+              ></Drawer>*/}
             </Box>
           </Grid>
 

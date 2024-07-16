@@ -1,4 +1,5 @@
 $color: #ba00fb;
+$clip-size: 20px;
 
 // button base ---
 .btnBase {
@@ -11,26 +12,26 @@ $color: #ba00fb;
 
 // button default ---
 .btnDefault {
-  border: 1px solid $color !important;
+  border: 2px solid $color !important;
   background-color: rgba(8, 4, 15, 0.61) !important;
-  color: #fff;
-  clip-path: polygon(calc(100% - 15px) 0%, 100% 15px, 100% 100%, 0% 100%, 0% 0%);
+  color: $color!important;
+  clip-path: polygon(calc(100% - $clip-size) 0%, 100% $clip-size, 100% 100%, 0% 100%, 0% 0%);
   padding: 10px 20px!important;
   position: relative;
 
   &::before {
     content: " ";
-    height: 15px;
-    width: 15px;
+    height: $clip-size;
+    width: $clip-size;
     position: absolute;
-    right: 0;
+    right: -1px;
     top: 0;
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
     background-color: $color;
     transition: 0.2s all;
   }
 
-  span {
+  & > span {
     font-family: "OrbitronBlack";
     font-size: 1rem;
     font-weight: 900;
