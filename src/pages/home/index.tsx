@@ -34,7 +34,12 @@ const Home = () => {
 
             <Box display={{ xs: "none", md: "flex" }} className={styled.mainDrawer}>
               <Box className={styled.container}>
-                <MainMenu openGames={games.open} />
+                <MainMenu
+                  showBack={false}
+                  openGames={games.open}
+                  setGames={setGames}
+                  setCampaing={setCampaing}
+                />
               </Box>
               {/*<Drawer
                 open={true}
@@ -60,7 +65,12 @@ const Home = () => {
                 <DownIcon />
               </Box>
 
-              <MainMenu showBack={true} goToMap={goToMap} />
+              <MainMenu
+                showBack={true}
+                goToMap={goToMap}
+                setGames={setGames}
+                setCampaing={setCampaing}
+              />
             </Box>
           </Grid>
         </Grid>

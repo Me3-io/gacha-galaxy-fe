@@ -14,7 +14,6 @@ import Button from "components/atoms/buttons/base";
 import Buildings from "./buildings";
 
 import styled from "./styled.module.scss";
-import zIndex from "@mui/material/styles/zIndex";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
@@ -145,6 +144,7 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
       </g>
     );
   };
+  
   // events ---
   const _zoomIn = () => Viewer.current?.zoomOnViewerCenter(1.1);
 
@@ -160,13 +160,11 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
   };
 
   const handlerBuildingClick = (games: number) => {
-    console.log("data:", games);
     setGames({open: true, data: games});
     setTooltipData({ visible: false, text: "" });
   };
 
   const handlerPartnerClick = (claimrId: any) => {
-    console.log("claimrId:", claimrId);
     setCampaing({ open: true, id: claimrId });
   };
 

@@ -14,35 +14,20 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 
+import { useSelector } from "react-redux";
+import { getBuildings } from "reduxConfig/thunks/buildings";
+
 import styled from "../styled.module.scss";
 
-const rows = [
-  { name: "Lorem ipsum campaign" },
-  { name: "Lorem ipsum campaign" },
-  { name: "Lorem ipsum campaign" },
-  { name: "Lorem ipsum campaign" },
-  { name: "Lorem ipsum campaign" },
-];
-
-const rows2 = [
-  { name: "all games" },
-  { name: "all games" },
-  { name: "all games" },
-  { name: "all games" },
-  { name: "all games" },
-  { name: "all games" },
-
-];
-
-const MainTable = ({ data }: any) => (
+const MainTable = ({ data, handleClick }: any) => (
   <TableContainer className={styled.table}>
     <Table>
       <TableBody>
         {data.map((row: any, pos: number) => (
           <TableRow key={pos} className={styled.earnRow}>
-            <TableCell align="left">{row.name}</TableCell>
+            <TableCell align="left">{row?.name || "- no name -"}</TableCell>
             <TableCell align="right">
-              <Button>GO</Button>
+              <Button onClick={() => handleClick(row)}>GO</Button>
             </TableCell>
           </TableRow>
         ))}
@@ -51,9 +36,29 @@ const MainTable = ({ data }: any) => (
   </TableContainer>
 );
 
-const EarnPoints = ({ setOpenPoints }: any) => {
+const EarnPoints = ({ setOpenPoints, setGames, setCampaing }: any) => {
   const [value, setValue] = useState("1");
   const handleChange = (evt: any, newValue: string) => setValue(newValue);
+  const buildingsData = useSelector(getBuildings) || [];
+
+  // filter Games data ---
+  const games = buildingsData.filter((item: any) => item?.games);
+
+  // filter Campaigns data ---
+  let auxCampaing: { [key: string]: boolean } = {};
+  const campaigns = buildingsData
+    .filter((item: any) => item?.campaign)
+    .map((item: any) => ({ ...item.campaign }))
+    .filter((item: any) => (auxCampaing[item._id] ? false : (auxCampaing[item._id] = true))); // elimino repetidos
+
+  // events ---
+  const handlerGameClick = (row: any) => {
+    setGames({ open: true, data: row.games || [] });
+  };
+
+  const handlerCampaingClick = (row: any) => {
+    setCampaing({ open: true, id: row.claimrId || "" });
+  };
 
   return (
     <Grid container flexDirection="column" className={styled.main}>
@@ -80,10 +85,10 @@ const EarnPoints = ({ setOpenPoints }: any) => {
               </TabList>
             </Box>
             <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "hidden" }}>
-              <MainTable data={rows} />
+              <MainTable data={campaigns} handleClick={handlerCampaingClick} />
             </TabPanel>
             <TabPanel value="2" sx={{ padding: "1rem 0", overflow: "hidden" }}>
-              <MainTable data={rows2} />
+              <MainTable data={games} handleClick={handlerGameClick} />
             </TabPanel>
           </TabContext>
         </Box>

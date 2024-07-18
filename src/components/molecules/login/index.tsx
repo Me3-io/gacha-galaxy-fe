@@ -105,7 +105,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
 
   useEffect(() => {
     const isLoginView = !location.pathname.split("/")[2];
-    if (!isLoginView && !tokenLS && !isConnecting) {
+    if (!isLoginView && !tokenLS) {
       navigate(`/${i18n.language}/`);
     }
 
@@ -114,11 +114,15 @@ const LoginBar = ({ showLoginButton = false }: any) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokenLS, isConnected, isConnecting]);
+  }, [tokenLS, isConnected]);
 
   useEffect(() => {
     if (isDisconnected) {
       setLoadLogout(false);
+      disconnect();
+      resetMsg();
+      dispatch(clearAuthToken());
+      dispatch(clearMessageAuth());
       localStorage.removeItem("sessionToken");
       const isLoginView = !location.pathname.split("/")[2];
       if (!isLoginView) navigate(`/${i18n.language}/`);

@@ -1,0 +1,92 @@
+.main {
+  //border: 5px solid red;
+  background-color: #000;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  .fullVideo {
+    position: absolute;
+    width: 100%;
+    max-width: 720px;
+    object-fit: cover;
+    pointer-events: none;
+    z-index: 2;
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .videoInner {
+    position: absolute;
+    top: 50px;
+    height: calc(100% - 100px);
+    min-height: 600px;
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 2;
+    
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+      filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+    }
+  }
+
+  .bgContainer {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    min-height: 600px;
+    z-index: 1;
+    box-sizing: border-box;
+
+    img {
+      display: block;
+      height: 100%;
+      object-fit: cover;
+      transform-origin: 52.5% 30%;
+      transition: 5s all;
+    }
+    
+    img.zoomIn {
+      animation: zoom-in 3s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+
+    img.zoomFixed {
+      transform: scale(2.5, 2.5);
+    }
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .main > .fullVideo {
+    max-width: 1024px;
+  }
+}
+
+@media screen and (max-height: 600px) {
+  .main > .minVideo {
+    top: 125px;
+  }
+}
+
+@keyframes zoom-in {
+  0% {
+    transform: scale(1, 1);
+  }
+  100% {
+    transform: scale(2.5, 2.5);
+  }
+}

@@ -8,7 +8,7 @@ import Menu from "./sections/menu";
 
 import styled from "./styled.module.scss";
 
-const MainMenu = ({ showBack = false, goToMap, openGames = false }: any) => {
+const MainMenu = ({ showBack = false, goToMap, openGames = false, setGames, setCampaing }: any) => {
   const [openPoints, setOpenPoints] = useState(false);
   const [openTokens, setOpenTokens] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
@@ -31,7 +31,11 @@ const MainMenu = ({ showBack = false, goToMap, openGames = false }: any) => {
             className={styled.submenu}
             left={openPoints ? "0!important" : "100%"}
           >
-            <EarnPoints setOpenPoints={setOpenPoints} />
+            <EarnPoints
+              setOpenPoints={setOpenPoints}
+              setGames={setGames}
+              setCampaing={setCampaing}
+            />
           </Box>
 
           <Box
