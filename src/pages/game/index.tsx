@@ -10,10 +10,9 @@ import Layout from "components/templates/layout";
 import ActionsBar from "components/organisms/actionsbar";
 
 import GameBar from "components/molecules/gameBar";
-import GameAnimation from "components/molecules/gameAnimation";
+import GameContainer from "components/organisms/game";
 
 import rotateIcon from "assets/icons/rotate.svg";
-import bgImage from "assets/images/Capsule_Machine_Front_View.png";
 
 import styled from "./styled.module.scss";
 
@@ -22,17 +21,26 @@ const Game = () => {
   const navigate = useNavigate();
   const { idgame } = useParams();
 
-  const handleClick = () => {
+  const [onPlay, setOnPlay] = useState(false);
+  const [balance, setBalance] = useState(7);
+
+  const handleBack = () => {
     navigate(`/${i18n.language}/home`);
   };
 
-  const handleEnd = () => {
-    if (gameState.step === "success") {
-      alert("You Win!! (show modal)");
-    }
+  const handleEnd = (status: string) => {
+    setOnPlay(false);
+    setBalance(balance - 1);
+    alert("You Win!! (show modal): " + status);
   };
 
-  const [gameState, setGameState] = useState({ step: "init", source: "", poster: "" });
+  const handlePlay = () => {
+    if (balance === 0) {
+      alert("No keys available");
+      return
+    }
+    setOnPlay(true);
+  };
 
   return (
     <Layout>
@@ -49,18 +57,18 @@ const Game = () => {
         </Box>
 
         <Box className={styled.backButton}>
-          <Button onClick={handleClick}>
+          <Button onClick={handleBack}>
             <ArrowBackIcon /> Back
           </Button>
         </Box>
 
         <Grid container className={styled.main}>
           <Grid item container xs overflow={"hidden"}>
-            <GameAnimation {...gameState} bg={bgImage} onEnded={handleEnd} />
+            <GameContainer onPlay={onPlay} balance={balance} handleEnd={handleEnd} />
           </Grid>
 
           <Grid item container xs="auto" className={styled.rightCol}>
-            <GameBar gameState={gameState} setGameState={setGameState} />
+            <GameBar onPlay={onPlay} balance={balance} handlePlay={handlePlay} />
           </Grid>
         </Grid>
       </Container>

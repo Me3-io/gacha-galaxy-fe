@@ -1,5 +1,5 @@
 .main {
-  //border: 5px solid red;
+
   background-color: #000;
   width: 100%;
   height: 100%;
@@ -10,7 +10,7 @@
   overflow: hidden;
   box-sizing: border-box;
 
-  .fullVideo {
+  .videoFull {
     position: absolute;
     width: 100%;
     max-width: 720px;
@@ -38,8 +38,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 16px;
-      filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+      border-radius: 20px;
+      box-sizing: border-box;
     }
   }
 
@@ -50,13 +50,15 @@
     min-height: 600px;
     z-index: 1;
     box-sizing: border-box;
+    transition: 0.5s all;
 
     img {
       display: block;
       height: 100%;
       object-fit: cover;
-      transform-origin: 52.5% 30%;
+      transform-origin: 52.6% 29.5%;
       transition: 5s all;
+      filter: drop-shadow(0 0 5px #ffffff50);
     }
     
     img.zoomIn {
@@ -65,7 +67,7 @@
     }
 
     img.zoomFixed {
-      transform: scale(2.5, 2.5);
+      transform: scale(2.4, 2.4);
     }
   }
 }
@@ -87,6 +89,6 @@
     transform: scale(1, 1);
   }
   100% {
-    transform: scale(2.5, 2.5);
+    transform: scale(2.4, 2.4);
   }
 }
