@@ -46,7 +46,7 @@ const GameBar = ({ balance, onPlay, handlePlay }: any) => {
       </Grid>
 
       <Grid item xs={12} className={styled.footer}>
-        <ButtonDefault onClick={handlePlay} isLoading={onPlay}>
+        <ButtonDefault onClick={handlePlay} isLoading={onPlay} disabled={onPlay}>
           {"PLAY"}
         </ButtonDefault>
       </Grid>

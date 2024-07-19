@@ -1,5 +1,4 @@
 .main {
-
   background-color: #000;
   width: 100%;
   height: 100%;
@@ -29,17 +28,17 @@
     position: absolute;
     top: 50px;
     height: calc(100% - 100px);
-    min-height: 600px;
     box-sizing: border-box;
     pointer-events: none;
     z-index: 2;
-    
+
     video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 20px;
       box-sizing: border-box;
+      mask-image: radial-gradient(circle, black 80%, rgba(0, 0, 0, 0) 100%);
     }
   }
 
@@ -47,7 +46,6 @@
     position: absolute;
     top: 0;
     height: 100%;
-    min-height: 600px;
     z-index: 1;
     box-sizing: border-box;
     transition: 0.5s all;
@@ -60,7 +58,7 @@
       transition: 5s all;
       filter: drop-shadow(0 0 5px #ffffff50);
     }
-    
+
     img.zoomIn {
       animation: zoom-in 3s ease-in-out;
       animation-fill-mode: forwards;
@@ -73,16 +71,31 @@
 }
 
 @media screen and (min-width: 1920px) {
-  .main > .fullVideo {
-    max-width: 1024px;
+  .main {
+    .fullVideo {
+      max-width: 1024px;
+    }
+
+    .videoInner {
+      top: 90px;
+      height: calc(100% - 180px);
+    }
   }
 }
 
-@media screen and (max-height: 600px) {
-  .main > .minVideo {
-    top: 125px;
+@media screen and (max-width: 1000px) {
+  .main {
+
+    .videoInner {
+      top: 30px;
+      height: calc(100% - 60px);
+    }
   }
 }
+
+/*@media screen and (max-height: 600px) {
+
+}*/
 
 @keyframes zoom-in {
   0% {

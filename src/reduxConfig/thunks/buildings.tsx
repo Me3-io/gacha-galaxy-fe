@@ -7,11 +7,24 @@ import {
   clearBuilding,
 } from "reduxConfig/slices/buildings";
 
+const createCode = (name: string) => name?.toLowerCase().replace(/\s/g, "-");
+
 export const fetchBuildings = () => async (dispatch: any) => {
   dispatch(setBuildingStart());
   try {
     const response = await customAxios().get("config/getconfig");
-    dispatch(setBuildingSuccess(response.data.data));
+
+    const data = response.data.data;
+    const buildings = data?.map((item: any) => ({
+      ...item,
+      code: createCode(item?.name),
+      games: item?.games?.map((game: any) => ({
+        ...game,
+        code: createCode(game?.name),
+      })),
+    }));
+
+    dispatch(setBuildingSuccess(buildings));
     return response.data;
   } catch (error: any) {
     dispatch(setBuildingFailure(error?.message));

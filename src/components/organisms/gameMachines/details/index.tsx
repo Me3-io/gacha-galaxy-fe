@@ -29,8 +29,8 @@ const GameDetails = ({ details, setDetails }: any) => {
   const { i18n } = useTranslation();
 
   const goToGame = () => {
-    const gameName = details.name.replace(/\s/g, "_").toLowerCase();
-    navigate(`/${i18n.language}/game/${gameName}`);
+    if (!details?.code) return;
+    navigate(`/${i18n.language}/game/${details.code}`);
   };
 
   return (

@@ -1,27 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBuildings, getBuildings } from "reduxConfig/thunks/buildings";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import rotateIcon from "assets/icons/rotate.svg";
 
 import Button from "components/atoms/buttons/base";
 import Layout from "components/templates/layout";
 import ActionsBar from "components/organisms/actionsbar";
-
 import GameBar from "components/molecules/gameBar";
 import GameContainer from "components/organisms/game";
-
-import rotateIcon from "assets/icons/rotate.svg";
 
 import styled from "./styled.module.scss";
 
 const Game = () => {
-  const { i18n } = useTranslation();
   const navigate = useNavigate();
-  const { idgame } = useParams();
+  const dispatch = useDispatch();
+  const { i18n } = useTranslation();
+  const { code } = useParams();
+  const buildings = useSelector(getBuildings);
 
-  const [onPlay, setOnPlay] = useState(false);
+  const [gameData, setGameData] = useState<any>({});
+  const [onPlay, setOnPlay] = useState<boolean>(false);
   const [balance, setBalance] = useState(7);
 
   const handleBack = () => {
@@ -37,10 +40,32 @@ const Game = () => {
   const handlePlay = () => {
     if (balance === 0) {
       alert("No keys available");
-      return
+      return;
     }
     setOnPlay(true);
   };
+
+  useEffect(() => {
+    if (buildings) {
+      const game =
+        (buildings &&
+          buildings.find((building: any) =>
+            building?.games?.find((game: any) => game.code === code)
+          )?.games[0]) ||
+        null;
+      setGameData(game);
+    } else {
+      dispatch(fetchBuildings() as any);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buildings]);
+
+  useEffect(() => {
+    if (!gameData) {
+      navigate(`/${i18n.language}/home/`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameData]);
 
   return (
     <Layout>
@@ -64,7 +89,12 @@ const Game = () => {
 
         <Grid container className={styled.main}>
           <Grid item container xs overflow={"hidden"}>
-            <GameContainer onPlay={onPlay} balance={balance} handleEnd={handleEnd} />
+            <GameContainer
+              onPlay={onPlay}
+              balance={balance}
+              handleEnd={handleEnd}
+              gameData={gameData}
+            />
           </Grid>
 
           <Grid item container xs="auto" className={styled.rightCol}>

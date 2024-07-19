@@ -1,11 +1,20 @@
+
+// games ---
 import Capsule from "components/molecules/games/capsule";
 
 const Game = (props: any) => {
-  return (
-    <>
-      {/* ACA DECIDIR QUE GAME CARGAR */}
-      <Capsule {...props} />
-    </>
-  );
+  const { gameData } = props;
+
+  const activeGame = () => {
+    switch (gameData?.code) {
+      case "capsule":
+        return <Capsule {...props} />;
+      default:
+        return <></>;
+    }
+  };
+
+  return activeGame();
 };
+
 export default Game;

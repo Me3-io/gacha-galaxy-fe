@@ -1,13 +1,12 @@
-import bgImage from "assets/images/Capsule_Machine_Front_View.png";
 import { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 
 import styled from "./styled.module.scss";
 
-const srcInit =
-  "https://d1ikhzkdobwmqe.cloudfront.net/Gacha_Galaxy_Capsule_Machine_Game_Animation_2K.mp4";
-const srcSuccess =
-  "https://d1ikhzkdobwmqe.cloudfront.net/Gacha_Galaxy_Box_Game_Animation_Success_720p_Alpha.mp4";
+import bgImage from "assets/images/Capsule_Machine_Front_View.png";
+
+const srcInit = `${process.env.REACT_APP_ASSETS_URL}/Gacha_Galaxy_Capsule_Machine_Game_Animation_2K.mp4`;
+const srcSuccess = `${process.env.REACT_APP_ASSETS_URL}/Gacha_Galaxy_Capsule_Game_Animation_Success_1080p.webm`;
 
 interface State {
   status: string;
@@ -27,10 +26,10 @@ const initialState: State = {
   poster: "",
 };
 
-const Capsule = ({ onPlay, handleEnd }: any) => {
+const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const [gameState, setGameState] = useState(initialState);
-
 
   const bgClass =
     gameState.status === "load"
@@ -40,7 +39,7 @@ const Capsule = ({ onPlay, handleEnd }: any) => {
       : "";
 
   const gameSteper = () => {
-    console.log("estado: ", gameState.status);
+    //console.log("status: ", gameState.status);
     switch (gameState.status) {
       case "init":
         setGameState({ status: "load", visible: false, play: false, loop: false });
