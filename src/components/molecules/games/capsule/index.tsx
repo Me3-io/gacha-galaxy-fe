@@ -6,7 +6,7 @@ import styled from "./styled.module.scss";
 import bgImage from "assets/images/Capsule_Machine_Front_View.png";
 
 const srcInit = `${process.env.REACT_APP_ASSETS_URL}/Gacha_Galaxy_Capsule_Machine_Game_Animation_2K.mp4`;
-const srcSuccess = `${process.env.REACT_APP_ASSETS_URL}/Gacha_Galaxy_Capsule_Game_Animation_Success_1080p.webm`;
+const srcSuccess = `${process.env.REACT_APP_ASSETS_URL}/Gacha_Galaxy_Box_Game_Animation_Success_720p_Alpha.mp4`;
 
 interface State {
   status: string;
