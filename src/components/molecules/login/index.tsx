@@ -44,16 +44,13 @@ const LoginBar = ({ showLoginButton = false }: any) => {
 
   const logout = () => {
     setLoadLogout(true);
-    setLoadSigning(false);
     disconnect();
-    resetMsg();
-    dispatch(clearAuthToken());
-    dispatch(clearMessageAuth());
   };
 
   useEffect(() => {
     const sameChain = account.chainId === chains[0].id;
-    if (isConnected && address && !dataMsg && !tokenLS && sameChain) {
+    if (isConnected && address && !dataMsg && !tokenLS && sameChain && !isDisconnected) {
+      console.log("- Signing... -");
       const from = window.location.hostname;
       setLoadSigning(true);
       dispatch(fetchChallengeRequest({ address, from }) as any).then(async (response: any) => {
@@ -71,6 +68,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   }, [isConnected, address, account.chainId]);
 
   useEffect(() => {
+
     if (dataMsg && dataMessageAuth?.message) {
       dispatch(
         fetchChallengeVerify({ signature: dataMsg, message: dataMessageAuth.message }) as any
@@ -105,10 +103,6 @@ const LoginBar = ({ showLoginButton = false }: any) => {
 
   useEffect(() => {
     const isLoginView = !location.pathname.split("/")[2];
-    if (!isLoginView && !tokenLS) {
-      navigate(`/${i18n.language}/`);
-    }
-
     if (isLoginView && isConnected && tokenLS) {
       navigate(`/${i18n.language}/home/`);
     }
@@ -118,14 +112,15 @@ const LoginBar = ({ showLoginButton = false }: any) => {
 
   useEffect(() => {
     if (isDisconnected) {
+      console.log("- disconnected -");
       setLoadLogout(false);
-      disconnect();
+
       resetMsg();
       dispatch(clearAuthToken());
       dispatch(clearMessageAuth());
       localStorage.removeItem("sessionToken");
-      const isLoginView = !location.pathname.split("/")[2];
-      if (!isLoginView) navigate(`/${i18n.language}/`);
+
+      navigate(`/${i18n.language}/`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDisconnected]);

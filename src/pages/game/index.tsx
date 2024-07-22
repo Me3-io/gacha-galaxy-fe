@@ -10,7 +10,6 @@ import rotateIcon from "assets/icons/rotate.svg";
 
 import Button from "components/atoms/buttons/base";
 import Layout from "components/templates/layout";
-import ActionsBar from "components/organisms/actionsbar";
 import GameBar from "components/molecules/gameBar";
 import GameContainer from "components/organisms/game";
 
@@ -70,7 +69,6 @@ const Game = () => {
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-        <ActionsBar />
 
         <Box className={styled.mobileRotate}>
           <Box>

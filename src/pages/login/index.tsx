@@ -3,7 +3,6 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount } from "wagmi";
 
 import Layout from "components/templates/layout";
-import ActionsBar from "components/organisms/actionsbar";
 import Button from "components/atoms/buttons/default";
 import Logo from "assets/logo.svg";
 
@@ -18,7 +17,6 @@ const Login = () => {
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-        <ActionsBar openModal />
 
         <Box className={styled.logo}>
           <img src={Logo} alt="Logo" className={styled.imgLogo} />

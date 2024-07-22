@@ -1,7 +1,14 @@
+import { Box } from "@mui/material";
 import styles from "./styled.module.scss";
+import ActionsBar from "components/organisms/actionsbar";
 
 const Layout = ({ children }: any) => {
-  return <div className={styles.appLayout}>{children}</div>;
+  return (
+    <Box className={styles.appLayout}>
+      <ActionsBar />
+      {children}
+    </Box>
+  );
 };
 
 export default Layout;
