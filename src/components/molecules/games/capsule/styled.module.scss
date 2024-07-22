@@ -53,6 +53,7 @@
     img {
       display: block;
       height: 100%;
+      width: 100%;
       object-fit: cover;
       transform-origin: 52.6% 29.5%;
       transition: 5s all;
@@ -85,10 +86,20 @@
 
 @media screen and (max-width: 1000px) {
   .main {
-
     .videoInner {
       top: 30px;
       height: calc(100% - 60px);
+      width: calc(100% - 120px);
+    }
+  }
+}
+
+
+
+@media screen and (max-width: 700px) {
+  .main {
+    .videoInner {
+      width: calc(100% - 30px);
     }
   }
 }
