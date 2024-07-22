@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { Alert, Box } from "@mui/material";
+import { Box } from "@mui/material";
 
 import styled from "./styled.module.scss";
 
 import bgImage from "assets/images/Capsule_Machine_Front_View.png";
 import customAxios from "utils/customAxios";
+import Alert from "components/molecules/alert";
 
 const srcInit = `${process.env.REACT_APP_ASSETS_URL}/Gacha_Galaxy_Capsule_Machine_Game_Animation_2K.mp4`;
 const srcSuccess = `${process.env.REACT_APP_ASSETS_URL}/Gacha_Galaxy_Box_Game_Animation_Success_720p_Alpha.mp4`;
@@ -176,11 +177,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
       </Box>
 
       {onError.show && (
-        <Alert
-          severity="error"
-          className={styled.alert}
-          onClose={() => setOnError({ show: false, msg: "" })}
-        >
+        <Alert onClose={() => setOnError({ show: false, msg: "" })}>
           {onError.msg || "Error to login."}
         </Alert>
       )}
