@@ -6,7 +6,7 @@ import keyIcon from "assets/icons/key.svg";
 import styled from "./styled.module.scss";
 
 
-const GameBar = ({ balance, onPlay, handlePlay }: any) => {
+const GameBar = ({ balance, onPlay, handlePlay, gameData }: any) => {
   return (
     <>
       <Box className={styled.dotted}></Box>
@@ -17,8 +17,7 @@ const GameBar = ({ balance, onPlay, handlePlay }: any) => {
           </Typography>
 
           <Typography className={styled.text}>
-            The original Gacha game! Get your keys out, and get ready to play for randomized loot
-            where every key grants you a prize.
+            {gameData?.howToPlay || "No instructions available"}
           </Typography>
         </Grid>
 
@@ -40,7 +39,7 @@ const GameBar = ({ balance, onPlay, handlePlay }: any) => {
 
           <Box className={styled.keys}>
             <img src={keyIcon} alt="key" />
-            <Typography className={styled.text}>1 KEY</Typography>
+            <Typography className={styled.text}>{gameData?.price || "-"} KEY</Typography>
           </Box>
         </Grid>
       </Grid>

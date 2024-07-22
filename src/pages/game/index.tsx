@@ -30,10 +30,12 @@ const Game = () => {
     navigate(`/${i18n.language}/home`);
   };
 
-  const handleEnd = (status: string) => {
+  const handleEnd = (response: any) => {
     setOnPlay(false);
     setBalance(balance - 1);
-    alert("You Win!! (show modal): " + status);
+    if (!response?.error) {
+      alert("Congratulations! You won a prize.");
+    }
   };
 
   const handlePlay = () => {
@@ -69,7 +71,6 @@ const Game = () => {
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-
         <Box className={styled.mobileRotate}>
           <Box>
             <img src={rotateIcon} alt="rotate" />
@@ -96,7 +97,12 @@ const Game = () => {
           </Grid>
 
           <Grid item container xs="auto" className={styled.rightCol}>
-            <GameBar onPlay={onPlay} balance={balance} handlePlay={handlePlay} />
+            <GameBar
+              onPlay={onPlay}
+              balance={balance}
+              handlePlay={handlePlay}
+              gameData={gameData}
+            />
           </Grid>
         </Grid>
       </Container>

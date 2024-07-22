@@ -65,8 +65,7 @@ const GameDetails = ({ details, setDetails }: any) => {
               </Typography>
               <img src={joystick} alt="joystick" />
               <Typography className={styled.text}>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                dolor. Aenean massa.
+                {details?.howToPlay || "No instructions available"}
               </Typography>
             </Grid>
             <Grid
@@ -83,8 +82,7 @@ const GameDetails = ({ details, setDetails }: any) => {
               </Typography>
               <img src={prize} alt="prize" />
               <Typography className={styled.text}>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                dolor. Aenean massa.
+                {details?.prizes || "No data available"}
               </Typography>
             </Grid>
           </Grid>
