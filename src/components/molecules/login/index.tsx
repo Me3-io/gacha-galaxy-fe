@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Alert, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 import { bsc, sepolia } from "wagmi/chains";
@@ -21,6 +21,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import styled from "./styled.module.scss";
+import Alert from "../alert";
 
 const chains = [process.env.REACT_APP_CHAIN === "bsc" ? bsc : sepolia] as const;
 
@@ -68,7 +69,6 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   }, [isConnected, address, account.chainId]);
 
   useEffect(() => {
-
     if (dataMsg && dataMessageAuth?.message) {
       dispatch(
         fetchChallengeVerify({ signature: dataMsg, message: dataMessageAuth.message }) as any
@@ -172,11 +172,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
       )}
 
       {onError.show && (
-        <Alert
-          severity="error"
-          className={styled.alert}
-          onClose={() => setOnError({ show: false, msg: "" })}
-        >
+        <Alert onClose={() => setOnError({ show: false, msg: "" })}>
           {onError.msg || "Error to login."}
         </Alert>
       )}
