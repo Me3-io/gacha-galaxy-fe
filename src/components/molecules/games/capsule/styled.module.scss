@@ -26,19 +26,19 @@
 
   .videoInner {
     position: absolute;
-    top: 50px;
+    //top: 50px;
     height: calc(100% - 100px);
     box-sizing: border-box;
     pointer-events: none;
     z-index: 2;
     transition: 1s all;
+    mask-image: radial-gradient(circle, black 90%, rgba(0, 0, 0, 0) 100%);
 
     video {
       height: 100%;
       object-fit: cover;
-      border-radius: 20px;
+      border-radius: 2rem;
       box-sizing: border-box;
-      mask-image: radial-gradient(circle, black 90%, rgba(0, 0, 0, 0) 100%);
       background-color: #000;
     }
   }
@@ -72,7 +72,6 @@
   }
 }
 
-
 // mobile responsive ---
 
 @media screen and (min-width: 1920px) {
@@ -96,8 +95,6 @@
     }
   }
 }
-
-
 
 /*@media screen and (max-width: 700px) {
   .main {
