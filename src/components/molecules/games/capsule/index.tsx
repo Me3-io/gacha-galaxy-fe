@@ -63,7 +63,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
       })
       .then((response) => {
         if (response?.data?.status !== "error") {
-          setResponse(response?.data.result || {});
+          setResponse(response?.data?.result || {});
         } else {
           errorGame();
         }
@@ -110,7 +110,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
   };
 
   const endGame = () => {
-    setModal({ open: true, data: response?.result });
+    setModal({ open: true, data: response });
     handleEnd(response);
     setResponse(null);
   };
