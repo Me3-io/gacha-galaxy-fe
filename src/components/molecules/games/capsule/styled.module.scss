@@ -59,15 +59,20 @@
       transform-origin: 52.6% 29.5%;
       transition: 5s all;
       filter: drop-shadow(0 0 5px #ffffff50);
+      animation-fill-mode: forwards;
+      -webkit-animation-fill-mode: forwards;
     }
 
     img.zoomIn {
       animation: zoom-in 3s ease-in-out;
       animation-fill-mode: forwards;
+      -webkit-animation-fill-mode: forwards;
     }
 
     img.zoomFixed {
       transform: scale(2.4, 2.4);
+      animation-fill-mode: forwards;
+      -webkit-animation-fill-mode: forwards;
     }
   }
 }
