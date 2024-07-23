@@ -14,6 +14,7 @@ import { clearMessageAuth } from "reduxConfig/slices/messageAuth";
 
 import CustomTooltip from "components/atoms/materialTooltip";
 import Button from "components/atoms/buttons/default";
+import Alert from "../alert";
 
 import LogoutIcon from "@mui/icons-material/Logout";
 import WalletIcon from "@mui/icons-material/Wallet";
@@ -21,7 +22,6 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import styled from "./styled.module.scss";
-import Alert from "../alert";
 
 const chains = [process.env.REACT_APP_CHAIN === "bsc" ? bsc : sepolia] as const;
 
@@ -37,7 +37,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   const { open } = useWeb3Modal();
   const { disconnect } = useDisconnect();
   const account = useAccount();
-  const { isConnected, isConnecting, isDisconnected, address } = useAccount();
+  const { isConnected, isConnecting, isDisconnected, address, status } = useAccount();
   const { data: dataMsg, error: errorMsg, reset: resetMsg, signMessage } = useSignMessage();
 
   const tokenLS = localStorage.getItem("sessionToken");
@@ -51,7 +51,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   useEffect(() => {
     const sameChain = account.chainId === chains[0].id;
     if (isConnected && address && !dataMsg && !tokenLS && sameChain && !isDisconnected) {
-      console.log("- Signing... -");
+      console.log("signing");
       const from = window.location.hostname;
       setLoadSigning(true);
       dispatch(fetchChallengeRequest({ address, from }) as any).then(async (response: any) => {
@@ -112,7 +112,6 @@ const LoginBar = ({ showLoginButton = false }: any) => {
 
   useEffect(() => {
     if (isDisconnected) {
-      console.log("- disconnected -");
       setLoadLogout(false);
 
       resetMsg();
@@ -125,9 +124,13 @@ const LoginBar = ({ showLoginButton = false }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDisconnected]);
 
-  /*useEffect(() => {
-    console.log("account.chainId", account.chainId);
-  }, [account.chainId]);*/
+  useEffect(() => {
+    console.log(status);
+    if (status === "connected" && loadLogout) {
+      disconnect();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, loadLogout]);
 
   return (
     <>

@@ -6,6 +6,7 @@ import styled from "./styled.module.scss";
 import bgImage from "assets/images/Capsule_Machine_Front_View.png";
 import customAxios from "utils/customAxios";
 import Alert from "components/molecules/alert";
+import GameModal from "components/molecules/gameModal";
 
 const srcInit = `${process.env.REACT_APP_ASSETS_URL}/Gacha_Galaxy_Capsule_Machine_Game_Animation_2K.mp4`;
 const srcSuccess = `${process.env.REACT_APP_ASSETS_URL}/Gacha_Galaxy_Box_Game_Animation_Success_720p_Alpha.mp4`;
@@ -32,10 +33,12 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
   //console.log("gameData: ", gameData);
 
   const videoRef = useRef<HTMLVideoElement>(null);
+
   const [gameState, setGameState] = useState<State>(initialState);
   const [onSuccess, setOnSuccess] = useState(false);
   const [onError, setOnError] = useState({ show: false, msg: "" });
   const [response, setResponse] = useState<any>(null);
+  const [modal, setModal] = useState({ open: false, data: {} });
 
   const states = {
     init: { status: "init", visible: false, play: false, loop: false },
@@ -60,7 +63,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
       })
       .then((response) => {
         if (response?.data?.status !== "error") {
-          setResponse(response?.data);
+          setResponse(response?.data.result || {});
         } else {
           errorGame();
         }
@@ -107,7 +110,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
   };
 
   const endGame = () => {
-    setGameState(states.ready);
+    setModal({ open: true, data: response?.result });
     handleEnd(response);
     setResponse(null);
   };
@@ -144,6 +147,12 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onPlay]);
 
+  // on close congrats modal ---
+  useEffect(() => {
+    if (!modal.open && gameState.status !== "init") setGameState(states.ready);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modal?.open]);
+
   useEffect(() => {
     setGameState(states.init);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -175,6 +184,8 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
       <Box className={styled.bgContainer} sx={{ opacity: gameState.status === "success" ? 0 : 1 }}>
         <img src={bgImage} alt="poster" className={bgClass} />
       </Box>
+
+      <GameModal {...modal} onClose={() => setModal({ open: false, data: {} })} />
 
       {onError.show && (
         <Alert onClose={() => setOnError({ show: false, msg: "" })}>

@@ -14,6 +14,7 @@ import GameBar from "components/molecules/gameBar";
 import GameContainer from "components/organisms/game";
 
 import styled from "./styled.module.scss";
+import Alert from "components/molecules/alert";
 
 const Game = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const Game = () => {
   const { code } = useParams();
   const buildings = useSelector(getBuildings);
 
+  const [onError, setOnError] = useState({ show: false, msg: "" });
   const [gameData, setGameData] = useState<any>({});
   const [onPlay, setOnPlay] = useState<boolean>(false);
   const [balance, setBalance] = useState(7);
@@ -31,19 +33,20 @@ const Game = () => {
   };
 
   const handleEnd = (response: any) => {
+    //if (response.userAvailableKeys) {
+    //  setBalance(response.userAvailableKeys);
+    //} else {
+    setBalance(balance - gameData?.price);
+    //}
     setOnPlay(false);
-    setBalance(balance - 1);
-    if (!response?.error) {
-      alert("Congratulations! You won a prize.");
-    }
   };
 
   const handlePlay = () => {
-    if (balance === 0) {
-      alert("No keys available");
-      return;
+    if (balance === 0 || balance - gameData?.price < 0) {
+      setOnError({ show: true, msg: "Not enough balance." });
+    } else {
+      setOnPlay(true);
     }
-    setOnPlay(true);
   };
 
   useEffect(() => {
@@ -105,6 +108,12 @@ const Game = () => {
             />
           </Grid>
         </Grid>
+
+        {onError.show && (
+          <Alert onClose={() => setOnError({ show: false, msg: "" })}>
+            {onError.msg || "Error"}
+          </Alert>
+        )}
       </Container>
     </Layout>
   );
