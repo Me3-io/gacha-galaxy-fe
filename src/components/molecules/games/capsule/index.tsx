@@ -171,6 +171,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
             key={gameState.source}
             poster={gameState.poster}
             autoPlay={gameState.play}
+            preload="auto"
             controls={false}
             muted
             playsInline

@@ -14,6 +14,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import keyIcon from "assets/icons/key.svg";
 import Button from "components/atoms/buttons/base";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import { useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
@@ -62,7 +63,10 @@ const Leaderboard = ({
         <Box component="span" onClick={() => setOpenMenu(true)}>
           <img src={menu} alt="menu" width={36} />
         </Box>
-        <Box>asd</Box>
+        <Box className={styled.nickname}>
+          <Typography>{leaderboardData?.userNickname}</Typography>
+          <AccountCircleIcon />
+        </Box>
         {showBack && (
           <Box className={styled.upIcon} onClick={goToMap}>
             <span>{t("map")}</span>
