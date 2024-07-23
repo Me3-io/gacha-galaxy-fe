@@ -71,8 +71,8 @@
 
     img.zoomFixed {
       transform: scale(2.4, 2.4);
-      animation-fill-mode: forwards;
-      -webkit-animation-fill-mode: forwards;
+      transition: none!important;
+      animation: none!important;
     }
   }
 }

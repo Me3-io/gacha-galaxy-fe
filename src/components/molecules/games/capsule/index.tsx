@@ -31,7 +31,6 @@ const initialState: State = {
 };
 
 const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
-
   const { ref, height } = useResizeObserver();
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -177,14 +176,9 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   return (
     <Box className={styled.main}>
-      <Box
-        ref={ref}
-        className={styled.videoInner}
-        sx={{ opacity: gameState.visible ? 1 : 0 }}
-      >
+      <Box ref={ref} className={styled.videoInner} sx={{ opacity: gameState.visible ? 1 : 0 }}>
         {gameState.visible && (
           <video
             ref={videoRef}
