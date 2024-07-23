@@ -193,6 +193,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
             poster={gameState.poster}
             autoPlay={gameState.play}
             controls={false}
+            preload="auto"
             muted
             playsInline
             onEnded={endGame}
