@@ -12,6 +12,9 @@ import keyIcon from "assets/icons/key.svg";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { useSelector } from "react-redux";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+
 import styled from "./styled.module.scss";
 
 const ItemChance = ({ text, percent }: any) => {
@@ -27,6 +30,7 @@ const ItemChance = ({ text, percent }: any) => {
 const GameDetails = ({ details, setDetails }: any) => {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
+  const leaderboardData = useSelector(getLeaderboard);
 
   const goToGame = () => {
     if (!details?.code) return;
@@ -117,7 +121,7 @@ const GameDetails = ({ details, setDetails }: any) => {
               </Typography>
               <Box className={styled.keys}>
                 <img src={keyIcon} alt="key" height={"36px"} />
-                <span>7</span>
+                <span>{leaderboardData?.userKeys || 0}</span>
               </Box>
             </Grid>
             <Grid

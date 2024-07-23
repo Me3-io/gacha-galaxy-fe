@@ -4,14 +4,15 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBuildings, getBuildings } from "reduxConfig/thunks/buildings";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import rotateIcon from "assets/icons/rotate.svg";
 
 import Button from "components/atoms/buttons/base";
 import Layout from "components/templates/layout";
-import GameBar from "components/molecules/gameBar";
-import GameContainer from "components/organisms/game";
+import GameBar from "components/organisms/game/bar";
+import GameContainer from "components/organisms/game/container";
 
 import styled from "./styled.module.scss";
 import Alert from "components/molecules/alert";
@@ -21,12 +22,15 @@ const Game = () => {
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
   const { code } = useParams();
+
   const buildings = useSelector(getBuildings);
+  const leaderboardData = useSelector(getLeaderboard);
 
   const [onError, setOnError] = useState({ show: false, msg: "" });
   const [gameData, setGameData] = useState<any>({});
   const [onPlay, setOnPlay] = useState<boolean>(false);
   const [balance, setBalance] = useState(7);
+  //const [balance, setBalance] = useState(leaderboardData?.userKeys || 0);
 
   const handleBack = () => {
     navigate(`/${i18n.language}/home`);

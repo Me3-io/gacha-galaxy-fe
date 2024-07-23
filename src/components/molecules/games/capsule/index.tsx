@@ -6,7 +6,7 @@ import styled from "./styled.module.scss";
 import bgImage from "assets/images/Capsule_Machine_Front_View.png";
 import customAxios from "utils/customAxios";
 import Alert from "components/molecules/alert";
-import GameModal from "components/molecules/gameModal";
+import GameModal from "components/organisms/game/modal";
 
 const srcAnimation = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Game_Animation.mp4`;
 const srcSuccess = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Animation_Success.mp4`;
@@ -161,7 +161,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
   return (
     <Box className={styled.main}>
       <Box
-        className={gameState.status !== "success" ? styled.videoInner : styled.videoFull}
+        className={styled.videoInner}
         sx={{ opacity: gameState.visible ? 1 : 0 }}
       >
         {gameState.visible && (
@@ -181,7 +181,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
         )}
       </Box>
 
-      <Box className={styled.bgContainer} sx={{ opacity: gameState.status === "success" ? 0 : 1 }}>
+      <Box className={styled.bgContainer} >
         <img src={bgImage} alt="poster" className={bgClass} />
       </Box>
 

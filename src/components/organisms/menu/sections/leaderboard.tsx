@@ -13,13 +13,15 @@ import arrowDown from "assets/icons/arrowDown.svg";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import keyIcon from "assets/icons/key.svg";
-
 import Button from "components/atoms/buttons/base";
-import { useTranslation } from "react-i18next";
 
+import { useSelector } from "react-redux";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+
+import { useTranslation } from "react-i18next";
 import styled from "../styled.module.scss";
 
-const rows = [
+/*const rows = [
   { id: 1, name: "UserGamer123", arrowUp: true, points: 487.5 },
   { id: 2, name: "PixelWarrior", arrowUp: false, points: 469.2 },
   { id: 3, name: "DragonSlayerX", arrowUp: true, points: 452.3 },
@@ -35,7 +37,7 @@ const rows = [
   { id: 13, name: "LunarKnight", arrowUp: true, points: 452.3 },
   { id: 14, name: "FrostGuardian", arrowUp: false, points: 436.5 },
   { id: 15, name: "StormHunter", arrowUp: true, points: 419.7 },
-];
+];*/
 
 const Leaderboard = ({
   showBack,
@@ -46,6 +48,7 @@ const Leaderboard = ({
   opacity,
 }: any) => {
   const { t } = useTranslation();
+  const leaderboardData = useSelector(getLeaderboard);
 
   return (
     <Grid
@@ -59,6 +62,7 @@ const Leaderboard = ({
         <Box component="span" onClick={() => setOpenMenu(true)}>
           <img src={menu} alt="menu" width={36} />
         </Box>
+        <Box>asd</Box>
         {showBack && (
           <Box className={styled.upIcon} onClick={goToMap}>
             <span>{t("map")}</span>
@@ -76,17 +80,17 @@ const Leaderboard = ({
           <TableContainer className={styled.table}>
             <Table>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.id}>
+                {leaderboardData?.ranking.map((row: any) => (
+                  <TableRow key={row.userId}>
                     <TableCell className={styled.user} component="th" scope="row">
                       <img src={user} alt="user" />
-                      <span>{row.id}</span>
-                      {row.name}
+                      <span>{row.position}</span>
+                      {row.nickname}
                     </TableCell>
                     <TableCell align="right">
-                      <img src={row.arrowUp ? arrowUp : arrowDown} alt="arrow" />
+                      <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />
                     </TableCell>
-                    <TableCell align="right">{row.points.toFixed(3)} pts</TableCell>
+                    <TableCell align="right">{row.points.toFixed(2)} pts</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -99,9 +103,11 @@ const Leaderboard = ({
         <Box className={styled.item} pr={2}>
           <Box display={"flex"} alignItems={"center"} gap={1}>
             <span>{t("points")}</span>
-            <Typography className={styled.position}>#345</Typography>
+            <Typography className={styled.position}>
+              #{leaderboardData?.userPosition || "-"}
+            </Typography>
           </Box>
-          <Typography>125,000</Typography>
+          <Typography>{leaderboardData?.userPoints.toFixed(2)}</Typography>
           <Button onClick={() => setOpenPoints(true)}>
             {t("earn-points")} <ArrowForwardIcon />
           </Button>
@@ -110,9 +116,9 @@ const Leaderboard = ({
           <span>{t("keys")}</span>
           <Box display={"flex"} gap={2} alignItems={"center"}>
             <img src={keyIcon} alt="key" height={"28px"} />
-            <Typography>7</Typography>
+            <Typography>{leaderboardData?.userKeys || 0}</Typography>
           </Box>
-          <Button onClick={() => setOpenTokens(true)}>
+          <Button onClick={() => setOpenTokens(true)} disabled>
             {t("get-keys")} <ArrowForwardIcon />
           </Button>
         </Box>

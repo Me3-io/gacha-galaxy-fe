@@ -6,8 +6,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Add, Remove, CropFree, Map, Numbers } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
-import { useDispatch } from "react-redux";
-import { fetchBuildings } from "reduxConfig/thunks/buildings";
 
 import Tooltip from "components/atoms/tooltip";
 import Button from "components/atoms/buttons/base";
@@ -24,7 +22,6 @@ const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = ({ setGames, setCampaing }: any) => {
   const Viewer = useRef<any>(null);
-  const dispatch = useDispatch();
 
   const { ref, width, height } = useResizeObserver();
   const [value, setValue] = useState<any>({});
@@ -43,10 +40,6 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
     height: number;
   }>({ originX: 0, originY: 0, width: 0, height: 0 });
 
-  useEffect(() => {
-    dispatch(fetchBuildings() as any);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // calculate grid data ---
   const _drawGrid = () => {
