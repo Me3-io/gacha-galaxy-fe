@@ -4,7 +4,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBuildings, getBuildings } from "reduxConfig/thunks/buildings";
-import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import rotateIcon from "assets/icons/rotate.svg";
@@ -24,13 +24,12 @@ const Game = () => {
   const { code } = useParams();
 
   const buildings = useSelector(getBuildings);
-  const leaderboardData = useSelector(getLeaderboard);
+  const leaderboard = useSelector(getLeaderboard);
 
   const [onError, setOnError] = useState({ show: false, msg: "" });
   const [gameData, setGameData] = useState<any>({});
   const [onPlay, setOnPlay] = useState<boolean>(false);
-  const [balance, setBalance] = useState(7);
-  //const [balance, setBalance] = useState(leaderboardData?.userKeys || 0);
+  const [balance, setBalance] = useState(0);
 
   const handleBack = () => {
     navigate(`/${i18n.language}/home`);
@@ -67,6 +66,15 @@ const Game = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buildings]);
+
+  useEffect(() => {
+    if (leaderboard) {
+      setBalance(leaderboard?.userKeys || 0);
+    } else {
+      dispatch(fetchLeaderboard() as any);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [leaderboard]);
 
   useEffect(() => {
     if (!gameData) {

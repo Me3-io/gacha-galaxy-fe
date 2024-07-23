@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
+import useResizeObserver from "use-resize-observer";
 
 import styled from "./styled.module.scss";
 
@@ -8,8 +9,8 @@ import customAxios from "utils/customAxios";
 import Alert from "components/molecules/alert";
 import GameModal from "components/organisms/game/modal";
 
-const srcAnimation = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Game_Animation.mp4`;
-const srcSuccess = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Animation_Success.mp4`;
+const urlAnimation = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Game_Animation.mp4`;
+const urlSuccess = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Animation_Success.mp4`;
 
 interface State {
   status: string;
@@ -30,8 +31,8 @@ const initialState: State = {
 };
 
 const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
-  //console.log("gameData: ", gameData);
 
+  const { ref, height } = useResizeObserver();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [gameState, setGameState] = useState<State>(initialState);
@@ -40,12 +41,15 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
   const [response, setResponse] = useState<any>(null);
   const [modal, setModal] = useState({ open: false, data: {} });
 
+  const [sourceAnimation, setSourceAnimation] = useState<string>("");
+  const [sourceSuccess, setSourceSuccess] = useState<string>("");
+
   const states = {
     init: { status: "init", visible: false, play: false, loop: false },
     load: { status: "load", visible: false, play: false, loop: false },
-    ready: { status: "ready", visible: true, play: false, loop: true, source: srcAnimation },
-    play: { status: "play", visible: true, play: true, loop: true, source: srcAnimation },
-    success: { status: "success", visible: true, play: true, loop: false, source: srcSuccess },
+    ready: { status: "ready", visible: true, play: false, loop: true, source: sourceAnimation },
+    play: { status: "play", visible: true, play: true, loop: true, source: sourceAnimation },
+    success: { status: "success", visible: true, play: true, loop: false, source: sourceSuccess },
   };
 
   const bgClass =
@@ -54,6 +58,13 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
       : gameState.status !== "init"
       ? styled.zoomFixed
       : "";
+
+  const getResource = async (url: string) => {
+    return await fetch(url)
+      .then((res) => res.blob())
+      .then((res) => URL.createObjectURL(res))
+      .catch((error) => console.error("error: " + error.message));
+  };
 
   // get game data ---
   const getPlayGame = () => {
@@ -155,12 +166,22 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
 
   useEffect(() => {
     setGameState(states.init);
+
+    (async () => {
+      const sourceA = (await getResource(urlAnimation)) || "";
+      const sourceB = (await getResource(urlSuccess)) || "";
+
+      setSourceAnimation(sourceA);
+      setSourceSuccess(sourceB);
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   return (
     <Box className={styled.main}>
       <Box
+        ref={ref}
         className={styled.videoInner}
         sx={{ opacity: gameState.visible ? 1 : 0 }}
       >
@@ -171,18 +192,18 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
             key={gameState.source}
             poster={gameState.poster}
             autoPlay={gameState.play}
-            preload="auto"
             controls={false}
             muted
             playsInline
             onEnded={endGame}
+            style={{ width: height ? height : "100%" }}
           >
             <source src={gameState.source} type="video/mp4" />
           </video>
         )}
       </Box>
 
-      <Box className={styled.bgContainer} >
+      <Box className={styled.bgContainer}>
         <img src={bgImage} alt="poster" className={bgClass} />
       </Box>
 
