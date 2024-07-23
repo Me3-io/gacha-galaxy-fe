@@ -8,8 +8,8 @@ import customAxios from "utils/customAxios";
 import Alert from "components/molecules/alert";
 import GameModal from "components/molecules/gameModal";
 
-const srcInit = `${process.env.REACT_APP_ASSETS_URL}/Gacha_Galaxy_Capsule_Machine_Game_Animation_2K.mp4`;
-const srcSuccess = `${process.env.REACT_APP_ASSETS_URL}/Gacha_Galaxy_Box_Game_Animation_Success_720p_Alpha.mp4`;
+const srcAnimation = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Game_Animation.mp4`;
+const srcSuccess = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Animation_Success.mp4`;
 
 interface State {
   status: string;
@@ -43,8 +43,8 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
   const states = {
     init: { status: "init", visible: false, play: false, loop: false },
     load: { status: "load", visible: false, play: false, loop: false },
-    ready: { status: "ready", visible: true, play: false, loop: true, source: srcInit },
-    play: { status: "play", visible: true, play: true, loop: true, source: srcInit },
+    ready: { status: "ready", visible: true, play: false, loop: true, source: srcAnimation },
+    play: { status: "play", visible: true, play: true, loop: true, source: srcAnimation },
     success: { status: "success", visible: true, play: true, loop: false, source: srcSuccess },
   };
 
