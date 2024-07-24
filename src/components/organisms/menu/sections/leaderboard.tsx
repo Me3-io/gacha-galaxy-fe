@@ -14,7 +14,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import keyIcon from "assets/icons/key.svg";
 import Button from "components/atoms/buttons/base";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import { useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
@@ -63,10 +63,13 @@ const Leaderboard = ({
         <Box component="span" onClick={() => setOpenMenu(true)}>
           <img src={menu} alt="menu" width={36} />
         </Box>
-        <Box className={styled.nickname}>
+        <Box className={styled.nickname} display={{ xs: "none", md: "flex" }}>
           <Typography>{leaderboardData?.userNickname}</Typography>
           <AccountCircleIcon />
         </Box>
+        <Typography className={styled.title} display={{ xs: "flex", md: "none" }}>
+          {t("leaderboard").toUpperCase()}
+        </Typography>
         {showBack && (
           <Box className={styled.upIcon} onClick={goToMap}>
             <span>{t("map")}</span>
@@ -75,8 +78,8 @@ const Leaderboard = ({
         )}
       </Box>
 
-      <Box px={2} py={2} className={styled.container}>
-        <Typography pb={1} className={styled.title}>
+      <Box p={2} pt={0} className={styled.container}>
+        <Typography pb={1} className={styled.title} display={{ xs: "none", md: "inline-block" }}>
           {t("leaderboard").toUpperCase()}
         </Typography>
         <Box className={styled.listData}>
@@ -105,22 +108,27 @@ const Leaderboard = ({
 
       <Box px={4} py={2} className={styled.footer}>
         <Box className={styled.item} pr={2}>
-          <Box display={"flex"} alignItems={"center"} gap={1}>
-            <span>{t("points")}</span>
-            <Typography className={styled.position}>
-              #{leaderboardData?.userPosition || "-"}
-            </Typography>
+          <Box>
+            <Box display={"flex"} alignItems={"center"} gap={1}>
+              <span>{t("points")}</span>
+              <Typography className={styled.position}>
+                #{leaderboardData?.userPosition || "-"}
+              </Typography>
+            </Box>
+            <Typography>{leaderboardData?.userPoints.toFixed(2)}</Typography>
           </Box>
-          <Typography>{leaderboardData?.userPoints.toFixed(2)}</Typography>
+
           <Button onClick={() => setOpenPoints(true)}>
             {t("earn-points")} <ArrowForwardIcon />
           </Button>
         </Box>
         <Box className={styled.item} pl={2}>
-          <span>{t("keys")}</span>
-          <Box display={"flex"} gap={2} alignItems={"center"}>
-            <img src={keyIcon} alt="key" height={"28px"} />
-            <Typography>{leaderboardData?.userKeys || 0}</Typography>
+          <Box>
+            <span>{t("keys")}</span>
+            <Box display={"flex"} gap={2} alignItems={"center"}>
+              <img src={keyIcon} alt="key" height={"28px"} />
+              <Typography>{leaderboardData?.userKeys || 0}</Typography>
+            </Box>
           </Box>
           <Button onClick={() => setOpenTokens(true)} disabled>
             {t("get-keys")} <ArrowForwardIcon />

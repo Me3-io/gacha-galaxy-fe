@@ -35,7 +35,6 @@
     align-items: baseline;
 
     .nickname {
-      display: flex;
       align-items: center;
       gap: 5px;
       padding: 0 0.5rem;
@@ -207,6 +206,11 @@
       width: 50%;
       justify-content: space-evenly;
 
+      & > div {
+        display: flex;
+        flex-direction: column;
+      }
+
       p {
         color: #9a4aff;
         font-family: "ChakraPetchBold";
@@ -342,6 +346,15 @@
     th {
       font-size: 1rem !important;
       padding: 8px 16px !important;
+    }
+  }
+}
+
+@media screen and (max-width: 900px) and (min-width: 600px) {
+  .main > .footer {
+    .item {
+      align-items: last baseline;
+      flex-direction: row;
     }
   }
 }
