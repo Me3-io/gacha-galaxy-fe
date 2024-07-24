@@ -191,7 +191,10 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
             muted
             playsInline
             onEnded={endGame}
-            style={{ width: height ? height : "100%" }}
+            style={{
+              width: height ? height : "100%",
+              background: gameState.status === "success" ? "#000" : "transparent",
+            }}
           >
             <source src={gameState.source} type="video/mp4" />
           </video>
