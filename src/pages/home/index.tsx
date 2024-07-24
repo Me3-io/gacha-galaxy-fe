@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Container, Grid } from "@mui/material";
 
 import Layout from "components/templates/layout";
@@ -9,16 +9,29 @@ import Campaign from "components/organisms/campaing";
 
 import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
-import styled from "./styled.module.scss";
+import { useDispatch } from "react-redux";
+import { fetchBuildings } from "reduxConfig/thunks/buildings";
+import { fetchLeaderboard } from "reduxConfig/thunks/leaderboard";
+
 import { useTranslation } from "react-i18next";
+import styled from "./styled.module.scss";
 
 const Home = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const [games, setGames] = useState({ open: false, data: [] });
   const [campaing, setCampaing] = useState({ open: false, id: "" });
 
   const goToLeaderboard = () => window.scrollTo(0, document.body.scrollHeight);
   const goToMap = () => window.scrollTo(0, 0);
+
+  useEffect(() => {
+    dispatch(fetchBuildings() as any);
+    dispatch(fetchLeaderboard() as any);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   return (
     <Layout>

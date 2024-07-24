@@ -34,6 +34,26 @@
     justify-content: space-between;
     align-items: baseline;
 
+    .nickname {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0 0.5rem;
+
+      p {
+        font-size: 1.2rem;
+        color: #e4bcf2;
+        font-family: "ChakraPetch";
+        font-weight: 400;
+      }
+
+      svg {
+        fill: #ba00fb;
+        height: 34px;
+        width: 34px;
+      }
+    }
+
     img {
       cursor: pointer;
     }
@@ -186,7 +206,7 @@
       text-transform: uppercase;
       width: 50%;
       justify-content: space-evenly;
-      
+
       p {
         color: #9a4aff;
         font-family: "ChakraPetchBold";
@@ -216,7 +236,7 @@
         color: #e5c7f1;
         font-family: "ChakraPetch";
         font-size: 0.8rem;
-        background: #4F3662;
+        background: #4f3662;
         padding: 0 5px;
         border-radius: 2px;
       }

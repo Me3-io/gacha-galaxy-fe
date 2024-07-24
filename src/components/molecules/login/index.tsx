@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Alert, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 import { bsc, sepolia } from "wagmi/chains";
@@ -14,6 +14,7 @@ import { clearMessageAuth } from "reduxConfig/slices/messageAuth";
 
 import CustomTooltip from "components/atoms/materialTooltip";
 import Button from "components/atoms/buttons/default";
+import Alert from "../alert";
 
 import LogoutIcon from "@mui/icons-material/Logout";
 import WalletIcon from "@mui/icons-material/Wallet";
@@ -36,7 +37,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   const { open } = useWeb3Modal();
   const { disconnect } = useDisconnect();
   const account = useAccount();
-  const { isConnected, isConnecting, isDisconnected, address } = useAccount();
+  const { isConnected, isConnecting, isDisconnected, address, status } = useAccount();
   const { data: dataMsg, error: errorMsg, reset: resetMsg, signMessage } = useSignMessage();
 
   const tokenLS = localStorage.getItem("sessionToken");
@@ -50,7 +51,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   useEffect(() => {
     const sameChain = account.chainId === chains[0].id;
     if (isConnected && address && !dataMsg && !tokenLS && sameChain && !isDisconnected) {
-      console.log("- Signing... -");
+      console.log("signing");
       const from = window.location.hostname;
       setLoadSigning(true);
       dispatch(fetchChallengeRequest({ address, from }) as any).then(async (response: any) => {
@@ -68,7 +69,6 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   }, [isConnected, address, account.chainId]);
 
   useEffect(() => {
-
     if (dataMsg && dataMessageAuth?.message) {
       dispatch(
         fetchChallengeVerify({ signature: dataMsg, message: dataMessageAuth.message }) as any
@@ -112,7 +112,6 @@ const LoginBar = ({ showLoginButton = false }: any) => {
 
   useEffect(() => {
     if (isDisconnected) {
-      console.log("- disconnected -");
       setLoadLogout(false);
 
       resetMsg();
@@ -125,9 +124,13 @@ const LoginBar = ({ showLoginButton = false }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDisconnected]);
 
-  /*useEffect(() => {
-    console.log("account.chainId", account.chainId);
-  }, [account.chainId]);*/
+  useEffect(() => {
+    console.log(status);
+    if (status === "connected" && loadLogout) {
+      disconnect();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, loadLogout]);
 
   return (
     <>
@@ -172,11 +175,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
       )}
 
       {onError.show && (
-        <Alert
-          severity="error"
-          className={styled.alert}
-          onClose={() => setOnError({ show: false, msg: "" })}
-        >
+        <Alert onClose={() => setOnError({ show: false, msg: "" })}>
           {onError.msg || "Error to login."}
         </Alert>
       )}

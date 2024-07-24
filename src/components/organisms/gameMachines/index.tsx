@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Box, Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import styled from "./styled.module.scss";
 import CarouselGames from "./carousel";
 import GameDetails from "./details";
+
+import styled from "./styled.module.scss";
 
 /*const games = [
   { id: "spin-the-wheel", name: "SPIN THE WHEEL", bet: 120 },
