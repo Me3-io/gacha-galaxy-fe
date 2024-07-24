@@ -4,7 +4,7 @@ import useResizeObserver from "use-resize-observer";
 
 import customAxios from "utils/customAxios";
 import Alert from "components/molecules/alert";
-import GameModal from "components/organisms/game/modal";
+import CongratsModal  from "components/molecules/games/modal";
 
 import styled from "./styled.module.scss";
 
@@ -208,7 +208,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
         />
       </Box>
 
-      <GameModal {...modal} onClose={() => setModal({ open: false, data: {} })} />
+      <CongratsModal  {...modal} onClose={() => setModal({ open: false, data: {} })} />
 
       {onError.show && (
         <Alert onClose={() => setOnError({ show: false, msg: "" })}>
