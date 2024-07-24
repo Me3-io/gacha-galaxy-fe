@@ -2,13 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import useResizeObserver from "use-resize-observer";
 
-import styled from "./styled.module.scss";
-
-import bgImage from "assets/images/Capsule_Machine_Front_View.png";
 import customAxios from "utils/customAxios";
 import Alert from "components/molecules/alert";
 import GameModal from "components/organisms/game/modal";
 
+import styled from "./styled.module.scss";
+
+// resources ---
+import machine from "assets/games/capsule/machine_front_view.png";
+import machineEmpty from "assets/games/capsule/machine_front_view_empty.png";
 const urlAnimation = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Game_Animation.mp4`;
 const urlSuccess = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Animation_Success.mp4`;
 
@@ -159,7 +161,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
 
   // on close congrats modal ---
   useEffect(() => {
-    if (!modal.open && gameState.status !== "init") setGameState(states.ready);
+    if (modal.open && gameState.status !== "init") setGameState(states.ready);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modal?.open]);
 
@@ -191,10 +193,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
             muted
             playsInline
             onEnded={endGame}
-            style={{
-              width: height ? height : "100%",
-              background: gameState.status === "success" ? "#000" : "transparent",
-            }}
+            style={{ width: height ? height : "auto" }}
           >
             <source src={gameState.source} type="video/mp4" />
           </video>
@@ -202,7 +201,11 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
       </Box>
 
       <Box className={styled.bgContainer}>
-        <img src={bgImage} alt="poster" className={bgClass} />
+        <img
+          alt="machine"
+          className={bgClass}
+          src={gameState.status === "success" ? machineEmpty : machine}
+        />
       </Box>
 
       <GameModal {...modal} onClose={() => setModal({ open: false, data: {} })} />
