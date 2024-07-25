@@ -12,18 +12,6 @@ import iconCalendar from "assets/icons/menuCalendar.svg";
 import iconHelp from "assets/icons/menuHelp.svg";
 import iconSettings from "assets/icons/menuSettings.svg";
 
-const rows = [
-  { icon: iconNotification, name: "Notifications", onClick: () => {} },
-  { icon: iconUser, name: "Profile", onClick: () => {} },
-  { icon: iconCalendar, name: "Upcoming Partner Schedule", onClick: () => {} },
-  {
-    icon: iconHelp,
-    name: "Help Center",
-    onClick: () => window.open("https://help.me3.io/en/", "_blank"),
-  },
-  { icon: iconSettings, name: "Settings", onClick: () => {} },
-];
-
 const MenuItem = ({ icon, name, onClick }: any) => {
   return (
     <ButtonBase className={styled.item} onClick={onClick}>
@@ -34,7 +22,25 @@ const MenuItem = ({ icon, name, onClick }: any) => {
   );
 };
 
-const Menu = ({ setOpenMenu, setOpenClaimAll }: any) => {
+const Menu = ({
+  setOpenMenu,
+  setOpenClaimAll,
+  setOpenNotifications,
+  setOpenProfile,
+  setOpenSettings,
+}: any) => {
+  const rows = [
+    { icon: iconNotification, name: "Notifications", onClick: () => setOpenNotifications(true) },
+    { icon: iconUser, name: "Profile", onClick: () => setOpenProfile(true) },
+    { icon: iconCalendar, name: "Upcoming Partner Schedule", onClick: () => {} },
+    {
+      icon: iconHelp,
+      name: "Help Center",
+      onClick: () => window.open("https://help.me3.io/en/", "_blank"),
+    },
+    { icon: iconSettings, name: "Settings", onClick: () => setOpenSettings(true) },
+  ];
+
   return (
     <Grid container flexDirection="column" className={styled.main}>
       <Box p={2} className={styled.header}>
