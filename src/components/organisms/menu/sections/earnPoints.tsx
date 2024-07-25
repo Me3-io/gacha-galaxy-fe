@@ -70,7 +70,7 @@ const EarnPoints = ({ setOpenPoints, setGames, setCampaing }: any) => {
           EARN POINTS
         </Typography>
       </Box>
-      <Box p={2} className={styled.container}>
+      <Box p={2} px={3} className={styled.container}>
         <Box className={styled.earnPointsContainer}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "#7A57A5" }}>

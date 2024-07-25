@@ -22,24 +22,6 @@ import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 import { useTranslation } from "react-i18next";
 import styled from "../styled.module.scss";
 
-/*const rows = [
-  { id: 1, name: "UserGamer123", arrowUp: true, points: 487.5 },
-  { id: 2, name: "PixelWarrior", arrowUp: false, points: 469.2 },
-  { id: 3, name: "DragonSlayerX", arrowUp: true, points: 452.3 },
-  { id: 4, name: "ShadowNinja", arrowUp: false, points: 436.5 },
-  { id: 5, name: "CyberSamurai", arrowUp: true, points: 419.7 },
-  { id: 6, name: "MysticMage", arrowUp: true, points: 487.5 },
-  { id: 7, name: "GalacticHero", arrowUp: false, points: 469.2 },
-  { id: 8, name: "StealthSniper", arrowUp: false, points: 452.3 },
-  { id: 9, name: "EpicWizard", arrowUp: true, points: 436.5 },
-  { id: 10, name: "VortexVoyager", arrowUp: false, points: 419.7 },
-  { id: 11, name: "QuantumRider", arrowUp: false, points: 487.5 },
-  { id: 12, name: "BlazePhoenix", arrowUp: false, points: 469.2 },
-  { id: 13, name: "LunarKnight", arrowUp: true, points: 452.3 },
-  { id: 14, name: "FrostGuardian", arrowUp: false, points: 436.5 },
-  { id: 15, name: "StormHunter", arrowUp: true, points: 419.7 },
-];*/
-
 const Leaderboard = ({
   showBack,
   goToMap,
@@ -115,24 +97,29 @@ const Leaderboard = ({
                 #{leaderboardData?.userPosition || "-"}
               </Typography>
             </Box>
-            <Typography>{leaderboardData?.userPoints.toFixed(2)}</Typography>
+            <Typography>{leaderboardData?.userPoints.toFixed(2) || "-"}</Typography>
           </Box>
 
-          <Button onClick={() => setOpenPoints(true)}>
-            {t("earn-points")} <ArrowForwardIcon />
-          </Button>
+          <Box className={styled.action}>
+            <Button onClick={() => setOpenPoints(true)}>
+              {t("earn-points")} <ArrowForwardIcon />
+            </Button>
+          </Box>
         </Box>
+
         <Box className={styled.item} pl={2}>
           <Box>
             <span>{t("keys")}</span>
             <Box display={"flex"} gap={2} alignItems={"center"}>
               <img src={keyIcon} alt="key" height={"28px"} />
-              <Typography>{leaderboardData?.userKeys || 0}</Typography>
+              <Typography>{leaderboardData?.userKeys || "-"}</Typography>
             </Box>
           </Box>
-          <Button onClick={() => setOpenTokens(true)} disabled>
-            {t("get-keys")} <ArrowForwardIcon />
-          </Button>
+          <Box className={styled.action}>
+            <Button onClick={() => setOpenTokens(true)} disabled>
+              {t("get-keys")} <ArrowForwardIcon />
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Grid>
