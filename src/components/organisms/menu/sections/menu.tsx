@@ -41,6 +41,7 @@ const Menu = ({ setOpenMenu }: any) => {
         <Button onClick={() => setOpenMenu(false)}>
           <ArrowBackIcon /> Back
         </Button>
+        <Typography className={styled.title}>MENU</Typography>
       </Box>
       <Box px={3} className={styled.container}>
         <Box className={styled.menuContainer}>
@@ -51,7 +52,7 @@ const Menu = ({ setOpenMenu }: any) => {
           </Stack>
         </Box>
       </Box>
-      <Box p={2} className={styled.footer} sx={{background: "#180924b3"}}>
+      <Box p={2} className={styled.footer} sx={{ background: "#180924b3" }}>
         <Box className={styled.item} px={2}>
           <Box className={styled.rewards}>
             <Typography className={styled.infoLabel}>New rewards!</Typography>
