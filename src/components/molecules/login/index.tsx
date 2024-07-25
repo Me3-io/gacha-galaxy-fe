@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useAccount, useDisconnect, useSignMessage } from "wagmi";
+import { useWeb3Modal, useWeb3ModalAccount, useDisconnect } from "@web3modal/ethers/react";
+//import { useSignMessage } from "ethers";
 import { bsc, sepolia } from "wagmi/chains";
 import { useTranslation } from "react-i18next";
 
@@ -36,10 +36,12 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   const location = useLocation();
   const { open } = useWeb3Modal();
   const { disconnect } = useDisconnect();
-  const account = useAccount();
-  const { isConnected, isConnecting, isDisconnected, address, status } = useAccount();
-  const { data: dataMsg, error: errorMsg, reset: resetMsg, signMessage } = useSignMessage();
+  const account = useWeb3ModalAccount();
+  const { isConnected, address, status } = useWeb3ModalAccount();
+  //const { data: dataMsg, error: errorMsg, reset: resetMsg, signMessage } = useSignMessage();
 
+
+  
   const tokenLS = localStorage.getItem("sessionToken");
   const dataMessageAuth = useSelector(selectMessageAuth);
 
@@ -50,13 +52,13 @@ const LoginBar = ({ showLoginButton = false }: any) => {
 
   useEffect(() => {
     const sameChain = account.chainId === chains[0].id;
-    if (isConnected && address && !dataMsg && !tokenLS && sameChain && !isDisconnected) {
+    if (isConnected && address && /*!dataMsg &&*/ !tokenLS && sameChain ) {
       console.log("signing");
       const from = window.location.hostname;
       setLoadSigning(true);
       dispatch(fetchChallengeRequest({ address, from }) as any).then(async (response: any) => {
         if (response?.message) {
-          signMessage({ message: response?.message });
+          //signMessage({ message: response?.message });
         } else {
           setOnError({ show: true, msg: "Error to challenge request" });
           console.error("Error to challenge request: ", response);
@@ -68,7 +70,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected, address, account.chainId]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (dataMsg && dataMessageAuth?.message) {
       dispatch(
         fetchChallengeVerify({ signature: dataMsg, message: dataMessageAuth.message }) as any
@@ -85,9 +87,9 @@ const LoginBar = ({ showLoginButton = false }: any) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataMsg, dataMessageAuth?.message]);
+  }, [dataMsg, dataMessageAuth?.message]);*/
 
-  useEffect(() => {
+ /* useEffect(() => {
     const msg = errorMsg?.toString();
     if (msg?.includes("UnknownRpcError")) {
       setOnError({ show: true, msg: "Unknown Rpc Error" });
@@ -99,7 +101,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorMsg]);
+  }, [errorMsg]);*/
 
   useEffect(() => {
     const isLoginView = !location.pathname.split("/")[2];
@@ -111,10 +113,10 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   }, [tokenLS, isConnected]);
 
   useEffect(() => {
-    if (isDisconnected) {
+    if (!isConnected) {
       setLoadLogout(false);
 
-      resetMsg();
+      //resetMsg();
       dispatch(clearAuthToken());
       dispatch(clearMessageAuth());
       localStorage.removeItem("sessionToken");
@@ -122,7 +124,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
       navigate(`/${i18n.language}/`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDisconnected]);
+  }, [isConnected]);
 
   useEffect(() => {
     console.log(status);
@@ -134,7 +136,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
 
   return (
     <>
-      {isConnected && !isConnecting ? (
+      {isConnected  ? (
         <Box className={styled.loggedBox}>
           {loadSigning ? (
             <>
@@ -167,7 +169,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
       ) : (
         <>
           {showLoginButton && (
-            <Button onClick={() => open()} isLoading={isConnecting}>
+            <Button onClick={() => open()}>
               LOGIN TO PLAY
             </Button>
           )}

@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useAccount } from "wagmi";
+import { useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers/react";
+//import { useAccount } from "wagmi";
 
 import Layout from "components/templates/layout";
 import Button from "components/atoms/buttons/default";
@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 const Login = () => {
   const { t } = useTranslation();
   const { open } = useWeb3Modal();
-  const { isConnected } = useAccount();
+  const { isConnected } = useWeb3ModalAccount();
 
   return (
     <Layout>
@@ -30,6 +30,7 @@ const Login = () => {
               Gacha Galaxy
             </Typography>
 
+            <w3m-button />
             <Button onClick={() => open()} disabled={isConnected}>
               {t("enter-game")}
             </Button>

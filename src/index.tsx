@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { Web3ModalProvider } from "hooks/wagmiProvider";
+
+import { Web3ModalProvider } from "hooks/ethersProvider";
 
 import store from "reduxConfig/store";
 import { Provider } from "react-redux";
