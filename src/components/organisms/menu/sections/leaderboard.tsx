@@ -69,19 +69,27 @@ const Leaderboard = ({
           <TableContainer className={styled.table}>
             <Table>
               <TableBody>
-                {leaderboardData?.ranking.map((row: any) => (
-                  <TableRow key={row.userId}>
-                    <TableCell className={styled.user} component="th" scope="row">
-                      <img src={user} alt="user" />
-                      <span>{row.position}</span>
-                      {row.nickname}
+                {leaderboardData?.ranking ? (
+                  leaderboardData.ranking?.map((row: any) => (
+                    <TableRow key={row.userId}>
+                      <TableCell className={styled.user} component="th" scope="row">
+                        <img src={user} alt="user" />
+                        <span>{row.position}</span>
+                        {row.nickname}
+                      </TableCell>
+                      <TableCell align="right">
+                        <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />
+                      </TableCell>
+                      <TableCell align="right">{row?.points?.toFixed(2) || 0} pts</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell align="center" colSpan={3}>
+                      no data available
                     </TableCell>
-                    <TableCell align="right">
-                      <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />
-                    </TableCell>
-                    <TableCell align="right">{row.points.toFixed(2)} pts</TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </TableContainer>
@@ -97,7 +105,7 @@ const Leaderboard = ({
                 #{leaderboardData?.userPosition || "-"}
               </Typography>
             </Box>
-            <Typography>{leaderboardData?.userPoints.toFixed(2) || "-"}</Typography>
+            <Typography>{leaderboardData?.userPoints?.toFixed(2) || "-"}</Typography>
           </Box>
 
           <Box className={styled.action}>
