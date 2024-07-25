@@ -34,7 +34,7 @@ const MenuItem = ({ icon, name, onClick }: any) => {
   );
 };
 
-const Menu = ({ setOpenMenu }: any) => {
+const Menu = ({ setOpenMenu, setOpenClaimAll }: any) => {
   return (
     <Grid container flexDirection="column" className={styled.main}>
       <Box p={2} className={styled.header}>
@@ -67,7 +67,9 @@ const Menu = ({ setOpenMenu }: any) => {
         </Box>
         <Box className={styled.item} p={2}>
           <Box className={styled.claimBtn}>
-            <ButtonDefault>CLAIM ALL</ButtonDefault>
+            <ButtonDefault onClick={() => setOpenClaimAll(true)}>
+              CLAIM ALL <ArrowForwardIcon />
+            </ButtonDefault>
           </Box>
         </Box>
       </Box>
