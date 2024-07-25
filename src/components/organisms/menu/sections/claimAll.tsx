@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "components/atoms/buttons/base";
+import ButtonDefault from "components/atoms/buttons/default";
 
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -14,10 +15,23 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 
-import { useSelector } from "react-redux";
-import { getBuildings } from "reduxConfig/thunks/buildings";
-
 import styled from "../styled.module.scss";
+
+const rows = [
+  { name: "Claim NFT 1" },
+  { name: "Claim NFT 2" },
+  { name: "Claim NFT 3" },
+  { name: "Claim NFT 4" },
+  { name: "Claim NFT 5" },
+];
+
+const rows2 = [
+  { name: "Claim Token 1" },
+  { name: "Claim Token 2" },
+  { name: "Claim Token 3" },
+  { name: "Claim Token 4" },
+  { name: "Claim Token 5" },  
+];
 
 const MainTable = ({ data, handleClick }: any) => (
   <TableContainer className={styled.table}>
@@ -36,38 +50,18 @@ const MainTable = ({ data, handleClick }: any) => (
   </TableContainer>
 );
 
-const EarnPoints = ({ setOpenPoints, setGames, setCampaing }: any) => {
+const ClaimAll = ({ setOpenClaimAll }: any) => {
   const [value, setValue] = useState("1");
   const handleChange = (evt: any, newValue: string) => setValue(newValue);
-  const buildingsData = useSelector(getBuildings) || [];
-
-  // filter Games data ---
-  const games = buildingsData.filter((item: any) => item?.games);
-
-  // filter Campaigns data ---
-  let auxCampaing: { [key: string]: boolean } = {};
-  const campaigns = buildingsData
-    .filter((item: any) => item?.campaign)
-    .map((item: any) => ({ ...item.campaign }))
-    .filter((item: any) => (auxCampaing[item._id] ? false : (auxCampaing[item._id] = true))); // elimino repetidos
-
-  // events ---
-  const handlerGameClick = (row: any) => {
-    setGames({ open: true, data: row.games || [] });
-  };
-
-  const handlerCampaingClick = (row: any) => {
-    setCampaing({ open: true, id: row.claimrId || "" });
-  };
 
   return (
     <Grid container flexDirection="column" className={styled.main}>
       <Box p={2} className={styled.header}>
-        <Button onClick={() => setOpenPoints(false)}>
+        <Button onClick={() => setOpenClaimAll(false)}>
           <ArrowBackIcon /> Back
         </Button>
         <Typography pb={2} className={styled.title}>
-          EARN POINTS
+          CLAIM ALL
         </Typography>
       </Box>
       <Box p={2} px={3} className={styled.container}>
@@ -80,15 +74,15 @@ const EarnPoints = ({ setOpenPoints, setGames, setCampaing }: any) => {
                 variant="fullWidth"
                 indicatorColor="secondary"
               >
-                <Tab label="CLAIMR CAMPAIGNS" value="1" />
-                <Tab label="ALL GAMES" value="2" />
+                <Tab label="NFTs" value="1" />
+                <Tab label="Tokens" value="2" />
               </TabList>
             </Box>
             <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "hidden" }}>
-              <MainTable data={campaigns} handleClick={handlerCampaingClick} />
+              <MainTable data={rows} handleClick={() => {}} />
             </TabPanel>
-            <TabPanel value="2" sx={{ padding: "1rem 0", overflow: "hidden" }}>
-              <MainTable data={games} handleClick={handlerGameClick} />
+            <TabPanel value="2" sx={{ padding: "1rem 0", textAlign: "center" }}>
+              <MainTable data={rows2} handleClick={() => {}} />
             </TabPanel>
           </TabContext>
         </Box>
@@ -96,4 +90,4 @@ const EarnPoints = ({ setOpenPoints, setGames, setCampaing }: any) => {
     </Grid>
   );
 };
-export default EarnPoints;
+export default ClaimAll;

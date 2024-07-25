@@ -14,7 +14,6 @@
   left: 100%;
   width: 100%;
   transition: 0.2s all;
-  padding: 10px;
   box-sizing: border-box;
   overflow-y: auto;
   color: #fff;
@@ -35,7 +34,6 @@
     align-items: baseline;
 
     .nickname {
-      display: flex;
       align-items: center;
       gap: 5px;
       padding: 0 0.5rem;
@@ -207,6 +205,11 @@
       width: 50%;
       justify-content: space-evenly;
 
+      & > div {
+        display: flex;
+        flex-direction: column;
+      }
+
       p {
         color: #9a4aff;
         font-family: "ChakraPetchBold";
@@ -221,7 +224,7 @@
         font-weight: 700;
       }
 
-      button {
+      .action > button {
         border: none !important;
         background-color: rgba(99, 67, 115, 0.4) !important;
         color: #db74ff;
@@ -239,6 +242,58 @@
         background: #4f3662;
         padding: 0 5px;
         border-radius: 2px;
+      }
+
+      .rewards {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+
+        .infoLabel {
+          color: #250b30;
+          font-family: "ChakraPetchBold";
+          font-size: 0.8rem;
+          font-weight: 800;
+          background-color: #DA7BFB;
+          width: fit-content;
+          padding: 0.2rem;
+          padding-right: 1.5rem;
+          clip-path: polygon(calc(100% - 10px) 0%, 100% 10px, 100% 100%, 0% 100%, 0% 0%);
+          border-radius: 2px;
+        }
+
+        & > div {
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+          flex-direction: row;
+          & > p {
+            color: #c3a0e9;
+            font-size: 3rem;
+            font-family: "ChakraPetchBold";
+            font-weight: 400;
+            padding: 0;
+          }
+
+          & > span {
+            font-family: "ChakraPetch";
+            font-size: 1.2rem;
+            font-weight: 400;
+            background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: capitalize;
+          }
+        }
+      }
+
+      .claimBtn > button span {
+        font-size: 1rem;
+        padding: 0.25rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
       }
     }
   }
@@ -297,6 +352,7 @@
 
 .menuContainer {
   margin-top: 20px;
+  overflow: auto;
   .item {
     display: flex;
     justify-content: space-between;
@@ -342,6 +398,15 @@
     th {
       font-size: 1rem !important;
       padding: 8px 16px !important;
+    }
+  }
+}
+
+@media screen and (max-width: 900px) and (min-width: 600px) {
+  .main > .footer {
+    .item {
+      align-items: last baseline;
+      flex-direction: row;
     }
   }
 }
