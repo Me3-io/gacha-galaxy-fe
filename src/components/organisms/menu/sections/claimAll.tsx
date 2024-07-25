@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "components/atoms/buttons/base";
-import ButtonDefault from "components/atoms/buttons/default";
 
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";

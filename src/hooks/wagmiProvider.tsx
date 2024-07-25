@@ -37,7 +37,7 @@ createWeb3Modal({
   wagmiConfig: config,
   projectId,
   enableAnalytics: true,  // Optional - defaults to your Cloud configuration
-  enableOnramp: true,     // Optional - false as default
+  //enableOnramp: true,     // Optional - false as default
   themeMode: "dark",
   themeVariables: {
     "--w3m-font-family": "ChakraPetch",
@@ -49,6 +49,7 @@ createWeb3Modal({
     "4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0",
     "225affb176778569276e484e1b92637ad061b01e13a048b35a9d280c3b58970f",
   ],
+  allWallets: "SHOW",
 });
 
 export function Web3ModalProvider({ children }: any) {
