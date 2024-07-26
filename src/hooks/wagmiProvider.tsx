@@ -31,7 +31,7 @@ const config = defaultWagmiConfig({
     showWallets: true,
     walletFeatures: true,
   },
-  ssr: true,
+  //ssr: true,
   storage: createStorage({
     storage: cookieStorage
   }),
@@ -41,8 +41,6 @@ const config = defaultWagmiConfig({
 createWeb3Modal({
   wagmiConfig: config,
   projectId,
-  enableAnalytics: true,  // Optional - defaults to your Cloud configuration
-  //enableOnramp: true,     // Optional - false as default
   themeMode: "dark",
   themeVariables: {
     "--w3m-font-family": "ChakraPetch",
