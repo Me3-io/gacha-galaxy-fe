@@ -2,7 +2,7 @@ import { createWeb3Modal } from "@web3modal/wagmi/react";
 import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 
 import { WagmiProvider } from "wagmi";
-import { cookieStorage, createStorage } from 'wagmi'
+//import { cookieStorage, createStorage } from 'wagmi'
 import { bsc, sepolia } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -31,16 +31,17 @@ const config = defaultWagmiConfig({
     showWallets: true,
     walletFeatures: true,
   },
-  //ssr: true,
+  /*ssr: true,
   storage: createStorage({
     storage: cookieStorage
-  }),
+  }),*/
 });
 
 // 3. Create modal
 createWeb3Modal({
   wagmiConfig: config,
   projectId,
+  enableOnramp: true,
   themeMode: "dark",
   themeVariables: {
     "--w3m-font-family": "ChakraPetch",
@@ -52,7 +53,6 @@ createWeb3Modal({
     "4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0",
     "225affb176778569276e484e1b92637ad061b01e13a048b35a9d280c3b58970f",
   ],
-  allWallets: "SHOW",
 });
 
 export function Web3ModalProvider({ children }: any) {
