@@ -4,13 +4,23 @@ import { createWeb3Modal, defaultConfig } from "@web3modal/ethers/react";
 const projectId = process.env.REACT_APP_WC_PROJECTID || "0bf5a14a7c91721595b01bd4f92f2cf2";
 
 // 2. Set chains
-const mainnet = {
-  chainId: 11_155_111,
-  name: "Sepolia",
-  currency: "ETH",
-  explorerUrl: "https://sepolia.etherscan.io",
-  rpcUrl: "https://rpc.sepolia.org",
-};
+
+const chains = [
+  {
+    chainId: 1,
+    name: 'Ethereum',
+    currency: 'ETH',
+    explorerUrl: 'https://etherscan.io',
+    rpcUrl: 'https://cloudflare-eth.com'
+  },
+  /*{
+    chainId: 11155111,
+    name: "Sepolia",
+    currency: "ETH",
+    explorerUrl: "https://sepolia.etherscan.io",
+    rpcUrl: "https://rpc.sepolia.org",
+  }*/
+]
 
 // 3. Create a metadata object
 const metadata = {
@@ -31,18 +41,13 @@ const ethersConfig = defaultConfig({
   //enableCoinbase: true, // true by default
   //rpcUrl: "...", // used for the Coinbase SDK
   //defaultChainId: 1, // used for the Coinbase SDK
-  auth: {
-    email: true,
-    socials: ["google", "x"],
-    showWallets: true,
-    walletFeatures: true,
-  },
+
 });
 
 // 5. Create a Web3Modal instance
 createWeb3Modal({
   ethersConfig,
-  chains: [mainnet],
+  chains,
   projectId,
   enableAnalytics: false, // Optional - defaults to your Cloud configuration
   themeMode: "dark",
