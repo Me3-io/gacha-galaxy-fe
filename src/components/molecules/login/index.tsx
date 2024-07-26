@@ -1,9 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useAccount, useDisconnect, useSignMessage } from "wagmi";
-import { bsc, sepolia } from "wagmi/chains";
+//import { useWeb3Modal } from "@web3modal/wagmi/react";
+//import { useAccount, useDisconnect, useSignMessage } from "wagmi";
+//import { bsc, sepolia } from "wagmi/chains";
+
+import {
+  useConnect,
+  useDisconnect,
+  useActiveWallet,
+  useActiveWalletConnectionStatus,
+  useActiveAccount
+} from "thirdweb/react";
+
+
 import { useTranslation } from "react-i18next";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +33,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import styled from "./styled.module.scss";
 
-const chains = [process.env.REACT_APP_CHAIN === "bsc" ? bsc : sepolia] as const;
+//const chains = [process.env.REACT_APP_CHAIN === "bsc" ? bsc : sepolia] as const;
 
 const LoginBar = ({ showLoginButton = false }: any) => {
   const [loadSigning, setLoadSigning] = useState(false);
@@ -34,29 +44,43 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const { open } = useWeb3Modal();
+
+  const { disconnect } = useDisconnect();
+  const wallet = useActiveWallet();
+  const account = useActiveAccount();
+  const status = useActiveWalletConnectionStatus();
+
+
+  /*const { open } = useWeb3Modal();
   const { disconnect } = useDisconnect();
   const account = useAccount();
   const { isConnected, isConnecting, isDisconnected, address, status } = useAccount();
-  const { data: dataMsg, error: errorMsg, reset: resetMsg, signMessage } = useSignMessage();
+  const { data: dataMsg, error: errorMsg, reset: resetMsg, signMessage } = useSignMessage();*/
 
   const tokenLS = localStorage.getItem("sessionToken");
-  const dataMessageAuth = useSelector(selectMessageAuth);
+  //const dataMessageAuth = useSelector(selectMessageAuth);
 
   const logout = () => {
-    setLoadLogout(true);
-    disconnect();
+    //setLoadLogout(true);
+    if (wallet) disconnect(wallet);
+    
+    dispatch(clearAuthToken());
+    dispatch(clearMessageAuth());
+    localStorage.removeItem("sessionToken");
+
+    navigate(`/${i18n.language}/`);
   };
 
   useEffect(() => {
-    const sameChain = account.chainId === chains[0].id;
-    if (isConnected && address && !dataMsg && !tokenLS && sameChain && !isDisconnected) {
+    //const sameChain = account.chainId === chains[0].id;
+    if (status === "connected" && account?.address && /*!dataMsg &&*/ !tokenLS) {
       console.log("signing");
       const from = window.location.hostname;
+      const address = account?.address;
       setLoadSigning(true);
       dispatch(fetchChallengeRequest({ address, from }) as any).then(async (response: any) => {
         if (response?.message) {
-          signMessage({ message: response?.message });
+          account.signMessage({ message: response?.message });
         } else {
           setOnError({ show: true, msg: "Error to challenge request" });
           console.error("Error to challenge request: ", response);
@@ -65,10 +89,12 @@ const LoginBar = ({ showLoginButton = false }: any) => {
       });
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConnected, address, account.chainId]);
+    console.log("account", account);
 
-  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account, status]);
+
+  /*useEffect(() => {
     if (dataMsg && dataMessageAuth?.message) {
       dispatch(
         fetchChallengeVerify({ signature: dataMsg, message: dataMessageAuth.message }) as any
@@ -85,10 +111,11 @@ const LoginBar = ({ showLoginButton = false }: any) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataMsg, dataMessageAuth?.message]);
+  }, [dataMsg, dataMessageAuth?.message]);*/
 
-  useEffect(() => {
-    const msg = errorMsg?.toString();
+  //useEffect(() => {
+   
+    /*const msg = errorMsg?.toString();
     if (msg?.includes("UnknownRpcError")) {
       setOnError({ show: true, msg: "Unknown Rpc Error" });
       logout();
@@ -96,21 +123,23 @@ const LoginBar = ({ showLoginButton = false }: any) => {
     if (msg?.includes("UserRejectedRequestError")) {
       setOnError({ show: true, msg: "User Rejected Request" });
       logout();
-    }
+    }*/
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorMsg]);
+  //}, [error]);
 
   useEffect(() => {
     const isLoginView = !location.pathname.split("/")[2];
-    if (isLoginView && isConnected && tokenLS) {
+    if (isLoginView && account && tokenLS && status === "connected") {
       navigate(`/${i18n.language}/home/`);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokenLS, isConnected]);
+  }, [tokenLS, account, status]);
 
-  useEffect(() => {
+;
+
+  /*useEffect(() => {
     if (isDisconnected) {
       setLoadLogout(false);
 
@@ -122,19 +151,19 @@ const LoginBar = ({ showLoginButton = false }: any) => {
       navigate(`/${i18n.language}/`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDisconnected]);
+  }, [isDisconnected]);*/
 
-  useEffect(() => {
+  /*useEffect(() => {
     console.log(status);
     if (status === "connected" && loadLogout) {
       disconnect();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, loadLogout]);
-
+*/
   return (
     <>
-      {isConnected && !isConnecting ? (
+      {account?.address && status === "connected" ? (
         <Box className={styled.loggedBox}>
           {loadSigning ? (
             <>
@@ -143,14 +172,16 @@ const LoginBar = ({ showLoginButton = false }: any) => {
             </>
           ) : (
             <>
-              <span>{`${address?.slice(0, 8)}...${address?.slice(-8)}`}</span>
+              <span>{`${account?.address?.slice(0, 8)}...${account?.address?.slice(-8)}`}</span>
 
               <CustomTooltip title="Copy address">
-                <ContentCopyIcon onClick={() => navigator.clipboard.writeText(address || "")} />
+                <ContentCopyIcon
+                  onClick={() => navigator.clipboard.writeText(account?.address || "")}
+                />
               </CustomTooltip>
 
               <CustomTooltip title="Wallet info">
-                <WalletIcon onClick={() => open()} />
+                <WalletIcon onClick={() => {} /*open()*/} />
               </CustomTooltip>
             </>
           )}
@@ -165,13 +196,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
           </CustomTooltip>
         </Box>
       ) : (
-        <>
-          {showLoginButton && (
-            <Button onClick={() => open()} isLoading={isConnecting}>
-              LOGIN TO PLAY
-            </Button>
-          )}
-        </>
+        <>{showLoginButton && <Button>LOGIN TO PLAY</Button>}</>
       )}
 
       {onError.show && (

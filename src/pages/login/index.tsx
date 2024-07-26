@@ -1,6 +1,7 @@
 import { Box, Container, Typography } from "@mui/material";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useAccount } from "wagmi";
+
+import { client, wallets } from "hooks/thirdwebClient";
+import { useConnectModal } from "thirdweb/react";
 
 import Layout from "components/templates/layout";
 import Button from "components/atoms/buttons/default";
@@ -11,13 +12,15 @@ import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const { t } = useTranslation();
-  const { open } = useWeb3Modal();
-  const { isConnected } = useAccount();
+  const { connect } = useConnectModal();
+
+  const handleConnect = async () => {
+    await connect({ client, wallets, size:"compact", theme: "dark" });
+  };
 
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-
         <Box className={styled.logo}>
           <img src={Logo} alt="Logo" className={styled.imgLogo} />
         </Box>
@@ -30,9 +33,7 @@ const Login = () => {
               Gacha Galaxy
             </Typography>
 
-            <Button onClick={() => open()} disabled={isConnected}>
-              {t("enter-game")}
-            </Button>
+            <Button onClick={handleConnect}>{t("enter-game")}</Button>
           </Box>
         </Box>
       </Container>
