@@ -13,9 +13,9 @@ export const wallets = [
       options: ["email", "google"],
     },
   }),
-  walletConnect(),
   //createWallet("com.okex.wallet"),
   //createWallet("com.trustwallet.app"),
   //createWallet("global.safe"),
   //createWallet("com.coinbase.wallet"),
+  walletConnect(),
 ];

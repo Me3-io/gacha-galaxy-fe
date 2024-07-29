@@ -37,8 +37,9 @@ import styled from "./styled.module.scss";
 
 const LoginBar = ({ showLoginButton = false }: any) => {
   const [loadSigning, setLoadSigning] = useState(false);
-  const [loadLogout, setLoadLogout] = useState(false);
+  //const [loadLogout, setLoadLogout] = useState(false);
   const [onError, setOnError] = useState({ show: false, msg: "" });
+  const [signMessage, setSignedMessage] = useState("");
 
   const { i18n } = useTranslation();
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   const { data: dataMsg, error: errorMsg, reset: resetMsg, signMessage } = useSignMessage();*/
 
   const tokenLS = localStorage.getItem("sessionToken");
-  //const dataMessageAuth = useSelector(selectMessageAuth);
+  const dataMessageAuth = useSelector(selectMessageAuth);
 
   const logout = () => {
     //setLoadLogout(true);
@@ -73,14 +74,15 @@ const LoginBar = ({ showLoginButton = false }: any) => {
 
   useEffect(() => {
     //const sameChain = account.chainId === chains[0].id;
-    if (status === "connected" && account?.address && /*!dataMsg &&*/ !tokenLS) {
+    if (status === "connected" && account?.address && !signMessage && !tokenLS) {
       console.log("signing");
       const from = window.location.hostname;
       const address = account?.address;
       setLoadSigning(true);
       dispatch(fetchChallengeRequest({ address, from }) as any).then(async (response: any) => {
         if (response?.message) {
-          account.signMessage({ message: response?.message });
+          const message = await account.signMessage({ message: response?.message });
+          setSignedMessage(message);
         } else {
           setOnError({ show: true, msg: "Error to challenge request" });
           console.error("Error to challenge request: ", response);
@@ -89,11 +91,32 @@ const LoginBar = ({ showLoginButton = false }: any) => {
       });
     }
 
-    console.log("account", account);
+    //console.log("account", account);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, status]);
 
+
+  useEffect(() => {
+    if (signMessage && dataMessageAuth?.message) {
+      dispatch(
+        fetchChallengeVerify({ signature: signMessage, message: dataMessageAuth.message }) as any
+      ).then(async (response: any) => {
+        setLoadSigning(false);
+        if (response?.sessionToken) {
+          localStorage.setItem("sessionToken", response?.sessionToken);
+          setSignedMessage("");
+          navigate(`/${i18n.language}/home/`);
+        } else {
+          setOnError({ show: true, msg: "Error to challenge verify" });
+          console.error("Error to challenge verify: ", response);
+          logout();
+        }
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [signMessage, dataMessageAuth?.message]);
+    
   /*useEffect(() => {
     if (dataMsg && dataMessageAuth?.message) {
       dispatch(
@@ -188,11 +211,11 @@ const LoginBar = ({ showLoginButton = false }: any) => {
           <Box className={styled.divider} />
 
           <CustomTooltip title="Disconnect">
-            {!loadLogout ? (
+            {/*!loadLogout ? (*/
               <LogoutIcon onClick={logout} />
-            ) : (
+            /*) : (
               <CircularProgress className={styled.spinner} size={20} />
-            )}
+            )*/}
           </CustomTooltip>
         </Box>
       ) : (
