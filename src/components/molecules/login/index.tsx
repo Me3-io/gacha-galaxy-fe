@@ -75,7 +75,7 @@ const LoginBar = ({ showLoginButton = false }: any) => {
   useEffect(() => {
     //const sameChain = account.chainId === chains[0].id;
     if (status === "connected" && account?.address && !signMessage && !tokenLS) {
-      console.log("signing");
+      console.log("signing...");
       const from = window.location.hostname;
       const address = account?.address;
       setLoadSigning(true);

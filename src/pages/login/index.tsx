@@ -15,7 +15,10 @@ const Login = () => {
   const { connect } = useConnectModal();
 
   const handleConnect = async () => {
-    await connect({ client, wallets, size:"compact", theme: "dark" });
+    try {
+      await connect({ client, wallets, size: "compact", theme: "dark" });
+      
+    } catch (error) { }
   };
 
   return (
