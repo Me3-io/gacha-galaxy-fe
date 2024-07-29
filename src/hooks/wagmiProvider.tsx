@@ -31,10 +31,6 @@ const config = defaultWagmiConfig({
     showWallets: true,
     walletFeatures: true,
   },
-  /*ssr: true,
-  storage: createStorage({
-    storage: cookieStorage
-  }),*/
 });
 
 // 3. Create modal
