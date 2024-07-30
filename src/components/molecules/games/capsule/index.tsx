@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Fade } from "@mui/material";
 import useResizeObserver from "use-resize-observer";
 
 import customAxios from "utils/customAxios";
 import Alert from "components/molecules/alert";
-import CongratsModal  from "components/molecules/games/modal";
+import CongratsModal from "components/molecules/games/modal";
 
 import styled from "./styled.module.scss";
 
@@ -179,43 +179,45 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
   }, []);
 
   return (
-    <Box className={styled.main}>
-      <Box ref={ref} className={styled.videoInner} sx={{ opacity: gameState.visible ? 1 : 0 }}>
-        {gameState.visible && (
-          <video
-            ref={videoRef}
-            loop={gameState.loop}
-            key={gameState.source}
-            poster={gameState.poster}
-            autoPlay={gameState.play}
-            controls={false}
-            preload="auto"
-            muted
-            playsInline
-            onEnded={endGame}
-            style={{ width: height ? height : "auto" }}
-          >
-            <source src={gameState.source} type="video/mp4" />
-          </video>
+    <Fade in={true}>
+      <Box className={styled.main}>
+        <Box ref={ref} className={styled.videoInner} sx={{ opacity: gameState.visible ? 1 : 0 }}>
+          {gameState.visible && (
+            <video
+              ref={videoRef}
+              loop={gameState.loop}
+              key={gameState.source}
+              poster={gameState.poster}
+              autoPlay={gameState.play}
+              controls={false}
+              preload="auto"
+              muted
+              playsInline
+              onEnded={endGame}
+              style={{ width: height ? height : "auto" }}
+            >
+              <source src={gameState.source} type="video/mp4" />
+            </video>
+          )}
+        </Box>
+
+        <Box className={styled.bgContainer}>
+          <img
+            alt="machine"
+            className={bgClass}
+            src={gameState.status === "success" ? machineEmpty : machine}
+          />
+        </Box>
+
+        <CongratsModal {...modal} onClose={() => setModal({ open: false, data: {} })} />
+
+        {onError.show && (
+          <Alert onClose={() => setOnError({ show: false, msg: "" })}>
+            {onError.msg || "Error to login."}
+          </Alert>
         )}
       </Box>
-
-      <Box className={styled.bgContainer}>
-        <img
-          alt="machine"
-          className={bgClass}
-          src={gameState.status === "success" ? machineEmpty : machine}
-        />
-      </Box>
-
-      <CongratsModal  {...modal} onClose={() => setModal({ open: false, data: {} })} />
-
-      {onError.show && (
-        <Alert onClose={() => setOnError({ show: false, msg: "" })}>
-          {onError.msg || "Error to login."}
-        </Alert>
-      )}
-    </Box>
+    </Fade>
   );
 };
 

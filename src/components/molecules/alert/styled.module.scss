@@ -4,7 +4,7 @@
   width: 100%;
   max-width: 400px;
   left: calc(50% - 200px);
-  background-color: rgba(255, 20, 20, 0.5) !important;
+  background-color: rgba(255, 20, 20, 0.6) !important;
   color: #fff !important;
   font-size: 1rem !important;
   font-family: "ChakraPetch" !important;
@@ -16,5 +16,13 @@
 
   & path {
     fill: #fff;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .alert {
+    left: 1rem;
+    right: 1rem;
+    width: auto;
   }
 }
