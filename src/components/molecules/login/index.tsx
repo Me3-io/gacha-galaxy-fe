@@ -25,9 +25,10 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import styled from "./styled.module.scss";
+import customAxios from "utils/customAxios";
 
 const LoginBar = () => {
-  const tokenLS = localStorage.getItem("sessionToken");
+  const tokenLS = localStorage.getItem("session.token");
   const accountLS = JSON.parse(localStorage.getItem("thirdweb.account") || "{}");
 
   const [loadSigning, setLoadSigning] = useState(false);
@@ -54,7 +55,7 @@ const LoginBar = () => {
     setLoadSigning(false);
     dispatch(clearAuthToken());
     dispatch(clearMessageAuth());
-    localStorage.removeItem("sessionToken");
+    localStorage.removeItem("session.token");
     localStorage.removeItem("thirdweb.account");
 
     navigate(`/${i18n.language}/`);
@@ -71,7 +72,12 @@ const LoginBar = () => {
   };
 
   const checkSession = () => {
-    console.log("aqui chequear session");
+    customAxios()
+      .get("/user/validatesession")
+      .catch((error: any) => {
+        console.error("session error ", error);
+        logout();
+      });
   };
 
   useEffect(() => {
@@ -99,7 +105,7 @@ const LoginBar = () => {
       ).then(async (response: any) => {
         setLoadSigning(false);
         if (response?.sessionToken) {
-          localStorage.setItem("sessionToken", response?.sessionToken);
+          localStorage.setItem("session.token", response?.sessionToken);
           localStorage.setItem("thirdweb.account", JSON.stringify(account));
           setSignedMessage("");
           navigate(`/${i18n.language}/home/`);
@@ -118,13 +124,15 @@ const LoginBar = () => {
     if (isLoginView && account && tokenLS) {
       navigate(`/${i18n.language}/home/`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tokenLS, account, status]);
 
+  useEffect(() => {
     if (account && tokenLS && status !== "connected") {
       checkSession();
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokenLS, account, status]);
+  }, []);
 
   return (
     <>
