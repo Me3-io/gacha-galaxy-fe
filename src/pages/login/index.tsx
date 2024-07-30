@@ -1,15 +1,14 @@
 import { Box, Container, Typography } from "@mui/material";
 
-import { client } from "hooks/thirdwebClient";
+import { modalConfig } from "hooks/thirdwebConfig";
 import { useConnectModal } from "thirdweb/react";
 
 import Layout from "components/templates/layout";
 import Button from "components/atoms/buttons/default";
 import Logo from "assets/logo.svg";
 
-import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
-import { createWallet, inAppWallet, walletConnect } from "thirdweb/wallets";
+import styled from "./styled.module.scss";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -17,17 +16,10 @@ const Login = () => {
 
   const handleConnect = async () => {
     try {
-      const wallets = [
-        inAppWallet({ auth: { options: ["email", "google"] } }),
-        //createWallet("com.okex.wallet"),
-        //createWallet("com.trustwallet.app"),
-        //createWallet("global.safe"),
-        //createWallet("com.coinbase.wallet"),
-        walletConnect(),
-      ];
-
-      await connect({ client, wallets, size: "wide", theme: "dark" });
-    } catch (error) {}
+      await connect({ ...modalConfig, size: "wide" });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
