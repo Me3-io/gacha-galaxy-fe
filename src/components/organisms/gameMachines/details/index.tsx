@@ -3,7 +3,7 @@ import { Box, Grid, Grow, Stack, Typography } from "@mui/material";
 import Button from "components/atoms/buttons/base";
 import ButtonDefault from "components/atoms/buttons/default";
 
-import machineIcon from "assets/images/maquina-capsule.svg";
+import machineIcon from "assets/images/capsule-machine-angle-view.png";
 import joystick from "assets/icons/joystick.svg";
 import prize from "assets/icons/prize.svg";
 import chance from "assets/icons/chance.svg";
@@ -93,10 +93,16 @@ const GameDetails = ({ details, setDetails }: any) => {
             </Grid>
             <Grid item xs={12} className={styled.info}>
               <Box display={"flex"} flexDirection={"row"}>
-                <Typography className={styled.subtitle}>
+                <Typography className={styled.subtitle} pr={2}>
                   DROP <br /> CHANCES
                 </Typography>
-                <Stack direction="row" spacing={3} flex={1} justifyContent={"center"}>
+                <Stack
+                  direction="row"
+                  spacing={2}
+                  flex={1}
+                  justifyContent={"center"}
+                  overflow={"auto"}
+                >
                   <ItemChance
                     text="Odds For Points"
                     percent={(details?.oddsForPoints * 100).toFixed(2) || "-"}
