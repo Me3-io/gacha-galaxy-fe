@@ -7,7 +7,7 @@ import LoginBar from "components/molecules/login";
 
 import styled from "./styled.module.scss";
 
-const ActionsBar = ({ showLoginButton = false }: any) => {
+const ActionsBar = () => {
   // languaje menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleOpen = (event: any) => setAnchorEl(event.currentTarget);
@@ -21,7 +21,7 @@ const ActionsBar = ({ showLoginButton = false }: any) => {
         <LanguageMenu anchorEl={anchorEl} open={openLng} handleClose={handleClose} />
       </Box>
 
-      <LoginBar showLoginButton={showLoginButton} />
+      <LoginBar />
     </Box>
   );
 };

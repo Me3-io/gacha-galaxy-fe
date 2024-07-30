@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useAccount, useDisconnect, useSignMessage } from "wagmi";
-import { bsc, sepolia } from "wagmi/chains";
+
+import {
+  useDisconnect,
+  useActiveWallet,
+  useActiveWalletConnectionStatus,
+  useActiveAccount,
+} from "thirdweb/react";
+
 import { useTranslation } from "react-i18next";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -13,50 +18,70 @@ import { clearAuthToken } from "reduxConfig/slices/tokenAuth";
 import { clearMessageAuth } from "reduxConfig/slices/messageAuth";
 
 import CustomTooltip from "components/atoms/materialTooltip";
-import Button from "components/atoms/buttons/default";
 import Alert from "../alert";
 
 import LogoutIcon from "@mui/icons-material/Logout";
-import WalletIcon from "@mui/icons-material/Wallet";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import styled from "./styled.module.scss";
 
-const chains = [process.env.REACT_APP_CHAIN === "bsc" ? bsc : sepolia] as const;
+const LoginBar = () => {
+  const tokenLS = localStorage.getItem("sessionToken");
+  const accountLS = JSON.parse(localStorage.getItem("thirdweb.account") || "{}");
 
-const LoginBar = ({ showLoginButton = false }: any) => {
   const [loadSigning, setLoadSigning] = useState(false);
-  const [loadLogout, setLoadLogout] = useState(false);
+
+  const [signMessage, setSignedMessage] = useState("");
   const [onError, setOnError] = useState({ show: false, msg: "" });
 
   const { i18n } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const { open } = useWeb3Modal();
-  const { disconnect } = useDisconnect();
-  const account = useAccount();
-  const { isConnected, isConnecting, isDisconnected, address, status } = useAccount();
-  const { data: dataMsg, error: errorMsg, reset: resetMsg, signMessage } = useSignMessage();
 
-  const tokenLS = localStorage.getItem("sessionToken");
+  const { disconnect } = useDisconnect();
+  const wallet = useActiveWallet();
+  const account = useActiveAccount() || accountLS;
+  const status = useActiveWalletConnectionStatus();
+
   const dataMessageAuth = useSelector(selectMessageAuth);
 
   const logout = () => {
-    setLoadLogout(true);
-    disconnect();
+    if (wallet) disconnect(wallet);
+
+    setSignedMessage("");
+    setLoadSigning(false);
+    dispatch(clearAuthToken());
+    dispatch(clearMessageAuth());
+    localStorage.removeItem("sessionToken");
+    localStorage.removeItem("thirdweb.account");
+
+    navigate(`/${i18n.language}/`);
+  };
+
+  const signedMessage = async (message: any) => {
+    try {
+      const response = await account?.signMessage({ message });
+      setSignedMessage(response);
+    } catch (error) {
+      logout();
+      setOnError({ show: true, msg: "User Rejected Request" });
+    }
+  };
+
+  const checkSession = () => {
+    console.log("aqui chequear session");
   };
 
   useEffect(() => {
-    const sameChain = account.chainId === chains[0].id;
-    if (isConnected && address && !dataMsg && !tokenLS && sameChain && !isDisconnected) {
-      console.log("signing");
+    const address = account?.address;
+    if (status === "connected" && address && !signMessage && !tokenLS) {
       const from = window.location.hostname;
       setLoadSigning(true);
       dispatch(fetchChallengeRequest({ address, from }) as any).then(async (response: any) => {
         if (response?.message) {
-          signMessage({ message: response?.message });
+          signedMessage(response.message);
         } else {
           setOnError({ show: true, msg: "Error to challenge request" });
           console.error("Error to challenge request: ", response);
@@ -64,18 +89,19 @@ const LoginBar = ({ showLoginButton = false }: any) => {
         }
       });
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConnected, address, account.chainId]);
+  }, [account, status]);
 
   useEffect(() => {
-    if (dataMsg && dataMessageAuth?.message) {
+    if (signMessage && dataMessageAuth?.message) {
       dispatch(
-        fetchChallengeVerify({ signature: dataMsg, message: dataMessageAuth.message }) as any
+        fetchChallengeVerify({ signature: signMessage, message: dataMessageAuth.message }) as any
       ).then(async (response: any) => {
         setLoadSigning(false);
         if (response?.sessionToken) {
           localStorage.setItem("sessionToken", response?.sessionToken);
+          localStorage.setItem("thirdweb.account", JSON.stringify(account));
+          setSignedMessage("");
           navigate(`/${i18n.language}/home/`);
         } else {
           setOnError({ show: true, msg: "Error to challenge verify" });
@@ -85,56 +111,24 @@ const LoginBar = ({ showLoginButton = false }: any) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataMsg, dataMessageAuth?.message]);
-
-  useEffect(() => {
-    const msg = errorMsg?.toString();
-    if (msg?.includes("UnknownRpcError")) {
-      setOnError({ show: true, msg: "Unknown Rpc Error" });
-      logout();
-    }
-    if (msg?.includes("UserRejectedRequestError")) {
-      setOnError({ show: true, msg: "User Rejected Request" });
-      logout();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorMsg]);
+  }, [signMessage, dataMessageAuth?.message]);
 
   useEffect(() => {
     const isLoginView = !location.pathname.split("/")[2];
-    if (isLoginView && isConnected && tokenLS) {
+    if (isLoginView && account && tokenLS) {
       navigate(`/${i18n.language}/home/`);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokenLS, isConnected]);
-
-  useEffect(() => {
-    if (isDisconnected) {
-      setLoadLogout(false);
-
-      resetMsg();
-      dispatch(clearAuthToken());
-      dispatch(clearMessageAuth());
-      localStorage.removeItem("sessionToken");
-
-      navigate(`/${i18n.language}/`);
+    if (account && tokenLS && status !== "connected") {
+      checkSession();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDisconnected]);
 
-  useEffect(() => {
-    console.log(status);
-    if (status === "connected" && loadLogout) {
-      disconnect();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, loadLogout]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tokenLS, account, status]);
 
   return (
     <>
-      {isConnected && !isConnecting ? (
+      {account?.address && (
         <Box className={styled.loggedBox}>
           {loadSigning ? (
             <>
@@ -143,35 +137,21 @@ const LoginBar = ({ showLoginButton = false }: any) => {
             </>
           ) : (
             <>
-              <span>{`${address?.slice(0, 8)}...${address?.slice(-8)}`}</span>
+              <span>{`${account?.address?.slice(0, 8)}...${account?.address?.slice(-8)}`}</span>
 
               <CustomTooltip title="Copy address">
-                <ContentCopyIcon onClick={() => navigator.clipboard.writeText(address || "")} />
-              </CustomTooltip>
-
-              <CustomTooltip title="Wallet info">
-                <WalletIcon onClick={() => open()} />
+                <ContentCopyIcon
+                  onClick={() => navigator.clipboard.writeText(account?.address || "")}
+                />
               </CustomTooltip>
             </>
           )}
           <Box className={styled.divider} />
 
           <CustomTooltip title="Disconnect">
-            {!loadLogout ? (
-              <LogoutIcon onClick={logout} />
-            ) : (
-              <CircularProgress className={styled.spinner} size={20} />
-            )}
+            <LogoutIcon onClick={logout} />
           </CustomTooltip>
         </Box>
-      ) : (
-        <>
-          {showLoginButton && (
-            <Button onClick={() => open()} isLoading={isConnecting}>
-              LOGIN TO PLAY
-            </Button>
-          )}
-        </>
       )}
 
       {onError.show && (

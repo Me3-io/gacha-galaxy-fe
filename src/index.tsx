@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { Web3ModalProvider } from "hooks/wagmiProvider";
+import { ThirdwebProvider } from "thirdweb/react";
 
 import store from "reduxConfig/store";
 import { Provider } from "react-redux";
@@ -14,9 +14,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <Web3ModalProvider>
+        <ThirdwebProvider>
           <App />
-        </Web3ModalProvider>
+        </ThirdwebProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>
