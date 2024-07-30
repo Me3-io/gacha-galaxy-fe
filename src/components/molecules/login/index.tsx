@@ -31,8 +31,9 @@ const LoginBar = () => {
   const accountLS = JSON.parse(localStorage.getItem("thirdweb.account") || "{}");
 
   const [loadSigning, setLoadSigning] = useState(false);
-  const [onError, setOnError] = useState({ show: false, msg: "" });
+
   const [signMessage, setSignedMessage] = useState("");
+  const [onError, setOnError] = useState({ show: false, msg: "" });
 
   const { i18n } = useTranslation();
   const navigate = useNavigate();
@@ -67,6 +68,10 @@ const LoginBar = () => {
       logout();
       setOnError({ show: true, msg: "User Rejected Request" });
     }
+  };
+
+  const checkSession = () => {
+    console.log("aqui chequear session");
   };
 
   useEffect(() => {
@@ -112,6 +117,10 @@ const LoginBar = () => {
     const isLoginView = !location.pathname.split("/")[2];
     if (isLoginView && account && tokenLS) {
       navigate(`/${i18n.language}/home/`);
+    }
+
+    if (account && tokenLS && status !== "connected") {
+      checkSession();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
