@@ -4,17 +4,9 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import CarouselGames from "./carousel";
 import GameDetails from "./details";
+import Grow from "@mui/material/Grow";
 
 import styled from "./styled.module.scss";
-
-/*const games = [
-  { id: "spin-the-wheel", name: "SPIN THE WHEEL", bet: 120 },
-  { id: "claw-machine", name: "CLAW MACHINE", bet: 150 },
-  { id: "capsule", name: "CAPSULE", bet: 350 },
-  { id: "spin-the-wheel", name: "SPIN THE WHEEL", bet: 120 },
-  { id: "claw-machine", name: "CLAW MACHINE", bet: 150 },
-  { id: "capsule", name: "CAPSULE", bet: 350 },
-];*/
 
 const GameMachines = ({ games, handleClose }: any) => {
   const [details, setDetails] = useState({ open: false, data: {} });
@@ -28,15 +20,18 @@ const GameMachines = ({ games, handleClose }: any) => {
 
   return (
     <Modal open={games?.open || false} onClose={onClose} className={styled.modalContainer}>
-      <Box className={styled.modal}>
+      <>
         <CloseIcon className={styled.close} onClick={(evt) => onClose(evt, "close")} />
-
-        {!details.open ? (
-          <CarouselGames games={games?.data || []} setDetails={setDetails} />
-        ) : (
-          <GameDetails details={details.data} setDetails={setDetails} />
-        )}
-      </Box>
+        <Grow in={games?.open}>
+          <Box className={styled.modal}>
+            {!details.open ? (
+              <CarouselGames games={games?.data || []} setDetails={setDetails} />
+            ) : (
+              <GameDetails details={details.data} setDetails={setDetails} />
+            )}
+          </Box>
+        </Grow>
+      </>
     </Modal>
   );
 };

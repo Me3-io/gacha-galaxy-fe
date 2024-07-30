@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  position: relative;
 
   &::before {
     content: "";
@@ -32,16 +33,17 @@
     align-items: center;
     height: auto;
     outline: none;
+  }
 
-    .close {
-      position: fixed;
-      top: 1.2rem;
-      right: 1.2rem;
-      cursor: pointer;
-      z-index: 902;
-      padding: 10px;
-      background-color: #000;
-      border-radius: 50%;
-    }
+  .close {
+    position: fixed;
+    top: 1.2rem;
+    right: 1.2rem;
+    cursor: pointer;
+    z-index: 902;
+    padding: 10px;
+    background-color: #000;
+    border-radius: 50%;
+    color: #fff;
   }
 }

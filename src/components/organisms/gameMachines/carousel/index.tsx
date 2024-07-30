@@ -6,8 +6,6 @@ import "react-multi-carousel/lib/styles.css";
 import Card from "./card";
 import styled from "./styled.module.scss";
 
-
-
 const ButtonGroup = ({ next, previous }: any) => {
   return (
     <>
@@ -18,9 +16,8 @@ const ButtonGroup = ({ next, previous }: any) => {
 };
 
 const CarouselGames = ({ games, setDetails }: any) => {
-
   const length = games.length >= 3 ? 3 : games.length;
-  
+
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },

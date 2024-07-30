@@ -12,7 +12,7 @@ const AppRouter = () => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
 
-  const tokenLS = localStorage.getItem("sessionToken");
+  const tokenLS = localStorage.getItem("session.token");
   const localLang = window.navigator?.language.slice(0, 2) || "en";
   const lang = window.location.pathname.split("/")[1] || localLang;
 

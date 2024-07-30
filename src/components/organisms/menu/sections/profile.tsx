@@ -16,7 +16,7 @@ const Profile = ({ setOpenProfile }: any) => {
         </Typography>
       </Box>
       <Box p={2} px={3} className={styled.container}>
-        <Typography>no data available</Typography>
+        <Typography>coming soon</Typography>
       </Box>
     </Grid>
   );
