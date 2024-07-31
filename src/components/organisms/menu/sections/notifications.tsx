@@ -14,7 +14,7 @@ const Notifications = ({ setOpenNotifications }: any) => {
           <ArrowBackIcon /> {t("back")}
         </Button>
         <Typography pb={2} className={styled.title}>
-          {t("notifications").toUpperCase()}
+          {t("menu-notifications").toUpperCase()}
         </Typography>
       </Box>
       <Box p={2} px={3} className={styled.container}>
