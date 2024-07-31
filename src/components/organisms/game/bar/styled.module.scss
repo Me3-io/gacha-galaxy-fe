@@ -1,0 +1,201 @@
+$clip-size: 20px;
+
+.dotted {
+  position: absolute;
+  background-image: radial-gradient(#c66ae620 1px, transparent 0);
+  background-size: 10px 10px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px 16px 0 0;
+  mask-image: linear-gradient(0, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+.container {
+  display: flex;
+  flex: 1 1;
+  gap: 0;
+  align-content: baseline;
+
+  .info {
+    display: flex;
+    border: 2px solid #9a41cc;
+    padding: 2.5rem 1.5rem;
+    position: relative;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 180px;
+
+    clip-path: polygon(
+      calc(70% + $clip-size) calc(100% - $clip-size),
+      100% calc(100% - $clip-size),
+      100% 0%,
+      30% 0%,
+      calc(30% - $clip-size) $clip-size,
+      0% $clip-size,
+      0% 100%,
+      70% 100%
+    );
+
+    &::before {
+      content: " ";
+      height: $clip-size;
+      width: 30%;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      clip-path: polygon($clip-size 0%, 100% 0%, 100% 100%, 0% 100%, 0% $clip-size);
+      background-color: #9a41cc;
+    }
+
+    &::after {
+      content: " ";
+      height: $clip-size;
+      width: 30%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      clip-path: polygon(
+        100% 0%,
+        100% calc(100% - $clip-size),
+        calc(100% - $clip-size) 100%,
+        0% 100%,
+        0% 0%
+      );
+      background-color: #9a41cc;
+    }
+    .title,
+    .text {
+      color: #c3a0e9;
+      font-family: "ChakraPetch";
+    }
+    .title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .text {
+      font-size: 0.9rem;
+    }
+  }
+
+  .balanceContainer {
+    display: flex;
+    border: 2px solid #9a41cc;
+    color: white;
+    padding: 2rem 2rem 0.5rem 1.5rem;
+    position: relative;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+
+    clip-path: polygon(
+      calc(72% + $clip-size) 0%,
+      100% 0%,
+      100% 100%,
+      0% 100%,
+      0% $clip-size,
+      72% $clip-size
+    );
+    background-color: rgba(71, 47, 101, 0.5);
+
+    &::after {
+      content: " ";
+      height: $clip-size;
+      width: calc(72% + $clip-size);
+      position: absolute;
+      top: 0;
+      left: 1px;
+      clip-path: polygon(
+        100% 0%,
+        100% calc(100% - $clip-size),
+        calc(100% - $clip-size) 100%,
+        0% 100%,
+        0% 0%
+      );
+      background-color: #9a41cc;
+    }
+
+    .title {
+      color: #c3a0e9;
+      font-family: "ChakraPetch";
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .balance {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .text {
+        color: #9a57ee;
+        text-align: center;
+        font-family: "ChakraPetchBold";
+        font-size: 3rem;
+      }
+    }
+  }
+
+  .keyContainer {
+    display: flex;
+    border-top: 2px solid #9a41cc;
+    border-left: 2px solid #9a41cc;
+    padding: 1.5rem;
+    color: white;
+    flex-direction: column;
+    align-items: center;
+    clip-path: polygon($clip-size 0%, 100% 0%, 100% 100%, 0% 100%, 0% $clip-size);
+    position: relative;
+    box-sizing: border-box;
+
+    &::before {
+      content: " ";
+      height: $clip-size;
+      width: $clip-size;
+      position: absolute;
+      left: 0;
+      top: 0;
+      clip-path: polygon(0% 100%, 100% 0%, 0% 0%);
+      background-color: #9a41cc;
+    }
+
+    .title {
+      color: #c3a0e9;
+      font-family: "ChakraPetch";
+      font-size: 1rem;
+      font-weight: 700;
+      padding-bottom: 1rem;
+    }
+
+    .keys {
+      width: 100%;
+      background: linear-gradient(90deg, #1b112b 0%, #503076 50.5%, #1a112b 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+
+      .text {
+        color: #c15cff;
+        font-family: "ChakraPetch";
+        font-size: 2rem;
+        font-weight: 600;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 3rem;
+  button > span {
+    padding: 0.5rem 1.5rem;
+  }
+}

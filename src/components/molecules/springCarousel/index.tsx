@@ -2,11 +2,13 @@ import Carousel from "react-spring-3d-carousel";
 import { useState, useEffect, SetStateAction } from "react";
 import { config } from "react-spring";
 
+import styled from "./styled.module.scss";
+
 let lastTime = 0;
+let lastPos = 0;
 const INTERVAL_MS = 100;
 
 const SpringCarousel = (props: any) => {
-
   const table = props.cards.map((element: any, index: SetStateAction<number>) => {
     return { ...element, onClick: () => setGoToSlide(index) };
   });
@@ -26,14 +28,34 @@ const SpringCarousel = (props: any) => {
     }
   };
 
+  const handleTouchStart = (e: any) => {
+    lastPos = e?.changedTouches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: any) => {
+    const currentPos = e?.changedTouches[0].clientX;
+    if (currentPos > lastPos) {
+      setGoToSlide((prev) => (prev > 0 ? --prev : table.length - 1));
+    } else if (currentPos < lastPos) {
+      setGoToSlide((prev) => (prev < table.length - 1 ? ++prev : 0));
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("wheel", handleWheel);
-    return () => window.removeEventListener("wheel", handleWheel);
+    window.addEventListener("touchend", handleTouchEnd);
+    window.addEventListener("touchstart", handleTouchStart);
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("touchstart", handleTouchStart);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div style={{ width: "100%", height: props.height, overflow: "hidden" }}>
+    <div style={{ height: props.height }} className={styled.main}>
       <Carousel
         slides={cards}
         offsetRadius={2}

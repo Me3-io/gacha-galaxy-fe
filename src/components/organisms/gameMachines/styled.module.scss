@@ -1,16 +1,29 @@
 .modalContainer {
-  background: rgba(0, 0, 0, 0.8);
-  //backdrop-filter: blur(5px);
-  z-index: 1300;
+  z-index: 901;
   overflow-y: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-image: url("/assets/images/playroom.png");
+    filter: blur(6px);
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    //opacity: 0.5;
+    z-index: -1;
+  }
 
   .modal {
     position: relative;
-    max-width: 1000px;
+    //max-width: 1000px;
     width: 100%;
     padding: 0px;
     color: #fff;
@@ -20,28 +33,17 @@
     align-items: center;
     height: auto;
     outline: none;
+  }
 
-    .close {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      cursor: pointer;
-    }
-
-    .card {
-      height: 450px;
-      width: 400px;
-      padding: 10px;
-      margin: 0 10px;
-      box-sizing: border-box;
-      font-size: 2rem;
-      background-color: #000;
-      border-radius: 10px;
-      box-shadow: 0 0 20px #444;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: center;
-    }
+  .close {
+    position: fixed;
+    top: 1.2rem;
+    right: 1.2rem;
+    cursor: pointer;
+    z-index: 902;
+    padding: 10px;
+    background-color: #000;
+    border-radius: 50%;
+    color: #fff;
   }
 }

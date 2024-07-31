@@ -1,38 +1,37 @@
-import { Box, Button, Modal } from "@mui/material";
+import { useState } from "react";
+import { Box, Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import SpringCarousel from "components/molecules/springCarousel";
+
+import CarouselGames from "./carousel";
+import GameDetails from "./details";
+import Grow from "@mui/material/Grow";
 
 import styled from "./styled.module.scss";
 
-const Card = ({ name }: any) => {
-  return (
-    <Box className={styled.card}>
-      <span>{name}</span>
-      <Button variant="contained">play</Button>
-    </Box>
-  );
-};
+const GameMachines = ({ games, handleClose }: any) => {
+  const [details, setDetails] = useState({ open: false, data: {} });
 
-const GameMachines = ({ open, handleClose }: any) => {
-  const games = [
-    { key: 1, content: <Card name="game 1" /> },
-    { key: 2, content: <Card name="game 2" /> },
-    { key: 3, content: <Card name="game 3" /> },
-    { key: 4, content: <Card name="game 4" /> },
-    { key: 5, content: <Card name="game 5" /> },
-    { key: 6, content: <Card name="game 6" /> },
-    { key: 7, content: <Card name="game 7" /> },
-    { key: 8, content: <Card name="game 8" /> },
-    { key: 9, content: <Card name="game 9" /> },
-    { key: 10, content: <Card name="game 10" /> },
-  ];
+  const onClose = (evt: any, reason: string) => {
+    if (reason !== "backdropClick") {
+      setDetails({ open: false, data: {} });
+      handleClose();
+    }
+  };
 
   return (
-    <Modal open={open} onClose={handleClose} className={styled.modalContainer}>
-      <Box className={styled.modal}>
-        <CloseIcon className={styled.close} onClick={handleClose} />
-        <SpringCarousel cards={games} height="500px" />
-      </Box>
+    <Modal open={games?.open || false} onClose={onClose} className={styled.modalContainer}>
+      <>
+        <CloseIcon className={styled.close} onClick={(evt) => onClose(evt, "close")} />
+        <Grow in={games?.open}>
+          <Box className={styled.modal}>
+            {!details.open ? (
+              <CarouselGames games={games?.data || []} setDetails={setDetails} />
+            ) : (
+              <GameDetails details={details.data} setDetails={setDetails} />
+            )}
+          </Box>
+        </Grow>
+      </>
     </Modal>
   );
 };

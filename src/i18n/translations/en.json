@@ -13,5 +13,13 @@
 
   "terms-of-use": "Terms of use",
   "privacy-policy": "Privacy policy",
-  "risk-disclaimers-disclosure": "Risk disclaimers & disclosure"
+  "risk-disclaimers-disclosure": "Risk disclaimers & disclosure",
+
+  "enter-game": "ENTER GAME",
+  "leaderboard": "leaderboard",
+  "map": "map",
+  "points": "Points",
+  "earn-points": "Earn Points",
+  "keys": "Keys",
+  "get-keys": "Get Keys"
 }

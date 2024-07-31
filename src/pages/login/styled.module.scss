@@ -1,0 +1,65 @@
+.backgroundImage {
+  position: fixed;
+  top: -10px;
+  left: -10px;
+  background-image: url("/assets/images/mapBG.png");
+  background-size: cover;
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  filter: blur(3px);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5));
+}
+
+.logo {
+  position: absolute;
+  display: flex;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 1;
+
+  .imgLogo {
+    max-width: 130px;
+  }
+}
+
+.main {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 50%;
+
+    .title {
+      text-align: center;
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
+      font-family: "OrbitronBlack";
+      font-size: 5rem;
+      background: linear-gradient(108deg, #d4b2f9 3.7%, #c15cff 93.42%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    button {
+      border: 2px solid #ba00fb !important;
+      filter: drop-shadow(0px 4px 20px rgba(198, 106, 230, 0.4));
+
+      &::before {
+        right: -1px;
+      }
+      span {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+  }
+}

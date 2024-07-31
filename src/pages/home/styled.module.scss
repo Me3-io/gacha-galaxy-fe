@@ -1,10 +1,46 @@
 .mainDrawer {
   .container {
-    background: rgba(24, 9, 36, 0.50);
+    background: rgba(24, 9, 36, 0.5);
     backdrop-filter: blur(10px);
     overflow-y: auto;
-    max-width: 500px;
-    width: 100%;
+    width: 450px;
     height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+}
+
+.downIcon {
+  position: absolute;
+  bottom: 10px;
+  left: calc(50% - 100px);
+  width: 200px;
+  z-index: 900;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  flex-direction: column;
+  color: #ddd;
+  gap: 5px;
+  font-size: 1rem;
+  animation: translate 2s linear infinite;
+
+  svg {
+    height: 25px !important;
+    width: 100px !important;
+  }
+}
+
+@keyframes translate {
+  0% {
+    transform: translateY(5px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(5px);
   }
 }

@@ -1,18 +1,10 @@
 .main {
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: #3a63b8;
-  overflow: hidden;
-  padding: 10px;
-}
-
-.mainBG {
-  height: 100%;
-  width: 100%;
+  height: 100svh;
+  width: 100vw;
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
+  padding-left: 450px;
 
   .backgroundImage {
     position: absolute;
@@ -20,85 +12,156 @@
     left: -10px;
     background-image: url("/assets/images/mapBG.png");
     background-size: cover;
-    //background-repeat: repeat;
-    //background-size: 200px 200px;
     width: calc(100% + 20px);
     height: calc(100% + 20px);
-    filter: blur(4px) brightness(.7);
+    filter: blur(4px) brightness(0.8);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3));
   }
-}
 
-.actionsTest {
-  position: absolute;
-  flex-direction: column;
-  top: 16px;
-  right: 16px;
-  z-index: 1;
-  display: flex;
-  gap: 10px;
+  .loading {
+    position: absolute;
+    top: 0;
+    left: 450px;
+    right: 0;
+    bottom: 0;
+    z-index: 899;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #e4bcf2;
+    font-family: "ChakraPetch";
+    font-size: 1.5rem;
+    gap: 2rem;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.3);
+
+    .spinner {
+      color: #d490ec !important;
+    }
+  }
 }
 
 .actions {
   position: absolute;
   flex-direction: column;
-  right: 16px;
-  bottom: 16px;
-  z-index: 1;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  z-index: 900;
   display: flex;
   gap: 10px;
 }
 
-.menuIcon {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  z-index: 1;
-  display: flex;
-  cursor: pointer;
-}
-
 .gridpath {
-  transition: 0.15s all;
   fill-opacity: 0;
-  stroke-opacity: 0.5;
+  stroke-opacity: 0.4;
   stroke-width: 1px;
   stroke-miterlimit: 1;
-  stroke: #fff;
-  cursor: pointer;
+  stroke: #ba00fb;
+}
 
-  &:hover {
-    fill-opacity: 0.5;
-    stroke-opacity: 0.8;
-    fill: #15ff00;
-    stroke: #15ff00;
+// map svg ---
+.buildings g {
+  & > image,
+  & > svg {
+    transition: 0.25s all;
+
+    &:hover {
+      filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 1)) brightness(1.05);
+    }
+  }
+
+  &:nth-child(4n + 1) g > image {
+    animation: blinkDouble 1s linear infinite;
+  }
+
+  &:nth-child(4n + 2) g > image {
+    animation: blinkDouble 1.5s linear infinite;
+  }
+
+  &:nth-child(4n + 3) g > image {
+    animation: blinkSimple 1s linear infinite;
+  }
+
+  &:nth-child(4n + 4) g > image {
+    animation: blinkSimple 1.5s linear infinite;
   }
 }
 
-.item {
-  cursor: pointer;
-  transition: 0.3s all;
-  &:hover {
-    filter: drop-shadow(0 0 5px #fff);
+@media screen and (max-width: 900px) {
+  .main {
+    padding-left: 0;
 
-    .window {
-      fill: red;
-      animation: blink 1s linear infinite;
+    .loading {
+      left: 0;
     }
   }
 }
 
-.listItems:hover .item:not(:hover) {
-  filter: brightness(0.8) opacity(0.9);
-}
+// keyframes animations ---
 
-@keyframes blink {
+@keyframes blinkDouble {
   0% {
-    opacity: 0;
+    opacity: 1;
   }
-  50% {
+  10% {
+    opacity: 0.5;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  40% {
     opacity: 1;
   }
   100% {
-    opacity: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes blinkSimple {
+  30% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  70% {
+    opacity: 1;
+  }
+}
+
+@keyframes blinkSimple2 {
+  45% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  55% {
+    opacity: 1;
+  }
+}
+
+@keyframes blinkDouble2 {
+  5% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  15% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
   }
 }

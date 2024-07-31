@@ -1,0 +1,117 @@
+.modalContainer {
+  z-index: 901;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  transition: all 0.2s ease;
+
+  &::before {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    background: rgba(6, 5, 17, 0.2);
+    backdrop-filter: blur(6px);
+  }
+
+  .modal {
+    position: relative;
+    //max-width: 1000px;
+    width: 100%;
+    padding: 0px;
+    color: #fff;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    outline: none;
+
+    .close {
+      position: fixed;
+      top: 1.2rem;
+      right: 1.2rem;
+      cursor: pointer;
+      z-index: 902;
+      padding: 10px;
+      background-color: #000;
+      border-radius: 50%;
+    }
+
+    .content {
+      width: 430px;
+
+      text-align: center;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #3a1f50 0%, #140e23 78.71%);
+      filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 0.4));
+      position: relative;
+      padding: 1.5rem;
+      overflow: hidden;
+      color: #c3a0e9;
+      box-sizing: border-box;
+
+      .congratulations {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 150px;
+        width: 100%;
+        box-sizing: border-box;
+        background: url("/assets/icons/congratulation.svg");
+        opacity: 0.4;
+      }
+
+      .title {
+        text-align: center;
+        font-family: "ChakraPetch";
+        font-size: 2rem;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        text-align: center;
+        font-family: "ChakraPetchLight";
+        font-size: 1.6rem;
+      }
+
+      .capsule {
+        width: 100%;
+        height: 250px;
+        border-radius: 20px;
+        background: linear-gradient(180deg, #28113a 0%, #0c0816 100%);
+        margin: 1rem 0;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          height: 160px;
+        }
+      }
+
+      .prize {
+        text-align: center;
+        font-family: "Orbitron";
+        font-size: 1.6rem;
+        font-style: normal;
+        font-weight: 900;
+        line-height: normal;
+        background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      button span {
+        padding: 0.3rem 0.6rem;
+      }
+    }
+  }
+}

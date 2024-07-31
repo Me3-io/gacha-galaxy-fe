@@ -32,13 +32,13 @@ const _parse = (item: any) => {
 };
 
 const _getAccessToken = () => {
-  const token = localStorage.getItem("sessionToken");
+  const token = localStorage.getItem("session.token");
 
   if (!token) return null;
   return `Bearer ${token}`;
 };
 
-const customAxios = (contentType: string) => {
+const customAxios = (contentType?: string) => {
   const accessToken = _getAccessToken();
   const config = {
     baseURL: API_URL,

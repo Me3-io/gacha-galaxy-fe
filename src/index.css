@@ -1,3 +1,8 @@
+html {
+  scroll-behavior: smooth;
+  overflow: hidden;
+}
+
 body,
 #root {
   margin: 0;
@@ -5,5 +10,6 @@ body,
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100vh;
+  height: 100%;
+  background: #150a21;
 }
