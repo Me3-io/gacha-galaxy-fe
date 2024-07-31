@@ -105,7 +105,7 @@ const Leaderboard = ({
                 #{leaderboardData?.userPosition || "-"}
               </Typography>
             </Box>
-            <Typography>{leaderboardData?.userPoints?.toFixed(2) || "-"}</Typography>
+            <Typography>{leaderboardData?.userPoints?.toFixed(2) || "0"}</Typography>
           </Box>
 
           <Box className={styled.action}>
@@ -120,7 +120,7 @@ const Leaderboard = ({
             <span>{t("keys")}</span>
             <Box display={"flex"} gap={2} alignItems={"center"}>
               <img src={keyIcon} alt="key" height={"28px"} />
-              <Typography>{leaderboardData?.userKeys || "-"}</Typography>
+              <Typography>{leaderboardData?.userKeys || "0"}</Typography>
             </Box>
           </Box>
           <Box className={styled.action}>

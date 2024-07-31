@@ -8,6 +8,7 @@ import {
   useActiveWalletConnectionStatus,
   useActiveAccount,
 } from "thirdweb/react";
+import { sepolia, bsc } from "thirdweb/chains";
 
 import { useTranslation } from "react-i18next";
 
@@ -24,15 +25,16 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import styled from "./styled.module.scss";
 import customAxios from "utils/customAxios";
+
+import styled from "./styled.module.scss";
 
 const LoginBar = () => {
   const tokenLS = localStorage.getItem("session.token");
   const accountLS = JSON.parse(localStorage.getItem("thirdweb.account") || "{}");
+  const chainid = process.env.REACT_APP_CHAIN === "bsc" ? bsc.id : sepolia.id;
 
   const [loadSigning, setLoadSigning] = useState(false);
-
   const [signMessage, setSignedMessage] = useState("");
   const [onError, setOnError] = useState({ show: false, msg: "" });
 
@@ -85,15 +87,17 @@ const LoginBar = () => {
     if (status === "connected" && address && !signMessage && !tokenLS) {
       const from = window.location.hostname;
       setLoadSigning(true);
-      dispatch(fetchChallengeRequest({ address, from }) as any).then(async (response: any) => {
-        if (response?.message) {
-          signedMessage(response.message);
-        } else {
-          setOnError({ show: true, msg: "Error to challenge request" });
-          console.error("Error to challenge request: ", response);
-          logout();
+      dispatch(fetchChallengeRequest({ address, from, chainid }) as any).then(
+        async (response: any) => {
+          if (response?.message) {
+            signedMessage(response.message);
+          } else {
+            setOnError({ show: true, msg: "Error to challenge request" });
+            console.error("Error to challenge request: ", response);
+            logout();
+          }
         }
-      });
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, status]);
