@@ -20,7 +20,7 @@ import Alert from "components/molecules/alert";
 const Game = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { code } = useParams();
 
   const buildings = useSelector(getBuildings);
@@ -46,7 +46,7 @@ const Game = () => {
 
   const handlePlay = () => {
     if (balance === 0 || balance - gameData?.price < 0) {
-      setOnError({ show: true, msg: "Not enough balance." });
+      setOnError({ show: true, msg: t("game-no-balance") });
     } else {
       setOnPlay(true);
     }
@@ -89,15 +89,13 @@ const Game = () => {
         <Box className={styled.mobileRotate}>
           <Box>
             <img src={rotateIcon} alt="rotate" />
-            <Typography>
-              To have a better gaming experience, please rotate your phone horizontally.
-            </Typography>
+            <Typography>{t("game-rotate")}</Typography>
           </Box>
         </Box>
 
         <Box className={styled.backButton}>
           <Button onClick={handleBack}>
-            <ArrowBackIcon /> Back
+            <ArrowBackIcon /> {t("back")}
           </Button>
         </Box>
 

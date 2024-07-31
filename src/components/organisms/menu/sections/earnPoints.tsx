@@ -18,25 +18,38 @@ import { useSelector } from "react-redux";
 import { getBuildings } from "reduxConfig/thunks/buildings";
 
 import styled from "../styled.module.scss";
+import { useTranslation } from "react-i18next";
 
-const MainTable = ({ data, handleClick }: any) => (
-  <TableContainer className={styled.table}>
-    <Table>
-      <TableBody>
-        {data.map((row: any, pos: number) => (
-          <TableRow key={pos} className={styled.earnRow}>
-            <TableCell align="left">{row?.name || "- no name -"}</TableCell>
-            <TableCell align="right">
-              <Button onClick={() => handleClick(row)}>GO</Button>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+const MainTable = ({ data, handleClick }: any) => {
+  const { t } = useTranslation();
+  return (
+    <TableContainer className={styled.table}>
+      <Table>
+        <TableBody>
+          {data.length > 0 ? (
+            data.map((row: any, pos: number) => (
+              <TableRow key={pos} className={styled.earnRow}>
+                <TableCell align="left">{row?.name || "- no name -"}</TableCell>
+                <TableCell align="right">
+                  <Button onClick={() => handleClick(row)}>{t("go").toUpperCase()}</Button>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell align="center" colSpan={3}>
+                {t("no-data")}
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
 
 const EarnPoints = ({ setOpenPoints, setGames, setCampaing }: any) => {
+  const { t } = useTranslation();
   const [value, setValue] = useState("1");
   const handleChange = (evt: any, newValue: string) => setValue(newValue);
   const buildingsData = useSelector(getBuildings) || [];
@@ -64,10 +77,10 @@ const EarnPoints = ({ setOpenPoints, setGames, setCampaing }: any) => {
     <Grid container flexDirection="column" className={styled.main}>
       <Box p={2} className={styled.header}>
         <Button onClick={() => setOpenPoints(false)}>
-          <ArrowBackIcon /> Back
+          <ArrowBackIcon /> {t("back")}
         </Button>
         <Typography pb={2} className={styled.title}>
-          EARN POINTS
+          {t("earn-points").toUpperCase()}
         </Typography>
       </Box>
       <Box p={2} px={3} className={styled.container}>
@@ -80,8 +93,8 @@ const EarnPoints = ({ setOpenPoints, setGames, setCampaing }: any) => {
                 variant="fullWidth"
                 indicatorColor="secondary"
               >
-                <Tab label="CLAIMR CAMPAIGNS" value="1" />
-                <Tab label="ALL GAMES" value="2" />
+                <Tab label={t("claimr-campaigns")} value="1" />
+                <Tab label={t("all-games")} value="2" />
               </TabList>
             </Box>
             <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "hidden" }}>

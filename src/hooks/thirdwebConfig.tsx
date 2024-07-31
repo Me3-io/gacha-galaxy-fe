@@ -20,8 +20,8 @@ export const chain = process.env.REACT_APP_CHAIN === "bsc" ? bsc : sepolia;
 export const appMetadata = {
   name: "Gacha Galaxy",
   description: "Gacha Galaxy",
-  url: "https://gacha-galaxy.com",
-  icons: ["https://gacha-galaxy.com/favicon.ico"],
+  url: process.env.REACT_APP_URL || "https://gachagalaxy.me3.io",
+  icons: ["https://gachagalaxy.me3.io/favicon.ico"],
 };
 
 // wallets ---
@@ -30,11 +30,11 @@ export const wallets = [
   // @ts-ignore
   createWallet("com.okex.wallet"),
   // @ts-ignore
+  createWallet("io.metamask"),
+  // @ts-ignore
   createWallet("com.trustwallet.app"),
   // @ts-ignore
   createWallet("global.safe"),
-  // @ts-ignore
-  createWallet("com.coinbase.wallet"),
 ];
 
 // client ---

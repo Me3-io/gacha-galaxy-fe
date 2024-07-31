@@ -15,6 +15,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 
 import styled from "../styled.module.scss";
+import { useTranslation } from "react-i18next";
 
 const rows = [
   { name: "Claim NFT 1" },
@@ -29,38 +30,42 @@ const rows2 = [
   { name: "Claim Token 2" },
   { name: "Claim Token 3" },
   { name: "Claim Token 4" },
-  { name: "Claim Token 5" },  
+  { name: "Claim Token 5" },
 ];
 
-const MainTable = ({ data, handleClick }: any) => (
-  <TableContainer className={styled.table}>
-    <Table>
-      <TableBody>
-        {data.map((row: any, pos: number) => (
-          <TableRow key={pos} className={styled.earnRow}>
-            <TableCell align="left">{row?.name || "- no name -"}</TableCell>
-            <TableCell align="right">
-              <Button onClick={() => handleClick(row)}>GO</Button>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+const MainTable = ({ data, handleClick }: any) => {
+  const { t } = useTranslation();
+  return (
+    <TableContainer className={styled.table}>
+      <Table>
+        <TableBody>
+          {data.map((row: any, pos: number) => (
+            <TableRow key={pos} className={styled.earnRow}>
+              <TableCell align="left">{row?.name || "- no name -"}</TableCell>
+              <TableCell align="right">
+                <Button onClick={() => handleClick(row)}>{t("go").toUpperCase()}</Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
 
 const ClaimAll = ({ setOpenClaimAll }: any) => {
   const [value, setValue] = useState("1");
   const handleChange = (evt: any, newValue: string) => setValue(newValue);
+  const { t } = useTranslation();
 
   return (
     <Grid container flexDirection="column" className={styled.main}>
       <Box p={2} className={styled.header}>
         <Button onClick={() => setOpenClaimAll(false)}>
-          <ArrowBackIcon /> Back
+          <ArrowBackIcon /> {t("back")}
         </Button>
         <Typography pb={2} className={styled.title}>
-          CLAIM ALL
+          {t("claim-all").toUpperCase()}
         </Typography>
       </Box>
       <Box p={2} px={3} className={styled.container}>
