@@ -1,5 +1,4 @@
 import customAxios from "utils/customAxios";
-import { sepolia, bsc } from "thirdweb/chains";
 
 import {
   setMessageFailure,
@@ -8,14 +7,12 @@ import {
   clearMessageAuth,
 } from "reduxConfig/slices/messageAuth";
 
-const chainid = process.env.REACT_APP_CHAIN === "bsc" ? bsc.id : sepolia.id;
-
 export const fetchChallengeRequest =
-  ({ address, from }: any) =>
+  ({ address, from, chainid }: any) =>
   async (dispatch: any) => {
     dispatch(setMessageStart());
     const data = {
-      address: address,
+      address,
       chainid,
       uri: from,
     };

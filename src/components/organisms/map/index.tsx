@@ -3,9 +3,8 @@ import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
 import CircularProgress from "@mui/material/CircularProgress";
-import { Add, Remove, CropFree, Map, Numbers } from "@mui/icons-material";
+import { Add, Remove, CropFree, /*Map,*/ Numbers } from "@mui/icons-material";
 import { Box } from "@mui/material";
-
 
 import Tooltip from "components/atoms/tooltip";
 import Button from "components/atoms/buttons/base";
@@ -29,7 +28,7 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
   const [tooltipData, setTooltipData] = useState({ visible: false, text: "" });
   const [loading, setLoading] = useState(true);
 
-  const [showMap, setShowMap] = useState<boolean>(true);
+  //const [showMap, setShowMap] = useState<boolean>(true);
   const [showNumbers, setShowNumbers] = useState<boolean>(false);
 
   const [renderGrid, setRenderGrid] = useState<ReactElement[]>([]);
@@ -39,7 +38,6 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
     width: number;
     height: number;
   }>({ originX: 0, originY: 0, width: 0, height: 0 });
-
 
   // calculate grid data ---
   const _drawGrid = () => {
@@ -67,7 +65,7 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
     return (
       <g key={key}>
         {showNumbers && (
-          <text x={posX + 20} y={posY + 5} fill="#db74ff" fontSize="12">
+          <text x={posX + 20} y={posY + 5} fill="#db74ff99" fontSize="12">
             {(posX - CENTER_MAP.x) / 100},{(posY - CENTER_MAP.y) / 50}
           </text>
         )}
@@ -137,7 +135,7 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
       </g>
     );
   };
-  
+
   // events ---
   const _zoomIn = () => Viewer.current?.zoomOnViewerCenter(1.1);
 
@@ -153,7 +151,7 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
   };
 
   const handlerBuildingClick = (games: number) => {
-    setGames({open: true, data: games});
+    setGames({ open: true, data: games });
     setTooltipData({ visible: false, text: "" });
   };
 
@@ -201,9 +199,9 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
         <Button onClick={_fitCenter}>
           <CropFree />
         </Button>
-        <Button onClick={() => setShowMap((prev) => !prev)}>
+        {/*<Button onClick={() => setShowMap((prev) => !prev)}>
           <Map />
-        </Button>
+        </Button>*/}
         <Button onClick={() => setShowNumbers((prev) => !prev)}>
           <Numbers />
         </Button>
@@ -235,13 +233,12 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
           preventPanOutside={true}
           onPan={calculateGrid}
           onZoom={calculateGrid}
-          onClick={evt => console.log("click", evt)}
-
+          onClick={(evt) => console.log("click", evt)}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
             <g className="grid">{renderGrid}</g>
 
-            {showMap && (
+            {/*showMap && (*/
               <g className={styled.buildings}>
                 <Buildings
                   handlerBuildingClick={handlerBuildingClick}
@@ -253,7 +250,7 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
                   CENTER_MAP={CENTER_MAP}
                 />
               </g>
-            )}
+            /*)*/}
 
             {false && _drawCentralGuide()}
           </svg>

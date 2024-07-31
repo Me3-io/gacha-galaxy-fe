@@ -63,7 +63,7 @@ const Menu = ({
           <Box className={styled.rewards}>
             <Typography className={styled.infoLabel}>New rewards!</Typography>
             <Box>
-              <Typography>3</Typography>
+              <Typography>0</Typography>
               <span>
                 Rewards <br />
                 Availables

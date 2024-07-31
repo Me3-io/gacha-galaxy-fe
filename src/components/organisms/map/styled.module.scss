@@ -71,8 +71,20 @@
     }
   }
 
-  & g > image {
+  &:nth-child(4n + 1) g > image {
     animation: blinkDouble 1s linear infinite;
+  }
+
+  &:nth-child(4n + 2) g > image {
+    animation: blinkDouble 1.5s linear infinite;
+  }
+
+  &:nth-child(4n + 3) g > image {
+    animation: blinkSimple 1s linear infinite;
+  }
+
+  &:nth-child(4n + 4) g > image {
+    animation: blinkSimple 1.5s linear infinite;
   }
 }
 
