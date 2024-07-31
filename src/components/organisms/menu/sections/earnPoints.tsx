@@ -23,14 +23,22 @@ const MainTable = ({ data, handleClick }: any) => (
   <TableContainer className={styled.table}>
     <Table>
       <TableBody>
-        {data.map((row: any, pos: number) => (
-          <TableRow key={pos} className={styled.earnRow}>
-            <TableCell align="left">{row?.name || "- no name -"}</TableCell>
-            <TableCell align="right">
-              <Button onClick={() => handleClick(row)}>GO</Button>
+        {data.length > 0 ? (
+          data.map((row: any, pos: number) => (
+            <TableRow key={pos} className={styled.earnRow}>
+              <TableCell align="left">{row?.name || "- no name -"}</TableCell>
+              <TableCell align="right">
+                <Button onClick={() => handleClick(row)}>GO</Button>
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell align="center" colSpan={3}>
+              no data available
             </TableCell>
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
   </TableContainer>

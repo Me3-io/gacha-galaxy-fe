@@ -8,7 +8,7 @@ import {
   useActiveWalletConnectionStatus,
   useActiveAccount,
 } from "thirdweb/react";
-import { sepolia, bsc } from "thirdweb/chains";
+import { chain } from "hooks/thirdwebConfig";
 
 import { useTranslation } from "react-i18next";
 
@@ -32,7 +32,6 @@ import styled from "./styled.module.scss";
 const LoginBar = () => {
   const tokenLS = localStorage.getItem("session.token");
   const accountLS = JSON.parse(localStorage.getItem("thirdweb.account") || "{}");
-  const chainid = process.env.REACT_APP_CHAIN === "bsc" ? bsc.id : sepolia.id;
 
   const [loadSigning, setLoadSigning] = useState(false);
   const [signMessage, setSignedMessage] = useState("");
@@ -84,6 +83,7 @@ const LoginBar = () => {
 
   useEffect(() => {
     const address = account?.address;
+    const chainid = chain?.id || 1;
     if (status === "connected" && address && !signMessage && !tokenLS) {
       const from = window.location.hostname;
       setLoadSigning(true);

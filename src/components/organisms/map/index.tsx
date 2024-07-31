@@ -85,6 +85,7 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
 
   const calculateGrid = (value: any) => {
     if (value?.mode !== "idle" && !value?.a) return;
+    setTooltipData({ visible: false, text: "" });
 
     const posX = value?.e / value?.a;
     const posY = value?.f / value?.a;
@@ -233,7 +234,7 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
           preventPanOutside={true}
           onPan={calculateGrid}
           onZoom={calculateGrid}
-          onClick={(evt) => console.log("click", evt)}
+          //onClick={(evt) => console.log("click", evt)}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
             <g className="grid">{renderGrid}</g>
