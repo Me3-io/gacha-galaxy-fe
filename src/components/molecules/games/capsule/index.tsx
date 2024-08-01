@@ -13,6 +13,11 @@ import machine from "assets/games/capsule/machine_front_view.png";
 import machineEmpty from "assets/games/capsule/machine_front_view_empty.png";
 const urlAnimation = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Game_Animation.mp4`;
 const urlSuccess = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Animation_Success.mp4`;
+// rewards ---
+//const rewardChainGPT = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Rewards/ChainGPT.mp4`;
+//const rewardTheGraph = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Rewards/The_Graph.mp4`;
+//const rewardTrustSwap = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Rewards/TrustSwap.mp4`;
+//const rewardPythNetwork = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Rewards/Pyth_Network.mp4`;
 
 interface State {
   status: string;
@@ -122,6 +127,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
   };
 
   const endGame = () => {
+    //const reward = getReward(response?.prize);
     setModal({ open: true, data: response });
     handleEnd(response);
     setResponse(null);
@@ -135,6 +141,14 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
       handleEnd({ error });
     }, 3000);
   };
+
+  /*const getReward = (type: string) => {
+    if (/ChainGPT/.test(type)) return rewardChainGPT;
+    if (/The Graph/.test(type)) return rewardTheGraph;
+    if (/TrustSwap/.test(type)) return rewardTrustSwap;
+    if (/Pyth Network/.test(type)) return rewardPythNetwork;
+    return null;
+  };*/
 
   // effects ---
   useEffect(() => {
