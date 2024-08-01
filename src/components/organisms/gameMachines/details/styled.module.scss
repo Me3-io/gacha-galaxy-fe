@@ -165,25 +165,25 @@ $clip-min: 10px;
 
       .itemChance {
         background: linear-gradient(180deg, #483167 0%, #1e122f 100%);
-        padding: 0.5rem;
+        padding: .5rem 1rem;
         color: #9a57ee;
         display: flex;
         align-items: center;
-        flex-direction: column;
+        flex-direction: row;
         gap: 5px;
         border-radius: 5px;
         cursor: pointer;
+        justify-content: space-between;
 
         p {
           text-align: center;
           font-family: "ChakraPetch";
-          font-size: 0.7rem;
-          max-width: 70px;
-          line-height: 1.2;
+          font-size: 1rem;
+          font-weight: 600;
         }
 
         .percent {
-          font-size: 0.9rem;
+          font-size: 1rem;
           font-weight: 800;
         }
       }

@@ -1,4 +1,4 @@
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, CircularProgress, Modal, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "components/atoms/buttons/default";
 import capsuleIcon from "assets/icons/capsule.svg";
@@ -17,15 +17,31 @@ const CongratsModal = ({ open = false, data, onClose }: any) => {
           <Box className={styled.content}>
             <Box className={styled.congratulations} />
 
-            <Typography pt={3} className={styled.title}>
+            <Typography pt={2} className={styled.title}>
               Congratulations!
             </Typography>
-            <Typography pb={1} className={styled.subtitle}>
+            <Typography pb={0} className={styled.subtitle}>
               You won:
             </Typography>
 
-            <Box className={styled.capsule}>
-              <img src={capsuleIcon} alt="capsule" />
+            <Box className={styled.reward}>
+              {!data?.reward ? (
+                <img src={capsuleIcon} alt="capsule" />
+              ) : (
+                <>
+                  <CircularProgress className={styled.loader} size={40} />
+                  <video
+                    loop={true}
+                    autoPlay={true}
+                    controls={false}
+                    preload="auto"
+                    muted
+                    playsInline
+                  >
+                    <source src={data?.reward} type="video/mp4" />
+                  </video>
+                </>
+              )}
             </Box>
 
             <Typography pt={2} pb={4} className={styled.prize}>

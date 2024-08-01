@@ -20,7 +20,7 @@ import styled from "./styled.module.scss";
 const ItemChance = ({ text, percent }: any) => {
   return (
     <Box className={styled.itemChance}>
-      <img src={chance} alt="chance" />
+      {/*<img src={chance} alt="chance" />*/}
       <Typography>{text}</Typography>
       <Typography className={styled.percent}>{percent}%</Typography>
     </Box>
@@ -92,31 +92,41 @@ const GameDetails = ({ details, setDetails }: any) => {
               </Grid>
             </Grid>
             <Grid item xs={12} className={styled.info}>
-              <Box display={"flex"} flexDirection={"row"}>
+              <Box display={"flex"} flexDirection={"row"} gap={2}>
                 <Typography
-                  pr={2}
+                  //pr={2}
                   className={styled.subtitle}
                   dangerouslySetInnerHTML={{ __html: t("details-drop-chances") }}
+                  sx={{ width: "28%"}}
                 ></Typography>
                 <Stack
-                  direction="row"
+                  direction="column"
                   spacing={2}
                   flex={1}
                   justifyContent={"center"}
                   overflow={"auto"}
+                  //pt={1}
                 >
-                  <ItemChance
-                    text={t("details-odds-points")}
-                    percent={(details?.oddsForPoints * 100).toFixed(2) || "-"}
-                  />
-                  <ItemChance
-                    text={t("details-odds-prize")}
-                    percent={(details?.oddsForPrize * 100).toFixed(2) || "-"}
-                  />
-                  <ItemChance
-                    text={t("details-odds-nothing")}
-                    percent={(details?.oddsForNothing * 100).toFixed(2) || "-"}
-                  />
+                  {details?.oddsForPoints && (
+                    <ItemChance
+                      text={t("details-odds-points")}
+                      percent={(details?.oddsForPoints * 100).toFixed(2) || "-"}
+                    />
+                  )}
+
+                  {details?.oddsForPrize && (
+                    <ItemChance
+                      text={t("details-odds-prize")}
+                      percent={(details?.oddsForPrize * 100).toFixed(2) || "-"}
+                    />
+                  )}
+
+                  {details?.oddsForNothing && (
+                    <ItemChance
+                      text={t("details-odds-nothing")}
+                      percent={(details?.oddsForNothing * 100).toFixed(2) || "-"}
+                    />
+                  )}
                 </Stack>
               </Box>
             </Grid>

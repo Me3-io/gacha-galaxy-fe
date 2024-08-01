@@ -140,8 +140,8 @@ const Buildings = ({
               <rect
                 x={0}
                 y={0}
-                width={item.partner.img.width}
-                height={item.partner.img.height}
+                width={100}
+                height={100}
                 fill={item.partner.color}
               />
               <image
@@ -149,7 +149,7 @@ const Buildings = ({
                 y={0}
                 //href={item.partner.img.url}
                 href={item.partner.component}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", width: "100px" }}
               />
             </g>
           )}

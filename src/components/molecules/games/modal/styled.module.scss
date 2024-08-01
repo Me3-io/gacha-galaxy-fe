@@ -44,7 +44,7 @@
     }
 
     .content {
-      width: 430px;
+      width: 500px;
 
       text-align: center;
       border-radius: 12px;
@@ -60,7 +60,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        height: 150px;
+        height: 130px;
         width: 100%;
         box-sizing: border-box;
         background: url("/assets/icons/congratulation.svg");
@@ -80,9 +80,9 @@
         font-size: 1.6rem;
       }
 
-      .capsule {
-        width: 100%;
-        height: 250px;
+      .reward {
+        width: auto;
+        min-height: 220px;
         border-radius: 20px;
         background: linear-gradient(180deg, #28113a 0%, #0c0816 100%);
         margin: 1rem 0;
@@ -90,9 +90,23 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 1rem;
 
         img {
-          height: 160px;
+          height: 140px;
+          z-index: 2;
+        }
+
+        video {
+          width: 100%;
+          max-height: 350px;
+          z-index: 2;
+        }
+
+        .loader {
+          position: absolute;
+          color: #ba00fb!important;
+          z-index: 1;
         }
       }
 
