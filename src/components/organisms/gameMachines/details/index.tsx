@@ -6,7 +6,7 @@ import ButtonDefault from "components/atoms/buttons/default";
 import machineIcon from "assets/images/capsule-machine-angle-view.png";
 import joystick from "assets/icons/joystick.svg";
 import prize from "assets/icons/prize.svg";
-import chance from "assets/icons/chance.svg";
+
 import keyIcon from "assets/icons/key.svg";
 
 import { useNavigate } from "react-router-dom";
@@ -17,12 +17,27 @@ import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import styled from "./styled.module.scss";
 
-const ItemChance = ({ text, percent }: any) => {
+const ItemChance = ({ text, percent, rewards }: any) => {
   return (
     <Box className={styled.itemChance}>
-      {/*<img src={chance} alt="chance" />*/}
-      <Typography>{text}</Typography>
-      <Typography className={styled.percent}>{percent}%</Typography>
+      <Box className={styled.infoChance}>
+        <Typography>{text}</Typography>
+        <Typography className={styled.percent}>{percent}%</Typography>
+      </Box>
+
+      {rewards && (
+        <Box className={styled.rewards}>
+          {rewards.map((row: any, pos: number) => (
+            <Box key={pos} className={styled.reward}>
+              <img src={row.image[0].url} alt={"icon"} />
+              <Typography>
+                {row.name} 
+              </Typography>
+              <span>{(row?.winningOdds * 100).toFixed(2) || "-"}%</span>
+            </Box>
+          ))}
+        </Box>
+      )}
     </Box>
   );
 };
@@ -97,7 +112,7 @@ const GameDetails = ({ details, setDetails }: any) => {
                   //pr={2}
                   className={styled.subtitle}
                   dangerouslySetInnerHTML={{ __html: t("details-drop-chances") }}
-                  sx={{ width: "28%"}}
+                  sx={{ width: "28%" }}
                 ></Typography>
                 <Stack
                   direction="column"
@@ -118,6 +133,7 @@ const GameDetails = ({ details, setDetails }: any) => {
                     <ItemChance
                       text={t("details-odds-prize")}
                       percent={(details?.oddsForPrize * 100).toFixed(2) || "-"}
+                      rewards={details?.rewards}
                     />
                   )}
 

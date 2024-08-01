@@ -8,6 +8,7 @@ import Zoom from "@mui/material/Zoom";
 import styled from "./styled.module.scss";
 
 const CongratsModal = ({ open = false, data, onClose }: any) => {
+  const rewardVideo = data?.rewardVideo ? data?.rewardVideo[0]?.url : null;
   return (
     <Modal open={open} onClose={onClose} className={styled.modalContainer}>
       <Box className={styled.modal}>
@@ -25,7 +26,7 @@ const CongratsModal = ({ open = false, data, onClose }: any) => {
             </Typography>
 
             <Box className={styled.reward}>
-              {!data?.reward ? (
+              {!rewardVideo ? (
                 <img src={capsuleIcon} alt="capsule" />
               ) : (
                 <>
@@ -38,7 +39,7 @@ const CongratsModal = ({ open = false, data, onClose }: any) => {
                     muted
                     playsInline
                   >
-                    <source src={data?.reward} type="video/mp4" />
+                    <source src={rewardVideo} type="video/mp4" />
                   </video>
                 </>
               )}

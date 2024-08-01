@@ -36,11 +36,11 @@ const Game = () => {
   };
 
   const handleEnd = (response: any) => {
-    //if (response.userAvailableKeys) {
-    //  setBalance(response.userAvailableKeys);
-    //} else {
-    setBalance(balance - gameData?.price);
-    //}
+    if (response?.userAvailableKeys) {
+      setBalance(response.userAvailableKeys);
+    } else {
+      setBalance(balance - gameData?.price);
+    }
     setOnPlay(false);
   };
 

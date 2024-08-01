@@ -25,7 +25,6 @@ const Buildings = ({
     item?.campaign && handlerPartnerClick(item.campaign.claimrId);
   };
 
-
   // data buildings ---
   const getResource = async (url: string) => {
     return await fetch(url)
@@ -137,19 +136,13 @@ const Buildings = ({
               onMouseLeave={handlerLeave}
               onTouchEnd={(evt) => evt.stopPropagation()}
             >
-              <rect
-                x={0}
-                y={0}
-                width={100}
-                height={100}
-                fill={item.partner.color}
-              />
+              <rect x={0} y={0} width={100} height={120} fill={item.partner.color} />
               <image
                 x={0}
                 y={0}
                 //href={item.partner.img.url}
                 href={item.partner.component}
-                style={{ cursor: "pointer", width: "100px" }}
+                style={{ cursor: "pointer", width: "100px", transform: "translateY(10px)" }}
               />
             </g>
           )}
