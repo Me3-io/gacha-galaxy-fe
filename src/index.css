@@ -13,3 +13,21 @@ body,
   height: 100%;
   background: #150a21;
 }
+
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #b800fb20;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ba00fb60;
+  border-radius: 10px;
+}
