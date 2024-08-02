@@ -8,7 +8,7 @@ import {
   useActiveWalletConnectionStatus,
   useActiveAccount,
 } from "thirdweb/react";
-import { sepolia, bsc } from "thirdweb/chains";
+import { chain } from "hooks/thirdwebConfig";
 
 import { useTranslation } from "react-i18next";
 
@@ -32,13 +32,12 @@ import styled from "./styled.module.scss";
 const LoginBar = () => {
   const tokenLS = localStorage.getItem("session.token");
   const accountLS = JSON.parse(localStorage.getItem("thirdweb.account") || "{}");
-  const chainid = process.env.REACT_APP_CHAIN === "bsc" ? bsc.id : sepolia.id;
 
   const [loadSigning, setLoadSigning] = useState(false);
   const [signMessage, setSignedMessage] = useState("");
   const [onError, setOnError] = useState({ show: false, msg: "" });
 
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -69,7 +68,7 @@ const LoginBar = () => {
       setSignedMessage(response);
     } catch (error) {
       logout();
-      setOnError({ show: true, msg: "User Rejected Request" });
+      setOnError({ show: true, msg: t("login-error-rejected") });
     }
   };
 
@@ -84,6 +83,7 @@ const LoginBar = () => {
 
   useEffect(() => {
     const address = account?.address;
+    const chainid = chain?.id || 1;
     if (status === "connected" && address && !signMessage && !tokenLS) {
       const from = window.location.hostname;
       setLoadSigning(true);
@@ -92,7 +92,7 @@ const LoginBar = () => {
           if (response?.message) {
             signedMessage(response.message);
           } else {
-            setOnError({ show: true, msg: "Error to challenge request" });
+            setOnError({ show: true, msg: t("login-error-request") });
             console.error("Error to challenge request: ", response);
             logout();
           }
@@ -114,7 +114,7 @@ const LoginBar = () => {
           setSignedMessage("");
           navigate(`/${i18n.language}/home/`);
         } else {
-          setOnError({ show: true, msg: "Error to challenge verify" });
+          setOnError({ show: true, msg: t("login-error-verify") });
           console.error("Error to challenge verify: ", response);
           logout();
         }
@@ -145,13 +145,13 @@ const LoginBar = () => {
           {loadSigning ? (
             <>
               <CircularProgress className={styled.spinner} size={20} />
-              <span>Signing...</span>
+              <span>{t("login-signing")}</span>
             </>
           ) : (
             <>
               <span>{`${account?.address?.slice(0, 8)}...${account?.address?.slice(-8)}`}</span>
 
-              <CustomTooltip title="Copy address">
+              <CustomTooltip title={t("copy-address")}>
                 <ContentCopyIcon
                   onClick={() => navigator.clipboard.writeText(account?.address || "")}
                 />
@@ -160,7 +160,7 @@ const LoginBar = () => {
           )}
           <Box className={styled.divider} />
 
-          <CustomTooltip title="Disconnect">
+          <CustomTooltip title={t("disconect")}>
             <LogoutIcon onClick={logout} />
           </CustomTooltip>
         </Box>

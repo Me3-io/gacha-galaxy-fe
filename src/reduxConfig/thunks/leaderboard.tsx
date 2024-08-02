@@ -16,7 +16,7 @@ export const fetchLeaderboard = () => async (dispatch: any) => {
     dispatch(setLeaderboardSuccess(data));
     return response.data;
   } catch (error: any) {
-    dispatch(setLeaderboardSuccess(error?.message));
+    dispatch(setLeaderboardFailure(error?.message));
   }
 };
 

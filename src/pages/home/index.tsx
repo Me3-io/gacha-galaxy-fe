@@ -12,6 +12,7 @@ import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { useDispatch } from "react-redux";
 import { fetchBuildings } from "reduxConfig/thunks/buildings";
 import { fetchLeaderboard } from "reduxConfig/thunks/leaderboard";
+import { fetchClaims } from "reduxConfig/thunks/claim";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
@@ -29,6 +30,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(fetchBuildings() as any);
     dispatch(fetchLeaderboard() as any);
+    dispatch(fetchClaims() as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

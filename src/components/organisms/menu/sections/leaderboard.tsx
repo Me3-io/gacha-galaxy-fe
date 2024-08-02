@@ -5,15 +5,17 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 
+import Button from "components/atoms/buttons/base";
+import CustomTooltip from "components/atoms/materialTooltip";
+
 // icons ---
 import menu from "assets/icons/menu.svg";
 import user from "assets/icons/user.svg";
 import arrowUp from "assets/icons/arrowUp.svg";
 import arrowDown from "assets/icons/arrowDown.svg";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import keyIcon from "assets/icons/key.svg";
-import Button from "components/atoms/buttons/base";
+import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import { useSelector } from "react-redux";
@@ -42,9 +44,11 @@ const Leaderboard = ({
       sx={{ opacity: opacity }}
     >
       <Box p={2} className={styled.header}>
-        <Box component="span" onClick={() => setOpenMenu(true)}>
-          <img src={menu} alt="menu" width={36} />
-        </Box>
+        <CustomTooltip title={t("menu")}>
+          <Box component="span" onClick={() => setOpenMenu(true)}>
+            <img src={menu} alt="menu" width={36} />
+          </Box>
+        </CustomTooltip>
         <Box className={styled.nickname} display={{ xs: "none", md: "flex" }}>
           <Typography>{leaderboardData?.userNickname}</Typography>
           <AccountCircleIcon />
@@ -86,7 +90,7 @@ const Leaderboard = ({
                 ) : (
                   <TableRow>
                     <TableCell align="center" colSpan={3}>
-                      no data available
+                      {t("no-data")}
                     </TableCell>
                   </TableRow>
                 )}

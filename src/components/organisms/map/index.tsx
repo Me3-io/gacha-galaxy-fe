@@ -11,6 +11,7 @@ import Button from "components/atoms/buttons/base";
 import Buildings from "./buildings";
 
 import styled from "./styled.module.scss";
+import { useTranslation } from "react-i18next";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
@@ -21,6 +22,7 @@ const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = ({ setGames, setCampaing }: any) => {
   const Viewer = useRef<any>(null);
+  const { t } = useTranslation();
 
   const { ref, width, height } = useResizeObserver();
   const [value, setValue] = useState<any>({});
@@ -85,6 +87,7 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
 
   const calculateGrid = (value: any) => {
     if (value?.mode !== "idle" && !value?.a) return;
+    setTooltipData({ visible: false, text: "" });
 
     const posX = value?.e / value?.a;
     const posY = value?.f / value?.a;
@@ -184,7 +187,7 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
       {loading && (
         <Box className={styled.loading}>
           <CircularProgress className={styled.spinner} size={36} />
-          loading map...
+          {t("loading-map")}
         </Box>
       )}
       <Box className={styled.backgroundImage}></Box>
@@ -233,12 +236,13 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
           preventPanOutside={true}
           onPan={calculateGrid}
           onZoom={calculateGrid}
-          onClick={(evt) => console.log("click", evt)}
+          //onClick={(evt) => console.log("click", evt)}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
             <g className="grid">{renderGrid}</g>
 
-            {/*showMap && (*/
+            {
+              /*showMap && (*/
               <g className={styled.buildings}>
                 <Buildings
                   handlerBuildingClick={handlerBuildingClick}
@@ -250,7 +254,8 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
                   CENTER_MAP={CENTER_MAP}
                 />
               </g>
-            /*)*/}
+              /*)*/
+            }
 
             {false && _drawCentralGuide()}
           </svg>

@@ -25,7 +25,7 @@ export const fetchBuildings = () => async (dispatch: any) => {
     }));
 
     dispatch(setBuildingSuccess(buildings));
-    return response.data;
+    return buildings;
   } catch (error: any) {
     dispatch(setBuildingFailure(error?.message));
   }

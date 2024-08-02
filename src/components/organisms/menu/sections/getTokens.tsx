@@ -4,13 +4,15 @@ import Button from "components/atoms/buttons/base";
 import ButtonDefault from "components/atoms/buttons/default";
 
 import styled from "../styled.module.scss";
+import { useTranslation } from "react-i18next";
 
 const GetTokens = ({ setOpenTokens }: any) => {
+  const { t } = useTranslation();
   return (
     <Grid container flexDirection="column" className={styled.main}>
       <Box p={2} className={styled.header}>
         <Button onClick={() => setOpenTokens(false)}>
-          <ArrowBackIcon /> Back
+          <ArrowBackIcon /> {t("back")}
         </Button>
         <Typography pb={2} className={styled.title}>
           GET TOKENS
