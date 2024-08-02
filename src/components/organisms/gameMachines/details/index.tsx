@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import styled from "./styled.module.scss";
+import { useEffect } from "react";
 
 const ItemChance = ({ text, percent }: any) => {
   return (
@@ -36,11 +37,14 @@ const GameDetails = ({ details, setDetails }: any) => {
     navigate(`/${i18n.language}/game/${details.code}`);
   };
 
-  const rewardsContainer = document.querySelector("#rewards");
-  rewardsContainer?.addEventListener("wheel", (e: any) => {
-    e.preventDefault();
-    rewardsContainer.scrollLeft += e?.deltaY;
-  });
+
+  useEffect(() => {
+    const rewardsContainer = document.querySelector("#rewards");
+    rewardsContainer?.addEventListener("wheel", (e: any) => {
+      e.preventDefault();
+      rewardsContainer.scrollLeft += e?.deltaY;
+    });
+  }, []);
 
   return (
     <Grow in={true}>
