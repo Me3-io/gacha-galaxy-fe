@@ -319,6 +319,10 @@
 }
 
 .earnPointsContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
   .table {
     box-sizing: border-box;
     height: 100%;
