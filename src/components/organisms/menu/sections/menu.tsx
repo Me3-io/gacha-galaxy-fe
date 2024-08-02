@@ -13,6 +13,9 @@ import iconHelp from "assets/icons/menuHelp.svg";
 import iconSettings from "assets/icons/menuSettings.svg";
 import { useTranslation } from "react-i18next";
 
+import { useSelector } from "react-redux";
+import { getClaims } from "reduxConfig/thunks/claim";
+
 const MenuItem = ({ icon, name, onClick }: any) => {
   return (
     <ButtonBase className={styled.item} onClick={onClick}>
@@ -31,6 +34,8 @@ const Menu = ({
   setOpenSettings,
 }: any) => {
   const { t } = useTranslation();
+
+  const claims = useSelector(getClaims);
 
   const rows = [
     {
@@ -70,7 +75,7 @@ const Menu = ({
           <Box className={styled.rewards}>
             <Typography className={styled.infoLabel}>{t("new-rewards")}</Typography>
             <Box>
-              <Typography>0</Typography>
+              <Typography>{claims?.length || 0 }</Typography>
               <span dangerouslySetInnerHTML={{ __html: t("rewards-availables") }}></span>
             </Box>
           </Box>

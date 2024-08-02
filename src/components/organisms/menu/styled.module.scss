@@ -381,21 +381,6 @@
   }
 }
 
-// scrollbar styles ---
-::-webkit-scrollbar {
-  width: 7px;
-}
-
-::-webkit-scrollbar-track {
-  background: #b800fb20;
-  border-radius: 10px;
-  margin: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #ba00fb60;
-  border-radius: 10px;
-}
 
 @media screen and (min-width: 600px) {
   table {

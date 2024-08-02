@@ -51,10 +51,10 @@
 
   "details-how-to-play": "HOW TO PLAY",
   "details-prizes": "PRIZES",
-  "details-drop-chances": "DROP <br /> CHANCES",
-  "details-odds-points": "Odds For Points",
-  "details-odds-prize": "Odds For Prize",
-  "details-odds-nothing": "Odds For Nothing",
+  "details-drop-chances": "DROP CHANCES",
+  "details-odds-points": "Points",
+  "details-odds-prize": "Prize",
+  "details-odds-nothing": "Nothing",
   "details-available-keys": "  AVAILABLE <br /> KEYS",
 
   "game-instructions": "INSTRUCTIONS",

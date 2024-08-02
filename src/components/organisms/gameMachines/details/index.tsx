@@ -1,4 +1,4 @@
-import { Box, Grid, Grow, Stack, Typography } from "@mui/material";
+import { Box, Grid, Grow, /*Stack,*/ Typography } from "@mui/material";
 
 import Button from "components/atoms/buttons/base";
 import ButtonDefault from "components/atoms/buttons/default";
@@ -17,27 +17,11 @@ import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import styled from "./styled.module.scss";
 
-const ItemChance = ({ text, percent, rewards }: any) => {
+const ItemChance = ({ text, percent }: any) => {
   return (
     <Box className={styled.itemChance}>
-      <Box className={styled.infoChance}>
-        <Typography>{text}</Typography>
-        <Typography className={styled.percent}>{percent}%</Typography>
-      </Box>
-
-      {rewards && (
-        <Box className={styled.rewards}>
-          {rewards.map((row: any, pos: number) => (
-            <Box key={pos} className={styled.reward}>
-              <img src={row.image[0].url} alt={"icon"} />
-              <Typography>
-                {row.name} 
-              </Typography>
-              <span>{(row?.winningOdds * 100).toFixed(2) || "-"}%</span>
-            </Box>
-          ))}
-        </Box>
-      )}
+      <Typography className={styled.percent}>{percent}%</Typography>
+      <Typography>{text}</Typography>
     </Box>
   );
 };
@@ -51,6 +35,12 @@ const GameDetails = ({ details, setDetails }: any) => {
     if (!details?.code) return;
     navigate(`/${i18n.language}/game/${details.code}`);
   };
+
+  const rewardsContainer = document.querySelector("#rewards");
+  rewardsContainer?.addEventListener("wheel", (e: any) => {
+    e.preventDefault();
+    rewardsContainer.scrollLeft += e?.deltaY;
+  });
 
   return (
     <Grow in={true}>
@@ -106,22 +96,13 @@ const GameDetails = ({ details, setDetails }: any) => {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item xs={12} className={styled.info}>
-              <Box display={"flex"} flexDirection={"row"} gap={2}>
-                <Typography
-                  //pr={2}
-                  className={styled.subtitle}
-                  dangerouslySetInnerHTML={{ __html: t("details-drop-chances") }}
-                  sx={{ width: "28%" }}
-                ></Typography>
-                <Stack
-                  direction="column"
-                  spacing={2}
-                  flex={1}
-                  justifyContent={"center"}
-                  overflow={"auto"}
-                  //pt={1}
-                >
+            <Grid item xs={12} className={styled.info} p={"1rem!important"}>
+              <Box className={styled.dropChances}>
+                <Typography pb={1} className={styled.subtitle}>
+                  {t("details-drop-chances")}
+                </Typography>
+
+                <Box display={"flex"} flexDirection={"row"} gap={2}>
                   {details?.oddsForPoints && (
                     <ItemChance
                       text={t("details-odds-points")}
@@ -133,7 +114,6 @@ const GameDetails = ({ details, setDetails }: any) => {
                     <ItemChance
                       text={t("details-odds-prize")}
                       percent={(details?.oddsForPrize * 100).toFixed(2) || "-"}
-                      rewards={details?.rewards}
                     />
                   )}
 
@@ -143,7 +123,21 @@ const GameDetails = ({ details, setDetails }: any) => {
                       percent={(details?.oddsForNothing * 100).toFixed(2) || "-"}
                     />
                   )}
-                </Stack>
+                </Box>
+              </Box>
+
+              <Box className={styled.rewards} mb={1}>
+                <Box id="rewards">
+                  {details?.rewards.map((row: any, pos: number) => (
+                    <Box key={pos} className={styled.reward}>
+                      <Box>
+                        <Typography>{row.name}</Typography>
+                        <span>{(row?.winningOdds * 100).toFixed(0) || "-"}%</span>
+                      </Box>
+                      <img src={row.image[0].url} alt={"icon"} />
+                    </Box>
+                  ))}
+                </Box>
               </Box>
             </Grid>
             {/*<Grid item xs={12}>
