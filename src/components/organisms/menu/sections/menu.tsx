@@ -75,7 +75,7 @@ const Menu = ({
           <Box className={styled.rewards}>
             <Typography className={styled.infoLabel}>{t("new-rewards")}</Typography>
             <Box>
-              <Typography>{claims?.length || 0 }</Typography>
+              <Typography>{claims?.length || 0}</Typography>
               <span dangerouslySetInnerHTML={{ __html: t("rewards-availables") }}></span>
             </Box>
           </Box>
