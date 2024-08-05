@@ -28,22 +28,29 @@ import Alert from "components/molecules/alert";
 
 const RewardButton = ({ reward, setOnError }: any) => {
   const { t } = useTranslation();
-  const { connect } = useConnectModal();
   const [loading, setLoading] = useState(false);
+
+  const accountLS = JSON.parse(localStorage.getItem("thirdweb.account") || "{}");
+  const { connect } = useConnectModal();
   const activeAccount = useActiveAccount();
 
   const getReward = async (reward: any) => {
     setLoading(true);
+
     try {
       let loginAccount = null;
       if (!activeAccount) {
         const response = await connect({ ...modalConfig, size: "wide" });
         loginAccount = response.getAccount();
+
+        if (loginAccount?.address !== accountLS?.address) {
+          await response?.disconnect();
+          throw new Error("the address do not match");
+        }
       }
 
       if (!activeAccount && !loginAccount) {
-        console.error("account not found");
-        return;
+        throw new Error("account not found");
       }
 
       const account = activeAccount || loginAccount;
@@ -243,7 +250,6 @@ const MainTable = ({ data, setOnError }: any) => {
 };
 
 const ClaimAll = ({ setOpenClaimAll }: any) => {
-  //const accountLS = JSON.parse(localStorage.getItem("thirdweb.account") || "{}");
   const { t } = useTranslation();
   const [onError, setOnError] = useState({ show: false, msg: "" });
 
