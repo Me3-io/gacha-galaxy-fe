@@ -158,6 +158,7 @@ const LoginBar = () => {
               </CustomTooltip>
             </>
           )}
+          
           <Box className={styled.divider} />
 
           <CustomTooltip title={t("disconect")}>
