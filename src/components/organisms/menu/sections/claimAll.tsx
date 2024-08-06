@@ -265,7 +265,7 @@ const ClaimAll = ({ setOpenClaimAll }: any) => {
   return (
     <>
       <Grid container flexDirection="column" className={styled.main}>
-        <Box p={2} className={styled.header}>
+        <Box className={styled.header}>
           <Button onClick={() => setOpenClaimAll(false)}>
             <ArrowBackIcon /> {t("back")}
           </Button>

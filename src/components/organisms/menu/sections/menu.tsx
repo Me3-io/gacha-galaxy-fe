@@ -55,7 +55,7 @@ const Menu = ({
 
   return (
     <Grid container flexDirection="column" className={styled.main}>
-      <Box p={2} className={styled.header}>
+      <Box className={styled.header}>
         <Button onClick={() => setOpenMenu(false)}>
           <ArrowBackIcon /> {t("back")}
         </Button>

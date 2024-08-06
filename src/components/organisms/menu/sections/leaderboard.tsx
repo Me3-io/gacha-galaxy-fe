@@ -43,7 +43,7 @@ const Leaderboard = ({
       className={styled.main}
       sx={{ opacity: opacity }}
     >
-      <Box p={2} className={styled.header}>
+      <Box className={styled.header}>
         <CustomTooltip title={t("menu")}>
           <Box component="span" onClick={() => setOpenMenu(true)}>
             <img src={menu} alt="menu" width={36} />
