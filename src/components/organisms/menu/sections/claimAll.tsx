@@ -30,7 +30,7 @@ const RewardButton = ({ reward, setOnError }: any) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
-  const accountLS = JSON.parse(localStorage.getItem("thirdweb.account") || "{}");
+  const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
   const { connect } = useConnectModal();
   const activeAccount = useActiveAccount();
 

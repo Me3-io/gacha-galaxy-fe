@@ -31,7 +31,7 @@ import styled from "./styled.module.scss";
 
 const LoginBar = () => {
   const tokenLS = localStorage.getItem("session.token");
-  const accountLS = JSON.parse(localStorage.getItem("thirdweb.account") || "{}");
+  const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
 
   const [loadSigning, setLoadSigning] = useState(false);
   const [signMessage, setSignedMessage] = useState("");
@@ -57,7 +57,7 @@ const LoginBar = () => {
     dispatch(clearAuthToken());
     dispatch(clearMessageAuth());
     localStorage.removeItem("session.token");
-    localStorage.removeItem("thirdweb.account");
+    localStorage.removeItem("session.account");
 
     navigate(`/${i18n.language}/`);
   };
@@ -104,13 +104,12 @@ const LoginBar = () => {
 
   useEffect(() => {
     if (signMessage && dataMessageAuth?.message) {
-      dispatch(
-        fetchChallengeVerify({ signature: signMessage, message: dataMessageAuth.message }) as any
-      ).then(async (response: any) => {
+      const signParams = { signature: signMessage, message: dataMessageAuth.message };
+      dispatch(fetchChallengeVerify(signParams) as any).then(async (response: any) => {
         setLoadSigning(false);
         if (response?.sessionToken) {
           localStorage.setItem("session.token", response?.sessionToken);
-          localStorage.setItem("thirdweb.account", JSON.stringify(account));
+          localStorage.setItem("session.account", JSON.stringify({ ...account, ...signParams }));
           setSignedMessage("");
           navigate(`/${i18n.language}/home/`);
         } else {
@@ -158,7 +157,7 @@ const LoginBar = () => {
               </CustomTooltip>
             </>
           )}
-          
+
           <Box className={styled.divider} />
 
           <CustomTooltip title={t("disconect")}>
