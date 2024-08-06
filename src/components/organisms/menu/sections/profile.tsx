@@ -1,19 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Grid, IconButton, TextField, Typography } from "@mui/material";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CheckIcon from "@mui/icons-material/Check";
 import CreateIcon from "@mui/icons-material/Create";
 import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-import Button from "components/atoms/buttons/base";
-import styled from "../styled.module.scss";
-import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
-import CustomTooltip from "components/atoms/materialTooltip";
+
 import customAxios from "utils/customAxios";
+import Button from "components/atoms/buttons/base";
+import CustomTooltip from "components/atoms/materialTooltip";
 import Alert from "components/molecules/alert";
+
+import { useTranslation } from "react-i18next";
+import styled from "../styled.module.scss";
 
 const Profile = ({ setOpenProfile }: any) => {
   const { t } = useTranslation();
