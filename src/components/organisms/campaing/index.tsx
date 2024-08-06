@@ -19,7 +19,6 @@ const Campaing = ({ campaing, handleClose }: any) => {
         script.defer = true;
         script.src = "https://widgets.claimr.io/claimr.min.js";
         script.id = "claimr-script";
-        script.setAttribute("data-addons", "sup,sur");
         script.setAttribute("data-campaign", campaing.id);
         script.setAttribute("data-autoresize", "true");
         script.setAttribute("data-container", campaing.id);
