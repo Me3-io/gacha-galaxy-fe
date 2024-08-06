@@ -218,6 +218,7 @@ const RewardButton = ({ reward, setOnError }: any) => {
       setOnError({ show: true, msg: error?.message || "error to claim item" });
       console.error(error);
     }
+    
     setLoading(false);
   };
 
