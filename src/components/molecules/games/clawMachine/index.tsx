@@ -10,6 +10,7 @@ import styled from "./styled.module.scss";
 
 // resources ---
 import machine from "assets/games/clawMachine/machine_front_view.png";
+import poster from "assets/games/clawMachine/poster.jpg";
 
 const urlAnimationMissItem = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Animation_Miss_Item.mp4`;
 const urlAnimationDropinPlace = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Animation_Drop_in_Place.mp4`;
@@ -152,11 +153,6 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onPlay]);
 
-  // on close congrats modal ---
-  useEffect(() => {
-    //if (modal.open && gameState.status !== "init") setGameState(states.ready);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modal?.open]);
 
   useEffect(() => {
     setGameState(states.init);
@@ -180,6 +176,7 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
             <video
               ref={videoRef}
               key={gameState.source}
+              poster={poster}
               loop={false}
               autoPlay={false}
               controls={false}
