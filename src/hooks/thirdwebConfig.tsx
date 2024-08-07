@@ -1,5 +1,5 @@
 import { createThirdwebClient } from "thirdweb";
-import { inAppWallet, createWallet } from "thirdweb/wallets";
+import { inAppWallet, createWallet, walletConnect } from "thirdweb/wallets";
 import { sepolia, bsc } from "thirdweb/chains";
 import { darkTheme } from "thirdweb/react";
 
@@ -35,6 +35,7 @@ export const wallets = [
   createWallet("com.trustwallet.app"),
   // @ts-ignore
   createWallet("global.safe"),
+  walletConnect(),
 ];
 
 // client ---
