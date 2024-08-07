@@ -38,6 +38,11 @@ const Profile = ({ setOpenProfile }: any) => {
   };
 
   const handleSave = async () => {
+    if (!nickname) {
+      setOnError({ show: true, msg: "Nickname is required" });
+      return;
+    }
+
     await customAxios()
       .post("/user/updateprofile", {
         nickname,
@@ -80,6 +85,7 @@ const Profile = ({ setOpenProfile }: any) => {
               disabled={!onEdit}
               value={nickname}
               onChange={handleChange}
+              inputProps={{ maxLength: 30 }}
               InputProps={{
                 endAdornment: (
                   <>
