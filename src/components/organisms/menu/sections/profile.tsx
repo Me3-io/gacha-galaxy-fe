@@ -48,7 +48,10 @@ const Profile = ({ setOpenProfile }: any) => {
         nickname,
       })
       .catch((error: any) => {
-        setOnError({ show: true, msg: error?.message || "error" });
+        setOnError({
+          show: true,
+          msg: error?.response?.data?.message || error?.message || "error",
+        });
       });
 
     dispatch(fetchLeaderboard() as any);

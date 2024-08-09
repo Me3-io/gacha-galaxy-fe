@@ -20,16 +20,12 @@ const urlSuccess = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Animation_Su
 interface State {
   status: string;
   visible: boolean;
-  play: boolean;
-  loop: boolean;
   source?: string;
 }
 
 const initialState: State = {
   status: "init",
   visible: false,
-  play: false,
-  loop: false,
   source: "",
 };
 
@@ -46,10 +42,10 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
   const [sources, setSources] = useState<string[]>([]);
 
   const states = {
-    init: { status: "init", visible: false, play: false, loop: false },
-    load: { status: "load", visible: false, play: false, loop: false },
-    ready: { status: "ready", visible: true, play: false, loop: false, source: sources[0] },
-    play: { status: "play", visible: true, play: false, loop: false, source: sources[0] },
+    init: { status: "init", visible: false },
+    load: { status: "load", visible: false },
+    ready: { status: "ready", visible: true, source: sources[0] },
+    play: { status: "play", visible: true, source: sources[0] },
   };
 
   const bgClass =
@@ -91,11 +87,8 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
     switch (gameState.status) {
       case "init":
         setGameState(states.load);
-        break;
-
-      case "load":
-        setTimeout(() => {
-          setGameState({ ...states.play, source: sourceAnimation });
+        setTimeout(() => { 
+          setGameState(states.ready);
         }, 3000);
         break;
 
@@ -152,7 +145,6 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onPlay]);
-
 
   useEffect(() => {
     setGameState(states.init);

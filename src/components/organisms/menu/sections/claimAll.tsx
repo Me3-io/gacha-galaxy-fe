@@ -35,6 +35,8 @@ const RewardButton = ({ reward, setOnError }: any) => {
   const activeAccount = useActiveAccount();
 
   const getReward = async (reward: any) => {
+    console.log(reward);
+
     setLoading(true);
 
     try {
@@ -55,157 +57,25 @@ const RewardButton = ({ reward, setOnError }: any) => {
 
       const account = activeAccount || loginAccount;
 
+      console.log("account: ", account);
       // @ts-ignore
       const contract = getContract({
         client,
         chain,
-        address: reward.destination,
-        abi: [
-          { inputs: [], stateMutability: "nonpayable", type: "constructor" },
-          {
-            anonymous: false,
-            inputs: [
-              { indexed: true, internalType: "address", name: "previousAvatar", type: "address" },
-              { indexed: true, internalType: "address", name: "newAvatar", type: "address" },
-            ],
-            name: "AvatarSet",
-            type: "event",
-          },
-          {
-            anonymous: false,
-            inputs: [{ indexed: false, internalType: "uint8", name: "version", type: "uint8" }],
-            name: "Initialized",
-            type: "event",
-          },
-          {
-            anonymous: false,
-            inputs: [
-              { indexed: true, internalType: "address", name: "previousOwner", type: "address" },
-              { indexed: true, internalType: "address", name: "newOwner", type: "address" },
-            ],
-            name: "OwnershipTransferred",
-            type: "event",
-          },
-          {
-            anonymous: false,
-            inputs: [
-              { indexed: true, internalType: "address", name: "previousTarget", type: "address" },
-              { indexed: true, internalType: "address", name: "newTarget", type: "address" },
-            ],
-            name: "TargetSet",
-            type: "event",
-          },
-          {
-            inputs: [{ internalType: "address", name: "_asset", type: "address" }],
-            name: "addAsset",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            name: "assets",
-            outputs: [{ internalType: "address", name: "", type: "address" }],
-            stateMutability: "view",
-            type: "function",
-          },
-          {
-            inputs: [],
-            name: "avatar",
-            outputs: [{ internalType: "address", name: "", type: "address" }],
-            stateMutability: "view",
-            type: "function",
-          },
-          {
-            inputs: [],
-            name: "claimAllTokens",
-            outputs: [{ internalType: "bool", name: "success", type: "bool" }],
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            inputs: [
-              { internalType: "address", name: "_token", type: "address" },
-              { internalType: "uint256", name: "tokenId", type: "uint256" },
-            ],
-            name: "claimNft",
-            outputs: [{ internalType: "bool", name: "success", type: "bool" }],
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            inputs: [{ internalType: "address", name: "_token", type: "address" }],
-            name: "claimToken",
-            outputs: [{ internalType: "bool", name: "success", type: "bool" }],
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            inputs: [],
-            name: "owner",
-            outputs: [{ internalType: "address", name: "", type: "address" }],
-            stateMutability: "view",
-            type: "function",
-          },
-          {
-            inputs: [{ internalType: "address", name: "_asset", type: "address" }],
-            name: "removeAsset",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            inputs: [],
-            name: "renounceOwnership",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            inputs: [{ internalType: "address", name: "_avatar", type: "address" }],
-            name: "setAvatar",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            inputs: [{ internalType: "address", name: "_target", type: "address" }],
-            name: "setTarget",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            inputs: [{ internalType: "bytes", name: "initializeParams", type: "bytes" }],
-            name: "setUp",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            inputs: [],
-            name: "target",
-            outputs: [{ internalType: "address", name: "", type: "address" }],
-            stateMutability: "view",
-            type: "function",
-          },
-          {
-            inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
-            name: "transferOwnership",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-        ],
+        address: "0x4ec3C7C07355F2d8662A482fAFEd64C56dDec235", //reward.rewardContractAddress,
+        abi: [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousAvatar","type":"address"},{"indexed":true,"internalType":"address","name":"newAvatar","type":"address"}],"name":"AvatarSet","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint8","name":"version","type":"uint8"}],"name":"Initialized","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousTarget","type":"address"},{"indexed":true,"internalType":"address","name":"newTarget","type":"address"}],"name":"TargetSet","type":"event"},{"inputs":[{"internalType":"address","name":"_asset","type":"address"}],"name":"addAsset","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"assets","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"avatar","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"claimAllTokens","outputs":[{"internalType":"bool","name":"success","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_token","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"claimNft","outputs":[{"internalType":"bool","name":"success","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_token","type":"address"}],"name":"claimToken","outputs":[{"internalType":"bool","name":"success","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_asset","type":"address"}],"name":"removeAsset","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_avatar","type":"address"}],"name":"setAvatar","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_target","type":"address"}],"name":"setTarget","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes","name":"initializeParams","type":"bytes"}],"name":"setUp","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"target","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"}]
       });
 
+      console.log("contract: ", contract);
       // @ts-ignore
       const transaction = prepareContractCall({
         contract,
         // @ts-ignore
         method: "function claimNft(address _token, uint256 tokenId)",
-        params: [account?.address, 6],
+        params: [reward?.rewardContractAddress, 7 /*reward?.rewardTokenId*/],
       });
+
+      console.log("transaction: ", reward?.rewardContractAddress, 7 /*reward?.rewardTokenId*/);
 
       if (!account) return;
       const { transactionHash } = await sendTransaction({
@@ -218,7 +88,7 @@ const RewardButton = ({ reward, setOnError }: any) => {
       setOnError({ show: true, msg: error?.message || "error to claim item" });
       console.error(error);
     }
-    
+
     setLoading(false);
   };
 
@@ -284,7 +154,7 @@ const ClaimAll = ({ setOpenClaimAll }: any) => {
                   indicatorColor="secondary"
                 >
                   <Tab label="NFTs" value="1" />
-                  <Tab label="Tokens" value="2" />
+                  <Tab label="Tokens" value="2" disabled />
                 </TabList>
               </Box>
               <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "auto" }}>
