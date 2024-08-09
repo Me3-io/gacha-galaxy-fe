@@ -35,7 +35,7 @@ const Menu = ({
 }: any) => {
   const { t } = useTranslation();
 
-  const claims = useSelector(getClaims);
+  const claimeables = useSelector(getClaims)?.claimeables || [];
 
   const rows = [
     {
@@ -75,7 +75,7 @@ const Menu = ({
           <Box className={styled.rewards}>
             <Typography className={styled.infoLabel}>{t("new-rewards")}</Typography>
             <Box>
-              <Typography>{claims?.length || 0}</Typography>
+              <Typography>{claimeables?.length || 0}</Typography>
               <span dangerouslySetInnerHTML={{ __html: t("rewards-availables") }}></span>
             </Box>
           </Box>
