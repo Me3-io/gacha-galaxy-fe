@@ -56,10 +56,11 @@ const Game = () => {
     if (buildings) {
       const game =
         (buildings &&
-          buildings.find((building: any) =>
-            building?.games?.find((game: any) => game.code === code)
-          )?.games[0]) ||
+          buildings
+            .find((building: any) => building?.games?.find((game: any) => game.code === code))
+            ?.games?.find((game: any) => game.code === code)) ||
         null;
+
       setGameData(game);
     } else {
       dispatch(fetchBuildings() as any);

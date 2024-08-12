@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import Button from "components/atoms/buttons/default";
 
-import machineIcon from "assets/images/capsule-machine-angle-view.png";
+import machineIcon from "assets/games/capsule/capsule-machine-angle-view.png";
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
 

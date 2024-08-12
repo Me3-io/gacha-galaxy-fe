@@ -3,7 +3,7 @@ import { Box, Grid, Grow, /*Stack,*/ Typography } from "@mui/material";
 import Button from "components/atoms/buttons/base";
 import ButtonDefault from "components/atoms/buttons/default";
 
-import machineIcon from "assets/images/capsule-machine-angle-view.png";
+import machineIcon from "assets/games/capsule/capsule-machine-angle-view.png";
 import joystick from "assets/icons/joystick.svg";
 import prize from "assets/icons/prize.svg";
 
