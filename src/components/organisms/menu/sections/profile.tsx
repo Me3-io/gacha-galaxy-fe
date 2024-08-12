@@ -48,7 +48,7 @@ const Profile = ({ setOpenProfile }: any) => {
         nickname,
       })
       .then(() => {
-        setOnAlert({ show: true, severity: "success", msg: "updated successfully" });
+        setOnAlert({ show: true, severity: "success", msg: "Updated successfully" });
       })
       .catch((error: any) => {
         setOnAlert({
@@ -92,6 +92,7 @@ const Profile = ({ setOpenProfile }: any) => {
               disabled={!onEdit}
               value={nickname}
               onChange={handleChange}
+              autoComplete="off"
               inputProps={{ maxLength: 30 }}
               InputProps={{
                 endAdornment: (
