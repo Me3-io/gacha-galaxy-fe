@@ -3,7 +3,9 @@ import { Box, Grid, Grow, /*Stack,*/ Typography } from "@mui/material";
 import Button from "components/atoms/buttons/base";
 import ButtonDefault from "components/atoms/buttons/default";
 
-import machineIcon from "assets/games/capsule/capsule-machine-angle-view.png";
+import capsuleIcon from "assets/games/capsule/capsule-machine-angle-view.png";
+import clawMachineIcon from "assets/games/clawMachine/ANGLED.png";
+
 import joystick from "assets/icons/joystick.svg";
 import prize from "assets/icons/prize.svg";
 
@@ -37,7 +39,6 @@ const GameDetails = ({ details, setDetails }: any) => {
     navigate(`/${i18n.language}/game/${details.code}`);
   };
 
-
   useEffect(() => {
     const rewardsContainer = document.querySelector("#rewards");
     rewardsContainer?.addEventListener("wheel", (e: any) => {
@@ -45,6 +46,15 @@ const GameDetails = ({ details, setDetails }: any) => {
       rewardsContainer.scrollLeft += e?.deltaY;
     });
   }, []);
+
+  const getMachineIcon = (code: string) => {
+    switch (code) {
+      case "claw-machine":
+        return clawMachineIcon;
+      default:
+        return capsuleIcon;
+    }
+  };
 
   return (
     <Grow in={true}>
@@ -59,7 +69,7 @@ const GameDetails = ({ details, setDetails }: any) => {
             </Typography>
 
             <Box className={styled.image}>
-              <img src={machineIcon} alt="machineIcon" />
+              <img src={getMachineIcon(details?.code)} alt="machineIcon" />
             </Box>
           </Grid>
 
