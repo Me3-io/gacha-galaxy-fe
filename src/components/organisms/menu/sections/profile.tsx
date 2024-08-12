@@ -27,7 +27,7 @@ const Profile = ({ setOpenProfile }: any) => {
 
   const [onEdit, setOnEdit] = useState(false);
   const [nickname, setNickname] = useState("");
-  const [onError, setOnError] = useState({ show: false, msg: "" });
+  const [onAlert, setOnAlert] = useState({ show: false, severity: "error", msg: "" });
 
   const handleChange = (e: any) => setNickname(e.target.value);
   const handleEdit = () => setOnEdit(true);
@@ -39,7 +39,7 @@ const Profile = ({ setOpenProfile }: any) => {
 
   const handleSave = async () => {
     if (!nickname) {
-      setOnError({ show: true, msg: "Nickname is required" });
+      setOnAlert({ show: true, severity: "error", msg: "Nickname is required" });
       return;
     }
 
@@ -47,9 +47,13 @@ const Profile = ({ setOpenProfile }: any) => {
       .post("/user/updateprofile", {
         nickname,
       })
+      .then(() => {
+        setOnAlert({ show: true, severity: "success", msg: "updated successfully" });
+      })
       .catch((error: any) => {
-        setOnError({
+        setOnAlert({
           show: true,
+          severity: "error",
           msg: error?.response?.data?.message || error?.message || "error",
         });
       });
@@ -130,8 +134,13 @@ const Profile = ({ setOpenProfile }: any) => {
         </Box>
       </Grid>
 
-      {onError.show && (
-        <Alert onClose={() => setOnError({ show: false, msg: "" })}>{onError.msg || "Error"}</Alert>
+      {onAlert.show && (
+        <Alert
+          severity={onAlert.severity}
+          onClose={() => setOnAlert({ show: false, severity: "error", msg: "" })}
+        >
+          {onAlert.msg || "Error"}
+        </Alert>
       )}
     </>
   );
