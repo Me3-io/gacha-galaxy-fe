@@ -35,9 +35,21 @@ const RewardButton = ({ reward, setOnError }: any) => {
   const { connect } = useConnectModal();
   const activeAccount = useActiveAccount();
 
-  const getReward = async (reward: any) => {
-    console.log(reward);
+  //const { mutate: sendTx, data: transactionResult } = useSendTransaction();
 
+  // @ts-ignore
+  const contract = getContract({
+    client,
+    chain, //: { ...chain, rpc: "https://eth-sepolia.g.alchemy.com/v2/PlKKC5CcspD_KJH6EfL6SMJW_2M_Sygb" },
+    address: claimContractAddress,
+    abi: claimContractABI as any,
+  });
+
+ /* useEffect(() => {
+    console.log("transactionResult: ", transactionResult);
+  }, [transactionResult]);*/
+
+  const getReward = async (reward: any) => {
     setLoading(true);
 
     try {
@@ -58,16 +70,10 @@ const RewardButton = ({ reward, setOnError }: any) => {
 
       const account = activeAccount || loginAccount;
 
+      console.log("reward: ", reward);
       console.log("account: ", account);
-      // @ts-ignore
-      const contract = getContract({
-        client,
-        chain,
-        address: claimContractAddress,
-        abi: claimContractABI,
-      });
-
       console.log("contract: ", contract);
+
       // @ts-ignore
       const transaction = prepareContractCall({
         contract,
@@ -75,13 +81,15 @@ const RewardButton = ({ reward, setOnError }: any) => {
         params: [reward?.rewardContractAddress, reward?.rewardTokenId],
       });
 
-      console.log("address: ", reward?.rewardContractAddress, "tokenId: ", reward?.rewardTokenId);
+      console.log("_token: ", reward?.rewardContractAddress, "tokenId: ", reward?.rewardTokenId);
 
       if (!account) return;
       const { transactionHash } = await sendTransaction({
         account,
         transaction,
       });
+
+      //sendTx(transaction);
 
       console.log("transactionHash: ", transactionHash);
     } catch (error: any) {
