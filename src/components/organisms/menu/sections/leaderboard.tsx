@@ -1,6 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
 import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
@@ -43,7 +42,7 @@ const Leaderboard = ({
       className={styled.main}
       sx={{ opacity: opacity }}
     >
-      <Box p={2} className={styled.header}>
+      <Box className={styled.header}>
         <CustomTooltip title={t("menu")}>
           <Box component="span" onClick={() => setOpenMenu(true)}>
             <img src={menu} alt="menu" width={36} />
@@ -72,29 +71,29 @@ const Leaderboard = ({
           <Box className={styled.border}></Box>
           <TableContainer className={styled.table}>
             <Table>
-              <TableBody>
-                {leaderboardData?.ranking ? (
-                  leaderboardData.ranking?.map((row: any) => (
-                    <TableRow key={row.userId}>
-                      <TableCell className={styled.user} component="th" scope="row">
-                        <img src={user} alt="user" />
-                        <span>{row.position}</span>
-                        {row.nickname}
-                      </TableCell>
-                      <TableCell align="right">
-                        <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />
-                      </TableCell>
-                      <TableCell align="right">{row?.points?.toFixed(2) || 0} pts</TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell align="center" colSpan={3}>
-                      {t("no-data")}
+              {leaderboardData?.ranking ? (
+                leaderboardData.ranking?.map((row: any) => (
+                  <TableRow key={row.userId}>
+                    <TableCell className={styled.user} width={"60%"}>
+                      <img src={user} alt="user" />
+                      <span>{row.position}</span>
+                      <Typography>{row.nickname}</Typography>
+                    </TableCell>
+                    <TableCell align="right" width={"5%"} className={styled.arrow}>
+                      <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />
+                    </TableCell>
+                    <TableCell align="right" width={"35%"} sx={{ paddingLeft: "0!important" }}>
+                      {row?.points?.toFixed(2) || 0} pts
                     </TableCell>
                   </TableRow>
-                )}
-              </TableBody>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell align="center" colSpan={3}>
+                    {t("no-data")}
+                  </TableCell>
+                </TableRow>
+              )}
             </Table>
           </TableContainer>
         </Box>

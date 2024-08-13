@@ -4,7 +4,7 @@
   width: 100%;
   max-width: 400px;
   left: calc(50% - 200px);
-  background-color: rgba(255, 20, 20, 0.6) !important;
+  //background-color: rgba(255, 20, 20, 0.8) !important;
   color: #fff !important;
   font-size: 1rem !important;
   font-family: "ChakraPetch" !important;
@@ -13,7 +13,21 @@
   display: flex;
   align-items: center;
   z-index: 9999;
+  box-sizing: border-box;
 
+  > div:nth-child(2n) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.error {
+    background-color: rgba(255, 20, 20, 0.8) !important;
+  }
+
+  &.success {
+    background-color: rgba(50, 255, 50, 0.8) !important;
+  }
+  
   & path {
     fill: #fff;
   }

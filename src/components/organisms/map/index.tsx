@@ -222,7 +222,7 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
           SVGBackground={"transparent"}
           background={"transparent"}
           scaleFactorMax={MAX_ZOOM}
-          scaleFactorMin={isMobile ? 0.1 : 0.5}
+          scaleFactorMin={isMobile ? 0.1 : 0.4}
           toolbarProps={{
             position: "none",
           }}

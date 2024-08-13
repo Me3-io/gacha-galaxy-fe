@@ -1,0 +1,123 @@
+.main {
+  //background-color: #000;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  .videoFull {
+    position: absolute;
+    width: 100%;
+    max-width: 720px;
+    object-fit: cover;
+    pointer-events: none;
+    z-index: 2;
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .videoInner {
+    position: absolute;
+    //top: 50px;
+    height: calc(100% - 100px);
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 2;
+    transition: 1s all;
+    //mask-image: radial-gradient(circle, black 90%, rgba(0, 0, 0, 0) 100%);
+
+    video {
+      height: 100%;
+      object-fit: cover;
+      //border-radius: 2rem;
+      box-sizing: border-box;
+      //background-color: #000;
+    }
+  }
+
+  .bgContainer {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    z-index: 1;
+    box-sizing: border-box;
+    transition: 0.5s all;
+
+    img {
+      display: block;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      transform-origin: 49% 29%;
+      transition: 5s all;
+      filter: drop-shadow(0 0 5px #ffffff50);
+      animation-fill-mode: forwards;
+      -webkit-animation-fill-mode: forwards;
+    }
+
+    img.zoomIn {
+      animation: zoom-in 3s ease-in-out;
+      animation-fill-mode: forwards;
+      -webkit-animation-fill-mode: forwards;
+    }
+
+    img.zoomFixed {
+      transform: scale(2.3, 2.3);
+      transition: none!important;
+      animation: none!important;
+    }
+  }
+}
+
+// mobile responsive ---
+
+@media screen and (min-width: 1920px) {
+  .main {
+    .fullVideo {
+      max-width: 1024px;
+    }
+
+    .videoInner {
+      top: 90px;
+      height: calc(100% - 180px);
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .main {
+    .videoInner {
+      top: 30px;
+      height: calc(100% - 60px);
+    }
+  }
+}
+
+/*@media screen and (max-width: 700px) {
+  .main {
+    .videoInner {
+      width: calc(100% - 30px);
+    }
+  }
+}*/
+
+/*@media screen and (max-height: 600px) {
+
+}*/
+
+@keyframes zoom-in {
+  0% {
+    transform: scale(1, 1);
+  }
+  100% {
+    transform: scale(2.3, 2.3);
+  }
+}
