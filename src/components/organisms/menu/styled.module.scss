@@ -92,6 +92,8 @@
     position: relative;
     flex: 1;
     color: #d490ec;
+    box-sizing: border-box;
+    width: 100%;
 
     .title {
       text-align: center;
@@ -170,21 +172,42 @@
     .table {
       box-sizing: border-box;
       height: 100%;
-
+      > table {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
       td,
-      th {
+      tr {
         border: 0;
         color: #fff;
         font-family: "ChakraPetchLight";
-        padding: 8px;
+        padding: 4px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+      }
+      .arrow {
+        justify-content: center;
+        img {
+          height: 16px;
+        }
       }
 
       .user {
         display: flex;
         gap: 10px;
         font-weight: 500;
+        overflow: hidden;
         > span {
           font-weight: 700;
+        }
+
+        > p {
+          font-weight: 400;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
     }
