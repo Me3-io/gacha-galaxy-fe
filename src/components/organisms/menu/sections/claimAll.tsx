@@ -89,7 +89,7 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
       setOnAlert({
         show: true,
         severity: "success",
-        msg: `Claim successfully - transaction Hash: ${transactionHash}`,
+        msg: `Claim successfully - Transaction Hash: ${transactionHash}`,
       });
 
       console.log("Transaction Hash: ", transactionHash);
