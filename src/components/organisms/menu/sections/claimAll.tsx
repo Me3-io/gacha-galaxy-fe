@@ -79,6 +79,9 @@ const RewardButton = ({ reward, setOnError }: any) => {
         contract,
         method: "function claimNft(address _token, uint256 tokenId)",
         params: [reward?.rewardContractAddress, reward?.rewardTokenId],
+        maxFeePerGas: 60n,
+        maxPriorityFeePerGas: 1n,
+        gas: 400000n,
       });
 
       console.log("_token: ", reward?.rewardContractAddress, "tokenId: ", reward?.rewardTokenId);
