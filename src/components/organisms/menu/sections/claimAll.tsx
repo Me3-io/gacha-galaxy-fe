@@ -26,7 +26,7 @@ import styled from "../styled.module.scss";
 import { useTranslation } from "react-i18next";
 import Alert from "components/molecules/alert";
 
-const RewardButton = ({ reward, setOnError }: any) => {
+const RewardButton = ({ reward, setOnAlert }: any) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { claimContractABI, claimContractAddress } = useSelector(getClaims) || {};
@@ -35,19 +35,13 @@ const RewardButton = ({ reward, setOnError }: any) => {
   const { connect } = useConnectModal();
   const activeAccount = useActiveAccount();
 
-  //const { mutate: sendTx, data: transactionResult } = useSendTransaction();
-
   // @ts-ignore
   const contract = getContract({
     client,
-    chain, //: { ...chain, rpc: "https://eth-sepolia.g.alchemy.com/v2/PlKKC5CcspD_KJH6EfL6SMJW_2M_Sygb" },
+    chain,
     address: claimContractAddress,
     abi: claimContractABI as any,
   });
-
- /* useEffect(() => {
-    console.log("transactionResult: ", transactionResult);
-  }, [transactionResult]);*/
 
   const getReward = async (reward: any) => {
     setLoading(true);
@@ -70,9 +64,9 @@ const RewardButton = ({ reward, setOnError }: any) => {
 
       const account = activeAccount || loginAccount;
 
-      console.log("reward: ", reward);
-      console.log("account: ", account);
-      console.log("contract: ", contract);
+      //console.log("reward: ", reward);
+      //console.log("account: ", account);
+      //console.log("contract: ", contract);
 
       // @ts-ignore
       const transaction = prepareContractCall({
@@ -84,7 +78,7 @@ const RewardButton = ({ reward, setOnError }: any) => {
         gas: 400000n,
       });
 
-      console.log("_token: ", reward?.rewardContractAddress, "tokenId: ", reward?.rewardTokenId);
+      //console.log("_token: ", reward?.rewardContractAddress, "tokenId: ", reward?.rewardTokenId);
 
       if (!account) return;
       const { transactionHash } = await sendTransaction({
@@ -92,11 +86,15 @@ const RewardButton = ({ reward, setOnError }: any) => {
         transaction,
       });
 
-      //sendTx(transaction);
+      setOnAlert({
+        show: true,
+        severity: "success",
+        msg: `Claim successfully - transaction Hash: ${transactionHash}`,
+      });
 
-      console.log("transactionHash: ", transactionHash);
+      console.log("Transaction Hash: ", transactionHash);
     } catch (error: any) {
-      setOnError({ show: true, msg: error?.message || "error to claim item" });
+      setOnAlert({ show: true, severity: "error", msg: error?.message || "error to claim item" });
       console.error(error);
     }
 
@@ -110,7 +108,7 @@ const RewardButton = ({ reward, setOnError }: any) => {
   );
 };
 
-const MainTable = ({ data, setOnError }: any) => {
+const MainTable = ({ data, setOnAlert }: any) => {
   return (
     <TableContainer className={styled.table}>
       <Table>
@@ -121,7 +119,7 @@ const MainTable = ({ data, setOnError }: any) => {
                 {item?.rewardName || item?.rewardText || item?.rewardType}
               </TableCell>
               <TableCell align="right">
-                <RewardButton reward={item} setOnError={setOnError} />
+                <RewardButton reward={item} setOnAlert={setOnAlert} />
               </TableCell>
             </TableRow>
           ))}
@@ -133,7 +131,7 @@ const MainTable = ({ data, setOnError }: any) => {
 
 const ClaimAll = ({ setOpenClaimAll }: any) => {
   const { t } = useTranslation();
-  const [onError, setOnError] = useState({ show: false, msg: "" });
+  const [onAlert, setOnAlert] = useState({ show: false, severity: "error", msg: "" });
 
   const [value, setValue] = useState("1");
   const handleChange = (evt: any, newValue: string) => setValue(newValue);
@@ -169,18 +167,23 @@ const ClaimAll = ({ setOpenClaimAll }: any) => {
                 </TabList>
               </Box>
               <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "auto" }}>
-                <MainTable data={rewardNFTs} setOnError={setOnError} />
+                <MainTable data={rewardNFTs} setOnAlert={setOnAlert} />
               </TabPanel>
               <TabPanel value="2" sx={{ padding: "1rem 0", overflow: "auto" }}>
-                <MainTable data={rewardTokens} setOnError={setOnError} />
+                <MainTable data={rewardTokens} setOnAlert={setOnAlert} />
               </TabPanel>
             </TabContext>
           </Box>
         </Box>
       </Grid>
 
-      {onError.show && (
-        <Alert onClose={() => setOnError({ show: false, msg: "" })}>{onError.msg || "Error"}</Alert>
+      {onAlert.show && (
+        <Alert
+          severity={onAlert.severity}
+          onClose={() => setOnAlert({ show: false, severity: "error", msg: "" })}
+        >
+          {onAlert.msg || "Error"}
+        </Alert>
       )}
     </>
   );
