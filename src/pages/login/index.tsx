@@ -9,6 +9,7 @@ import Logo from "assets/logo.svg";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
+import waitForElement from "utils/waitForElement";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -16,6 +17,7 @@ const Login = () => {
 
   const handleConnect = async () => {
     try {
+      waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
       await connect({ ...modalConfig, size: "wide" });
     } catch (error) {
       console.error(error);

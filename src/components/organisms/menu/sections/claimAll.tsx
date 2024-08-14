@@ -25,6 +25,8 @@ import { useActiveAccount, useConnectModal } from "thirdweb/react";
 import styled from "../styled.module.scss";
 import { useTranslation } from "react-i18next";
 import Alert from "components/molecules/alert";
+import waitForElement from "utils/waitForElement";
+import customAxios from "utils/customAxios";
 
 const RewardButton = ({ reward, setOnAlert }: any) => {
   const { t } = useTranslation();
@@ -45,10 +47,11 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
 
   const getReward = async (reward: any) => {
     setLoading(true);
-
+    console.log("reward: ", reward);
     try {
       let loginAccount = null;
       if (!activeAccount) {
+        waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
         const response = await connect({ ...modalConfig, size: "wide" });
         loginAccount = response.getAccount();
 
@@ -86,13 +89,29 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
         transaction,
       });
 
-      setOnAlert({
-        show: true,
-        severity: "success",
-        msg: `Claim successfully - Transaction Hash: ${transactionHash}`,
-      });
-
       console.log("Transaction Hash: ", transactionHash);
+
+      if (transactionHash) {
+        await customAxios()
+          .post("/user/setclaimed", {
+            accountingId: reward.accountingId,
+            tx: transactionHash,
+          })
+          .then(() => {
+            setOnAlert({
+              show: true,
+              severity: "success",
+              msg: `Claim successfully - Transaction Hash: ${transactionHash}`,
+            });
+          })
+          .catch((error: any) => {
+            setOnAlert({
+              show: true,
+              severity: "error",
+              msg: error?.response?.data?.message || error?.message || "error",
+            });
+          });
+      }
     } catch (error: any) {
       setOnAlert({ show: true, severity: "error", msg: error?.message || "error to claim item" });
       console.error(error);
