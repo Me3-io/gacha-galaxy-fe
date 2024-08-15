@@ -16,7 +16,7 @@ import { fetchClaims } from "reduxConfig/thunks/claim";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
-import TourModal from "components/organisms/tour";
+//import TourModal from "components/organisms/tour";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -24,7 +24,7 @@ const Home = () => {
 
   const [games, setGames] = useState({ open: false, data: [] });
   const [campaing, setCampaing] = useState({ open: false, id: "" });
-  const [showTour, setShowTour] = useState(true);
+  //const [showTour, setShowTour] = useState(true);
 
   const goToLeaderboard = () => window.scrollTo(0, document.body.scrollHeight);
   const goToMap = () => window.scrollTo(0, 0);
@@ -77,7 +77,7 @@ const Home = () => {
         <GameMachines games={games} handleClose={() => setGames({ open: false, data: [] })} />
         <Campaign campaing={campaing} handleClose={() => setCampaing({ open: false, id: "" })} />
 
-        <TourModal open={showTour} handleClose={() => setShowTour(false)} />
+        {/*<TourModal open={showTour} handleClose={() => setShowTour(false)} />*/}
       </Container>
     </Layout>
   );

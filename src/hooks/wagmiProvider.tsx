@@ -1,14 +1,15 @@
-import { createWeb3Modal } from "@web3modal/wagmi/react";
-import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
+//import { createWeb3Modal } from "@web3modal/wagmi/react";
+//import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 
-import { WagmiProvider } from "wagmi";
+//import { WagmiProvider } from "wagmi";
 //import { cookieStorage, createStorage } from 'wagmi'
-import { bsc, sepolia } from "wagmi/chains";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+//import { bsc, sepolia } from "wagmi/chains";
+//import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // 0. Setup queryClient
-const queryClient = new QueryClient();
+//const queryClient = new QueryClient();
 
+/*
 // 1. Set projectId
 const projectId = process.env.REACT_APP_WC_PROJECTID || "0bf5a14a7c91721595b01bd4f92f2cf2";
 
@@ -58,3 +59,4 @@ export function Web3ModalProvider({ children }: any) {
     </WagmiProvider>
   );
 }
+*/
