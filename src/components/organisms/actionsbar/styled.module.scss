@@ -5,15 +5,19 @@
   top: 1.5rem;
   right: 1.5rem;
   z-index: 900;
-  gap: 1.2rem;
+  gap: .6rem;
   padding-bottom: 0;
   box-sizing: border-box;
 
-  .lngIcon {
+  .lngIcon, .helpIcon {
     width: 34px;
     height: 34px;
     fill: #ba00fb;
     cursor: pointer;
+  }
+
+  .helpIcon {
+    transform: translateY(-1px);
   }
 }
 

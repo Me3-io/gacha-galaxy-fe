@@ -12,6 +12,7 @@ import Buildings from "./buildings";
 
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
+import { useTour } from "@reactour/tour";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
@@ -23,6 +24,7 @@ const isMobile = navigator.userAgent.includes("Mobi");
 const InteractiveMap = ({ setGames, setCampaing }: any) => {
   const Viewer = useRef<any>(null);
   const { t } = useTranslation();
+  const { setIsOpen } = useTour();
 
   const { ref, width, height } = useResizeObserver();
   const [value, setValue] = useState<any>({});
@@ -178,9 +180,9 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Viewer.current?.fitToViewer, height, width]);
 
-  /*useEffect(() => {
-    if (!openGames && isMobile) setShowMap(true);
-  }, [openGames]);*/
+  useEffect(() => {
+    if (!loading) setIsOpen(true);
+  }, [loading, setIsOpen]);
 
   return (
     <Box ref={ref} className={styled.main}>

@@ -24,7 +24,6 @@ const Home = () => {
 
   const [games, setGames] = useState({ open: false, data: [] });
   const [campaing, setCampaing] = useState({ open: false, id: "" });
-  //const [showTour, setShowTour] = useState(true);
 
   const goToLeaderboard = () => window.scrollTo(0, document.body.scrollHeight);
   const goToMap = () => window.scrollTo(0, 0);
@@ -33,6 +32,7 @@ const Home = () => {
     dispatch(fetchBuildings() as any);
     dispatch(fetchLeaderboard() as any);
     dispatch(fetchClaims() as any);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

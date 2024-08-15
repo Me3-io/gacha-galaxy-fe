@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 
 import App from "App";
 import "./index.css";
+import { ReactTourProvider } from "hooks/reactourProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
@@ -15,7 +16,9 @@ root.render(
     <BrowserRouter>
       <Provider store={store}>
         <ThirdwebProvider>
-          <App />
+          <ReactTourProvider >
+            <App />
+          </ReactTourProvider>
         </ThirdwebProvider>
       </Provider>
     </BrowserRouter>

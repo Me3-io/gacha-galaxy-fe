@@ -63,7 +63,7 @@ const Leaderboard = ({
         )}
       </Box>
 
-      <Box p={2} pt={0} className={styled.container}>
+      <Box p={2} pt={0} className={`${styled.container} leaderboard-step`}>
         <Typography pb={1} className={styled.title} display={{ xs: "none", md: "inline-block" }}>
           {t("leaderboard").toUpperCase()}
         </Typography>
@@ -99,7 +99,7 @@ const Leaderboard = ({
         </Box>
       </Box>
 
-      <Box px={4} py={2} className={styled.footer}>
+      <Box px={4} py={2} className={`${styled.footer} points-step`}>
         <Box className={styled.item} pr={2}>
           <Box>
             <Box display={"flex"} alignItems={"center"} gap={1}>
