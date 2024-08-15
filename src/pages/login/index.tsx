@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 
-import { modalConfig } from "hooks/thirdwebConfig";
+import { modalConfig } from "config/thirdwebConfig";
 import { useConnectModal } from "thirdweb/react";
 
 import Layout from "components/templates/layout";

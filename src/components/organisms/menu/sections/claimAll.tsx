@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "components/atoms/buttons/base";
 
-import { client, chain, modalConfig } from "hooks/thirdwebConfig";
+import { client, chain, modalConfig } from "config/thirdwebConfig";
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
 
 import Tab from "@mui/material/Tab";

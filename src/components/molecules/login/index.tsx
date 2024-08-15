@@ -8,7 +8,7 @@ import {
   useActiveWalletConnectionStatus,
   useActiveAccount,
 } from "thirdweb/react";
-import { chain } from "hooks/thirdwebConfig";
+import { chain } from "config/thirdwebConfig";
 
 import { useTranslation } from "react-i18next";
 
