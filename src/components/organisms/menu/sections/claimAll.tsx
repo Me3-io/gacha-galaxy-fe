@@ -17,8 +17,8 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 
-import { getClaims } from "reduxConfig/thunks/claim";
-import { useSelector } from "react-redux";
+import { fetchClaims, getClaims } from "reduxConfig/thunks/claim";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useActiveAccount, useConnectModal } from "thirdweb/react";
 
@@ -36,6 +36,7 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
   const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
   const { connect } = useConnectModal();
   const activeAccount = useActiveAccount();
+  const dispatch = useDispatch();
 
   // @ts-ignore
   const contract = getContract({
@@ -103,6 +104,7 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
               severity: "success",
               msg: `Claim successfully - Transaction Hash: ${transactionHash}`,
             });
+            dispatch(fetchClaims() as any);
           })
           .catch((error: any) => {
             setOnAlert({
