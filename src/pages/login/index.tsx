@@ -25,7 +25,7 @@ const Login = () => {
   };
 
   return (
-    <Layout>
+    <Layout hideHelp={true}>
       <Container maxWidth={false} disableGutters={true}>
         <Box className={styled.logo}>
           <img src={Logo} alt="Logo" className={styled.imgLogo} />

@@ -24,7 +24,7 @@ const isMobile = navigator.userAgent.includes("Mobi");
 const InteractiveMap = ({ setGames, setCampaing }: any) => {
   const Viewer = useRef<any>(null);
   const { t } = useTranslation();
-  const { setIsOpen } = useTour();
+  const { setIsOpen, setCurrentStep } = useTour();
 
   const { ref, width, height } = useResizeObserver();
   const [value, setValue] = useState<any>({});
@@ -182,9 +182,12 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
 
   useEffect(() => {
     if (!loading) {
-      setTimeout(() => setIsOpen(true), 2000);
+      setTimeout(() => {
+        setCurrentStep(0);
+        setIsOpen(true)
+      }, 2000);
     } 
-  }, [loading, setIsOpen]);
+  }, [loading, setCurrentStep, setIsOpen]);
 
   return (
     <Box ref={ref} className={styled.main}>

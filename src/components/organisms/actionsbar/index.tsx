@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 
 import LanguageMenu from "components/molecules/languaje";
 import LanguageIcon from "@mui/icons-material/Language";
-import HelpIcon from '@mui/icons-material/HelpOutline';
+import HelpIcon from "@mui/icons-material/HelpOutline";
 import LoginBar from "components/molecules/login";
 
 import styled from "./styled.module.scss";
@@ -11,7 +11,7 @@ import CustomTooltip from "components/atoms/materialTooltip";
 import { useTranslation } from "react-i18next";
 import { useTour } from "@reactour/tour";
 
-const ActionsBar = () => {
+const ActionsBar = ({ hideHelp = false }) => {
   const { t } = useTranslation();
   // languaje menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -23,9 +23,17 @@ const ActionsBar = () => {
 
   return (
     <Box component={"header"} className={`${styled.actionsBar} wallet-step`}>
-      <CustomTooltip title={"help"}>
-        <HelpIcon onClick={() => { setCurrentStep(0); setIsOpen(true) }} className={styled.helpIcon} />
-      </CustomTooltip>
+      {!hideHelp && (
+        <CustomTooltip title={"Help"}>
+          <HelpIcon
+            onClick={() => {
+              setCurrentStep(0);
+              setIsOpen(true);
+            }}
+            className={styled.helpIcon}
+          />
+        </CustomTooltip>
+      )}
 
       <Box className={styled.lngBar}>
         <CustomTooltip title={t("language")}>
