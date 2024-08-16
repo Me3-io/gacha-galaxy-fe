@@ -39,7 +39,9 @@ const Login = () => {
               Gacha Galaxy
             </Typography>
 
-            <Button onClick={handleConnect}>{t("enter-game")}</Button>
+            {/*<Button onClick={handleConnect}>{t("enter-game")}</Button>*/}
+            <Button disabled>COMING SOON</Button>
+
           </Box>
         </Box>
       </Container>
