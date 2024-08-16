@@ -3,6 +3,9 @@ import { TourProvider } from "@reactour/tour";
 
 import { steps } from "./config";
 import styled from "./styled.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
+import customAxios from "utils/customAxios";
 
 const styles = {
   popover: (prev: any) => ({
@@ -15,13 +18,13 @@ const styles = {
     maxWidth: "350px",
     fontFamily: "ChakraPetch",
     fontSize: "1rem",
-    top: "8px",
+    top: "4px",
     left: "12px",
     boxSizing: "border-box",
   }),
   maskArea: (prev: any) => ({ ...prev, rx: 8 }),
   maskWrapper: (prev: any) => ({ ...prev, color: "#000" }),
-  close: (prev: any) => ({ ...prev, right: 10, top: 10, color: "#fff" }),
+  close: (prev: any) => ({ ...prev, right: 12, top: 12, color: "#fff" }),
 };
 
 const CustomButton = ({ children, onClick }: any) => {
@@ -33,6 +36,18 @@ const CustomButton = ({ children, onClick }: any) => {
 };
 
 export const ReactTourProvider = ({ children }: any) => {
+  const leaderboardData = useSelector(getLeaderboard);
+  const dispatch = useDispatch();
+
+  const endGuide = async () => {
+    if (!leaderboardData.hideGuide) {
+      await customAxios()
+        .post("/user/hideguide")
+        .then(() => dispatch(fetchLeaderboard() as any))
+        .catch((error: any) => console.error(error));
+    }
+  };
+
   return (
     <TourProvider
       steps={steps}
@@ -41,7 +56,7 @@ export const ReactTourProvider = ({ children }: any) => {
       maskClassName={styled.reactourMask}
       showDots={false}
       showBadge={false}
-      padding={{ mask: 8 }}
+      padding={{ mask: 4 }}
       disableInteraction={true}
       nextButton={({ currentStep, stepsLength, setIsOpen, setCurrentStep, steps }) => {
         const last = currentStep === stepsLength - 1;
@@ -50,6 +65,7 @@ export const ReactTourProvider = ({ children }: any) => {
             onClick={() => {
               if (last) {
                 setIsOpen(false);
+                endGuide();
               } else {
                 setCurrentStep((s) => (steps && s === steps?.length - 1 ? 0 : s + 1));
               }

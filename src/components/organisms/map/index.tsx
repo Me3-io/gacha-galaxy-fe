@@ -3,7 +3,7 @@ import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
 import CircularProgress from "@mui/material/CircularProgress";
-import { Add, Remove, CropFree, /*Map,*/ Numbers } from "@mui/icons-material";
+import { Add, Remove, CropFree, Numbers } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
 import Tooltip from "components/atoms/tooltip";
@@ -13,6 +13,8 @@ import Buildings from "./buildings";
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
 import { useTour } from "@reactour/tour";
+import { useSelector } from "react-redux";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
@@ -42,6 +44,8 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
     width: number;
     height: number;
   }>({ originX: 0, originY: 0, width: 0, height: 0 });
+
+  const leaderboardData = useSelector(getLeaderboard);
 
   // calculate grid data ---
   const _drawGrid = () => {
@@ -181,13 +185,14 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
   }, [Viewer.current?.fitToViewer, height, width]);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && leaderboardData && !leaderboardData?.hideGuide) {
       setTimeout(() => {
         setCurrentStep(0);
-        setIsOpen(true)
+        setIsOpen(true);
       }, 2000);
-    } 
-  }, [loading, setCurrentStep, setIsOpen]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, leaderboardData]);
 
   return (
     <Box ref={ref} className={styled.main}>
