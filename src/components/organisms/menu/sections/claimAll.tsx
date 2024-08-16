@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "components/atoms/buttons/base";
 
-import { client, chain, modalConfig } from "hooks/thirdwebConfig";
+import { client, chain, modalConfig } from "config/thirdwebConfig";
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
 
 import Tab from "@mui/material/Tab";
@@ -17,14 +17,16 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 
-import { getClaims } from "reduxConfig/thunks/claim";
-import { useSelector } from "react-redux";
+import { fetchClaims, getClaims } from "reduxConfig/thunks/claim";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useActiveAccount, useConnectModal } from "thirdweb/react";
 
 import styled from "../styled.module.scss";
 import { useTranslation } from "react-i18next";
 import Alert from "components/molecules/alert";
+import waitForElement from "utils/waitForElement";
+import customAxios from "utils/customAxios";
 
 const RewardButton = ({ reward, setOnAlert }: any) => {
   const { t } = useTranslation();
@@ -34,6 +36,7 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
   const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
   const { connect } = useConnectModal();
   const activeAccount = useActiveAccount();
+  const dispatch = useDispatch();
 
   // @ts-ignore
   const contract = getContract({
@@ -45,10 +48,11 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
 
   const getReward = async (reward: any) => {
     setLoading(true);
-
+    console.log("reward: ", reward);
     try {
       let loginAccount = null;
       if (!activeAccount) {
+        waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
         const response = await connect({ ...modalConfig, size: "wide" });
         loginAccount = response.getAccount();
 
@@ -86,13 +90,30 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
         transaction,
       });
 
-      setOnAlert({
-        show: true,
-        severity: "success",
-        msg: `Claim successfully - Transaction Hash: ${transactionHash}`,
-      });
-
       console.log("Transaction Hash: ", transactionHash);
+
+      if (transactionHash) {
+        await customAxios()
+          .post("/user/setclaimed", {
+            accountingId: reward.accountingId,
+            tx: transactionHash,
+          })
+          .then(() => {
+            setOnAlert({
+              show: true,
+              severity: "success",
+              msg: `Claim successfully - Transaction Hash: ${transactionHash}`,
+            });
+            dispatch(fetchClaims() as any);
+          })
+          .catch((error: any) => {
+            setOnAlert({
+              show: true,
+              severity: "error",
+              msg: error?.response?.data?.message || error?.message || "error",
+            });
+          });
+      }
     } catch (error: any) {
       setOnAlert({ show: true, severity: "error", msg: error?.message || "error to claim item" });
       console.error(error);

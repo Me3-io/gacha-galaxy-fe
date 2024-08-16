@@ -8,7 +8,7 @@ import {
   useActiveWalletConnectionStatus,
   useActiveAccount,
 } from "thirdweb/react";
-import { chain } from "hooks/thirdwebConfig";
+import { chain } from "config/thirdwebConfig";
 
 import { useTranslation } from "react-i18next";
 
@@ -24,8 +24,6 @@ import Alert from "../alert";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
-
-import customAxios from "utils/customAxios";
 
 import styled from "./styled.module.scss";
 
@@ -72,14 +70,14 @@ const LoginBar = () => {
     }
   };
 
-  const checkSession = () => {
+  /*const checkSession = () => {
     customAxios()
       .get("/user/validatesession")
       .catch((error: any) => {
         console.error("session error ", error);
         logout();
       });
-  };
+  };*/
 
   useEffect(() => {
     const address = account?.address;
@@ -131,9 +129,7 @@ const LoginBar = () => {
   }, [tokenLS, account, status]);
 
   useEffect(() => {
-    if (account && tokenLS && status !== "connected") {
-      checkSession();
-    }
+    window.addEventListener("logout", () => logout());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

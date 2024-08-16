@@ -45,10 +45,14 @@ const Profile = ({ setOpenProfile }: any) => {
 
     const regex = /^[^\s]{1,25}$/;
     if (!regex.test(nickname)) {
-      setOnAlert({ show: true, severity: "error", msg: "Nickname must be 1-25 characters long and contain no spaces" });
+      setOnAlert({
+        show: true,
+        severity: "error",
+        msg: "Nickname must be 1-25 characters long and contain no spaces",
+      });
       return;
     }
-    
+
     await customAxios()
       .post("/user/updateprofile", {
         nickname,
@@ -69,7 +73,7 @@ const Profile = ({ setOpenProfile }: any) => {
   };
 
   useEffect(() => {
-    setNickname(leaderboardData?.userNickname);
+    setNickname(leaderboardData?.userNickname || "");
   }, [leaderboardData]);
 
   return (

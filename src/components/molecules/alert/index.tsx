@@ -3,7 +3,6 @@ import styled from "./styled.module.scss";
 import { useEffect } from "react";
 
 const Alert = ({ children, type, onClose, severity = "error" }: any) => {
-  console.log(severity);
   const style = `${styled.alert} ${styled[severity]}`;
 
   useEffect(() => {

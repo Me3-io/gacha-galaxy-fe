@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 
-import { modalConfig } from "hooks/thirdwebConfig";
+import { modalConfig } from "config/thirdwebConfig";
 import { useConnectModal } from "thirdweb/react";
 
 import Layout from "components/templates/layout";
@@ -9,6 +9,7 @@ import Logo from "assets/logo.svg";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
+import waitForElement from "utils/waitForElement";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -16,6 +17,7 @@ const Login = () => {
 
   const handleConnect = async () => {
     try {
+      waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
       await connect({ ...modalConfig, size: "wide" });
     } catch (error) {
       console.error(error);
@@ -23,7 +25,7 @@ const Login = () => {
   };
 
   return (
-    <Layout>
+    <Layout hideHelp={true}>
       <Container maxWidth={false} disableGutters={true}>
         <Box className={styled.logo}>
           <img src={Logo} alt="Logo" className={styled.imgLogo} />

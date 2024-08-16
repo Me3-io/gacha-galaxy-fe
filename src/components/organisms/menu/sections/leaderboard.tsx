@@ -63,7 +63,7 @@ const Leaderboard = ({
         )}
       </Box>
 
-      <Box p={2} pt={0} className={styled.container}>
+      <Box p={2} pt={0} className={`${styled.container} leaderboard-step`}>
         <Typography pb={1} className={styled.title} display={{ xs: "none", md: "inline-block" }}>
           {t("leaderboard").toUpperCase()}
         </Typography>
@@ -71,35 +71,37 @@ const Leaderboard = ({
           <Box className={styled.border}></Box>
           <TableContainer className={styled.table}>
             <Table>
-              {leaderboardData?.ranking ? (
-                leaderboardData.ranking?.map((row: any) => (
-                  <TableRow key={row.userId}>
-                    <TableCell className={styled.user} width={"60%"}>
-                      <img src={user} alt="user" />
-                      <span>{row.position}</span>
-                      <Typography>{row.nickname}</Typography>
-                    </TableCell>
-                    <TableCell align="right" width={"5%"} className={styled.arrow}>
-                      <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />
-                    </TableCell>
-                    <TableCell align="right" width={"35%"} sx={{ paddingLeft: "0!important" }}>
-                      {row?.points?.toFixed(2) || 0} pts
+              <tbody>
+                {leaderboardData?.ranking ? (
+                  leaderboardData.ranking?.map((row: any) => (
+                    <TableRow key={row.userId}>
+                      <TableCell className={styled.user} width={"60%"}>
+                        <img src={user} alt="user" />
+                        <span>{row.position}</span>
+                        <Typography>{row.nickname}</Typography>
+                      </TableCell>
+                      <TableCell align="right" width={"5%"} className={styled.arrow}>
+                        <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />
+                      </TableCell>
+                      <TableCell align="right" width={"35%"} sx={{ paddingLeft: "0!important" }}>
+                        {row?.points?.toFixed(2) || 0} pts
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell align="center" colSpan={3}>
+                      {t("no-data")}
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell align="center" colSpan={3}>
-                    {t("no-data")}
-                  </TableCell>
-                </TableRow>
-              )}
+                )}
+              </tbody>
             </Table>
           </TableContainer>
         </Box>
       </Box>
 
-      <Box px={4} py={2} className={styled.footer}>
+      <Box px={4} py={2} className={`${styled.footer} points-step`}>
         <Box className={styled.item} pr={2}>
           <Box>
             <Box display={"flex"} alignItems={"center"} gap={1}>
