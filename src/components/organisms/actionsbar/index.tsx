@@ -22,7 +22,7 @@ const ActionsBar = () => {
   const { setIsOpen, setCurrentStep } = useTour();
 
   return (
-    <Box component={"header"} className={styled.actionsBar}>
+    <Box component={"header"} className={`${styled.actionsBar} wallet-step`}>
       <CustomTooltip title={"help"}>
         <HelpIcon onClick={() => { setCurrentStep(0); setIsOpen(true) }} className={styled.helpIcon} />
       </CustomTooltip>

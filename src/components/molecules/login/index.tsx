@@ -136,7 +136,7 @@ const LoginBar = () => {
   return (
     <>
       {account?.address && (
-        <Box className={`${styled.loggedBox} wallet-step`}>
+        <Box className={styled.loggedBox}>
           {loadSigning ? (
             <>
               <CircularProgress className={styled.spinner} size={20} />

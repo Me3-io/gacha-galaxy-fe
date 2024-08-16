@@ -181,7 +181,9 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
   }, [Viewer.current?.fitToViewer, height, width]);
 
   useEffect(() => {
-    if (!loading) setIsOpen(true);
+    if (!loading) {
+      setTimeout(() => setIsOpen(true), 2000);
+    } 
   }, [loading, setIsOpen]);
 
   return (

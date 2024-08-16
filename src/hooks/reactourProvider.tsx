@@ -23,30 +23,31 @@ export const ReactTourProvider = ({ children }: any) => {
     <TourProvider
       steps={steps}
       styles={{
-        popover: (base) => ({
-          ...base,
+        popover: (prev) => ({
+          ...prev,
           "--reactour-accent": "#BA00FB",
           borderRadius: 8,
           backgroundColor: "#584360",
           color: "#fff",
-          padding: "1rem",
-          minWidth: "250px",
+          padding: "1.5rem",
+          maxWidth: "350px",
           fontFamily: "ChakraPetch",
           fontSize: "1rem",
-          margin: "0.5rem"
+          top: "8px",
+          left: "12px",
+          boxSizing: "border-box",
+          //margin: "0.5rem"
         }),
-        maskArea: (base) => ({ ...base, rx: 10 }),
-        maskWrapper: (base) => ({ ...base, color: "#000" }),
+        maskArea: (prev) => ({ ...prev, rx: 8 }),
+        maskWrapper: (prev) => ({ ...prev, color: "#000" }),
         //badge: (base) => ({ ...base, display: "none" }),
         //controls: (base) => ({ ...base }),
-        close: (base) => ({ ...base, right: 10, top: 10, color: "#fff" }),
+        close: (prev) => ({ ...prev, right: 10, top: 10, color: "#fff" }),
       }}
-
-    
       disableInteraction={true}
       showDots={false}
       showBadge={false}
-      position="right"
+      padding={{ mask: 8 }}
       nextButton={({ currentStep, stepsLength, setIsOpen, setCurrentStep, steps }) => {
         const last = currentStep === stepsLength - 1;
         return (
