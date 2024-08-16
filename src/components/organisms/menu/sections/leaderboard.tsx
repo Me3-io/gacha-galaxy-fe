@@ -1,6 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
 import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
@@ -43,7 +42,7 @@ const Leaderboard = ({
       className={styled.main}
       sx={{ opacity: opacity }}
     >
-      <Box p={2} className={styled.header}>
+      <Box className={styled.header}>
         <CustomTooltip title={t("menu")}>
           <Box component="span" onClick={() => setOpenMenu(true)}>
             <img src={menu} alt="menu" width={36} />
@@ -64,7 +63,7 @@ const Leaderboard = ({
         )}
       </Box>
 
-      <Box p={2} pt={0} className={styled.container}>
+      <Box p={2} pt={0} className={`${styled.container} leaderboard-step`}>
         <Typography pb={1} className={styled.title} display={{ xs: "none", md: "inline-block" }}>
           {t("leaderboard").toUpperCase()}
         </Typography>
@@ -72,19 +71,21 @@ const Leaderboard = ({
           <Box className={styled.border}></Box>
           <TableContainer className={styled.table}>
             <Table>
-              <TableBody>
+              <tbody>
                 {leaderboardData?.ranking ? (
                   leaderboardData.ranking?.map((row: any) => (
                     <TableRow key={row.userId}>
-                      <TableCell className={styled.user} component="th" scope="row">
+                      <TableCell className={styled.user} width={"60%"}>
                         <img src={user} alt="user" />
                         <span>{row.position}</span>
-                        {row.nickname}
+                        <Typography>{row.nickname}</Typography>
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="right" width={"5%"} className={styled.arrow}>
                         <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />
                       </TableCell>
-                      <TableCell align="right">{row?.points?.toFixed(2) || 0} pts</TableCell>
+                      <TableCell align="right" width={"35%"} sx={{ paddingLeft: "0!important" }}>
+                        {row?.points?.toFixed(2) || 0} pts
+                      </TableCell>
                     </TableRow>
                   ))
                 ) : (
@@ -94,13 +95,13 @@ const Leaderboard = ({
                     </TableCell>
                   </TableRow>
                 )}
-              </TableBody>
+              </tbody>
             </Table>
           </TableContainer>
         </Box>
       </Box>
 
-      <Box px={4} py={2} className={styled.footer}>
+      <Box px={4} py={2} className={`${styled.footer} points-step`}>
         <Box className={styled.item} pr={2}>
           <Box>
             <Box display={"flex"} alignItems={"center"} gap={1}>

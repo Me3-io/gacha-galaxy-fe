@@ -109,6 +109,7 @@ const Buildings = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buildingsData]);
 
+
   return (
     <>
       {buildings.map((item: any, pos: number) => (
@@ -117,6 +118,7 @@ const Buildings = ({
           transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
           onClick={(evt) => handlerBuilding(evt, item)}
           onTouchEnd={(evt) => evt.stopPropagation()}
+          className={pos === (buildings.length - 1) ? "building-step" : ""}
         >
           <image
             style={{ cursor: item.games ? "pointer" : "default", opacity: item.opacity }}

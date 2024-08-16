@@ -7,6 +7,9 @@ import styled from "./styled.module.scss";
 
 const Campaing = ({ campaing, handleClose }: any) => {
   const [loading, setLoading] = useState(false);
+  /*const { address, signature, message } = JSON.parse(
+    localStorage.getItem("session.account") || "{}"
+  );*/
 
   useEffect(() => {
     if (campaing.id) {
@@ -20,12 +23,15 @@ const Campaing = ({ campaing, handleClose }: any) => {
         script.src = "https://widgets.claimr.io/claimr.min.js";
         script.id = "claimr-script";
         script.setAttribute("data-addons", "sup,sur");
-        script.setAttribute("data-campaign", "me3-alpha-journey");
-        script.setAttribute("data-autoresize", "true");
+        script.setAttribute("data-campaign", campaing.id);
         script.setAttribute("data-container", campaing.id);
+        script.setAttribute("data-autoresize", "true");
         script.setAttribute("data-organization", "me3");
-        script.onload = () => {
+
+        script.onload = async () => {
           setTimeout(() => setLoading(false), 2000);
+          //@ts-ignore
+          //window?.claimr.connect_wallet(address, signature, message);
         };
 
         document.head.appendChild(script);

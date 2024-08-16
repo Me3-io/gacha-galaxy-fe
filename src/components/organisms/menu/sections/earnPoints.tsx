@@ -75,7 +75,7 @@ const EarnPoints = ({ setOpenPoints, setGames, setCampaing }: any) => {
 
   return (
     <Grid container flexDirection="column" className={styled.main}>
-      <Box p={2} className={styled.header}>
+      <Box className={styled.header}>
         <Button onClick={() => setOpenPoints(false)}>
           <ArrowBackIcon /> {t("back")}
         </Button>

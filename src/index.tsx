@@ -1,10 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { ThirdwebProvider } from "thirdweb/react";
+import "./i18n";
 
 import store from "reduxConfig/store";
 import { Provider } from "react-redux";
+import { ThirdwebProvider } from "thirdweb/react";
+import { ReactTourProvider } from "hooks/reactourProvider";
 
 import App from "App";
 import "./index.css";
@@ -15,7 +17,9 @@ root.render(
     <BrowserRouter>
       <Provider store={store}>
         <ThirdwebProvider>
-          <App />
+          <ReactTourProvider>
+            <App />
+          </ReactTourProvider>
         </ThirdwebProvider>
       </Provider>
     </BrowserRouter>

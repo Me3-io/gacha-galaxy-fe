@@ -227,7 +227,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
 
         {onError.show && (
           <Alert onClose={() => setOnError({ show: false, msg: "" })}>
-            {onError.msg || "Error to login."}
+            {onError.msg || "Error."}
           </Alert>
         )}
       </Box>

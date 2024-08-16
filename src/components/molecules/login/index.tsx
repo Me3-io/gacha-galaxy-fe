@@ -8,7 +8,7 @@ import {
   useActiveWalletConnectionStatus,
   useActiveAccount,
 } from "thirdweb/react";
-import { chain } from "hooks/thirdwebConfig";
+import { chain } from "config/thirdwebConfig";
 
 import { useTranslation } from "react-i18next";
 
@@ -25,13 +25,11 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import customAxios from "utils/customAxios";
-
 import styled from "./styled.module.scss";
 
 const LoginBar = () => {
   const tokenLS = localStorage.getItem("session.token");
-  const accountLS = JSON.parse(localStorage.getItem("thirdweb.account") || "{}");
+  const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
 
   const [loadSigning, setLoadSigning] = useState(false);
   const [signMessage, setSignedMessage] = useState("");
@@ -57,7 +55,7 @@ const LoginBar = () => {
     dispatch(clearAuthToken());
     dispatch(clearMessageAuth());
     localStorage.removeItem("session.token");
-    localStorage.removeItem("thirdweb.account");
+    localStorage.removeItem("session.account");
 
     navigate(`/${i18n.language}/`);
   };
@@ -72,14 +70,14 @@ const LoginBar = () => {
     }
   };
 
-  const checkSession = () => {
+  /*const checkSession = () => {
     customAxios()
       .get("/user/validatesession")
       .catch((error: any) => {
         console.error("session error ", error);
         logout();
       });
-  };
+  };*/
 
   useEffect(() => {
     const address = account?.address;
@@ -104,13 +102,12 @@ const LoginBar = () => {
 
   useEffect(() => {
     if (signMessage && dataMessageAuth?.message) {
-      dispatch(
-        fetchChallengeVerify({ signature: signMessage, message: dataMessageAuth.message }) as any
-      ).then(async (response: any) => {
+      const signParams = { signature: signMessage, message: dataMessageAuth.message };
+      dispatch(fetchChallengeVerify(signParams) as any).then(async (response: any) => {
         setLoadSigning(false);
         if (response?.sessionToken) {
           localStorage.setItem("session.token", response?.sessionToken);
-          localStorage.setItem("thirdweb.account", JSON.stringify(account));
+          localStorage.setItem("session.account", JSON.stringify({ ...account, ...signParams }));
           setSignedMessage("");
           navigate(`/${i18n.language}/home/`);
         } else {
@@ -132,9 +129,7 @@ const LoginBar = () => {
   }, [tokenLS, account, status]);
 
   useEffect(() => {
-    if (account && tokenLS && status !== "connected") {
-      checkSession();
-    }
+    window.addEventListener("logout", () => logout());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -158,6 +153,7 @@ const LoginBar = () => {
               </CustomTooltip>
             </>
           )}
+
           <Box className={styled.divider} />
 
           <CustomTooltip title={t("disconect")}>

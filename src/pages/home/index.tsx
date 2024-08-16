@@ -16,6 +16,7 @@ import { fetchClaims } from "reduxConfig/thunks/claim";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
+//import TourModal from "components/organisms/tour";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -31,14 +32,13 @@ const Home = () => {
     dispatch(fetchBuildings() as any);
     dispatch(fetchLeaderboard() as any);
     dispatch(fetchClaims() as any);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
-
         <Grid container>
           <Grid item xs={12}>
             <Box height={"100%"} overflow={"hidden"}>
@@ -54,20 +54,6 @@ const Home = () => {
                   setCampaing={setCampaing}
                 />
               </Box>
-              {/*<Drawer
-                open={true}
-                anchor="left"
-                variant="permanent"
-                className={styled.mainDrawer}
-                sx={{
-                  "& .MuiDrawer-paper": {
-                    backgroundColor: "transparent",
-                    boxSizing: "border-box",
-                    overflow: "hidden",
-                    zIndex: 1,
-                  },
-                }}
-              ></Drawer>*/}
             </Box>
           </Grid>
 
@@ -90,6 +76,8 @@ const Home = () => {
 
         <GameMachines games={games} handleClose={() => setGames({ open: false, data: [] })} />
         <Campaign campaing={campaing} handleClose={() => setCampaing({ open: false, id: "" })} />
+
+        {/*<TourModal open={showTour} handleClose={() => setShowTour(false)} />*/}
       </Container>
     </Layout>
   );
