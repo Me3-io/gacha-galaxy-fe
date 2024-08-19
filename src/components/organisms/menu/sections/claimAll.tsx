@@ -27,6 +27,7 @@ import { useTranslation } from "react-i18next";
 import Alert from "components/molecules/alert";
 import waitForElement from "utils/waitForElement";
 import customAxios from "utils/customAxios";
+import { format } from "date-fns";
 
 const RewardButton = ({ reward, setOnAlert }: any) => {
   const { t } = useTranslation();
@@ -123,7 +124,11 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
   };
 
   return (
-    <Button onClick={() => getReward(reward)} isLoading={loading} disabled={loading}>
+    <Button
+      onClick={() => getReward(reward)}
+      isLoading={loading}
+      disabled={loading || reward?.rewardStatePending}
+    >
       {t("go").toUpperCase()}
     </Button>
   );
@@ -137,7 +142,11 @@ const MainTable = ({ data, setOnAlert }: any) => {
           {data?.map((item: any, pos: number) => (
             <TableRow key={pos} className={styled.earnRow}>
               <TableCell align="left">
-                {item?.rewardName || item?.rewardText || item?.rewardType}
+                <Typography>{item?.rewardName || item?.rewardText || item?.rewardType}</Typography>
+                <Typography className={styled.status}>
+                  {item?.rewardStatePending ? "Pending" : "Approved"}{" "}
+                  <span>({format(item?.date, "d MMMM yy - HH:mm")})</span>
+                </Typography>
               </TableCell>
               <TableCell align="right">
                 <RewardButton reward={item} setOnAlert={setOnAlert} />

@@ -16,6 +16,7 @@ import { fetchClaims } from "reduxConfig/thunks/claim";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
+import { ReactTourProvider } from "hooks/reactourProvider";
 //import TourModal from "components/organisms/tour";
 
 const Home = () => {
@@ -37,49 +38,51 @@ const Home = () => {
   }, []);
 
   return (
-    <Layout>
-      <Container maxWidth={false} disableGutters={true}>
-        <Grid container>
-          <Grid item xs={12}>
-            <Box height={"100%"} overflow={"hidden"}>
-              <InteractiveMap setGames={setGames} setCampaing={setCampaing} />
-            </Box>
+    <ReactTourProvider>
+      <Layout showHelp={true}>
+        <Container maxWidth={false} disableGutters={true}>
+          <Grid container>
+            <Grid item xs={12}>
+              <Box height={"100%"} overflow={"hidden"}>
+                <InteractiveMap setGames={setGames} setCampaing={setCampaing} />
+              </Box>
 
-            <Box display={{ xs: "none", md: "flex" }} className={styled.mainDrawer}>
-              <Box className={styled.container}>
+              <Box display={{ xs: "none", md: "flex" }} className={styled.mainDrawer}>
+                <Box className={styled.container}>
+                  <MainMenu
+                    showBack={false}
+                    openGames={games.open}
+                    setGames={setGames}
+                    setCampaing={setCampaing}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
+                <Box className={styled.downIcon} onClick={goToLeaderboard}>
+                  <span>{t("leaderboard")}</span>
+                  <DownIcon />
+                </Box>
+
                 <MainMenu
-                  showBack={false}
-                  openGames={games.open}
+                  showBack={true}
+                  goToMap={goToMap}
                   setGames={setGames}
                   setCampaing={setCampaing}
                 />
               </Box>
-            </Box>
+            </Grid>
           </Grid>
 
-          <Grid item xs={12}>
-            <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
-              <Box className={styled.downIcon} onClick={goToLeaderboard}>
-                <span>{t("leaderboard")}</span>
-                <DownIcon />
-              </Box>
+          <GameMachines games={games} handleClose={() => setGames({ open: false, data: [] })} />
+          <Campaign campaing={campaing} handleClose={() => setCampaing({ open: false, id: "" })} />
 
-              <MainMenu
-                showBack={true}
-                goToMap={goToMap}
-                setGames={setGames}
-                setCampaing={setCampaing}
-              />
-            </Box>
-          </Grid>
-        </Grid>
-
-        <GameMachines games={games} handleClose={() => setGames({ open: false, data: [] })} />
-        <Campaign campaing={campaing} handleClose={() => setCampaing({ open: false, id: "" })} />
-
-        {/*<TourModal open={showTour} handleClose={() => setShowTour(false)} />*/}
-      </Container>
-    </Layout>
+          {/*<TourModal open={showTour} handleClose={() => setShowTour(false)} />*/}
+        </Container>
+      </Layout>
+    </ReactTourProvider>
   );
 };
 

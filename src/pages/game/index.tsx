@@ -85,7 +85,7 @@ const Game = () => {
   }, [gameData]);
 
   return (
-    <Layout hideHelp={true}>
+    <Layout>
       <Container maxWidth={false} disableGutters={true}>
         <Box className={styled.mobileRotate}>
           <Box>
