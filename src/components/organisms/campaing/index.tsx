@@ -16,7 +16,7 @@ const Campaing = ({ campaing, handleClose }: any) => {
       const preLoad = document.querySelector(`script[data-container="${campaing.id}"]`);
       if (!preLoad) {
 
-
+        setLoading(true);
         const receive_message = async (event : any) => {
           const data = event.data;
 
@@ -29,6 +29,7 @@ const Campaing = ({ campaing, handleClose }: any) => {
                 console.log("message: ", message);
                 //@ts-ignore
                 window?.claimr.connect_wallet(address, signature, message);
+                setLoading(false);
           }
         };
         window.addEventListener('message', receive_message);
