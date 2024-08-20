@@ -5,26 +5,28 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import styled from "./styled.module.scss";
 
-const Campaing = ({ campaing, handleClose }: any) => {
+const Campaing = ({ details, setDetails }: any) => {
+  const open = !!details?.claimrId;
   const [loading, setLoading] = useState(false);
   const { address, signature, message } = JSON.parse(
     localStorage.getItem("session.account") || "{}"
   );
+  
 
   useEffect(() => {
-    if (campaing.id) {
-      const preLoad = document.querySelector(`script[data-container="${campaing.id}"]`);
+    if (details?.claimrId) {
+      const preLoad = document.querySelector(`script[data-container="${details.claimrId}"]`);
       if (!preLoad) {
         setLoading(true);
-        console.log("Adding claimr script...", campaing.id);
+        console.log("Adding claimr script...", details.claimrId);
 
         const script = document.createElement("script");
         script.defer = true;
         script.src = "https://widgets.claimr.io/claimr.min.js";
         script.id = "claimr-script";
         script.setAttribute("data-addons", "sup,sur");
-        script.setAttribute("data-campaign", campaing.id);
-        script.setAttribute("data-container", campaing.id);
+        script.setAttribute("data-campaign", details.claimrId);
+        script.setAttribute("data-container", details.claimrId);
         script.setAttribute("data-autoresize", "true");
         script.setAttribute("data-organization", "me3");
 
@@ -44,12 +46,12 @@ const Campaing = ({ campaing, handleClose }: any) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [campaing.id]);
+  }, [details?.claimrId]);
 
   return (
-    <Modal open={campaing.open} onClose={handleClose} className={styled.modalContainer}>
+    <Modal open={open} onClose={() => setDetails({})} className={styled.modalContainer}>
       <>
-        <CloseIcon className={styled.close} onClick={handleClose} />
+        <CloseIcon className={styled.close} onClick={() => setDetails({})} />
         <Box className={styled.modal}>
           {loading && (
             <Box className={styled.loading}>
@@ -58,7 +60,7 @@ const Campaing = ({ campaing, handleClose }: any) => {
             </Box>
           )}
 
-          <Box id={campaing.id} className={styled.campaign}></Box>
+          <Box id={details?.claimrId} className={styled.campaign}></Box>
         </Box>
       </>
     </Modal>

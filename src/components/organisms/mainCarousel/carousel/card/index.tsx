@@ -7,7 +7,7 @@ import clawMachineIcon from "assets/games/clawMachine/ANGLED.png";
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
 
-const Card = ({ item, setDetails }: any) => {
+const Card = ({ item, type, setDetails }: any) => {
   const { t } = useTranslation();
 
   const getMachineIcon = (code: string) => {
@@ -31,8 +31,8 @@ const Card = ({ item, setDetails }: any) => {
           />
         </Box>
         <Typography className={styled.title}>{item.name}</Typography>
-        <Button onClick={() => setDetails({ open: true, data: item })}>
-          {t("select").toUpperCase()}
+        <Button onClick={() => setDetails(item)}>
+          {type === "game" ? t("select").toUpperCase() : "START QUEST"}
         </Button>
       </Box>
     </Box>

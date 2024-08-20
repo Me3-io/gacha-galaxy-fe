@@ -58,19 +58,20 @@ const EarnPoints = ({ setOpenPoints, setGames, setCampaing }: any) => {
   const games = buildingsData.filter((item: any) => item?.games);
 
   // filter Campaigns data ---
-  let auxCampaing: { [key: string]: boolean } = {};
+  let auxCampaings: { [key: string]: boolean } = {};
   const campaigns = buildingsData
-    .filter((item: any) => item?.campaign)
-    .map((item: any) => ({ ...item.campaign }))
-    .filter((item: any) => (auxCampaing[item._id] ? false : (auxCampaing[item._id] = true))); // elimino repetidos
+    .filter((item: any) => item?.campaigns)
+    .map((item: any) => ({ ...item.campaigns }))
+    .filter((item: any) => (auxCampaings[item._id] ? false : (auxCampaings[item._id] = true))); // elimino repetidos
 
+  //console.log("campaigns", campaigns);
   // events ---
   const handlerGameClick = (row: any) => {
     setGames({ open: true, data: row.games || [] });
   };
 
   const handlerCampaingClick = (row: any) => {
-    setCampaing({ open: true, id: row.claimrId || "" });
+    setCampaing({ open: true, data: row || {} });
   };
 
   return (
