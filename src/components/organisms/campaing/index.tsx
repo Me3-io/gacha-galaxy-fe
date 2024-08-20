@@ -7,6 +7,7 @@ import styled from "./styled.module.scss";
 
 const Campaing = ({ details, setDetails }: any) => {
   const open = !!details?.claimrId;
+
   const [loading, setLoading] = useState(false);
   const { address, signature, message } = JSON.parse(
     localStorage.getItem("session.account") || "{}"
@@ -20,21 +21,21 @@ const Campaing = ({ details, setDetails }: any) => {
     if (details?.claimrId) {
       const preLoad = document.querySelector(`script[data-container="${details.claimrId}"]`);
       if (!preLoad) {
+        setLoading(true);
         const receive_message = async (event: any) => {
           const data = event.data;
 
           if (data.event === "widget::ready") {
             console.log("Widget ready", data);
             //@ts-ignore
-            console.log("script loaded: ", window?.claimr);
+            console.log("Widget loaded: ", window?.claimr);
             console.log("address: ", address);
             console.log("signature: ", signature);
             console.log("message: ", message);
             //@ts-ignore
             window?.claimr.connect_wallet(address, signature, message);
-            //setLoading(false);
+            setLoading(false);
           }
-          //setLoading(false);
         };
         window.addEventListener("message", receive_message);
 
@@ -50,19 +51,6 @@ const Campaing = ({ details, setDetails }: any) => {
         script.setAttribute("data-container", details.claimrId);
         script.setAttribute("data-autoresize", "true");
         script.setAttribute("data-organization", "me3");
-
-        script.onload = async () => {
-          setTimeout(() => setLoading(false), 2000);
-        };
-
-        //@ts-ignore
-        // console.log("script loaded: ", window?.claimr);
-        // console.log("address: ", address);
-        // console.log("signature: ", signature);
-        // console.log("message: ", message);
-        //@ts-ignore
-        // window?.claimr.connect_wallet(address, signature, message);
-        // };
 
         document.head.appendChild(script);
       }
