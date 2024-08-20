@@ -7,14 +7,33 @@ import styled from "./styled.module.scss";
 
 const Campaing = ({ campaing, handleClose }: any) => {
   const [loading, setLoading] = useState(false);
-  /*const { address, signature, message } = JSON.parse(
+  const { address, signature, message } = JSON.parse(
     localStorage.getItem("session.account") || "{}"
-  );*/
+  );
 
   useEffect(() => {
     if (campaing.id) {
       const preLoad = document.querySelector(`script[data-container="${campaing.id}"]`);
       if (!preLoad) {
+
+
+        const receive_message = async (event : any) => {
+          const data = event.data;
+
+          if (data.event === 'widget::ready') {
+                console.log("Widget ready", data);
+                //@ts-ignore
+                console.log("Widget loaded: ", window?.claimr);
+                console.log("address: ", address);
+                console.log("signature: ", signature);
+                console.log("message: ", message);
+                //@ts-ignore
+                window?.claimr.connect_wallet(address, signature, message);
+          }
+        };
+        window.addEventListener('message', receive_message);
+
+
         setLoading(true);
         console.log("Adding claimr script...", campaing.id);
 
@@ -28,11 +47,7 @@ const Campaing = ({ campaing, handleClose }: any) => {
         script.setAttribute("data-autoresize", "true");
         script.setAttribute("data-organization", "me3");
 
-        script.onload = async () => {
-          setTimeout(() => setLoading(false), 2000);
-          //@ts-ignore
-          //window?.claimr.connect_wallet(address, signature, message);
-        };
+
 
         document.head.appendChild(script);
       }
