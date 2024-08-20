@@ -44,14 +44,6 @@ const GameDetails = ({ details, setDetails }: any) => {
     if (reason !== "backdropClick") setDetails({});
   };
 
-  useEffect(() => {
-    const rewardsContainer = document.querySelector("#rewards");
-    rewardsContainer?.addEventListener("wheel", (e: any) => {
-      e.preventDefault();
-      rewardsContainer.scrollLeft += e?.deltaY;
-    });
-  }, []);
-
   const getMachineIcon = (code: string) => {
     switch (code) {
       case "claw-machine":
@@ -60,6 +52,14 @@ const GameDetails = ({ details, setDetails }: any) => {
         return capsuleIcon;
     }
   };
+
+  useEffect(() => {
+    const rewardsContainer = document.querySelector("#rewards");
+    rewardsContainer?.addEventListener("wheel", (e: any) => {
+      e.preventDefault();
+      rewardsContainer.scrollLeft += e?.deltaY;
+    });
+  }, []);
 
   return (
     <Modal open={open} onClose={onClose} className={styled.modalContainer}>

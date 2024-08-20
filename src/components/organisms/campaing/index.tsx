@@ -11,28 +11,32 @@ const Campaing = ({ details, setDetails }: any) => {
   const { address, signature, message } = JSON.parse(
     localStorage.getItem("session.account") || "{}"
   );
-  
+
+  const onClose = (evt: any, reason: string) => {
+    if (reason !== "backdropClick") setDetails({});
+  };
 
   useEffect(() => {
     if (details?.claimrId) {
       const preLoad = document.querySelector(`script[data-container="${details.claimrId}"]`);
       if (!preLoad) {
-
-        const receive_message = async (event : any) => {
+        const receive_message = async (event: any) => {
           const data = event.data;
 
-          if (data.event === 'widget::ready') {
-                console.log("Widget ready", data);
-                //@ts-ignore
-                console.log("script loaded: ", window?.claimr);
-                console.log("address: ", address);
-                console.log("signature: ", signature);
-                console.log("message: ", message);
-                //@ts-ignore
-                window?.claimr.connect_wallet(address, signature, message);
+          if (data.event === "widget::ready") {
+            console.log("Widget ready", data);
+            //@ts-ignore
+            console.log("script loaded: ", window?.claimr);
+            console.log("address: ", address);
+            console.log("signature: ", signature);
+            console.log("message: ", message);
+            //@ts-ignore
+            window?.claimr.connect_wallet(address, signature, message);
+            //setLoading(false);
           }
+          //setLoading(false);
         };
-        window.addEventListener('message', receive_message);
+        window.addEventListener("message", receive_message);
 
         setLoading(true);
         console.log("Adding claimr script...", details.claimrId);
@@ -47,15 +51,17 @@ const Campaing = ({ details, setDetails }: any) => {
         script.setAttribute("data-autoresize", "true");
         script.setAttribute("data-organization", "me3");
 
-        // script.onload = async () => {
-        //   setTimeout(() => setLoading(false), 2000);
-          //@ts-ignore
-          // console.log("script loaded: ", window?.claimr);
-          // console.log("address: ", address);
-          // console.log("signature: ", signature);
-          // console.log("message: ", message);
-          //@ts-ignore
-          // window?.claimr.connect_wallet(address, signature, message);
+        script.onload = async () => {
+          setTimeout(() => setLoading(false), 2000);
+        };
+
+        //@ts-ignore
+        // console.log("script loaded: ", window?.claimr);
+        // console.log("address: ", address);
+        // console.log("signature: ", signature);
+        // console.log("message: ", message);
+        //@ts-ignore
+        // window?.claimr.connect_wallet(address, signature, message);
         // };
 
         document.head.appendChild(script);
@@ -66,9 +72,9 @@ const Campaing = ({ details, setDetails }: any) => {
   }, [details?.claimrId]);
 
   return (
-    <Modal open={open} onClose={() => setDetails({})} className={styled.modalContainer}>
+    <Modal open={open} onClose={onClose} className={styled.modalContainer}>
       <>
-        <CloseIcon className={styled.close} onClick={() => setDetails({})} />
+        <CloseIcon className={styled.close} onClick={(evt: any) => onClose(evt, "close")} />
         <Box className={styled.modal}>
           {loading && (
             <Box className={styled.loading}>

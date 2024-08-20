@@ -48,30 +48,33 @@ const MainTable = ({ data, handleClick }: any) => {
   );
 };
 
-const EarnPoints = ({ setOpenPoints, setGames, setCampaing }: any) => {
+const EarnPoints = ({ setOpenPoints, setGame, setCampaing }: any) => {
   const { t } = useTranslation();
   const [value, setValue] = useState("1");
   const handleChange = (evt: any, newValue: string) => setValue(newValue);
   const buildingsData = useSelector(getBuildings) || [];
 
-  // filter Games data ---
-  const games = buildingsData.filter((item: any) => item?.games);
+  // filter games data ---
+  let auxGames: { [key: string]: boolean } = {};
+  const games = buildingsData
+    ?.flatMap((building: { games: any }) => building.games)
+    .filter((game: any) => game !== undefined)
+    .filter((item: any) => (auxGames[item._id] ? false : (auxGames[item._id] = true))); // <- elimino repetidos
 
-  // filter Campaigns data ---
+  // filter campaigns data ---
   let auxCampaings: { [key: string]: boolean } = {};
   const campaigns = buildingsData
-    .filter((item: any) => item?.campaigns)
-    .map((item: any) => ({ ...item.campaigns }))
-    .filter((item: any) => (auxCampaings[item._id] ? false : (auxCampaings[item._id] = true))); // elimino repetidos
+    ?.flatMap((building: { campaigns: any }) => building.campaigns)
+    .filter((campaign: any) => campaign !== undefined)
+    .filter((item: any) => (auxCampaings[item._id] ? false : (auxCampaings[item._id] = true))); // <- elimino repetidos
 
-  //console.log("campaigns", campaigns);
   // events ---
   const handlerGameClick = (row: any) => {
-    setGames({ open: true, data: row.games || [] });
+    setGame(row);
   };
 
   const handlerCampaingClick = (row: any) => {
-    setCampaing({ open: true, data: row || {} });
+    setCampaing(row);
   };
 
   return (

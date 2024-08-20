@@ -62,7 +62,7 @@ const Home = () => {
                   <MainMenu
                     showBack={false}
                     //openGames={listGames.open}
-                    setGames={setListGames}
+                    setGame={setGame}
                     setCampaing={setCampaing}
                   />
                 </Box>
@@ -79,7 +79,7 @@ const Home = () => {
                 <MainMenu
                   showBack={true}
                   goToMap={goToMap}
-                  setGames={setListGames}
+                  setGame={setGame}
                   setCampaing={setCampaing}
                 />
               </Box>

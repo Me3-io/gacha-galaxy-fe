@@ -25,7 +25,7 @@ const Submenu = ({ children, open, opacity = 1 }: any) => {
   );
 };
 
-const MainMenu = ({ showBack = false, goToMap, openGames = false, setGames, setCampaing }: any) => {
+const MainMenu = ({ showBack = false, goToMap, openGames = false, setGame, setCampaing }: any) => {
   const [openPoints, setOpenPoints] = useState(false);
   const [openTokens, setOpenTokens] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
@@ -54,7 +54,7 @@ const MainMenu = ({ showBack = false, goToMap, openGames = false, setGames, setC
           <Submenu open={openPoints}>
             <EarnPoints
               setOpenPoints={setOpenPoints}
-              setGames={setGames}
+              setGame={setGame}
               setCampaing={setCampaing}
             />
           </Submenu>
