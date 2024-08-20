@@ -60,6 +60,16 @@
   stroke: #ba00fb;
 }
 
+.buildings {
+  g {
+    transition: 0.3s all;
+  }
+  &:hover g:not(:hover) {
+    transition: 0.3s all;
+    filter: brightness(0.8) opacity(0.9);
+  }
+}
+
 // map svg ---
 .buildings g {
   & > image,
