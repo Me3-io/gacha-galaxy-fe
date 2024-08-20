@@ -43,7 +43,6 @@ const Home = () => {
     dispatch(fetchBuildings() as any);
     dispatch(fetchLeaderboard() as any);
     dispatch(fetchClaims() as any);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -61,7 +60,6 @@ const Home = () => {
                 <Box className={styled.container}>
                   <MainMenu
                     showBack={false}
-                    //openGames={listGames.open}
                     setGame={setGame}
                     setCampaing={setCampaing}
                   />
