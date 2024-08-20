@@ -17,6 +17,23 @@ const Campaing = ({ details, setDetails }: any) => {
     if (details?.claimrId) {
       const preLoad = document.querySelector(`script[data-container="${details.claimrId}"]`);
       if (!preLoad) {
+
+        const receive_message = async (event : any) => {
+          const data = event.data;
+
+          if (data.event === 'widget::ready') {
+                console.log("Widget ready", data);
+                //@ts-ignore
+                console.log("script loaded: ", window?.claimr);
+                console.log("address: ", address);
+                console.log("signature: ", signature);
+                console.log("message: ", message);
+                //@ts-ignore
+                window?.claimr.connect_wallet(address, signature, message);
+          }
+        };
+        window.addEventListener('message', receive_message);
+
         setLoading(true);
         console.log("Adding claimr script...", details.claimrId);
 
@@ -30,16 +47,16 @@ const Campaing = ({ details, setDetails }: any) => {
         script.setAttribute("data-autoresize", "true");
         script.setAttribute("data-organization", "me3");
 
-        script.onload = async () => {
-          setTimeout(() => setLoading(false), 2000);
+        // script.onload = async () => {
+        //   setTimeout(() => setLoading(false), 2000);
           //@ts-ignore
-          console.log("script loaded: ", window?.claimr);
-          console.log("address: ", address);
-          console.log("signature: ", signature);
-          console.log("message: ", message);
+          // console.log("script loaded: ", window?.claimr);
+          // console.log("address: ", address);
+          // console.log("signature: ", signature);
+          // console.log("message: ", message);
           //@ts-ignore
-          window?.claimr.connect_wallet(address, signature, message);
-        };
+          // window?.claimr.connect_wallet(address, signature, message);
+        // };
 
         document.head.appendChild(script);
       }
