@@ -25,7 +25,7 @@ const Submenu = ({ children, open, opacity = 1 }: any) => {
   );
 };
 
-const MainMenu = ({ showBack = false, goToMap, openGames = false, setGames, setCampaing }: any) => {
+const MainMenu = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
   const [openPoints, setOpenPoints] = useState(false);
   const [openTokens, setOpenTokens] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
@@ -39,63 +39,55 @@ const MainMenu = ({ showBack = false, goToMap, openGames = false, setGames, setC
 
   return (
     <Box className={styled.panel}>
-      {!openGames && (
-        <>
-          <Leaderboard
-            showBack={showBack}
-            goToMap={goToMap}
-            setOpenPoints={setOpenPoints}
-            setOpenTokens={setOpenTokens}
-            setOpenMenu={setOpenMenu}
-            opacity={opacityLeaderboard}
-          />
+      <Leaderboard
+        showBack={showBack}
+        goToMap={goToMap}
+        setOpenPoints={setOpenPoints}
+        setOpenTokens={setOpenTokens}
+        setOpenMenu={setOpenMenu}
+        opacity={opacityLeaderboard}
+      />
 
-          {/* submenu Earn Points */}
-          <Submenu open={openPoints}>
-            <EarnPoints
-              setOpenPoints={setOpenPoints}
-              setGames={setGames}
-              setCampaing={setCampaing}
-            />
-          </Submenu>
+      {/* submenu Earn Points */}
+      <Submenu open={openPoints}>
+        <EarnPoints setOpenPoints={setOpenPoints} setGame={setGame} setCampaing={setCampaing} />
+      </Submenu>
 
-          {/* submenu Tokens */}
-          <Submenu open={openTokens}>
-            <GetTokens setOpenTokens={setOpenTokens} />
-          </Submenu>
+      {/* submenu Tokens */}
+      <Submenu open={openTokens}>
+        <GetTokens setOpenTokens={setOpenTokens} />
+      </Submenu>
 
-          {/* submenu Main Menu */}
-          <Submenu open={openMenu} opacity={opacityMenu}>
-            <Menu
-              setOpenMenu={setOpenMenu}
-              setOpenClaimAll={setOpenClaimAll}
-              setOpenNotifications={setOpenNotifications}
-              setOpenProfile={setOpenProfile}
-              setOpenSettings={setOpenSettings}
-            />
-          </Submenu>
+      {/* submenu Main Menu */}
+      <Submenu open={openMenu} opacity={opacityMenu}>
+        <Menu
+          setOpenMenu={setOpenMenu}
+          setOpenClaimAll={setOpenClaimAll}
+          setOpenNotifications={setOpenNotifications}
+          setOpenProfile={setOpenProfile}
+          setOpenSettings={setOpenSettings}
+        />
+      </Submenu>
 
-          {/* submenu Claim All */}
-          <Submenu open={openClaimAll}>
-            <ClaimAll setOpenClaimAll={setOpenClaimAll} />
-          </Submenu>
+      {/* submenu Claim All */}
+      <Submenu open={openClaimAll}>
+        <ClaimAll setOpenClaimAll={setOpenClaimAll} />
+      </Submenu>
 
-          {/* submenu Notifications */}
-          <Submenu open={openNotifications}>
-            <Notifications setOpenNotifications={setOpenNotifications} />
-          </Submenu>
+      {/* submenu Notifications */}
+      <Submenu open={openNotifications}>
+        <Notifications setOpenNotifications={setOpenNotifications} />
+      </Submenu>
 
-          {/* submenu Profile */}
-          <Submenu open={openProfile}>
-            <Profile setOpenProfile={setOpenProfile} />
-          </Submenu>
+      {/* submenu Profile */}
+      <Submenu open={openProfile}>
+        <Profile setOpenProfile={setOpenProfile} />
+      </Submenu>
 
-          {/* submenu Settings */}
-          <Submenu open={openSettings}>
-            <Settings setOpenSettings={setOpenSettings} />
-          </Submenu>
-        </>
-      )}
+      {/* submenu Settings */}
+      <Submenu open={openSettings}>
+        <Settings setOpenSettings={setOpenSettings} />
+      </Submenu>
     </Box>
   );
 };

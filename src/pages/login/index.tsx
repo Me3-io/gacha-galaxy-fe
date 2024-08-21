@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 import { modalConfig } from "config/thirdwebConfig";
 import { useConnectModal } from "thirdweb/react";
@@ -6,6 +6,7 @@ import { useConnectModal } from "thirdweb/react";
 import Layout from "components/templates/layout";
 import Button from "components/atoms/buttons/default";
 import Logo from "assets/logo.svg";
+import LogoGacha from "assets/logo-gacha.svg";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
@@ -25,19 +26,19 @@ const Login = () => {
   };
 
   return (
-    <Layout hideHelp={true}>
+    <Layout>
       <Container maxWidth={false} disableGutters={true}>
         <Box className={styled.logo}>
-          <img src={Logo} alt="Logo" className={styled.imgLogo} />
+          <img src={Logo} alt="Logo" />
         </Box>
 
         <Box className={styled.backgroundImage}></Box>
 
         <Box className={styled.main}>
           <Box className={styled.container}>
-            <Typography variant="h1" className={styled.title}>
-              Gacha Galaxy
-            </Typography>
+            <Box className={styled.mainLogo}>
+              <img src={LogoGacha} alt="Gacha Galaxy" />
+            </Box>
 
             {/*<Button onClick={handleConnect}>{t("enter-game")}</Button>*/}
             <Button disabled>COMING SOON</Button>

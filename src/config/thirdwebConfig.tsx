@@ -28,13 +28,13 @@ export const appMetadata = {
 export const wallets = [
   inAppWallet({ auth: { options: ["email", "google"] } }),
   // @ts-ignore
-  createWallet("com.okex.wallet"),
-  // @ts-ignore
   createWallet("io.metamask"),
   // @ts-ignore
-  createWallet("com.trustwallet.app"),
+  createWallet("com.okex.wallet"),
   // @ts-ignore
-  createWallet("global.safe"),
+  createWallet("com.bitget.web3"),
+  // @ts-ignore
+  createWallet("net.gateweb3"),
   walletConnect(),
 ];
 

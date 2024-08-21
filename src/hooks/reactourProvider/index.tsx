@@ -2,10 +2,11 @@ import { ButtonBase } from "@mui/material";
 import { TourProvider } from "@reactour/tour";
 
 import { steps } from "./config";
-import styled from "./styled.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
+
 import customAxios from "utils/customAxios";
+import styled from "./styled.module.scss";
 
 const styles = {
   popover: (prev: any) => ({

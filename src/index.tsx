@@ -6,7 +6,6 @@ import "./i18n";
 import store from "reduxConfig/store";
 import { Provider } from "react-redux";
 import { ThirdwebProvider } from "thirdweb/react";
-import { ReactTourProvider } from "hooks/reactourProvider";
 
 import App from "App";
 import "./index.css";
@@ -17,9 +16,7 @@ root.render(
     <BrowserRouter>
       <Provider store={store}>
         <ThirdwebProvider>
-          <ReactTourProvider>
-            <App />
-          </ReactTourProvider>
+          <App />
         </ThirdwebProvider>
       </Provider>
     </BrowserRouter>

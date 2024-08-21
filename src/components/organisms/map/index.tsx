@@ -23,7 +23,7 @@ const CENTER_MAP = { x: 600, y: 950 };
 
 const isMobile = navigator.userAgent.includes("Mobi");
 
-const InteractiveMap = ({ setGames, setCampaing }: any) => {
+const InteractiveMap = ({ setGames, setCampaings }: any) => {
   const Viewer = useRef<any>(null);
   const { t } = useTranslation();
   const { setIsOpen, setCurrentStep } = useTour();
@@ -159,13 +159,10 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
     }*/
   };
 
-  const handlerBuildingClick = (games: number) => {
-    setGames({ open: true, data: games });
+  const handlerBuildingClick = (games: any, campaings: any) => {
+    setGames(games);
+    setCampaings(campaings);
     setTooltipData({ visible: false, text: "" });
-  };
-
-  const handlerPartnerClick = (claimrId: any) => {
-    setCampaing({ open: true, id: claimrId });
   };
 
   const handlerOver = (text: any) => {
@@ -214,9 +211,6 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
         <Button onClick={_fitCenter}>
           <CropFree />
         </Button>
-        {/*<Button onClick={() => setShowMap((prev) => !prev)}>
-          <Map />
-        </Button>*/}
         <Button onClick={() => setShowNumbers((prev) => !prev)}>
           <Numbers />
         </Button>
@@ -258,7 +252,6 @@ const InteractiveMap = ({ setGames, setCampaing }: any) => {
               <g className={styled.buildings}>
                 <Buildings
                   handlerBuildingClick={handlerBuildingClick}
-                  handlerPartnerClick={handlerPartnerClick}
                   handlerOver={handlerOver}
                   handlerLeave={handlerLeave}
                   setLoading={setLoading}

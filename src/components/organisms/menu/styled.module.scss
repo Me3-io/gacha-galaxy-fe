@@ -361,13 +361,28 @@
     }
 
     .earnRow {
-      border-bottom: 1px dashed #e7c4f5;
+      border-bottom: 1px dashed rgba(186, 0, 251, 0.6) !important;
       display: flex;
       justify-content: space-between;
       margin: 0 10px;
 
       td {
         padding: 16px !important;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+
+        p {
+          font-family: "ChakraPetch";
+        }
+        .status {
+          color: #d490ec;
+          font-size: 0.8rem;
+
+          span {
+            color: #d490ec80;
+          }
+        }
       }
 
       button {

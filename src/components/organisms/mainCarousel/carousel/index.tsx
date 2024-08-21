@@ -15,8 +15,9 @@ const ButtonGroup = ({ next, previous }: any) => {
   );
 };
 
-const CarouselGames = ({ games, setDetails }: any) => {
-  const length = games.length >= 3 ? 3 : games.length;
+const GameCampaingCarousel = ({ listGames, listCampaings, setGame, setCampaing }: any) => {
+  const total = listGames?.length + listCampaings?.length || 1;
+  const length = total >= 3 ? 3 : total;
 
   const responsive = {
     superLargeDesktop: {
@@ -49,11 +50,15 @@ const CarouselGames = ({ games, setDetails }: any) => {
       customButtonGroup={<ButtonGroup />}
       containerClass={styled.carousel}
     >
-      {games.map((item: any, i: any) => (
-        <Card key={i} item={item} setDetails={setDetails} />
+      {listCampaings?.map((item: any) => (
+        <Card key={item?.claimrId} item={item} setDetails={setCampaing} type="campaing" />
+      ))}
+
+      {listGames?.map((item: any,) => (
+        <Card key={item?.code} item={item} setDetails={setGame} type="game" />
       ))}
     </Carousel>
   );
 };
 
-export default CarouselGames;
+export default GameCampaingCarousel;
