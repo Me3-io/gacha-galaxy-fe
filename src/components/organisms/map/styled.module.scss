@@ -60,41 +60,35 @@
   stroke: #ba00fb;
 }
 
+// maps hover effect ---
 .buildings {
-  g {
-    transition: 0.3s all;
-  }
-  &:hover g:not(:hover) {
-    transition: 0.3s all;
-    filter: brightness(0.8) opacity(0.9);
-  }
-}
+  g.building {
+    transition: 0.5s all;
 
-// map svg ---
-.buildings g {
-  & > image,
-  & > svg {
-    transition: 0.3s all;
-
-    &:hover {
+    &:hover:not(.partner) {
       filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 1)) brightness(1.05);
+    }
+
+    &:nth-child(4n + 1) g > image {
+      animation: blinkDouble 1s linear infinite;
+    }
+
+    &:nth-child(4n + 2) g > image {
+      animation: blinkDouble 1.5s linear infinite;
+    }
+
+    &:nth-child(4n + 3) g > image {
+      animation: blinkSimple 1s linear infinite;
+    }
+
+    &:nth-child(4n + 4) g > image {
+      animation: blinkSimple 1.5s linear infinite;
     }
   }
 
-  &:nth-child(4n + 1) g > image {
-    animation: blinkDouble 1s linear infinite;
-  }
-
-  &:nth-child(4n + 2) g > image {
-    animation: blinkDouble 1.5s linear infinite;
-  }
-
-  &:nth-child(4n + 3) g > image {
-    animation: blinkSimple 1s linear infinite;
-  }
-
-  &:nth-child(4n + 4) g > image {
-    animation: blinkSimple 1.5s linear infinite;
+  &:hover g.building:not(:hover) {
+    transition: 0.5s all;
+    filter: brightness(0.8) opacity(0.9);
   }
 }
 

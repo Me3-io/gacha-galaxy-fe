@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getBuildings } from "reduxConfig/thunks/buildings";
 
+import styled from "../styled.module.scss";
+
 const Buildings = ({
   handlerBuildingClick,
   //handlerPartnerClick,
@@ -66,7 +68,7 @@ const Buildings = ({
           }
         : null,
       games: item.games || [],
-      campaigns: item.campaigns || [], 
+      campaigns: item.campaigns || [],
     }));
 
     Promise.all(data).then((resolvedData) => {
@@ -117,7 +119,7 @@ const Buildings = ({
           transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
           onClick={(evt) => handlerBuilding(evt, item)}
           onTouchEnd={(evt) => evt.stopPropagation()}
-          className={pos === buildings.length - 1 ? "building-step" : ""}
+          className={`${styled.building} ${pos === buildings.length - 1 ? "building-step" : ""}`}
         >
           <image
             style={{
@@ -135,6 +137,7 @@ const Buildings = ({
           {item.partner && (
             <g
               //onClick={(evt) => handlerPartner(evt, item)}
+              className={styled.partner}
               transform={`translate(${item.partner.position.x} ${item.partner.position.y}) scale(${item.partner.scale}) skewY(${item.partner.orientation})`}
               onMouseMove={() => handlerOver(item.partner.name)}
               onMouseLeave={handlerLeave}

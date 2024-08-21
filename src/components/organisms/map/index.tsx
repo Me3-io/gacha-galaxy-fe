@@ -165,9 +165,6 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
     setTooltipData({ visible: false, text: "" });
   };
 
-  /*const handlerPartnerClick = (claimrId: any) => {
-  };*/
-
   const handlerOver = (text: any) => {
     setTooltipData({ text: text, visible: true });
   };
@@ -255,7 +252,6 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
               <g className={styled.buildings}>
                 <Buildings
                   handlerBuildingClick={handlerBuildingClick}
-                  //handlerPartnerClick={handlerPartnerClick}
                   handlerOver={handlerOver}
                   handlerLeave={handlerLeave}
                   setLoading={setLoading}
