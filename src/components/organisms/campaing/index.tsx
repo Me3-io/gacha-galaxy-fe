@@ -21,26 +21,6 @@ const Campaing = ({ details, setDetails }: any) => {
     if (details?.claimrId) {
       const preLoad = document.querySelector(`script[data-container="${details.claimrId}"]`);
       if (!preLoad) {
-
-        setLoading(true);
-        const receive_message = async (event : any) => {
-          const data = event.data;
-
-          if (data.event === 'widget::ready') {
-                console.log("Widget ready", data);
-                //@ts-ignore
-                console.log("Widget loaded: ", window?.claimr);
-                console.log("address: ", address);
-                console.log("signature: ", signature);
-                console.log("message: ", message);
-                //@ts-ignore
-                window?.claimr.connect_wallet(address, signature, message);
-                setLoading(false);
-          }
-        };
-        window.addEventListener('message', receive_message);
-
-
         setLoading(true);
         const receive_message = async (event: any) => {
           const data = event.data;
