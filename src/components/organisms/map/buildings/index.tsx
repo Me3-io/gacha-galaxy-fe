@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getBuildings } from "reduxConfig/thunks/buildings";
 
+import styled from "../styled.module.scss";
+
 const Buildings = ({
   handlerBuildingClick,
-  handlerPartnerClick,
+  //handlerPartnerClick,
   handlerOver,
   handlerLeave,
   PATH_GRID,
@@ -17,13 +19,13 @@ const Buildings = ({
   // events ---
   const handlerBuilding = (evt: any, item: any) => {
     evt.stopPropagation();
-    item.games && handlerBuildingClick(item.games);
+    item.games && handlerBuildingClick(item.games, item.campaigns);
   };
 
-  const handlerPartner = (evt: any, item: any) => {
+  /*const handlerPartner = (evt: any, item: any) => {
     evt.stopPropagation();
     item?.campaign && handlerPartnerClick(item.campaign.claimrId);
-  };
+  };*/
 
   // data buildings ---
   const getResource = async (url: string) => {
@@ -65,8 +67,8 @@ const Buildings = ({
             },
           }
         : null,
-      games: item.games,
-      campaign: item.campaign,
+      games: item.games || [],
+      campaigns: item.campaigns || [],
     }));
 
     Promise.all(data).then((resolvedData) => {
@@ -109,7 +111,6 @@ const Buildings = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buildingsData]);
 
-
   return (
     <>
       {buildings.map((item: any, pos: number) => (
@@ -118,10 +119,13 @@ const Buildings = ({
           transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
           onClick={(evt) => handlerBuilding(evt, item)}
           onTouchEnd={(evt) => evt.stopPropagation()}
-          className={pos === (buildings.length - 1) ? "building-step" : ""}
+          className={`${styled.building} ${pos === buildings.length - 1 ? "building-step" : ""}`}
         >
           <image
-            style={{ cursor: item.games ? "pointer" : "default", opacity: item.opacity }}
+            style={{
+              cursor: item.games || item.campaing ? "pointer" : "default",
+              opacity: item.opacity,
+            }}
             x={item.img.width * -1}
             y={item.img.height * -1}
             href={item.component}
@@ -132,7 +136,8 @@ const Buildings = ({
 
           {item.partner && (
             <g
-              onClick={(evt) => handlerPartner(evt, item)}
+              //onClick={(evt) => handlerPartner(evt, item)}
+              className={styled.partner}
               transform={`translate(${item.partner.position.x} ${item.partner.position.y}) scale(${item.partner.scale}) skewY(${item.partner.orientation})`}
               onMouseMove={() => handlerOver(item.partner.name)}
               onMouseLeave={handlerLeave}

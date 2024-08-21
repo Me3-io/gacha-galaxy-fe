@@ -61,8 +61,16 @@ $mask-size: 150px;
       }
     }
 
+    .campaing {
+      img {
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+    }
+
     button > span {
-      padding: .2rem;
+      padding: 0.2rem;
     }
   }
 }
@@ -72,8 +80,7 @@ $mask-size: 150px;
     height: 350px;
 
     .machine img {
-      height: 200px!important;
+      height: 200px !important;
     }
   }
 }
-

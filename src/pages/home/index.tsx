@@ -3,9 +3,8 @@ import { Box, Container, Grid } from "@mui/material";
 
 import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map";
-import GameMachines from "components/organisms/gameMachines";
+import MainCarousel from "components/organisms/mainCarousel";
 import MainMenu from "components/organisms/menu";
-import Campaign from "components/organisms/campaing";
 
 import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
@@ -16,70 +15,89 @@ import { fetchClaims } from "reduxConfig/thunks/claim";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
+import { ReactTourProvider } from "hooks/reactourProvider";
+
+import Campaign from "components/organisms/campaing";
+import GameDetails from "components/organisms/gameDetails";
 //import TourModal from "components/organisms/tour";
 
 const Home = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const [games, setGames] = useState({ open: false, data: [] });
-  const [campaing, setCampaing] = useState({ open: false, id: "" });
+  const [listGames, setListGames] = useState([]);
+  const [listCampaings, setListCampaings] = useState([]);
+
+  const [game, setGame] = useState({});
+  const [campaing, setCampaing] = useState({});
 
   const goToLeaderboard = () => window.scrollTo(0, document.body.scrollHeight);
   const goToMap = () => window.scrollTo(0, 0);
+
+  const handleClose = () => {
+    setListGames([]);
+    setListCampaings([]);
+  };
 
   useEffect(() => {
     dispatch(fetchBuildings() as any);
     dispatch(fetchLeaderboard() as any);
     dispatch(fetchClaims() as any);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Layout>
-      <Container maxWidth={false} disableGutters={true}>
-        <Grid container>
-          <Grid item xs={12}>
-            <Box height={"100%"} overflow={"hidden"}>
-              <InteractiveMap setGames={setGames} setCampaing={setCampaing} />
-            </Box>
+    <ReactTourProvider>
+      <Layout showHelp={true}>
+        <Container maxWidth={false} disableGutters={true}>
+          <Grid container>
+            <Grid item xs={12}>
+              <Box height={"100%"} overflow={"hidden"}>
+                <InteractiveMap setGames={setListGames} setCampaings={setListCampaings} />
+              </Box>
 
-            <Box display={{ xs: "none", md: "flex" }} className={styled.mainDrawer}>
-              <Box className={styled.container}>
+              <Box display={{ xs: "none", md: "flex" }} className={styled.mainDrawer}>
+                <Box className={styled.container}>
+                  <MainMenu
+                    showBack={false}
+                    setGame={setGame}
+                    setCampaing={setCampaing}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
+                <Box className={styled.downIcon} onClick={goToLeaderboard}>
+                  <span>{t("leaderboard")}</span>
+                  <DownIcon />
+                </Box>
+
                 <MainMenu
-                  showBack={false}
-                  openGames={games.open}
-                  setGames={setGames}
+                  showBack={true}
+                  goToMap={goToMap}
+                  setGame={setGame}
                   setCampaing={setCampaing}
                 />
               </Box>
-            </Box>
+            </Grid>
           </Grid>
 
-          <Grid item xs={12}>
-            <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
-              <Box className={styled.downIcon} onClick={goToLeaderboard}>
-                <span>{t("leaderboard")}</span>
-                <DownIcon />
-              </Box>
+          <MainCarousel
+            listGames={listGames}
+            setGame={setGame}
+            listCampaings={listCampaings}
+            setCampaing={setCampaing}
+            handleClose={handleClose}
+          />
 
-              <MainMenu
-                showBack={true}
-                goToMap={goToMap}
-                setGames={setGames}
-                setCampaing={setCampaing}
-              />
-            </Box>
-          </Grid>
-        </Grid>
-
-        <GameMachines games={games} handleClose={() => setGames({ open: false, data: [] })} />
-        <Campaign campaing={campaing} handleClose={() => setCampaing({ open: false, id: "" })} />
-
-        {/*<TourModal open={showTour} handleClose={() => setShowTour(false)} />*/}
-      </Container>
-    </Layout>
+          <GameDetails details={game} setDetails={setGame} />
+          <Campaign details={campaing} setDetails={setCampaing} />
+          
+        </Container>
+      </Layout>
+    </ReactTourProvider>
   );
 };
 

@@ -11,7 +11,7 @@ import CustomTooltip from "components/atoms/materialTooltip";
 import { useTranslation } from "react-i18next";
 import { useTour } from "@reactour/tour";
 
-const ActionsBar = ({ hideHelp = false }) => {
+const ActionsBar = ({ showHelp = false }) => {
   const { t } = useTranslation();
   // languaje menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -23,7 +23,7 @@ const ActionsBar = ({ hideHelp = false }) => {
 
   return (
     <Box component={"header"} className={`${styled.actionsBar} wallet-step`}>
-      {!hideHelp && (
+      {showHelp && (
         <CustomTooltip title={"Help"}>
           <HelpIcon
             onClick={() => {

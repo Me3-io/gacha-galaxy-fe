@@ -7,7 +7,8 @@ import clawMachineIcon from "assets/games/clawMachine/ANGLED.png";
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
 
-const Card = ({ item, setDetails }: any) => {
+const Card = ({ item, type, setDetails }: any) => {
+
   const { t } = useTranslation();
 
   const getMachineIcon = (code: string) => {
@@ -23,16 +24,24 @@ const Card = ({ item, setDetails }: any) => {
     <Box className={styled.card}>
       <Box className={styled.dotted}></Box>
       <Box className={styled.container}>
-        <Box className={styled.machine}>
-          <img
-            src={getMachineIcon(item.code)}
-            alt={"machine"}
-            style={{ transform: "translateX(-10px)" }}
-          />
-        </Box>
+
+        {type === "game" ? (
+          <Box className={styled.machine}>
+            <img
+              src={getMachineIcon(item.code)}
+              alt={"machine"}
+              style={{ transform: "translateX(-10px)" }}
+            />
+          </Box>
+        ) : (
+          <Box className={styled.campaing}>
+            <img src={item.image[0].url} alt={"campaing"} className={styled.image} />
+          </Box>
+        )}
+
         <Typography className={styled.title}>{item.name}</Typography>
-        <Button onClick={() => setDetails({ open: true, data: item })}>
-          {t("select").toUpperCase()}
+        <Button onClick={() => setDetails(item)}>
+          {type === "game" ? t("select").toUpperCase() : "START QUEST"}
         </Button>
       </Box>
     </Box>
