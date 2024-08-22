@@ -37,7 +37,9 @@ const CongratsModal = ({ open = false, data, onClose }: any) => {
   const [onAlert, setOnAlert] = useState({ show: false, severity: "error", msg: "" });
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(`${data?.prize} ${rewardVideo ? `- ${rewardVideo}` : ""}`);
+    navigator.clipboard.writeText(
+      `${data?.prize} ${rewardVideo ? `- ${encodeURI(rewardVideo)}` : ""}`
+    );
     setOnAlert({ show: true, severity: "success", msg: "Copy to clipboard" });
   };
 
