@@ -9,7 +9,7 @@ import CongratsModal from "components/molecules/games/modal";
 import styled from "./styled.module.scss";
 
 // resources ---
-import machine from "assets/games/clawMachine/machine_front_view.png";
+import machine from "assets/games/clawMachine/Front_View.png";
 import poster from "assets/games/clawMachine/poster.jpg";
 
 const urlAnimationMissItem = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Animation_Miss_Item.mp4`;
