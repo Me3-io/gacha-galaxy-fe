@@ -6,7 +6,6 @@ import styled from "../styled.module.scss";
 
 const Buildings = ({
   handlerBuildingClick,
-  //handlerPartnerClick,
   handlerOver,
   handlerLeave,
   PATH_GRID,
@@ -22,12 +21,6 @@ const Buildings = ({
     item.games && handlerBuildingClick(item.games, item.campaigns);
   };
 
-  /*const handlerPartner = (evt: any, item: any) => {
-    evt.stopPropagation();
-    item?.campaign && handlerPartnerClick(item.campaign.claimrId);
-  };*/
-
-  // data buildings ---
   const getResource = async (url: string) => {
     return await fetch(url)
       .then((res) => res.blob())
@@ -129,14 +122,12 @@ const Buildings = ({
             x={item.img.width * -1}
             y={item.img.height * -1}
             href={item.component}
-            //href={item.img.url}
             onMouseMove={() => handlerOver(item.name)}
             onMouseLeave={handlerLeave}
           />
 
           {item.partner && (
             <g
-              //onClick={(evt) => handlerPartner(evt, item)}
               className={styled.partner}
               transform={`translate(${item.partner.position.x} ${item.partner.position.y}) scale(${item.partner.scale}) skewY(${item.partner.orientation})`}
               onMouseMove={() => handlerOver(item.partner.name)}
@@ -147,7 +138,6 @@ const Buildings = ({
               <image
                 x={0}
                 y={0}
-                //href={item.partner.img.url}
                 href={item.partner.component}
                 style={{ cursor: "pointer", width: "100px", transform: "translateY(10px)" }}
               />

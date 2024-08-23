@@ -247,20 +247,16 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
             <g className="grid">{renderGrid}</g>
 
-            {
-              /*showMap && (*/
-              <g className={styled.buildings}>
-                <Buildings
-                  handlerBuildingClick={handlerBuildingClick}
-                  handlerOver={handlerOver}
-                  handlerLeave={handlerLeave}
-                  setLoading={setLoading}
-                  PATH_GRID={PATH_GRID}
-                  CENTER_MAP={CENTER_MAP}
-                />
-              </g>
-              /*)*/
-            }
+            <g className={styled.buildings}>
+              <Buildings
+                handlerBuildingClick={handlerBuildingClick}
+                handlerOver={handlerOver}
+                handlerLeave={handlerLeave}
+                setLoading={setLoading}
+                PATH_GRID={PATH_GRID}
+                CENTER_MAP={CENTER_MAP}
+              />
+            </g>
 
             {false && _drawCentralGuide()}
           </svg>
