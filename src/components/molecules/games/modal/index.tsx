@@ -127,7 +127,7 @@ const CongratsModal = ({ open = false, data, onClose }: any) => {
 
               <Box className={styled.footer}>
                 <Box className={styled.social}>
-                  <IconButton color="secondary">
+                  <IconButton color="secondary" sx={{display: "none"}}>
                     <CustomTooltip title={"Share with X"}>
                       <ShareIcon onClick={handleShare} />
                     </CustomTooltip>
