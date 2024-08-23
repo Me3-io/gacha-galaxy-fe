@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import Button from "components/atoms/buttons/default";
 
 import capsuleIcon from "assets/games/capsule/capsule-machine-angle-view.png";
-import clawMachineIcon from "assets/games/clawMachine/ANGLED.png";
+import clawMachineIcon from "assets/games/clawMachine/Angled_View.png";
 
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";

@@ -105,7 +105,7 @@
 
         .loader {
           position: absolute;
-          color: #ba00fb!important;
+          color: #ba00fb !important;
           z-index: 1;
         }
       }
@@ -123,8 +123,27 @@
         -webkit-text-fill-color: transparent;
       }
 
-      button span {
-        padding: 0.3rem 0.6rem;
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .social {
+          display: flex;
+          gap: 1rem;
+          button {
+            padding: 10px;
+            svg {
+              width: 2rem;
+              height: 2rem;
+              cursor: pointer;
+            }
+          }
+        }
+
+        & > button span {
+          padding: 0.3rem 0.6rem;
+        }
       }
     }
   }

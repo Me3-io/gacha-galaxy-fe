@@ -4,7 +4,7 @@ import Button from "components/atoms/buttons/base";
 import ButtonDefault from "components/atoms/buttons/default";
 
 import capsuleIcon from "assets/games/capsule/capsule-machine-angle-view.png";
-import clawMachineIcon from "assets/games/clawMachine/ANGLED.png";
+import clawMachineIcon from "assets/games/clawMachine/Angled_View.png";
 
 import joystick from "assets/icons/joystick.svg";
 import prize from "assets/icons/prize.svg";
