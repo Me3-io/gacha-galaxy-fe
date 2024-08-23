@@ -1,14 +1,18 @@
 .mainDrawer {
   .container {
-    background: rgba(24, 9, 36, 0.5);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     overflow-y: auto;
     width: 450px;
-    height: 100%;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 1.5rem;
+    left: 1.5rem;
+    bottom: 1.5rem;
+    border-radius: 1rem;
     z-index: 1;
+    box-sizing: border-box;
+
+    border: 1px solid #d8b7e780;
+    background: rgba(58, 31, 80, 0.6)
   }
 }
 
