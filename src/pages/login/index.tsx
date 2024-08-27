@@ -11,12 +11,34 @@ import LogoGacha from "assets/logo-gacha.svg";
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
 import waitForElement from "utils/waitForElement";
+import ModalLegal from "components/molecules/legal";
+import { useState } from "react";
 
 const Login = () => {
   const { t } = useTranslation();
   const { connect } = useConnectModal();
 
-  const handleConnect = async () => {
+  const legalCheckLS = JSON.parse(localStorage?.getItem("legalCheck") || "false");
+  const [modalLegal, setModalLegal] = useState(false);
+  const [legalCheck, setLegalCheck] = useState(legalCheckLS);
+
+  const handleConnect = () => {
+    if (!legalCheck) {
+      setModalLegal(true);
+      return;
+    }
+    openModal();
+  };
+
+  const handleCloseLegal = (proceed: boolean) => {
+    setModalLegal(false);
+    if (proceed) {
+      setLegalCheck(true);
+      openModal();
+    }
+  };
+
+  const openModal = async () => {
     try {
       waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
       await connect({ ...modalConfig, size: "wide" });
@@ -44,6 +66,8 @@ const Login = () => {
           </Box>
         </Box>
       </Container>
+
+      {modalLegal && <ModalLegal handleClose={handleCloseLegal} />}
     </Layout>
   );
 };
