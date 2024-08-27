@@ -59,6 +59,11 @@ export const ReactTourProvider = ({ children }: any) => {
       showBadge={false}
       padding={{ mask: 4 }}
       disableInteraction={true}
+      onClickClose={({ setIsOpen }) => {
+        setIsOpen(false);
+        endGuide();
+      }}
+      onClickMask={() => {}}
       nextButton={({ currentStep, stepsLength, setIsOpen, setCurrentStep, steps }) => {
         const last = currentStep === stepsLength - 1;
         return (

@@ -158,6 +158,7 @@ $clip-min: 10px;
         flex-direction: column;
         gap: 10px;
         height: auto;
+        width: 100%;
 
         clip-path: polygon(
           calc(70% + $clip-min) calc(100% - $clip-min),
