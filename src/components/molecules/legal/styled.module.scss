@@ -11,8 +11,6 @@
   top: 0;
   bottom: 0;
   left: 0;
-
-  
 }
 
 .modal {
@@ -40,7 +38,7 @@
 }
 
 .title {
-  font-size: 32px;
+  font-size: 2rem;
   font-style: normal;
   font-weight: 400;
   background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
@@ -72,7 +70,6 @@
   box-sizing: border-box;
   align-items: center;
 
-  
   > div {
     display: flex;
     flex-direction: column;
@@ -98,12 +95,12 @@
 .buttonContainer {
   display: flex;
   justify-content: center;
-  padding-top: 1rem;
+  padding-top: 1.5rem;
 
   button > span {
-    padding: 4px 8px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
   }
-
 }
 
 .redirect {

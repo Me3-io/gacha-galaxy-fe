@@ -1,9 +1,11 @@
 import { useState } from "react";
-import styled from "./styled.module.scss";
-import Checkbox from "components/atoms/checkbox";
-import Button from "components/atoms/buttons/default";
 import { Box, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+
+import Checkbox from "components/atoms/checkbox";
+import Button from "components/atoms/buttons/default";
+
+import styled from "./styled.module.scss";
 
 const ModalLegal = ({ handleClose }) => {
   const [checkboxes, setCheckboxes] = useState(false);
@@ -20,15 +22,15 @@ const ModalLegal = ({ handleClose }) => {
   };
   
   return (
-    <div className={styled.wrapperModal}>
-      <div className={styled.modal}>
+    <Box className={styled.wrapperModal}>
+      <Box className={styled.modal}>
         <CloseIcon className={styled.close} onClick={() => handleClose(false)} />
         <div className={styled.title}>Welcome to Gacha Galaxy</div>
         <div className={styled.subtitle}>
           By checking the box next to each of the items below and clicking “<b>proceed</b>”, you
           acknowledge that you have read, understand, and accept these disclosures:
         </div>
-        <div className={styled.legalContainer}>
+        <Box className={styled.legalContainer}>
           <Box className={styled.optionsLegal}>
             <Checkbox
               checked={checkboxes.termsOfUse}
@@ -68,14 +70,14 @@ const ModalLegal = ({ handleClose }) => {
             </Box>
           </Box>
 
-          <div className={styled.buttonContainer}>
+          <Box className={styled.buttonContainer}>
             <Button onClick={handleProceedClick} disabled={!checkboxes}>
-              Proceed
+              PROCEED
             </Button>
-          </div>
-        </div>
-      </div>
-    </div>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
