@@ -16,12 +16,12 @@
   top: 1.5rem;
   left: 1.5rem;
   z-index: 1;
+  user-select: none;
 
   img {
     max-width: 130px;
   }
 }
-
 
 .main {
   position: absolute;
@@ -47,7 +47,8 @@
       width: 100%;
       max-width: 550px;
       align-items: center;
-    
+      user-select: none;
+
       img {
         width: 100%;
         filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.75));
