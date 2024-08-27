@@ -128,10 +128,11 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
   useEffect(() => {
     if (response) {
       if (gameState.status === "load" || gameState.status === "ready") {
-        const rnd = Math.floor(Math.random() * 3);
-        const pos = response?.rewardVideo ? 3 : rnd;
-        console.log("pos", pos);
-        nextStep(sources[pos]);
+        //const rnd = Math.floor(Math.random() * 3);
+        //const pos = response?.rewardVideo ? 3 : rnd;
+        //console.log("pos", pos);
+        //nextStep(sources[pos]);
+        nextStep(sources[3]); // <-- ALWAYS SUCCESS !!!
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
