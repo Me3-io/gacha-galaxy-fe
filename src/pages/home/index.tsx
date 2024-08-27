@@ -19,6 +19,7 @@ import { ReactTourProvider } from "hooks/reactourProvider";
 
 import Campaign from "components/organisms/campaing";
 import GameDetails from "components/organisms/gameDetails";
+import Menu from "components/organisms/newMenu";
 //import TourModal from "components/organisms/tour";
 
 const Home = () => {
@@ -57,13 +58,12 @@ const Home = () => {
               </Box>
 
               <Box display={{ xs: "none", md: "flex" }} className={styled.mainDrawer}>
+                <Menu showBack={false} setGame={setGame} setCampaing={setCampaing} />
+                {/*
                 <Box className={styled.container}>
-                  <MainMenu
-                    showBack={false}
-                    setGame={setGame}
-                    setCampaing={setCampaing}
-                  />
+                  <MainMenu showBack={false} setGame={setGame} setCampaing={setCampaing} />
                 </Box>
+                */}
               </Box>
             </Grid>
 
@@ -74,12 +74,12 @@ const Home = () => {
                   <DownIcon />
                 </Box>
 
-                <MainMenu
+                {/*<MainMenu
                   showBack={true}
                   goToMap={goToMap}
                   setGame={setGame}
                   setCampaing={setCampaing}
-                />
+                />*/}
               </Box>
             </Grid>
           </Grid>
@@ -94,7 +94,6 @@ const Home = () => {
 
           <GameDetails details={game} setDetails={setGame} />
           <Campaign details={campaing} setDetails={setCampaing} />
-          
         </Container>
       </Layout>
     </ReactTourProvider>

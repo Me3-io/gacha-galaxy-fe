@@ -1,0 +1,56 @@
+.menu {
+  backdrop-filter: blur(12px);
+  overflow-y: auto;
+  width: 450px;
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  //border-radius: 1rem;
+  z-index: 1;
+  box-sizing: border-box;
+  border: 1px solid #d8b7e780;
+  background: rgba(58, 31, 80, 0.6);
+  transition: all 0.3s;
+  overflow: hidden;
+  display: flex;
+  color: #fff;
+
+  .menuContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 4px solid red;
+    box-sizing: border-box;
+    transition: all 0.3s;
+    max-height: calc(100vh - 3rem);
+    //min-height: 200px;
+
+    .item {
+      position: relative;
+      top: 0;
+      left: 100%;
+      width: 100%;
+      transition: 0.2s all;
+      box-sizing: border-box;
+      overflow: hidden;
+      border: 4px solid green;
+      max-height: calc(100vh - 3rem);
+
+      .header {
+        border: 4px solid blue;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      .itemContainer {
+        display: flex;
+        flex-direction: column;
+        border: 4px solid yellow;
+        position: relative;
+        overflow: hidden;
+        box-sizing: border-box;
+
+      }
+    }
+  }
+}
