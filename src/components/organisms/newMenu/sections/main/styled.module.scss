@@ -3,6 +3,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    box-sizing: border-box;
 
     .item:first-child {
       border-right: 1px dotted #ba00fb;
