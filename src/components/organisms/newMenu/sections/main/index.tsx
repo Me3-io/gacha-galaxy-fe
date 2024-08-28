@@ -1,4 +1,5 @@
-import { Box, Typography } from "@mui/material";
+import { useState } from "react";
+import { Box, Tab, Typography } from "@mui/material";
 import Button from "components/atoms/buttons/base";
 
 import { useTranslation } from "react-i18next";
@@ -9,16 +10,26 @@ import { getClaims } from "reduxConfig/thunks/claim";
 import keyIcon from "assets/icons/key.svg";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+
 import styled from "./styled.module.scss";
 
 const Main = ({ setOpenPoints, setOpenTokens, setOpenClaimAll }: any) => {
   const { t } = useTranslation();
-
+  const [value, setValue] = useState("");
+  
   const leaderboardData = useSelector(getLeaderboard);
   const claimeables = useSelector(getClaims)?.claimeables || [];
 
+  const handleTab = (newValue: string) => {
+    setValue(value === newValue ? "" : newValue);
+  };
+
   return (
     <Box className={styled.main}>
+      {/* user points and keys */}
       <Box className={styled.row} px={2} py={1}>
         <Box className={styled.item} pr={2}>
           <Box>
@@ -53,7 +64,8 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenClaimAll }: any) => {
           </Box>
         </Box>
       </Box>
-
+      
+      {/* rewards */}
       <Box className={styled.row} px={2} sx={{ background: "#180924b3" }}>
         <Box className={styled.item}>
           <Box className={styled.rewards}>
@@ -71,6 +83,44 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenClaimAll }: any) => {
             </Button>
           </Box>
         </Box>
+      </Box>
+
+      {/* tabs */}
+      <Box className={styled.row} flexDirection={"column"}>
+        <TabContext value={value}>
+          <Box className={styled.tabs}>
+            <TabList
+              textColor="inherit"
+              variant="scrollable"
+              scrollButtons="auto"
+              TabIndicatorProps={{ style: { display: "none" } }}
+            >
+              <Tab
+                sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
+                onClick={() => handleTab("1")}
+                label="Leaderboard"
+                value="1"
+              />
+              <Tab
+                sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
+                onClick={() => handleTab("2")}
+                label="Maps Regions"
+                value="2"
+              />
+              <Tab
+                sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
+                onClick={() => handleTab("3")}
+                label="Settings"
+                value="3"
+              />
+            </TabList>
+          </Box>
+          <Box className={styled.tabPanel}>
+            <TabPanel value="1">panel 1</TabPanel>
+            <TabPanel value="2">panel 2</TabPanel>
+            <TabPanel value="3">panel 3</TabPanel>
+          </Box>
+        </TabContext>
       </Box>
     </Box>
   );

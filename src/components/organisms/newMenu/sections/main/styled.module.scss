@@ -107,5 +107,13 @@
         gap: 5px;
       }
     }
+
+    .tabs > button {
+      font-family: "ChakraPetch";
+    }
+    .tabPanel{
+      display: flex;
+      border: 4px solid yellow;
+    }
   }
 }

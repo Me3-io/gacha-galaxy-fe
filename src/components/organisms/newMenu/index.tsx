@@ -32,22 +32,13 @@ const Menu = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
   return (
     <Box className={styled.menu}>
       <Box className={styled.menuContainer}>
-        
         {/* main view */}
         <Item open={true} opacity={mainOpacity}>
-          <Box className={styled.header}>
-            <Main
-              setOpenPoints={setOpenPoints}
-              setOpenTokens={setOpenTokens}
-              setOpenClaimAll={setOpenClaimAll}
-            />
-          </Box>
-
-          <Box className={styled.itemContainer}>
-            <Item open={true}>
-              <Box height={"150px"}>sub item</Box>
-            </Item>
-          </Box>
+          <Main
+            setOpenPoints={setOpenPoints}
+            setOpenTokens={setOpenTokens}
+            setOpenClaimAll={setOpenClaimAll}
+          />
         </Item>
 
         {/* submenu Earn Points */}
