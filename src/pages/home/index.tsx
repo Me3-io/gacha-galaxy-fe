@@ -75,12 +75,6 @@ const Home = () => {
                   setGame={setGame}
                   setCampaing={setCampaing}
                 />
-                {/*<MainMenu
-                  showBack={true}
-                  goToMap={goToMap}
-                  setGame={setGame}
-                  setCampaing={setCampaing}
-                />*/}
               </Box>
             </Grid>
           </Grid>
