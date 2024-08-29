@@ -34,6 +34,8 @@ const NFTChekout = () => {
         cryptoCurrencyCode: 'USDC',
         estimatedGasLimit: 334399,
       };
+
+      console.log(transakConfig);
     
     let transak = new Transak(transakConfig); 
 
