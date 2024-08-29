@@ -57,13 +57,8 @@ const Home = () => {
                 <InteractiveMap setGames={setListGames} setCampaings={setListCampaings} />
               </Box>
 
-              <Box display={{ xs: "none", md: "flex" }} className={styled.mainDrawer}>
+              <Box display={{ xs: "none", md: "flex" }}>
                 <MainPanel showBack={false} setGame={setGame} setCampaing={setCampaing} />
-                {/*
-                <Box className={styled.container}>
-                  <MainMenu showBack={false} setGame={setGame} setCampaing={setCampaing} />
-                </Box>
-                */}
               </Box>
             </Grid>
 
@@ -74,6 +69,12 @@ const Home = () => {
                   <DownIcon />
                 </Box>
 
+                <MainPanel
+                  showBack={true}
+                  goToMap={goToMap}
+                  setGame={setGame}
+                  setCampaing={setCampaing}
+                />
                 {/*<MainMenu
                   showBack={true}
                   goToMap={goToMap}

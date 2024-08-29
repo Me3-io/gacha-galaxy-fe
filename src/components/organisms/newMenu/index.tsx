@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
+import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
 // sections ---
 import Main from "./sections/main";
 import EarnPoints from "./sections/earnPoints";
 import Rewards from "./sections/rewards";
+import GetTokens from "./sections/getTokens";
 
 import styled from "./styled.module.scss";
-import GetTokens from "./sections/getTokens";
+import { useTranslation } from "react-i18next";
 
 const SectionItem = ({ children, open, opacity = 1 }: any) => {
   const position = opacity && open ? "relative" : "absolute!important";
@@ -24,6 +26,7 @@ const SectionItem = ({ children, open, opacity = 1 }: any) => {
 };
 
 const MainPanel = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
+  const { t } = useTranslation();
   const [openPoints, setOpenPoints] = useState(false);
   const [openTokens, setOpenTokens] = useState(false);
   const [openRewards, setOpenRewards] = useState(false);
@@ -33,6 +36,13 @@ const MainPanel = ({ showBack = false, goToMap, setGame, setCampaing }: any) => 
   return (
     <Box className={styled.menu}>
       <Box className={styled.menuContainer}>
+        {showBack &&  mainOpacity !== 0 && (
+          <Box className={styled.showBack} onClick={goToMap}>
+            <span>{t("map")}</span>
+            <UpIcon />
+          </Box>
+        )}
+
         {/* main view */}
         <SectionItem open={true} opacity={mainOpacity}>
           <Main
@@ -46,10 +56,9 @@ const MainPanel = ({ showBack = false, goToMap, setGame, setCampaing }: any) => 
         <SectionItem open={openPoints}>
           <EarnPoints setOpen={setOpenPoints} setGame={setGame} setCampaing={setCampaing} />
         </SectionItem>
-        
 
         <SectionItem open={openTokens}>
-          <GetTokens setOpen={setOpenTokens}  />
+          <GetTokens setOpen={setOpenTokens} />
         </SectionItem>
 
         {/* submenu ClaimAll*/}

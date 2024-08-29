@@ -15,7 +15,7 @@ const GetTokens = ({ setOpen }: any) => {
           <ArrowBackIcon /> {t("back")}
         </Button>
         <Typography pb={2} className={styled.title}>
-        {t("get-keys").toUpperCase()}
+          {t("get-keys").toUpperCase()}
         </Typography>
       </Box>
       <Box p={2} pb={5} className={styled.container}>
