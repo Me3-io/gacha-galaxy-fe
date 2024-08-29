@@ -5,12 +5,12 @@ import Button from "components/atoms/buttons/base";
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
 
-const Config = ({ setOpenConfig }: any) => {
+const Settings = ({ setOpenSettings }: any) => {
   const { t } = useTranslation();
   return (
     <Grid container flexDirection="column" className={styled.main}>
       <Box className={styled.header}>
-        <Button onClick={() => setOpenConfig(false)}>
+        <Button onClick={() => setOpenSettings(false)}>
           <ArrowBackIcon /> {t("back")}
         </Button>
         <Typography pb={2} className={styled.title}>
@@ -23,4 +23,4 @@ const Config = ({ setOpenConfig }: any) => {
     </Grid>
   );
 };
-export default Config;
+export default Settings;

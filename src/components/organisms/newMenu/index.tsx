@@ -22,7 +22,7 @@ const SectionItem = ({ children, open, opacity = 1 }: any) => {
   );
 };
 
-const Menu = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
+const MainPanel = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
   const [openPoints, setOpenPoints] = useState(false);
   const [openTokens, setOpenTokens] = useState(false);
   const [openRewards, setOpenRewards] = useState(false);
@@ -54,4 +54,4 @@ const Menu = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
     </Box>
   );
 };
-export default Menu;
+export default MainPanel;

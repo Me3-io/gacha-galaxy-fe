@@ -15,8 +15,8 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 import styled from "./styled.module.scss";
-import Settings from "../settings";
-import Leaderboard from "../leaderboard";
+import Menu from "./menu";
+import Leaderboard from "./leaderboard";
 
 const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
   const { t } = useTranslation();
@@ -112,7 +112,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
               <Tab
                 sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
                 onClick={() => handleTab("3")}
-                label="Settings"
+                label="Menu"
                 value="3"
               />
             </TabList>
@@ -125,7 +125,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
               <Box p={2}>list maps</Box>
             </TabPanel>
             <TabPanel value="3">
-              <Settings />
+              <Menu />
             </TabPanel>
           </Box>
         </TabContext>

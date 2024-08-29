@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Box, ButtonBase, Fade, Grid, Stack, Typography } from "@mui/material";
+import { Box, ButtonBase, Fade, Stack, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-import styled from "./styled.module.scss";
 
 import iconNotification from "assets/icons/notification.svg";
 import iconUser from "assets/icons/menuUser.svg";
@@ -10,9 +9,12 @@ import iconCalendar from "assets/icons/menuCalendar.svg";
 import iconHelp from "assets/icons/menuHelp.svg";
 import iconSettings from "assets/icons/menuSettings.svg";
 import { useTranslation } from "react-i18next";
+
 import Notifications from "./notifications";
 import Profile from "./profile";
-import Config from "./config";
+import Settings from "./config";
+
+import styled from "./styled.module.scss";
 
 const MenuItem = ({ icon, name, onClick }: any) => {
   return (
@@ -38,12 +40,11 @@ const SectionItem = ({ children, open, opacity = 1 }: any) => {
   );
 };
 
-const Settings = () => {
+const Menu = () => {
+  const { t } = useTranslation();
   const [openNotifications, setOpenNotifications] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
-  const [openConfig, setOpenConfig] = useState(false);
-
-  const { t } = useTranslation();
+  const [openSettings, setOpenSettings] = useState(false);
 
   const rows = [
     {
@@ -58,16 +59,16 @@ const Settings = () => {
       name: t("menu-help"),
       onClick: () => window.open("https://help.me3.io/en/", "_blank"),
     },
-    { icon: iconSettings, name: t("menu-settings"), onClick: () => setOpenConfig(true) },
+    { icon: iconSettings, name: t("menu-settings"), onClick: () => setOpenSettings(true) },
   ];
 
-  const mainOpacity = openNotifications || openProfile || openConfig ? 0 : 1;
+  const mainOpacity = openNotifications || openProfile || openSettings ? 0 : 1;
 
   return (
-
+    <Fade in={true} timeout={500}>
       <Box className={styled.menuContainer}>
         <SectionItem open={true} opacity={mainOpacity}>
-          <Stack p={1}>
+          <Stack px={1}>
             {rows.map((row: any, pos: number) => (
               <MenuItem key={pos} {...row} />
             ))}
@@ -75,18 +76,18 @@ const Settings = () => {
         </SectionItem>
 
         <SectionItem open={openNotifications}>
-          <Notifications setOpenNotifications={setOpenNotifications}  />
+          <Notifications setOpenNotifications={setOpenNotifications} />
         </SectionItem>
 
         <SectionItem open={openProfile}>
           <Profile setOpenProfile={setOpenProfile} />
         </SectionItem>
 
-        <SectionItem open={openConfig}>
-          <Config setOpenConfig={setOpenConfig} />
+        <SectionItem open={openSettings}>
+          <Settings setOpenSettings={setOpenSettings} />
         </SectionItem>
-      </Box >
- 
+      </Box>
+    </Fade>
   );
 };
-export default Settings;
+export default Menu;
