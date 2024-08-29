@@ -8,12 +8,12 @@ import Rewards from "./sections/rewards";
 
 import styled from "./styled.module.scss";
 
-const Item = ({ children, open, opacity = 1 }: any) => {
+const SectionItem = ({ children, open, opacity = 1 }: any) => {
   const position = opacity && open ? "relative" : "absolute!important";
   return (
     <Box
       component="section"
-      className={styled.item}
+      className={styled.sectionItem}
       left={open ? "0!important" : "100%"}
       sx={{ opacity, position }}
     >
@@ -33,23 +33,23 @@ const Menu = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
     <Box className={styled.menu}>
       <Box className={styled.menuContainer}>
         {/* main view */}
-        <Item open={true} opacity={mainOpacity}>
+        <SectionItem open={true} opacity={mainOpacity}>
           <Main
             setOpenPoints={setOpenPoints}
             setOpenTokens={setOpenTokens}
             setOpenRewards={setOpenRewards}
           />
-        </Item>
+        </SectionItem>
 
         {/* submenu Earn Points */}
-        <Item open={openPoints}>
+        <SectionItem open={openPoints}>
           <EarnPoints setOpenPoints={setOpenPoints} setGame={setGame} setCampaing={setCampaing} />
-        </Item>
+        </SectionItem>
 
         {/* submenu ClaimAll*/}
-        <Item open={openRewards}>
+        <SectionItem open={openRewards}>
           <Rewards setOpenClaimAll={setOpenRewards} />
-        </Item>
+        </SectionItem>
       </Box>
     </Box>
   );

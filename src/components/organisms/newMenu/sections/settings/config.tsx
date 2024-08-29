@@ -2,15 +2,15 @@ import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "components/atoms/buttons/base";
 
-import styled from "../styled.module.scss";
+import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
 
-const Settings = ({ setOpenSettings }: any) => {
+const Config = ({ setOpenConfig }: any) => {
   const { t } = useTranslation();
   return (
     <Grid container flexDirection="column" className={styled.main}>
       <Box className={styled.header}>
-        <Button onClick={() => setOpenSettings(false)}>
+        <Button onClick={() => setOpenConfig(false)}>
           <ArrowBackIcon /> {t("back")}
         </Button>
         <Typography pb={2} className={styled.title}>
@@ -23,4 +23,4 @@ const Settings = ({ setOpenSettings }: any) => {
     </Grid>
   );
 };
-export default Settings;
+export default Config;
