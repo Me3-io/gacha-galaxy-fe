@@ -5,7 +5,7 @@ import Button from "components/atoms/buttons/base";
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
 
-const Notifications = ({ setOpen }: any) => {
+const Settings = ({ setOpen }: any) => {
   const { t } = useTranslation();
   return (
     <Grid container flexDirection="column" className={styled.main}>
@@ -14,13 +14,13 @@ const Notifications = ({ setOpen }: any) => {
           <ArrowBackIcon /> {t("back")}
         </Button>
         <Typography pb={2} className={styled.title}>
-          {t("menu-notifications").toUpperCase()}
+          {t("menu-settings").toUpperCase()}
         </Typography>
       </Box>
       <Box p={2} className={styled.container}>
-        <Typography>{t("no-data")}</Typography>
+        <Typography>{t("coming-soon")}</Typography>
       </Box>
     </Grid>
   );
 };
-export default Notifications;
+export default Settings;

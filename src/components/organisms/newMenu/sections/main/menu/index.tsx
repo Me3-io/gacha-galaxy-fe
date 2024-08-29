@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 
 import Notifications from "./notifications";
 import Profile from "./profile";
-import Settings from "./config";
+import Settings from "./settings";
 
 import styled from "./styled.module.scss";
 
@@ -76,15 +76,15 @@ const Menu = () => {
         </SectionItem>
 
         <SectionItem open={openNotifications}>
-          <Notifications setOpenNotifications={setOpenNotifications} />
+          <Notifications setOpen={setOpenNotifications} />
         </SectionItem>
 
         <SectionItem open={openProfile}>
-          <Profile setOpenProfile={setOpenProfile} />
+          <Profile setOpen={setOpenProfile} />
         </SectionItem>
 
         <SectionItem open={openSettings}>
-          <Settings setOpenSettings={setOpenSettings} />
+          <Settings setOpen={setOpenSettings} />
         </SectionItem>
       </Box>
     </Fade>

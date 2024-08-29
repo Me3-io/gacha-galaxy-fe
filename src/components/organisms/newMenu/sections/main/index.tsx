@@ -60,7 +60,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
             </Box>
           </Box>
           <Box className={styled.action}>
-            <Button onClick={() => setOpenTokens(true)} disabled>
+            <Button onClick={() => setOpenTokens(true)}>
               {t("get-keys")} <ArrowForwardIcon />
             </Button>
           </Box>
@@ -68,24 +68,26 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
       </Box>
 
       {/* rewards */}
-      <Box className={styled.row} px={2} sx={{ background: "#180924b3" }}>
-        <Box className={styled.item}>
-          <Box className={styled.rewards}>
-            {/*<Typography className={styled.infoLabel}>{t("new-rewards")}</Typography>*/}
-            <Box>
-              <Typography>{claimeables?.length || 0}</Typography>
-              <span dangerouslySetInnerHTML={{ __html: t("rewards-availables") }}></span>
+      {claimeables?.length > 0 && (
+        <Box className={styled.row} px={2} sx={{ background: "#180924b3" }}>
+          <Box className={styled.item}>
+            <Box className={styled.rewards}>
+              {/*<Typography className={styled.infoLabel}>{t("new-rewards")}</Typography>*/}
+              <Box>
+                <Typography>{claimeables?.length || 0}</Typography>
+                <span dangerouslySetInnerHTML={{ __html: t("rewards-availables") }}></span>
+              </Box>
+            </Box>
+          </Box>
+          <Box className={styled.item}>
+            <Box className={styled.action} px={2}>
+              <Button onClick={() => setOpenRewards(true)}>
+                {t("rewards")} <ArrowForwardIcon />
+              </Button>
             </Box>
           </Box>
         </Box>
-        <Box className={styled.item}>
-          <Box className={styled.action} px={2}>
-            <Button onClick={() => setOpenRewards(true)}>
-              {t("rewards")} <ArrowForwardIcon />
-            </Button>
-          </Box>
-        </Box>
-      </Box>
+      )}
 
       {/* tabs */}
       <Box className={styled.row} flexDirection={"column"} overflow={"auto"}>

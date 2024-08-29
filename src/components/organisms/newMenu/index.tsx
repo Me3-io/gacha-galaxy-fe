@@ -7,6 +7,7 @@ import EarnPoints from "./sections/earnPoints";
 import Rewards from "./sections/rewards";
 
 import styled from "./styled.module.scss";
+import GetTokens from "./sections/getTokens";
 
 const SectionItem = ({ children, open, opacity = 1 }: any) => {
   const position = opacity && open ? "relative" : "absolute!important";
@@ -43,12 +44,17 @@ const MainPanel = ({ showBack = false, goToMap, setGame, setCampaing }: any) => 
 
         {/* submenu Earn Points */}
         <SectionItem open={openPoints}>
-          <EarnPoints setOpenPoints={setOpenPoints} setGame={setGame} setCampaing={setCampaing} />
+          <EarnPoints setOpen={setOpenPoints} setGame={setGame} setCampaing={setCampaing} />
+        </SectionItem>
+        
+
+        <SectionItem open={openTokens}>
+          <GetTokens setOpen={setOpenTokens}  />
         </SectionItem>
 
         {/* submenu ClaimAll*/}
         <SectionItem open={openRewards}>
-          <Rewards setOpenClaimAll={setOpenRewards} />
+          <Rewards setOpen={setOpenRewards} />
         </SectionItem>
       </Box>
     </Box>

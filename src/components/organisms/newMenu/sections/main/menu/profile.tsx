@@ -18,7 +18,7 @@ import Alert from "components/molecules/alert";
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
 
-const Profile = ({ setOpenProfile }: any) => {
+const Profile = ({ setOpen }: any) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -80,14 +80,14 @@ const Profile = ({ setOpenProfile }: any) => {
     <>
       <Grid container flexDirection="column" className={styled.main}>
         <Box className={styled.header}>
-          <Button onClick={() => setOpenProfile(false)}>
+          <Button onClick={() => setOpen(false)}>
             <ArrowBackIcon /> {t("back")}
           </Button>
           <Typography pb={2} className={styled.title}>
             {t("menu-profile").toUpperCase()}
           </Typography>
         </Box>
-        <Box p={2} px={3} className={styled.container}>
+        <Box px={2} className={styled.container}>
           <Box className={styled.profileContainer}>
             <TextField
               type="text"

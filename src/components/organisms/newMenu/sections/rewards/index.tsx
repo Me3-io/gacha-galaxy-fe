@@ -160,7 +160,7 @@ const MainTable = ({ data, setOnAlert }: any) => {
   );
 };
 
-const Rewards = ({ setOpenClaimAll }: any) => {
+const Rewards = ({ setOpen }: any) => {
   const { t } = useTranslation();
   const [onAlert, setOnAlert] = useState({ show: false, severity: "error", msg: "" });
 
@@ -176,7 +176,7 @@ const Rewards = ({ setOpenClaimAll }: any) => {
     <>
       <Grid container flexDirection="column" className={styled.main} pb={2}>
         <Box className={styled.header}>
-          <Button onClick={() => setOpenClaimAll(false)}>
+          <Button onClick={() => setOpen(false)}>
             <ArrowBackIcon /> {t("back")}
           </Button>
           <Typography pb={2} className={styled.title}>

@@ -48,7 +48,7 @@ const MainTable = ({ data, handleClick }: any) => {
   );
 };
 
-const EarnPoints = ({ setOpenPoints, setGame, setCampaing }: any) => {
+const EarnPoints = ({ setOpen, setGame, setCampaing }: any) => {
   const { t } = useTranslation();
   const [value, setValue] = useState("1");
   const handleChange = (evt: any, newValue: string) => setValue(newValue);
@@ -80,7 +80,7 @@ const EarnPoints = ({ setOpenPoints, setGame, setCampaing }: any) => {
   return (
     <Grid container flexDirection="column" className={styled.main}>
       <Box className={styled.header}>
-        <Button onClick={() => setOpenPoints(false)}>
+        <Button onClick={() => setOpen(false)}>
           <ArrowBackIcon /> {t("back")}
         </Button>
         <Typography pb={2} className={styled.title}>

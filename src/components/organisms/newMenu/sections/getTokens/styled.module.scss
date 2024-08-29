@@ -1,0 +1,83 @@
+.main {
+  height: 100%;
+  color: white;
+  flex-flow: column;
+  box-sizing: border-box;
+  transition: 0.2s all;
+  position: relative;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1rem 1rem;
+
+    .nickname {
+      align-items: center;
+      gap: 5px;
+      padding: 0 0.5rem;
+
+      p {
+        font-size: 1.2rem;
+        color: #e4bcf2;
+        font-family: "ChakraPetch";
+        font-weight: 400;
+      }
+
+      svg {
+        fill: #ba00fb;
+        height: 34px;
+        width: 34px;
+      }
+    }
+
+    img {
+      cursor: pointer;
+    }
+
+    .upIcon {
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    button {
+      border: none !important;
+      background-color: rgba(99, 67, 115, 0.4) !important;
+      color: #db74ff;
+      font-size: 0.9rem;
+      padding: 5px 15px !important;
+      display: flex;
+      justify-content: space-between;
+      gap: 5px;
+    }
+
+    .title {
+      font-family: "OrbitronBlack";
+      font-size: 1.2rem;
+      background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  // sections ---
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+
+    .divider {
+      border-top: 1px dashed #ba00fbaa;
+      width: 100%;
+    }
+
+    button {
+      //padding: 0.5rem !important;
+      min-width: 200px;
+    }
+  }
+}
