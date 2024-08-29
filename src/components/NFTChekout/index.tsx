@@ -26,7 +26,7 @@ const NFTChekout = () => {
 
     const transakConfig: TransakConfig = {
         apiKey: process.env.REACT_APP_TRANSAK_API_KEY || '07a89245-0fe3-40d3-9e4c-42ac7cbf19d1', 
-        environment: (process.env.NODE_ENV !== "production") ? Transak.ENVIRONMENTS.STAGING : Transak.ENVIRONMENTS.PRODUCTION, 
+        environment: (process.env.REACT_APP_NODE_ENV !== "production") ? Transak.ENVIRONMENTS.STAGING : Transak.ENVIRONMENTS.PRODUCTION, 
         isNFT: true, 
         contractId: process.env.REACT_APP_TRANSAK_CONTRACT_ID || '66c4d76d061af08419d4577f',
         nftData: nftData,
