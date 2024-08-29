@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, ButtonBase, Grid, Stack, Typography } from "@mui/material";
+import { Box, ButtonBase, Fade, Grid, Stack, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import styled from "./styled.module.scss";
@@ -46,13 +46,15 @@ const Settings = () => {
   ];
 
   return (
-    <Box className={styled.menuContainer} p={1}>
-      <Stack>
-        {rows.map((row: any, pos: number) => (
-          <MenuItem key={pos} {...row} />
-        ))}
-      </Stack>
-    </Box>
+    <Fade in={true} timeout={500}>
+      <Box className={styled.menuContainer} p={1}>
+        <Stack>
+          {rows.map((row: any, pos: number) => (
+            <MenuItem key={pos} {...row} />
+          ))}
+        </Stack>
+      </Box>
+    </Fade>
   );
 };
 export default Settings;
