@@ -4,7 +4,6 @@ import { Box, Container, Grid } from "@mui/material";
 import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map";
 import MainCarousel from "components/organisms/mainCarousel";
-import MainMenu from "components/organisms/menu";
 
 import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
