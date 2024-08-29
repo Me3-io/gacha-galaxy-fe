@@ -95,7 +95,7 @@ const Login = () => {
             <Button onClick={handleConnect}>{t("enter-game")}</Button>
 
             <LoginButton
-                botUsername={process.env.REACT_APP_TELEGRAM_BOT_USERNAME ?? ""}
+                botUsername={process.env.REACT_APP_TELEGRAM_BOT_USERNAME ?? "7328826957:AAGAS2wlJeqa78O4uvmbz8BAkEwqXpFxZ10"}
                 onAuthCallback={(data) => fetchTelegram(data)}
                 buttonSize="medium" // "large" | "medium" | "small"
                 cornerRadius={0} // 0 - 20
