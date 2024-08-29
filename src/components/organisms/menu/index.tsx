@@ -46,6 +46,7 @@ const MainMenu = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
         setOpenTokens={setOpenTokens}
         setOpenMenu={setOpenMenu}
         opacity={opacityLeaderboard}
+        openTokens={openTokens}
       />
 
       {/* submenu Earn Points */}

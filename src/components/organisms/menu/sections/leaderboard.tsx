@@ -6,6 +6,7 @@ import TableRow from "@mui/material/TableRow";
 
 import Button from "components/atoms/buttons/base";
 import CustomTooltip from "components/atoms/materialTooltip";
+import NFTChekout from "components/NFTChekout";
 
 // icons ---
 import menu from "assets/icons/menu.svg";
@@ -30,6 +31,7 @@ const Leaderboard = ({
   setOpenTokens,
   setOpenMenu,
   opacity,
+  openTokens,
 }: any) => {
   const { t } = useTranslation();
   const leaderboardData = useSelector(getLeaderboard);
@@ -42,6 +44,7 @@ const Leaderboard = ({
       className={styled.main}
       sx={{ opacity: opacity }}
     >
+     {openTokens && <NFTChekout />}
       <Box className={styled.header}>
         <CustomTooltip title={t("menu")}>
           <Box component="span" onClick={() => setOpenMenu(true)}>
@@ -129,7 +132,7 @@ const Leaderboard = ({
             </Box>
           </Box>
           <Box className={styled.action}>
-            <Button onClick={() => setOpenTokens(true)} disabled>
+            <Button onClick={() => setOpenTokens(!openTokens)}>
               {t("get-keys")} <ArrowForwardIcon />
             </Button>
           </Box>
