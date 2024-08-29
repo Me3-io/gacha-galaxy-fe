@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 // sections ---
 import Main from "./sections/main";
 import EarnPoints from "./sections/earnPoints";
-import ClaimAll from "./sections/claimAll";
+import Rewards from "./sections/rewards";
 
 import styled from "./styled.module.scss";
 
@@ -25,9 +25,9 @@ const Item = ({ children, open, opacity = 1 }: any) => {
 const Menu = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
   const [openPoints, setOpenPoints] = useState(false);
   const [openTokens, setOpenTokens] = useState(false);
-  const [openClaimAll, setOpenClaimAll] = useState(false);
+  const [openRewards, setOpenRewards] = useState(false);
 
-  const mainOpacity = openPoints || openTokens || openClaimAll ? 0 : 1;
+  const mainOpacity = openPoints || openTokens || openRewards ? 0 : 1;
 
   return (
     <Box className={styled.menu}>
@@ -37,7 +37,7 @@ const Menu = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
           <Main
             setOpenPoints={setOpenPoints}
             setOpenTokens={setOpenTokens}
-            setOpenClaimAll={setOpenClaimAll}
+            setOpenRewards={setOpenRewards}
           />
         </Item>
 
@@ -47,8 +47,8 @@ const Menu = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
         </Item>
 
         {/* submenu ClaimAll*/}
-        <Item open={openClaimAll}>
-          <ClaimAll setOpenClaimAll={setOpenClaimAll} />
+        <Item open={openRewards}>
+          <Rewards setOpenClaimAll={setOpenRewards} />
         </Item>
       </Box>
     </Box>

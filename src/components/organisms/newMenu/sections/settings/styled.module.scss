@@ -1,0 +1,148 @@
+// sections ---
+.tokensContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+
+  .divider {
+    border-top: 1px dashed #ba00fbaa;
+    width: 100%;
+  }
+
+  button {
+    padding: 1rem !important;
+    min-width: 200px;
+  }
+}
+
+.earnPointsContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .table {
+    box-sizing: border-box;
+    height: 100%;
+
+    td,
+    th {
+      border: 0;
+      color: #fff;
+      font-family: "ChakraPetchLight";
+      padding: 8px;
+    }
+
+    .earnRow {
+      border-bottom: 1px dashed rgba(186, 0, 251, 0.6) !important;
+      display: flex;
+      justify-content: space-between;
+      margin: 0 10px;
+
+      td {
+        padding: 16px !important;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+
+        p {
+          font-family: "ChakraPetch";
+        }
+        .status {
+          color: #d490ec;
+          font-size: 0.8rem;
+
+          span {
+            color: #d490ec80;
+          }
+        }
+      }
+
+      button {
+        padding: 8px 16px !important;
+        border: none !important;
+        background-color: rgba(99, 67, 115, 0.4) !important;
+        color: #db74ff;
+      }
+    }
+  }
+}
+
+.menuContainer {
+  overflow: auto;
+  width: 100%;
+  box-sizing: border-box;
+  max-height: inherit;
+
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed #ba00fbaa;
+    padding: 24px 8px;
+    color: #e4bcf2;
+    cursor: pointer;
+
+    p {
+      width: 100%;
+      padding: 0 20px;
+      text-align: start;
+      font-family: "ChakraPetch";
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    svg {
+      fill: #db74ff;
+    }
+  }
+}
+
+.profileContainer {
+  .textField {
+    border: 1px solid transparent;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    color: #fff !important;
+
+    & fieldset {
+      border-color: transparent !important;
+    }
+
+    input {
+      color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+      outline: none;
+      font-family: "ChakraPetch";
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    svg {
+      fill: #fff;
+    }
+  }
+
+  .wallet {
+    padding-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    p {
+      color: #c3a0e9;
+      font-family: "Orbitron";
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    span {
+      color: #fff;
+      font-family: "ChakraPetch";
+      font-size: 1rem;
+      font-weight: 400;
+    }
+  }
+}

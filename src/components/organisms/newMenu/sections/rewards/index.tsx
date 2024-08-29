@@ -160,7 +160,7 @@ const MainTable = ({ data, setOnAlert }: any) => {
   );
 };
 
-const ClaimAll = ({ setOpenClaimAll }: any) => {
+const Rewards = ({ setOpenClaimAll }: any) => {
   const { t } = useTranslation();
   const [onAlert, setOnAlert] = useState({ show: false, severity: "error", msg: "" });
 
@@ -180,7 +180,7 @@ const ClaimAll = ({ setOpenClaimAll }: any) => {
             <ArrowBackIcon /> {t("back")}
           </Button>
           <Typography pb={2} className={styled.title}>
-            {t("claim-all").toUpperCase()}
+            {t("rewards").toUpperCase()}
           </Typography>
         </Box>
         <Box className={styled.container} px={2}>
@@ -218,4 +218,4 @@ const ClaimAll = ({ setOpenClaimAll }: any) => {
   );
 };
 
-export default ClaimAll;
+export default Rewards;

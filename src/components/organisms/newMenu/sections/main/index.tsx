@@ -15,11 +15,12 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 import styled from "./styled.module.scss";
+import Settings from "../settings";
 
-const Main = ({ setOpenPoints, setOpenTokens, setOpenClaimAll }: any) => {
+const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
   const { t } = useTranslation();
   const [value, setValue] = useState("");
-  
+
   const leaderboardData = useSelector(getLeaderboard);
   const claimeables = useSelector(getClaims)?.claimeables || [];
 
@@ -64,7 +65,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenClaimAll }: any) => {
           </Box>
         </Box>
       </Box>
-      
+
       {/* rewards */}
       <Box className={styled.row} px={2} sx={{ background: "#180924b3" }}>
         <Box className={styled.item}>
@@ -78,15 +79,15 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenClaimAll }: any) => {
         </Box>
         <Box className={styled.item}>
           <Box className={styled.action} px={2}>
-            <Button onClick={() => setOpenClaimAll(true)}>
-              {t("claim-all")} <ArrowForwardIcon />
+            <Button onClick={() => setOpenRewards(true)}>
+              {t("rewards")} <ArrowForwardIcon />
             </Button>
           </Box>
         </Box>
       </Box>
 
       {/* tabs */}
-      <Box className={styled.row} flexDirection={"column"}>
+      <Box className={styled.row} flexDirection={"column"} overflow={"auto"}>
         <TabContext value={value}>
           <Box className={styled.tabs}>
             <TabList
@@ -118,7 +119,9 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenClaimAll }: any) => {
           <Box className={styled.tabPanel}>
             <TabPanel value="1">panel 1</TabPanel>
             <TabPanel value="2">panel 2</TabPanel>
-            <TabPanel value="3">panel 3</TabPanel>
+            <TabPanel value="3">
+              <Settings />
+            </TabPanel>
           </Box>
         </TabContext>
       </Box>

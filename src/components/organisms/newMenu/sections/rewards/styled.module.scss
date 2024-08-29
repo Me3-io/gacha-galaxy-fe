@@ -1,11 +1,13 @@
 .main {
   height: 100%;
   color: white;
+  display: flex;
   flex-flow: column!important;
   box-sizing: border-box!important;
   transition: 0.2s all;
   position: relative;
-  max-height: calc(100vh - 3rem);
+  overflow: auto;
+  max-height: inherit;
 
   .header {
     display: flex;
@@ -35,7 +37,7 @@
   }
 
   .container {
-    overflow: hidden;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     position: relative;
