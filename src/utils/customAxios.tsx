@@ -77,4 +77,44 @@ const customAxios = (contentType?: string) => {
   return instance;
 };
 
+export const customAxiosLocalTest = (contentType?: string) => {
+  const accessToken = _getAccessToken();
+  const config = {
+    baseURL: "http://localhost:4000/api",
+    headers: {
+      "Content-Type": contentType || "application/json",
+      Authorization: accessToken,
+    },
+  };
+
+  const instance = axios.create(config);
+
+  instance.interceptors.request.use((config) => {
+    const { data, params } = config;
+    config.data = _parse(data);
+    config.params = _parse(params);
+    return config;
+  });
+
+  instance.interceptors.response.use(
+    (response) => {
+      if (response.data.status === 401) {
+        window.dispatchEvent(new Event("logout"));
+      } else if (response.data.status === 400) {
+        return Promise.reject(response.data);
+      }
+      return response;
+    },
+    (error) => {
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
+        window.dispatchEvent(new Event("logout"));
+      }
+      return Promise.reject(error);
+    }
+  );
+
+  return instance;
+};
+
+
 export default customAxios;
