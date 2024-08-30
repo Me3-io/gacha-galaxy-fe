@@ -6,10 +6,10 @@ import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import Main from "./sections/main";
 import EarnPoints from "./sections/earnPoints";
 import Rewards from "./sections/rewards";
-import GetTokens from "./sections/getTokens";
 
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
+
 
 const SectionItem = ({ children, open, opacity = 1 }: any) => {
   const position = opacity && open ? "relative" : "absolute!important";
@@ -25,49 +25,46 @@ const SectionItem = ({ children, open, opacity = 1 }: any) => {
   );
 };
 
-const MainPanel = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
+const MainPanel = ({ showBack = false, goToMap, setGame, setCampaing, setOpenTokens }: any) => {
   const { t } = useTranslation();
   const [openPoints, setOpenPoints] = useState(false);
-  const [openTokens, setOpenTokens] = useState(false);
+
   const [openRewards, setOpenRewards] = useState(false);
 
-  const mainOpacity = openPoints || openTokens || openRewards ? 0 : 1;
+  const mainOpacity = openPoints || openRewards ? 0 : 1;
 
   return (
-    <Box className={styled.menu}>
-      <Box className={styled.menuContainer}>
-        {showBack &&  mainOpacity !== 0 && (
-          <Box className={styled.showBack} onClick={goToMap}>
-            <span>{t("map")}</span>
-            <UpIcon />
-          </Box>
-        )}
+    <>
+      <Box className={styled.menu}>
+        <Box className={styled.menuContainer}>
+          {showBack && mainOpacity !== 0 && (
+            <Box className={styled.showBack} onClick={goToMap}>
+              <span>{t("map")}</span>
+              <UpIcon />
+            </Box>
+          )}
 
-        {/* main view */}
-        <SectionItem open={true} opacity={mainOpacity}>
-          <Main
-            setOpenPoints={setOpenPoints}
-            setOpenTokens={setOpenTokens}
-            setOpenRewards={setOpenRewards}
-          />
-        </SectionItem>
+          {/* main view */}
+          <SectionItem open={true} opacity={mainOpacity}>
+            <Main
+              setOpenPoints={setOpenPoints}
+              setOpenTokens={setOpenTokens}
+              setOpenRewards={setOpenRewards}
+            />
+          </SectionItem>
 
-        {/* subsection Earn Points */}
-        <SectionItem open={openPoints}>
-          <EarnPoints setOpen={setOpenPoints} setGame={setGame} setCampaing={setCampaing} />
-        </SectionItem>
+          {/* subsection Earn Points */}
+          <SectionItem open={openPoints}>
+            <EarnPoints setOpen={setOpenPoints} setGame={setGame} setCampaing={setCampaing} />
+          </SectionItem>
 
-        {/* subsection Tokens */}
-        <SectionItem open={openTokens}>
-          <GetTokens setOpen={setOpenTokens} />
-        </SectionItem>
-
-        {/* subsection ClaimAll*/}
-        <SectionItem open={openRewards}>
-          <Rewards setOpen={setOpenRewards} />
-        </SectionItem>
+          {/* subsection ClaimAll*/}
+          <SectionItem open={openRewards}>
+            <Rewards setOpen={setOpenRewards} />
+          </SectionItem>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 export default MainPanel;
