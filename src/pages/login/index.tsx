@@ -15,7 +15,7 @@ import styled from "./styled.module.scss";
 import waitForElement from "utils/waitForElement";
 import ModalLegal from "components/molecules/legal";
 import { useState } from "react";
-import customAxios from "utils/customAxios";
+import customAxios, { customAxiosLocalTest }  from "utils/customAxios";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -46,22 +46,27 @@ const Login = () => {
       waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
       await connect({ ...modalConfig, size: "wide" });
     } catch (error) {
-      console.error(error);
+      console.error(error); 
     }
   };
 
   const fetchTelegram = (data: TelegramAuthData) => {
     console.log(data);
     //if (!poolInfo.telegram_completed) {
-      //setLoading(true);
-      /*
-      customAxios()
-        .post("/code/istheuserinchannel", {
-          user_id: user_id,
+      //setLoading(true);      
+      customAxiosLocalTest()
+        .post("/user/telegram", {
+          user_id: data.id,
+          first_name: data.first_name,
+          last_name: data.last_name,
+          auth_date: data.auth_date,
+          hash: data.hash
         })
         .then((response) => {
           //setLoading(false);
+          alert(response);
           if (response?.data?.status === "error") {
+            
             //setShowAlertInfo({ open: true, text: response?.data?.message || "error" });
           } else {
             //setOpenSuccessModal(completeTelegram);
