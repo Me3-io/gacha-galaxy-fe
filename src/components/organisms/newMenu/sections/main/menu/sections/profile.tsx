@@ -13,9 +13,10 @@ import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard
 import customAxios from "utils/customAxios";
 import Button from "components/atoms/buttons/base";
 import CustomTooltip from "components/atoms/materialTooltip";
-import Alert from "components/molecules/alert";
 
 import { useTranslation } from "react-i18next";
+import useAlert from "hooks/alertProvider/useAlert";
+
 import styled from "../styled.module.scss";
 
 const Profile = ({ setOpen }: any) => {
@@ -27,8 +28,8 @@ const Profile = ({ setOpen }: any) => {
 
   const [onEdit, setOnEdit] = useState(false);
   const [nickname, setNickname] = useState("");
-  const [onAlert, setOnAlert] = useState({ show: false, severity: "error", msg: "" });
 
+  const { setAlert } = useAlert();
   const handleChange = (e: any) => setNickname(e.target.value);
   const handleEdit = () => setOnEdit(true);
 
@@ -39,37 +40,30 @@ const Profile = ({ setOpen }: any) => {
 
   const handleSave = async () => {
     if (!nickname) {
-      setOnAlert({ show: true, severity: "error", msg: "Nickname is required" });
+      setAlert("Nickname is required", "error");
       return;
     }
 
     const regex = /^[^\s]{1,25}$/;
     if (!regex.test(nickname)) {
-      setOnAlert({
-        show: true,
-        severity: "error",
-        msg: "Nickname must be 1-25 characters long and contain no spaces",
-      });
+      setAlert("Nickname must be 1-25 characters long and contain no spaces", "error");
       return;
     }
 
     await customAxios()
-      .post("/user/updateprofile", {
-        nickname,
-      })
-      .then(() => {
-        setOnAlert({ show: true, severity: "success", msg: "Updated successfully" });
-      })
+      .post("/user/updateprofile", { nickname })
+      .then(() => setAlert("Updated successfully", "success"))
       .catch((error: any) => {
-        setOnAlert({
-          show: true,
-          severity: "error",
-          msg: error?.response?.data?.message || error?.message || "error",
-        });
+        setAlert(error?.response?.data?.message || error?.message || "error", "error");
       });
 
     dispatch(fetchLeaderboard() as any);
     setOnEdit(false);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(accountLS?.address || "");
+    setAlert("Copy to clipboard", "success");
   };
 
   useEffect(() => {
@@ -77,83 +71,69 @@ const Profile = ({ setOpen }: any) => {
   }, [leaderboardData]);
 
   return (
-    <>
-      <Grid container flexDirection="column" className={styled.main}>
-        <Box className={styled.header}>
-          <Button onClick={() => setOpen(false)}>
-            <ArrowBackIcon /> {t("back")}
-          </Button>
-          <Typography pb={2} className={styled.title}>
-            {t("menu-profile").toUpperCase()}
-          </Typography>
-        </Box>
-        <Box px={2} className={styled.container}>
-          <Box className={styled.profileContainer}>
-            <TextField
-              type="text"
-              size="medium"
-              variant="outlined"
-              className={styled.textField}
-              sx={
-                onEdit
-                  ? { border: "1px solid #ba00fb!important" }
-                  : { borderBottom: "1px dashed #ba00fbaa!important" }
-              }
-              disabled={!onEdit}
-              value={nickname}
-              onChange={handleChange}
-              autoComplete="off"
-              inputProps={{ maxLength: 25 }}
-              InputProps={{
-                endAdornment: (
-                  <>
-                    {!onEdit ? (
-                      <IconButton edge="end" color="secondary" onClick={handleEdit}>
-                        <CreateIcon />
+    <Grid container flexDirection="column" className={styled.main}>
+      <Box className={styled.header}>
+        <Button onClick={() => setOpen(false)}>
+          <ArrowBackIcon /> {t("back")}
+        </Button>
+        <Typography pb={2} className={styled.title}>
+          {t("menu-profile").toUpperCase()}
+        </Typography>
+      </Box>
+      <Box p={2} px={3} className={styled.container}>
+        <Box className={styled.profileContainer}>
+          <TextField
+            type="text"
+            size="medium"
+            variant="outlined"
+            className={styled.textField}
+            sx={
+              onEdit
+                ? { border: "1px solid #ba00fb!important" }
+                : { borderBottom: "1px dashed #ba00fbaa!important" }
+            }
+            disabled={!onEdit}
+            value={nickname}
+            onChange={handleChange}
+            autoComplete="off"
+            inputProps={{ maxLength: 25 }}
+            InputProps={{
+              endAdornment: (
+                <>
+                  {!onEdit ? (
+                    <IconButton edge="end" color="secondary" onClick={handleEdit}>
+                      <CreateIcon />
+                    </IconButton>
+                  ) : (
+                    <Box display={"flex"} gap={1}>
+                      <IconButton edge="end" color="secondary" onClick={handleCancel}>
+                        <CloseIcon />
                       </IconButton>
-                    ) : (
-                      <Box display={"flex"} gap={1}>
-                        <IconButton edge="end" color="secondary" onClick={handleCancel}>
-                          <CloseIcon />
-                        </IconButton>
-                        <IconButton edge="end" color="secondary" onClick={handleSave}>
-                          <CheckIcon />
-                        </IconButton>
-                      </Box>
-                    )}
-                  </>
-                ),
-              }}
-            />
+                      <IconButton edge="end" color="secondary" onClick={handleSave}>
+                        <CheckIcon />
+                      </IconButton>
+                    </Box>
+                  )}
+                </>
+              ),
+            }}
+          />
 
-            <Box className={styled.wallet}>
-              <Typography>Connected Wallets</Typography>
-              <Box display={"flex"} gap={2} alignItems={"center"} p={3}>
-                <span>
-                  {`${accountLS?.address?.slice(0, 15)}...${accountLS?.address?.slice(-15)}`}
-                </span>
+          <Box className={styled.wallet}>
+            <Typography>Connected Wallets</Typography>
+            <Box display={"flex"} gap={2} alignItems={"center"} p={3}>
+              <span>
+                {`${accountLS?.address?.slice(0, 15)}...${accountLS?.address?.slice(-15)}`}
+              </span>
 
-                <CustomTooltip title={t("copy-address")}>
-                  <ContentCopyIcon
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => navigator.clipboard.writeText(accountLS?.address || "")}
-                  />
-                </CustomTooltip>
-              </Box>
+              <CustomTooltip title={t("copy-address")}>
+                <ContentCopyIcon sx={{ cursor: "pointer" }} onClick={handleCopy} />
+              </CustomTooltip>
             </Box>
           </Box>
         </Box>
-      </Grid>
-
-      {onAlert.show && (
-        <Alert
-          severity={onAlert.severity}
-          onClose={() => setOnAlert({ show: false, severity: "error", msg: "" })}
-        >
-          {onAlert.msg || "Error"}
-        </Alert>
-      )}
-    </>
+      </Box>
+    </Grid>
   );
 };
 export default Profile;

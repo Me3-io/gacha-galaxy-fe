@@ -120,6 +120,12 @@
         padding: 0.7rem 1rem;
         min-height: auto;
       }
+
+      .hiddenTab {
+        position: absolute;
+        z-index: -1;
+        visibility: hidden;
+      }
     }
 
     .tabPanel {
