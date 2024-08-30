@@ -1,0 +1,49 @@
+.main {
+  .item {
+    text-align: start;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+
+      .title,
+      .desc {
+        transition: 0.2s all;
+        color: #ffffffcc;
+      }
+
+      .title {
+        font-family: "OrbitronBold";
+        font-size: 1rem;
+      }
+
+      .desc {
+        font-family: "ChakraPetchLight";
+        font-size: 0.9rem;
+      }
+    }
+
+    svg {
+      color: #ffffffcc;
+      font-size: 1.5rem;
+    }
+  }
+  .item:hover {
+    & > div {
+      .title,
+      .desc {
+        color: #db74ff;
+      }
+    }
+    svg {
+      color: #db74ff;
+    }
+  }
+}

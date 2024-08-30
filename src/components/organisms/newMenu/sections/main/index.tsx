@@ -17,6 +17,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import styled from "./styled.module.scss";
 import Menu from "./menu";
 import Leaderboard from "./leaderboard";
+import ListMaps from "./maps";
 
 const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
   const { t } = useTranslation();
@@ -124,7 +125,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
               <Leaderboard />
             </TabPanel>
             <TabPanel value="2">
-              <Box p={2}>list maps</Box>
+              <ListMaps />
             </TabPanel>
             <TabPanel value="3">
               <Menu />
