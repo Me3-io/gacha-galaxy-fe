@@ -80,7 +80,7 @@ const customAxios = (contentType?: string) => {
 export const customAxiosLocalTest = (contentType?: string) => {
   const accessToken = _getAccessToken();
   const config = {
-    baseURL: "http://localhost:4000",
+    baseURL: "http://localhost:4000/api",
     headers: {
       "Content-Type": contentType || "application/json",
       Authorization: accessToken,
