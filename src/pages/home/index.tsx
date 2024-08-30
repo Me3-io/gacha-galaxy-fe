@@ -19,6 +19,7 @@ import { ReactTourProvider } from "hooks/reactourProvider";
 import Campaign from "components/organisms/campaing";
 import GameDetails from "components/organisms/gameDetails";
 import MainPanel from "components/organisms/newMenu";
+import NFTChekout from "components/molecules/NFTChekout";
 //import TourModal from "components/organisms/tour";
 
 const Home = () => {
@@ -27,6 +28,7 @@ const Home = () => {
 
   const [listGames, setListGames] = useState([]);
   const [listCampaings, setListCampaings] = useState([]);
+  const [openTokens, setOpenTokens] = useState(false);
 
   const [game, setGame] = useState({});
   const [campaing, setCampaing] = useState({});
@@ -57,7 +59,12 @@ const Home = () => {
               </Box>
 
               <Box display={{ xs: "none", md: "flex" }}>
-                <MainPanel showBack={false} setGame={setGame} setCampaing={setCampaing} />
+                <MainPanel
+                  showBack={false}
+                  setGame={setGame}
+                  setCampaing={setCampaing}
+                  setOpenTokens={setOpenTokens}
+                />
               </Box>
             </Grid>
 
@@ -73,6 +80,8 @@ const Home = () => {
                   goToMap={goToMap}
                   setGame={setGame}
                   setCampaing={setCampaing}
+                  setOpenTokens={setOpenTokens}
+
                 />
               </Box>
             </Grid>
@@ -88,6 +97,9 @@ const Home = () => {
 
           <GameDetails details={game} setDetails={setGame} />
           <Campaign details={campaing} setDetails={setCampaing} />
+
+          {/* subsection NFTChekout */}
+          {openTokens && <NFTChekout />}
         </Container>
       </Layout>
     </ReactTourProvider>

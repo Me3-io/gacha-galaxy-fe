@@ -6,7 +6,7 @@ import TableRow from "@mui/material/TableRow";
 
 import Button from "components/atoms/buttons/base";
 import CustomTooltip from "components/atoms/materialTooltip";
-import NFTChekout from "components/NFTChekout";
+import NFTChekout from "components/molecules/NFTChekout";
 
 // icons ---
 import menu from "assets/icons/menu.svg";

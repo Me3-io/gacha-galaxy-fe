@@ -60,7 +60,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
             </Box>
           </Box>
           <Box className={styled.action}>
-            <Button onClick={() => setOpenTokens(true)}>
+            <Button onClick={() => setOpenTokens((prev: boolean) => !prev)}>
               {t("get-keys")} <ArrowForwardIcon />
             </Button>
           </Box>
