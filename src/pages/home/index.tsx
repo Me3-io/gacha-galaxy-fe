@@ -99,7 +99,7 @@ const Home = () => {
           <Campaign details={campaing} setDetails={setCampaing} />
 
           {/* subsection NFTChekout */}
-          {openTokens && <NFTChekout />}
+          {openTokens && <NFTChekout setOpenTokens={setOpenTokens} />}
         </Container>
       </Layout>
     </ReactTourProvider>

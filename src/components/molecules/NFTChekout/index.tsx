@@ -8,7 +8,7 @@ const getSupplyCalldata = () => {
   return new Interface(ABI).encodeFunctionData("mintByAuth", []);
 };
 
-const NFTChekout = () => {
+const NFTChekout = ({ setOpenTokens }: any) => {
   const calldata = getSupplyCalldata();
   const nftData: any = [
     {
@@ -47,7 +47,7 @@ const NFTChekout = () => {
     return () => {
       transak.close();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   Transak.on("*", (data) => {
@@ -56,6 +56,7 @@ const NFTChekout = () => {
 
   Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => {
     console.log("Transak SDK closed!");
+    setOpenTokens(false);
   });
 
   Transak.on(Transak.EVENTS.TRANSAK_ORDER_CREATED, (orderData) => {
