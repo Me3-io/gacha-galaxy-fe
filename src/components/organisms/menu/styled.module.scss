@@ -32,7 +32,7 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 1rem 1rem;
+    padding: 1rem 1.5rem;
 
     .nickname {
       align-items: center;
@@ -214,8 +214,8 @@
     }
   }
 
-  .row {
-    //border-top: 2px solid #ba00fb;
+  .footer {
+    border-top: 2px solid #ba00fb;
     display: flex;
     justify-content: space-between;
 

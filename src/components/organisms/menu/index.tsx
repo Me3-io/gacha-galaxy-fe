@@ -6,13 +6,11 @@ import EarnPoints from "./sections/earnPoints";
 import GetTokens from "./sections/getTokens";
 import Menu from "./sections/menu";
 
+import styled from "./styled.module.scss";
 import ClaimAll from "./sections/claimAll";
 import Notifications from "./sections/notifications";
 import Profile from "./sections/profile";
 import Settings from "./sections/settings";
-
-import styled from "./styled.module.scss";
-import Main from "./sections/main";
 
 const Submenu = ({ children, open, opacity = 1 }: any) => {
   return (
@@ -41,21 +39,15 @@ const MainMenu = ({ showBack = false, goToMap, setGame, setCampaing }: any) => {
 
   return (
     <Box className={styled.panel}>
-
-      <Main
-        setOpenPoints={setOpenPoints}
-        setOpenTokens={setOpenTokens}
-        opacity={1}
-      />
-      
-      {/*<Leaderboard
+      <Leaderboard
         showBack={showBack}
         goToMap={goToMap}
         setOpenPoints={setOpenPoints}
         setOpenTokens={setOpenTokens}
         setOpenMenu={setOpenMenu}
         opacity={opacityLeaderboard}
-      />*/}
+        openTokens={openTokens}
+      />
 
       {/* submenu Earn Points */}
       <Submenu open={openPoints}>

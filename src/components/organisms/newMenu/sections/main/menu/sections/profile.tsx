@@ -16,7 +16,7 @@ import CustomTooltip from "components/atoms/materialTooltip";
 import Alert from "components/molecules/alert";
 
 import { useTranslation } from "react-i18next";
-import styled from "./styled.module.scss";
+import styled from "../styled.module.scss";
 
 const Profile = ({ setOpen }: any) => {
   const { t } = useTranslation();

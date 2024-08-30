@@ -10,9 +10,9 @@ import iconHelp from "assets/icons/menuHelp.svg";
 import iconSettings from "assets/icons/menuSettings.svg";
 import { useTranslation } from "react-i18next";
 
-import Notifications from "./notifications";
-import Profile from "./profile";
-import Settings from "./settings";
+import Notifications from "./sections/notifications";
+import Profile from "./sections/profile";
+import Settings from "./sections/settings";
 
 import styled from "./styled.module.scss";
 
