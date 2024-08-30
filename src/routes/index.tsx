@@ -8,6 +8,8 @@ import Login from "pages/login";
 
 const languages = ["en", "tr", "pt", "ar", "ko", "ja", "vi", "id", "cn"];
 
+console.log("ENVIRONMENT", process.env.REACT_APP_NODE_ENV);
+
 const AppRouter = () => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
