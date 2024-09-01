@@ -23,14 +23,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useActiveAccount, useConnectModal } from "thirdweb/react";
 
 import { useTranslation } from "react-i18next";
-import Alert from "components/molecules/alert";
+//import Alert from "components/molecules/alert";
 import waitForElement from "utils/waitForElement";
 import customAxios from "utils/customAxios";
 import { format } from "date-fns";
+import useAlert from "hooks/alertProvider/useAlert";
 
 import styled from "./styled.module.scss";
 
-const RewardButton = ({ reward, setOnAlert }: any) => {
+const RewardButton = ({ reward }: any) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { claimContractABI, claimContractAddress } = useSelector(getClaims) || {};
@@ -40,6 +41,8 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
   const activeAccount = useActiveAccount();
   const dispatch = useDispatch();
 
+  const { setAlert } = useAlert();
+  
   // @ts-ignore
   const contract = getContract({
     client,
@@ -101,23 +104,16 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
             tx: transactionHash,
           })
           .then(() => {
-            setOnAlert({
-              show: true,
-              severity: "success",
-              msg: `Claim successfully - Transaction Hash: ${transactionHash}`,
-            });
+            setAlert(`Claim successfully - Transaction Hash: ${transactionHash}`, "success");
             dispatch(fetchClaims() as any);
           })
           .catch((error: any) => {
-            setOnAlert({
-              show: true,
-              severity: "error",
-              msg: error?.response?.data?.message || error?.message || "error",
-            });
+
+            setAlert(error?.response?.data?.message || error?.message || "error", "error");
           });
       }
     } catch (error: any) {
-      setOnAlert({ show: true, severity: "error", msg: error?.message || "error to claim item" });
+      setAlert(error?.message || "error to claim item", "error");
       console.error(error);
     }
 
@@ -135,7 +131,7 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
   );
 };
 
-const MainTable = ({ data, setOnAlert }: any) => {
+const MainTable = ({ data }: any) => {
   return (
     <TableContainer className={styled.table}>
       <Table>
@@ -150,7 +146,7 @@ const MainTable = ({ data, setOnAlert }: any) => {
                 </Typography>
               </TableCell>
               <TableCell align="right">
-                <RewardButton reward={item} setOnAlert={setOnAlert} />
+                <RewardButton reward={item} /*setOnAlert={setOnAlert}*/ />
               </TableCell>
             </TableRow>
           ))}
@@ -162,7 +158,7 @@ const MainTable = ({ data, setOnAlert }: any) => {
 
 const Rewards = ({ setOpen }: any) => {
   const { t } = useTranslation();
-  const [onAlert, setOnAlert] = useState({ show: false, severity: "error", msg: "" });
+  //const [onAlert, setOnAlert] = useState({ show: false, severity: "error", msg: "" });
 
   const [value, setValue] = useState("1");
   const handleChange = (evt: any, newValue: string) => setValue(newValue);
@@ -197,23 +193,23 @@ const Rewards = ({ setOpen }: any) => {
               </TabList>
             </Box>
             <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "auto" }}>
-              <MainTable data={rewardNFTs} setOnAlert={setOnAlert} />
+              <MainTable data={rewardNFTs} /*setOnAlert={setOnAlert}*/ />
             </TabPanel>
             <TabPanel value="2" sx={{ padding: "1rem 0", overflow: "auto" }}>
-              <MainTable data={rewardTokens} setOnAlert={setOnAlert} />
+              <MainTable data={rewardTokens} /*setOnAlert={setOnAlert}*/ />
             </TabPanel>
           </TabContext>
         </Box>
       </Grid>
 
-      {onAlert.show && (
+      {/*onAlert.show && (
         <Alert
           severity={onAlert.severity}
           onClose={() => setOnAlert({ show: false, severity: "error", msg: "" })}
         >
           {onAlert.msg || "Error"}
         </Alert>
-      )}
+      )*/}
     </>
   );
 };

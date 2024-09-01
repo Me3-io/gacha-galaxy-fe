@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { TransakConfig, Transak } from "@transak/transak-sdk";
 import { Interface } from "ethers";
-import keysABI from "../../../abi/keysABI.json";
+import keysABI from "abi/keysABI.json";
 
 const getSupplyCalldata = () => {
   const ABI = keysABI;
@@ -37,7 +37,7 @@ const NFTChekout = ({ setOpenTokens }: any) => {
     estimatedGasLimit: 334399,
   };
 
-  console.log(transakConfig);
+  //console.log(transakConfig);
 
   const transak = new Transak(transakConfig);
 
@@ -73,11 +73,7 @@ const NFTChekout = ({ setOpenTokens }: any) => {
     transak.close();
   });
 
-  return (
-    <div>
-      <h1>NFT Chekout</h1>
-    </div>
-  );
+  return <></>;
 };
 
 export default NFTChekout;

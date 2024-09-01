@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Box, CircularProgress, IconButton, Modal, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "components/atoms/buttons/default";
@@ -13,9 +12,10 @@ import ShareIcon from "@mui/icons-material/Share";
 
 import Zoom from "@mui/material/Zoom";
 
-import styled from "./styled.module.scss";
 import customAxios from "utils/customAxios";
-import Alert from "components/molecules/alert";
+import useAlert from "hooks/alertProvider/useAlert";
+
+import styled from "./styled.module.scss";
 
 import { auth, provider } from 'config/firebaseConfig';
 /*
@@ -35,14 +35,13 @@ const CongratsModal = ({ open = false, data, onClose }: any) => {
   //const auth = getAuth(app);
   const twitterProvider = new TwitterAuthProvider();
   const rewardVideo = data?.rewardVideo ? data?.rewardVideo[0]?.url : null;
-
-  const [onAlert, setOnAlert] = useState({ show: false, severity: "error", msg: "" });
+  const { setAlert } = useAlert();
 
   const handleCopy = () => {
     navigator.clipboard.writeText(
       `${data?.prize} ${rewardVideo ? `- ${encodeURI(rewardVideo)}` : ""}`
     );
-    setOnAlert({ show: true, severity: "success", msg: "Copy to clipboard" });
+    setAlert("Copy to clipboard", "success");
   };
 
   const handleShare = () => {
@@ -64,97 +63,83 @@ const CongratsModal = ({ open = false, data, onClose }: any) => {
             })
             .then((response) => {
               if (response?.data?.status === "error") {
-                setOnAlert({
-                  show: true,
-                  severity: "error",
-                  msg: response?.data?.message || "Error to Share",
-                });
+                setAlert(response?.data?.message || "Error to Share", "error");
               } else {
-                setOnAlert({ show: true, severity: "success", msg: "Post successfully" });
+                setAlert("Post successfully", "success");
               }
             })
             .catch((error: any) => {
-              setOnAlert({ show: true, severity: "error", msg: "Error to Share" });
+              setAlert("Error to Share", "error");
               console.error(error?.message);
             });
         };
         getLastTweet();
       })
       .catch((error: any) => {
-        //setOnAlert({ show: true, severity: "error", msg: "Error to Share with X" });
+        setAlert("Error to Share with X", "error");
         console.error(error?.message);
       });
   };
 
   return (
-    <>
-      <Modal open={open} onClose={onClose} className={styled.modalContainer}>
-        <Box className={styled.modal}>
-          <CloseIcon className={styled.close} onClick={(evt: any) => onClose(evt, "close")} />
+    <Modal open={open} onClose={onClose} className={styled.modalContainer}>
+      <Box className={styled.modal}>
+        <CloseIcon className={styled.close} onClick={(evt: any) => onClose(evt, "close")} />
 
-          <Zoom in={open}>
-            <Box className={styled.content}>
-              <Box className={styled.congratulations} />
+        <Zoom in={open}>
+          <Box className={styled.content}>
+            <Box className={styled.congratulations} />
 
-              <Typography pt={2} className={styled.title}>
-                Congratulations!
-              </Typography>
-              <Typography pb={0} className={styled.subtitle}>
-                You won:
-              </Typography>
+            <Typography pt={2} className={styled.title}>
+              Congratulations!
+            </Typography>
+            <Typography pb={0} className={styled.subtitle}>
+              You won:
+            </Typography>
 
-              <Box className={styled.reward}>
-                {!rewardVideo ? (
-                  <img src={capsuleIcon} alt="capsule" />
-                ) : (
-                  <>
-                    <CircularProgress className={styled.loader} size={40} />
-                    <video
-                      loop={true}
-                      autoPlay={true}
-                      controls={false}
-                      preload="auto"
-                      muted
-                      playsInline
-                    >
-                      <source src={rewardVideo} type="video/mp4" />
-                    </video>
-                  </>
-                )}
-              </Box>
-
-              <Typography pt={2} pb={4} className={styled.prize}>
-                {data?.prize || ""}
-              </Typography>
-
-              <Box className={styled.footer}>
-                <Box className={styled.social}>
-                  <IconButton color="secondary" sx={{display: "none"}}>
-                    <CustomTooltip title={"Share with X"}>
-                      <ShareIcon onClick={handleShare} />
-                    </CustomTooltip>
-                  </IconButton>
-                  <IconButton color="secondary">
-                    <CustomTooltip title={"Copy"}>
-                      <ContentCopyIcon onClick={handleCopy} />
-                    </CustomTooltip>
-                  </IconButton>
-                </Box>
-                <Button onClick={(evt: any) => onClose(evt, "close")}>ACCEPT</Button>
-              </Box>
+            <Box className={styled.reward}>
+              {!rewardVideo ? (
+                <img src={capsuleIcon} alt="capsule" />
+              ) : (
+                <>
+                  <CircularProgress className={styled.loader} size={40} />
+                  <video
+                    loop={true}
+                    autoPlay={true}
+                    controls={false}
+                    preload="auto"
+                    muted
+                    playsInline
+                  >
+                    <source src={rewardVideo} type="video/mp4" />
+                  </video>
+                </>
+              )}
             </Box>
-          </Zoom>
-        </Box>
-      </Modal>
-      {onAlert.show && (
-        <Alert
-          severity={onAlert.severity}
-          onClose={() => setOnAlert({ show: false, severity: "error", msg: "" })}
-        >
-          {onAlert.msg || "Error"}
-        </Alert>
-      )}
-    </>
+
+            <Typography pt={2} pb={4} className={styled.prize}>
+              {data?.prize || ""}
+            </Typography>
+
+            <Box className={styled.footer}>
+              <Box className={styled.social}>
+                <IconButton color="secondary" sx={{ display: "none" }}>
+                  <CustomTooltip title={"Share with X"}>
+                    <ShareIcon onClick={handleShare} />
+                  </CustomTooltip>
+                </IconButton>
+                <IconButton color="secondary">
+                  <CustomTooltip title={"Copy"}>
+                    <ContentCopyIcon onClick={handleCopy} />
+                  </CustomTooltip>
+                </IconButton>
+              </Box>
+              <Button onClick={(evt: any) => onClose(evt, "close")}>ACCEPT</Button>
+            </Box>
+          </Box>
+        </Zoom>
+      </Box>
+    </Modal>
   );
 };
 export default CongratsModal;

@@ -21,13 +21,13 @@ import ListMaps from "./maps";
 
 const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
   const { t } = useTranslation();
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<string>("0");
 
   const leaderboardData = useSelector(getLeaderboard);
   const claimeables = useSelector(getClaims)?.claimeables || [];
 
   const handleTab = (newValue: string) => {
-    setValue(value === newValue ? "" : newValue);
+    setValue(value === newValue ? "0" : newValue);
   };
 
   return (
@@ -97,9 +97,10 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
             <TabList
               textColor="inherit"
               variant="scrollable"
-              scrollButtons="auto"
+              scrollButtons={false}
               TabIndicatorProps={{ style: { display: "none" } }}
             >
+              <Tab value="0" className={styled.hiddenTab} />
               <Tab
                 sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
                 onClick={() => handleTab("1")}
