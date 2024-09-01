@@ -17,6 +17,8 @@ import styled from "./styled.module.scss";
 import customAxios from "utils/customAxios";
 import Alert from "components/molecules/alert";
 
+import { auth, provider } from 'config/firebaseConfig';
+/*
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -28,9 +30,9 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
+*/
 const CongratsModal = ({ open = false, data, onClose }: any) => {
-  const auth = getAuth(app);
+  //const auth = getAuth(app);
   const twitterProvider = new TwitterAuthProvider();
   const rewardVideo = data?.rewardVideo ? data?.rewardVideo[0]?.url : null;
 
