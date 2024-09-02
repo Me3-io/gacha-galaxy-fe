@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import Home from "pages/home";
 import Game from "pages/game";
-import Login from "pages/login/index_test";
+import Login from "pages/login";
 
 const languages = ["en", "tr", "pt", "ar", "ko", "ja", "vi", "id", "cn"];
 
