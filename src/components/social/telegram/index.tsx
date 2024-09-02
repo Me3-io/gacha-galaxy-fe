@@ -10,7 +10,7 @@ const TelegramLoginButton: React.FC = () => {
       //setLoading(true);      
       customAxiosLocalTest()
         .post("/user/telegram", {
-          auth_data: `tma ${data.auth_date}:${data.hash}`,
+          auth_data: `tma auth_date=${data.auth_date}&hash=${data.hash}`,
           user_id: data.id,
           first_name: data.first_name,
           last_name: data.last_name
@@ -36,7 +36,7 @@ const TelegramLoginButton: React.FC = () => {
   };
   return (
     <LoginButton
-    botUsername={process.env.REACT_APP_TELEGRAM_BOT_USERNAME ?? "7328826957:AAGAS2wlJeqa78O4uvmbz8BAkEwqXpFxZ10"}
+    botUsername={process.env.REACT_APP_TELEGRAM_BOT_USERNAME ?? "gachagalaxy_bot"}
     onAuthCallback={(data) => fetchTelegram(data)}
     buttonSize="medium" // "large" | "medium" | "small"
     cornerRadius={0} // 0 - 20
