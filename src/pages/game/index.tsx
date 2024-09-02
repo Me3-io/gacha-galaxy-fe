@@ -16,6 +16,7 @@ import GameContainer from "components/organisms/game/container";
 
 import styled from "./styled.module.scss";
 import Alert from "components/molecules/alert";
+import { getGame } from "reduxConfig/thunks/game";
 
 const Game = () => {
   const navigate = useNavigate();
@@ -23,11 +24,12 @@ const Game = () => {
   const { i18n, t } = useTranslation();
   const { code } = useParams();
 
-  const buildings = useSelector(getMaps);
+  const maps = useSelector(getMaps);
   const leaderboard = useSelector(getLeaderboard);
+  const game = useSelector(getGame);
 
   const [onError, setOnError] = useState({ show: false, msg: "" });
-  const [gameData, setGameData] = useState<any>({});
+  const [gameData, setGameData] = useState<any>(game || {});
   const [onPlay, setOnPlay] = useState<boolean>(false);
   const [balance, setBalance] = useState(0);
 
@@ -53,20 +55,26 @@ const Game = () => {
   };
 
   useEffect(() => {
-    if (buildings) {
-      const game =
-        (buildings &&
-          buildings
-            .find((building: any) => building?.games?.find((game: any) => game.code === code))
-            ?.games?.find((game: any) => game.code === code)) ||
-        null;
-
+    if (game) {
       setGameData(game);
     } else {
-      dispatch(fetchMaps() as any);
+      if (maps) {
+        console.log("maps: ", maps);
+
+        /*const game =
+          (maps &&
+            maps
+              .find((building: any) => building?.games?.find((game: any) => game.code === code))
+              ?.games?.find((game: any) => game.code === code)) ||
+          null;
+
+        setGameData(game);*/
+      } else {
+        dispatch(fetchMaps() as any);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [buildings]);
+  }, [game, maps]);
 
   useEffect(() => {
     if (leaderboard) {
@@ -79,7 +87,7 @@ const Game = () => {
 
   useEffect(() => {
     if (!gameData) {
-      navigate(`/${i18n.language}/home/`);
+      //navigate(`/${i18n.language}/home/`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameData]);

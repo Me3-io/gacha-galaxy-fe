@@ -64,8 +64,6 @@ const EarnPoints = ({ setOpen }: any) => {
     .filter((game: any) => game)
     .filter((item: any) => (auxGames[item?._id] ? false : (auxGames[item?._id] = true))); // <- elimino repetidos
 
-  console.log("games", games);
-  
   // filter campaigns data ---
   let auxCampaings: { [key: string]: boolean } = {};
   const campaigns = buildingsData

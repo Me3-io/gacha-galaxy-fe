@@ -14,12 +14,13 @@ import keyIcon from "assets/icons/key.svg";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import styled from "./styled.module.scss";
 import { useContext, useEffect } from "react";
 import { MapContext } from "pages/home";
+import { setGame } from "reduxConfig/slices/game";
 
 const ItemChance = ({ text, percent }: any) => {
   return (
@@ -31,8 +32,8 @@ const ItemChance = ({ text, percent }: any) => {
 };
 
 const GameDetails = () => {
-
-  const { game: details, setGame: setDetails} = useContext(MapContext);
+  const dispatch = useDispatch();
+  const { game: details, setGame: setDetails } = useContext(MapContext);
 
   const open = !!details?.code;
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ const GameDetails = () => {
 
   const goToGame = () => {
     if (!details?.code) return;
+    dispatch(setGame(details));
     navigate(`/${i18n.language}/game/${details.code}`);
   };
 
