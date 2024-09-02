@@ -1,4 +1,3 @@
-// src/GoogleLoginButton.tsx
 import React from 'react';
 import { customAxiosLocalTest }  from "utils/customAxios";
 import { LoginButton, TelegramAuthData } from "@telegram-auth/react";
