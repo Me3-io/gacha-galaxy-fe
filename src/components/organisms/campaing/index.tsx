@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import styled from "./styled.module.scss";
+import { MapContext } from "pages/home";
 
-const Campaing = ({ details, setDetails }: any) => {
+const Campaing = () => {
+  const { campaing: details, setCampaing: setDetails } = useContext(MapContext);
+
   const open = !!details?.claimrId;
 
   const [loading, setLoading] = useState(false);

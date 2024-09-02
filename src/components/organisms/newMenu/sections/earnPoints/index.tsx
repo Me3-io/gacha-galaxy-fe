@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "components/atoms/buttons/base";
@@ -14,11 +14,12 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 
-import { useSelector } from "react-redux";
-import { getBuildings } from "reduxConfig/thunks/buildings";
+//import { useSelector } from "react-redux";
+//import { getMaps } from "reduxConfig/thunks/maps";
 
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
+import { MapContext } from "pages/home";
 
 const MainTable = ({ data, handleClick }: any) => {
   const { t } = useTranslation();
@@ -48,25 +49,29 @@ const MainTable = ({ data, handleClick }: any) => {
   );
 };
 
-const EarnPoints = ({ setOpen, setGame, setCampaing }: any) => {
+const EarnPoints = ({ setOpen }: any) => {
   const { t } = useTranslation();
   const [value, setValue] = useState("1");
   const handleChange = (evt: any, newValue: string) => setValue(newValue);
-  const buildingsData = useSelector(getBuildings) || [];
+
+  const { setGame, setCampaing, map } = useContext(MapContext);
+  const buildingsData = map?.buildings || [];
 
   // filter games data ---
   let auxGames: { [key: string]: boolean } = {};
   const games = buildingsData
     ?.flatMap((building: { games: any }) => building.games)
-    .filter((game: any) => game !== undefined)
-    .filter((item: any) => (auxGames[item._id] ? false : (auxGames[item._id] = true))); // <- elimino repetidos
+    .filter((game: any) => game)
+    .filter((item: any) => (auxGames[item?._id] ? false : (auxGames[item?._id] = true))); // <- elimino repetidos
 
+  console.log("games", games);
+  
   // filter campaigns data ---
   let auxCampaings: { [key: string]: boolean } = {};
   const campaigns = buildingsData
     ?.flatMap((building: { campaigns: any }) => building.campaigns)
-    .filter((campaign: any) => campaign !== undefined)
-    .filter((item: any) => (auxCampaings[item._id] ? false : (auxCampaings[item._id] = true))); // <- elimino repetidos
+    .filter((campaign: any) => campaign)
+    .filter((item: any) => (auxCampaings[item?._id] ? false : (auxCampaings[item?._id] = true))); // <- elimino repetidos
 
   // events ---
   const handlerGameClick = (row: any) => {

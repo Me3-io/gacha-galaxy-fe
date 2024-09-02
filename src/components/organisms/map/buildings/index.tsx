@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { getBuildings } from "reduxConfig/thunks/buildings";
+import { useContext, useEffect, useState } from "react";
+import { MapContext } from "pages/home";
 
 import styled from "../styled.module.scss";
 
@@ -11,8 +10,10 @@ const Buildings = ({
   PATH_GRID,
   CENTER_MAP,
   setLoading,
+  loading,
 }: any) => {
-  const buildingsData = useSelector(getBuildings);
+
+  const { map } = useContext(MapContext);
   const [buildings, setBuildings] = useState<any>([]);
 
   // events ---
@@ -31,7 +32,7 @@ const Buildings = ({
   const loadBuildings = (buildings: any[]) => {
     setLoading(true);
 
-    const data = buildings.map(async (item: any) => ({
+    const data = buildings?.map(async (item: any) => ({
       position: calculatePosition(item.anchorAddress, item.offset),
       order: {
         x: item?.anchorAddress ? parseInt(item.anchorAddress.split(",")[0]) : 0,
@@ -100,51 +101,63 @@ const Buildings = ({
 
   // onload ---
   useEffect(() => {
-    if (buildingsData) loadBuildings(buildingsData);
+    if (map) {
+      loadBuildings(map?.buildings || []);
+    } 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [buildingsData]);
+  }, [map]);
 
   return (
     <>
-      {buildings.map((item: any, pos: number) => (
-        <g
-          key={pos}
-          transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
-          onClick={(evt) => handlerBuilding(evt, item)}
-          onTouchEnd={(evt) => evt.stopPropagation()}
-          className={`${styled.building} ${pos === buildings.length - 1 ? "building-step" : ""}`}
-        >
-          <image
-            style={{
-              cursor: item.games || item.campaing ? "pointer" : "default",
-              opacity: item.opacity,
-            }}
-            x={item.img.width * -1}
-            y={item.img.height * -1}
-            href={item.component}
-            onMouseMove={() => handlerOver(item.name)}
-            onMouseLeave={handlerLeave}
-          />
-
-          {item.partner && (
+      {buildings?.length > 0
+        ? buildings?.map((item: any, pos: number) => (
             <g
-              className={styled.partner}
-              transform={`translate(${item.partner.position.x} ${item.partner.position.y}) scale(${item.partner.scale}) skewY(${item.partner.orientation})`}
-              onMouseMove={() => handlerOver(item.partner.name)}
-              onMouseLeave={handlerLeave}
+              key={pos}
+              transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
+              onClick={(evt) => handlerBuilding(evt, item)}
               onTouchEnd={(evt) => evt.stopPropagation()}
+              className={`${styled.building} ${
+                pos === buildings?.length - 1 ? "building-step" : ""
+              }`}
             >
-              <rect x={0} y={0} width={100} height={120} fill={item.partner.color} />
               <image
-                x={0}
-                y={0}
-                href={item.partner.component}
-                style={{ cursor: "pointer", width: "100px", transform: "translateY(10px)" }}
+                style={{
+                  cursor: item.games || item.campaing ? "pointer" : "default",
+                  opacity: item.opacity,
+                }}
+                x={item.img.width * -1}
+                y={item.img.height * -1}
+                href={item.component}
+                onMouseMove={() => handlerOver(item.name)}
+                onMouseLeave={handlerLeave}
               />
+
+              {item.partner && (
+                <g
+                  className={styled.partner}
+                  transform={`translate(${item.partner.position.x} ${item.partner.position.y}) scale(${item.partner.scale}) skewY(${item.partner.orientation})`}
+                  onMouseMove={() => handlerOver(item.partner.name)}
+                  onMouseLeave={handlerLeave}
+                  onTouchEnd={(evt) => evt.stopPropagation()}
+                >
+                  <rect x={0} y={0} width={100} height={120} fill={item.partner.color} />
+                  <image
+                    x={0}
+                    y={0}
+                    href={item.partner.component}
+                    style={{ cursor: "pointer", width: "100px", transform: "translateY(10px)" }}
+                  />
+                </g>
+              )}
+            </g>
+          ))
+        : !loading && (
+            <g>
+              <text x={CENTER_MAP.x} y={CENTER_MAP.y} fontSize="30" fill="#ddd" textAnchor="middle">
+                sorry, we could not load the map
+              </text>
             </g>
           )}
-        </g>
-      ))}
     </>
   );
 };

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBuildings, getBuildings } from "reduxConfig/thunks/buildings";
+import { fetchMaps, getMaps } from "reduxConfig/thunks/maps";
 import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -23,7 +23,7 @@ const Game = () => {
   const { i18n, t } = useTranslation();
   const { code } = useParams();
 
-  const buildings = useSelector(getBuildings);
+  const buildings = useSelector(getMaps);
   const leaderboard = useSelector(getLeaderboard);
 
   const [onError, setOnError] = useState({ show: false, msg: "" });
@@ -63,7 +63,7 @@ const Game = () => {
 
       setGameData(game);
     } else {
-      dispatch(fetchBuildings() as any);
+      dispatch(fetchMaps() as any);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buildings]);

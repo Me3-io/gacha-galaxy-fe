@@ -18,7 +18,8 @@ import { useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import styled from "./styled.module.scss";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { MapContext } from "pages/home";
 
 const ItemChance = ({ text, percent }: any) => {
   return (
@@ -29,7 +30,10 @@ const ItemChance = ({ text, percent }: any) => {
   );
 };
 
-const GameDetails = ({ details, setDetails }: any) => {
+const GameDetails = () => {
+
+  const { game: details, setGame: setDetails} = useContext(MapContext);
+
   const open = !!details?.code;
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();

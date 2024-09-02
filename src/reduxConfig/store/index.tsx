@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import claim from "reduxConfig/slices/claim";
-import buildings from "reduxConfig/slices/buildings";
+import maps from "reduxConfig/slices/maps";
 import tokenAuth from "reduxConfig/slices/tokenAuth";
 import leaderboard from "reduxConfig/slices/leaderboard";
 import messageAuth from "reduxConfig/slices/messageAuth";
@@ -9,7 +9,7 @@ import messageAuth from "reduxConfig/slices/messageAuth";
 const store = configureStore({
   reducer: {
     claim: claim,
-    buildings: buildings,
+    maps: maps,
     tokenAuth: tokenAuth,
     leaderboard: leaderboard,
     messageAuth: messageAuth,

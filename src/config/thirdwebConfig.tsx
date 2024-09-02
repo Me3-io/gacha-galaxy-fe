@@ -26,7 +26,7 @@ export const appMetadata = {
 
 // wallets ---
 export const wallets = [
-  inAppWallet({ auth: { options: ["email", "google"] } }),
+  inAppWallet({ auth: { options: ["email", "google", "telegram"] } }),
   // @ts-ignore
   createWallet("io.metamask"),
   // @ts-ignore

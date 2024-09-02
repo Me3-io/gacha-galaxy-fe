@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Box } from "@mui/material";
 import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
@@ -9,6 +9,7 @@ import Rewards from "./sections/rewards";
 
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
+import { MapContext } from "pages/home";
 
 
 const SectionItem = ({ children, open, opacity = 1 }: any) => {
@@ -25,7 +26,9 @@ const SectionItem = ({ children, open, opacity = 1 }: any) => {
   );
 };
 
-const MainPanel = ({ showBack = false, goToMap, setGame, setCampaing, setOpenTokens }: any) => {
+const MainPanel = ({ showBack = false, goToMap, setOpenTokens }: any) => {
+  
+  const { setGame, setCampaing } = useContext(MapContext);
   const { t } = useTranslation();
   const [openPoints, setOpenPoints] = useState(false);
 

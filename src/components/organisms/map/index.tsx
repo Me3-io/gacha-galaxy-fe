@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { useTour } from "@reactour/tour";
 import { useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+import { MapContext } from "pages/home";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
@@ -23,7 +24,10 @@ const CENTER_MAP = { x: 600, y: 950 };
 
 const isMobile = navigator.userAgent.includes("Mobi");
 
-const InteractiveMap = ({ setGames, setCampaings }: any) => {
+const InteractiveMap = () => {
+
+  const { setListGames, setListCampaings } = useContext(MapContext);
+
   const Viewer = useRef<any>(null);
   const { t } = useTranslation();
   const { setIsOpen, setCurrentStep } = useTour();
@@ -160,8 +164,8 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
   };
 
   const handlerBuildingClick = (games: any, campaings: any) => {
-    setGames(games);
-    setCampaings(campaings);
+    setListGames(games);
+    setListCampaings(campaings);
     setTooltipData({ visible: false, text: "" });
   };
 
@@ -253,6 +257,7 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
                 handlerOver={handlerOver}
                 handlerLeave={handlerLeave}
                 setLoading={setLoading}
+                loading={loading}
                 PATH_GRID={PATH_GRID}
                 CENTER_MAP={CENTER_MAP}
               />

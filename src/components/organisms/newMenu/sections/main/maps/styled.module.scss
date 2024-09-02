@@ -7,11 +7,20 @@
     gap: 1rem;
     align-items: center;
 
+    &.active {
+      .title,
+      .desc {
+        color: #db74ff;
+      }
+      background-color: #db74ff22;
+    }
+
     & > div {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       gap: 0.25rem;
+      flex: 1;
 
       .title,
       .desc {
@@ -27,6 +36,8 @@
       .desc {
         font-family: "ChakraPetchLight";
         font-size: 0.9rem;
+        overflow: hidden;
+        max-height: 65px;
       }
     }
 
