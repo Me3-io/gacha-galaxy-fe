@@ -8,14 +8,13 @@ import Button from "components/atoms/buttons/default";
 import Logo from "assets/logo.svg";
 import LogoGacha from "assets/logo-gacha.svg";
 
-import { LoginButton, TelegramAuthData } from "@telegram-auth/react";
-
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
 import waitForElement from "utils/waitForElement";
 import ModalLegal from "components/molecules/legal";
 import { useState } from "react";
-import customAxios, { customAxiosLocalTest }  from "utils/customAxios";
+import TelegramLoginButton from 'components/social/telegram';
+import GoogleLoginButton from 'components/social/google';
 
 const Login = () => {
   const { t } = useTranslation();
@@ -50,38 +49,6 @@ const Login = () => {
     }
   };
 
-  const fetchTelegram = (data: TelegramAuthData) => {
-    console.log(data);
-    //if (!poolInfo.telegram_completed) {
-      //setLoading(true);      
-      customAxiosLocalTest()
-        .post("/user/telegram", {
-          user_id: data.id,
-          first_name: data.first_name,
-          last_name: data.last_name,
-          auth_date: data.auth_date,
-          hash: data.hash
-        })
-        .then((response) => {
-          //setLoading(false);
-          alert(response);
-          if (response?.data?.status === "error") {
-            
-            //setShowAlertInfo({ open: true, text: response?.data?.message || "error" });
-          } else {
-            //setOpenSuccessModal(completeTelegram);
-          }
-        })
-        .catch((error) => {
-          //setLoading(false);
-          console.error(error);
-        });
-        /*
-    } else {
-      setOpenSuccessModal(completeTelegram);
-    }*/
-  };
-
   return (
     <Layout>
       <Container maxWidth={false} disableGutters={true}>
@@ -99,14 +66,8 @@ const Login = () => {
 
             <Button onClick={handleConnect}>{t("enter-game")}</Button>
 
-            <LoginButton
-                botUsername={process.env.REACT_APP_TELEGRAM_BOT_USERNAME ?? "7328826957:AAGAS2wlJeqa78O4uvmbz8BAkEwqXpFxZ10"}
-                onAuthCallback={(data) => fetchTelegram(data)}
-                buttonSize="medium" // "large" | "medium" | "small"
-                cornerRadius={0} // 0 - 20
-                showAvatar={false} // true | false
-                lang="en"
-              />
+            <TelegramLoginButton />
+            <GoogleLoginButton />
 
           </Box>          
         </Box>
