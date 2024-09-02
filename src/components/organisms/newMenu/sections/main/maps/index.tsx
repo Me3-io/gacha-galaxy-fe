@@ -1,9 +1,10 @@
+import { useParams } from "react-router-dom";
+import { useContext } from "react";
 import { Box, ButtonBase, Fade, Stack, Typography } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import styled from "./styled.module.scss";
 
 import iconMap from "assets/icons/iconMap.svg";
-import { useContext } from "react";
 import { MapContext } from "pages/home";
 
 const MapItem = ({ thumbnail, title, description, active, onClick }: any) => {
@@ -20,7 +21,13 @@ const MapItem = ({ thumbnail, title, description, active, onClick }: any) => {
 };
 
 const ListMaps = () => {
+  const { lang } = useParams();
   const { listMaps, map: activeMap, setMap } = useContext(MapContext);
+
+  const handleMap = (map: any) => {
+    setMap(map);
+    window.history.replaceState(null, "", `/${lang}/home/${map.code}`);
+  };
 
   return (
     <Fade in={true} timeout={500}>
@@ -30,7 +37,7 @@ const ListMaps = () => {
             <MapItem
               key={pos}
               {...map}
-              onClick={() => { console.log(map); setMap(map) }}
+              onClick={() => handleMap(map)}
               active={activeMap.code === map.code}
             />
           ))}

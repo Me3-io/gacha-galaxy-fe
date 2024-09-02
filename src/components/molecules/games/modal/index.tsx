@@ -4,8 +4,8 @@ import Button from "components/atoms/buttons/default";
 import capsuleIcon from "assets/icons/capsule.svg";
 import CustomTooltip from "components/atoms/materialTooltip";
 
-import { initializeApp } from "firebase/app";
-import { TwitterAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
+//import { initializeApp } from "firebase/app";
+import { TwitterAuthProvider, signInWithPopup/*, getAuth*/ } from "firebase/auth";
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ShareIcon from "@mui/icons-material/Share";
@@ -17,7 +17,7 @@ import useAlert from "hooks/alertProvider/useAlert";
 
 import styled from "./styled.module.scss";
 
-import { auth, provider } from 'config/firebaseConfig';
+import { auth } from 'config/firebaseConfig';
 /*
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,

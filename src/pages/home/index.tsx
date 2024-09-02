@@ -20,6 +20,7 @@ import Campaign from "components/organisms/campaing";
 import GameDetails from "components/organisms/gameDetails";
 import MainPanel from "components/organisms/newMenu";
 import NFTChekout from "components/molecules/NFTChekout";
+import { useParams } from "react-router-dom";
 
 //import TourModal from "components/organisms/tour";
 
@@ -42,6 +43,7 @@ export const MapContext = createContext(initialState);
 
 const Home = () => {
   const { t } = useTranslation();
+  const { map: urlMap } = useParams();
   const dispatch = useDispatch();
   const buildingsData = useSelector(getMaps);
 
@@ -69,13 +71,18 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   useEffect(() => {
     if (buildingsData?.length > 0) {
       setListMaps(buildingsData);
-      setMap(buildingsData[0]);
+
+      if (urlMap) {
+        const map = buildingsData.find((map: any) => map.code === urlMap);
+        setMap(map);
+      } else {
+        setMap(buildingsData[0]);
+      }
     }
-  }, [buildingsData]);
+  }, [buildingsData, urlMap]);
 
   return (
     <ReactTourProvider>
