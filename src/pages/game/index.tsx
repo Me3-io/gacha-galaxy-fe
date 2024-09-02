@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMaps, getMaps } from "reduxConfig/thunks/maps";
 import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -14,17 +13,19 @@ import Layout from "components/templates/layout";
 import GameBar from "components/organisms/game/bar";
 import GameContainer from "components/organisms/game/container";
 
-import styled from "./styled.module.scss";
 import Alert from "components/molecules/alert";
+import useAlert from "hooks/alertProvider/useAlert";
 import { getGame } from "reduxConfig/thunks/game";
+
+import styled from "./styled.module.scss";
 
 const Game = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   const { code } = useParams();
+  const { setAlert } = useAlert();
 
-  const maps = useSelector(getMaps);
   const leaderboard = useSelector(getLeaderboard);
   const game = useSelector(getGame);
 
@@ -34,7 +35,7 @@ const Game = () => {
   const [balance, setBalance] = useState(0);
 
   const handleBack = () => {
-    navigate(`/${i18n.language}/home`);
+    navigate(-1);
   };
 
   const handleEnd = (response: any) => {
@@ -58,23 +59,12 @@ const Game = () => {
     if (game) {
       setGameData(game);
     } else {
-      if (maps) {
-        console.log("maps: ", maps);
-
-        /*const game =
-          (maps &&
-            maps
-              .find((building: any) => building?.games?.find((game: any) => game.code === code))
-              ?.games?.find((game: any) => game.code === code)) ||
-          null;
-
-        setGameData(game);*/
-      } else {
-        dispatch(fetchMaps() as any);
-      }
+      const listGames = JSON.parse(localStorage.getItem("games") || "");
+      const game = listGames.find((game: any) => game.code === code) || null;
+      setGameData(game);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [game, maps]);
+  }, [game]);
 
   useEffect(() => {
     if (leaderboard) {
@@ -86,9 +76,8 @@ const Game = () => {
   }, [leaderboard]);
 
   useEffect(() => {
-    if (!gameData) {
-      //navigate(`/${i18n.language}/home/`);
-    }
+    if (!gameData) setAlert("Game not found", "error");
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameData]);
 

@@ -13,6 +13,8 @@ import styled from "./styled.module.scss";
 import waitForElement from "utils/waitForElement";
 import ModalLegal from "components/molecules/legal";
 import { useState } from "react";
+import TelegramLoginButton from 'components/social/telegram';
+import GoogleLoginButton from 'components/social/google';
 
 const Login = () => {
   const { t } = useTranslation();
@@ -41,9 +43,11 @@ const Login = () => {
   const openModal = async () => {
     try {
       waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
-      await connect({ ...modalConfig, size: "wide" });
+      const response = await connect({ ...modalConfig, size: "wide" });
+      console.log("response: ", response.getAccount(), response.getConfig(), response.getChain());
+
     } catch (error) {
-      console.error(error);
+      console.error(error); 
     }
   };
 
@@ -59,11 +63,15 @@ const Login = () => {
         <Box className={styled.main}>
           <Box className={styled.container}>
             <Box className={styled.mainLogo}>
-              <img src={LogoGacha} alt="Gacha Galaxy" />
+              <img src={LogoGacha} alt="Gacha Galaxyyyy" />
             </Box>
 
             <Button onClick={handleConnect}>{t("enter-game")}</Button>
-          </Box>
+
+            <TelegramLoginButton />
+            <GoogleLoginButton />
+
+          </Box>          
         </Box>
       </Container>
 

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "components/atoms/buttons/base";
@@ -64,6 +64,8 @@ const EarnPoints = ({ setOpen }: any) => {
     .filter((game: any) => game)
     .filter((item: any) => (auxGames[item?._id] ? false : (auxGames[item?._id] = true))); // <- elimino repetidos
 
+
+  
   // filter campaigns data ---
   let auxCampaings: { [key: string]: boolean } = {};
   const campaigns = buildingsData
@@ -79,6 +81,10 @@ const EarnPoints = ({ setOpen }: any) => {
   const handlerCampaingClick = (row: any) => {
     setCampaing(row);
   };
+
+  useEffect(() => {
+    localStorage.setItem("games", JSON.stringify(games));
+  }, [games]);
 
   return (
     <Grid container flexDirection="column" className={styled.main}>

@@ -38,7 +38,7 @@ const ListMaps = () => {
               key={pos}
               {...map}
               onClick={() => handleMap(map)}
-              active={activeMap.code === map.code}
+              active={activeMap?.code === map?.code}
             />
           ))}
         </Stack>
