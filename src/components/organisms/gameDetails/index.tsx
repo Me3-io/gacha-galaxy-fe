@@ -21,6 +21,7 @@ import styled from "./styled.module.scss";
 import { useContext, useEffect } from "react";
 import { MapContext } from "pages/home";
 import { setGame } from "reduxConfig/slices/game";
+import waitForElement from "utils/waitForElement";
 
 const ItemChance = ({ text, percent }: any) => {
   return (
@@ -60,12 +61,18 @@ const GameDetails = () => {
   };
 
   useEffect(() => {
-    const rewardsContainer = document.querySelector("#rewards");
-    rewardsContainer?.addEventListener("wheel", (e: any) => {
-      e.preventDefault();
-      rewardsContainer.scrollLeft += e?.deltaY;
+    if (!open) return;
+
+    waitForElement("#rewards").then((element: any) => {
+      const handleWheel = (evt: any) => {
+        evt.preventDefault();
+        element.scrollLeft += evt?.deltaY;
+      };
+
+      element.addEventListener("wheel", handleWheel);
+      return () => element.removeEventListener("wheel", handleWheel);
     });
-  }, []);
+  }, [open]);
 
   return (
     <Modal open={open} onClose={onClose} className={styled.modalContainer}>

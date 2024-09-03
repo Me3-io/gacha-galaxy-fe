@@ -19,7 +19,7 @@ import { clearAuthToken } from "reduxConfig/slices/tokenAuth";
 import { clearMessageAuth } from "reduxConfig/slices/messageAuth";
 
 import CustomTooltip from "components/atoms/materialTooltip";
-import Alert from "../alert";
+import useAlert from "hooks/alertProvider/useAlert";
 
 import LogoutIcon from "@mui/icons-material/Logout";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -30,10 +30,10 @@ import styled from "./styled.module.scss";
 const LoginBar = () => {
   const tokenLS = localStorage.getItem("session.token");
   const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
+  const { setAlert } = useAlert();
 
   const [loadSigning, setLoadSigning] = useState(false);
   const [signMessage, setSignedMessage] = useState("");
-  const [onError, setOnError] = useState({ show: false, msg: "" });
 
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ const LoginBar = () => {
       setSignedMessage(response);
     } catch (error) {
       logout();
-      setOnError({ show: true, msg: t("login-error-rejected") });
+      setAlert(t("login-error-rejected"), "error");
     }
   };
 
@@ -90,7 +90,7 @@ const LoginBar = () => {
           if (response?.message) {
             signedMessage(response.message);
           } else {
-            setOnError({ show: true, msg: t("login-error-request") });
+            setAlert(t("login-error-request"), "error");
             console.error("Error to challenge request: ", response);
             logout();
           }
@@ -111,7 +111,7 @@ const LoginBar = () => {
           setSignedMessage("");
           navigate(`/${i18n.language}/home/`);
         } else {
-          setOnError({ show: true, msg: t("login-error-verify") });
+          setAlert(t("login-error-verify"), "error");
           console.error("Error to challenge verify: ", response);
           logout();
         }
@@ -160,12 +160,6 @@ const LoginBar = () => {
             <LogoutIcon onClick={logout} />
           </CustomTooltip>
         </Box>
-      )}
-
-      {onError.show && (
-        <Alert onClose={() => setOnError({ show: false, msg: "" })}>
-          {onError.msg || "Error to login."}
-        </Alert>
       )}
     </>
   );

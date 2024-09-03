@@ -22,13 +22,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useActiveAccount, useConnectModal } from "thirdweb/react";
 
-import { useTranslation } from "react-i18next";
-//import Alert from "components/molecules/alert";
 import waitForElement from "utils/waitForElement";
 import customAxios from "utils/customAxios";
 import { format } from "date-fns";
 import useAlert from "hooks/alertProvider/useAlert";
 
+import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
 
 const RewardButton = ({ reward }: any) => {
@@ -42,7 +41,7 @@ const RewardButton = ({ reward }: any) => {
   const dispatch = useDispatch();
 
   const { setAlert } = useAlert();
-  
+
   // @ts-ignore
   const contract = getContract({
     client,
@@ -108,7 +107,6 @@ const RewardButton = ({ reward }: any) => {
             dispatch(fetchClaims() as any);
           })
           .catch((error: any) => {
-
             setAlert(error?.response?.data?.message || error?.message || "error", "error");
           });
       }
@@ -158,7 +156,6 @@ const MainTable = ({ data }: any) => {
 
 const Rewards = ({ setOpen }: any) => {
   const { t } = useTranslation();
-  //const [onAlert, setOnAlert] = useState({ show: false, severity: "error", msg: "" });
 
   const [value, setValue] = useState("1");
   const handleChange = (evt: any, newValue: string) => setValue(newValue);
@@ -201,15 +198,6 @@ const Rewards = ({ setOpen }: any) => {
           </TabContext>
         </Box>
       </Grid>
-
-      {/*onAlert.show && (
-        <Alert
-          severity={onAlert.severity}
-          onClose={() => setOnAlert({ show: false, severity: "error", msg: "" })}
-        >
-          {onAlert.msg || "Error"}
-        </Alert>
-      )*/}
     </>
   );
 };

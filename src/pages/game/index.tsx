@@ -13,7 +13,6 @@ import Layout from "components/templates/layout";
 import GameBar from "components/organisms/game/bar";
 import GameContainer from "components/organisms/game/container";
 
-import Alert from "components/molecules/alert";
 import useAlert from "hooks/alertProvider/useAlert";
 import { getGame } from "reduxConfig/thunks/game";
 
@@ -29,7 +28,6 @@ const Game = () => {
   const leaderboard = useSelector(getLeaderboard);
   const game = useSelector(getGame);
 
-  const [onError, setOnError] = useState({ show: false, msg: "" });
   const [gameData, setGameData] = useState<any>(game || {});
   const [onPlay, setOnPlay] = useState<boolean>(false);
   const [balance, setBalance] = useState(0);
@@ -49,7 +47,7 @@ const Game = () => {
 
   const handlePlay = () => {
     if (balance === 0 || balance - gameData?.price < 0) {
-      setOnError({ show: true, msg: t("game-no-balance") });
+      setAlert(t("game-no-balance"), "error");
     } else {
       setOnPlay(true);
     }
@@ -116,12 +114,6 @@ const Game = () => {
             />
           </Grid>
         </Grid>
-
-        {onError.show && (
-          <Alert onClose={() => setOnError({ show: false, msg: "" })}>
-            {onError.msg || "Error"}
-          </Alert>
-        )}
       </Container>
     </Layout>
   );

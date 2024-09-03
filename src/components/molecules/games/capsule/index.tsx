@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Fade } from "@mui/material";
 import useResizeObserver from "use-resize-observer";
 
+import useAlert from "hooks/alertProvider/useAlert";
 import customAxios from "utils/customAxios";
-import Alert from "components/molecules/alert";
 import CongratsModal from "components/molecules/games/modal";
 
 import styled from "./styled.module.scss";
@@ -11,6 +11,7 @@ import styled from "./styled.module.scss";
 // resources ---
 import machine from "assets/games/capsule/machine_front_view.png";
 import machineEmpty from "assets/games/capsule/machine_front_view_empty.png";
+
 const urlAnimation = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Game_Animation.mp4`;
 const urlSuccess = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Animation_Success.mp4`;
 // rewards ---
@@ -40,10 +41,11 @@ const initialState: State = {
 const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
   const { ref, height } = useResizeObserver();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { setAlert } = useAlert();
 
   const [gameState, setGameState] = useState<State>(initialState);
   const [onSuccess, setOnSuccess] = useState(false);
-  const [onError, setOnError] = useState({ show: false, msg: "" });
+
   const [response, setResponse] = useState<any>(null);
   const [modal, setModal] = useState({ open: false, data: {} });
 
@@ -92,8 +94,6 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
 
   // game actions ---
   const nextStep = () => {
-    if (onError.show) return;
-
     switch (gameState.status) {
       case "init":
         setGameState(states.load);
@@ -134,7 +134,7 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
   };
 
   const errorGame = (error?: string) => {
-    setOnError({ show: true, msg: "Error to play game." });
+    setAlert("Error to play game.", "error");
     setTimeout(() => {
       setGameState(states.ready);
       if (videoRef?.current) videoRef?.current?.pause();
@@ -224,12 +224,6 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
         </Box>
 
         <CongratsModal {...modal} onClose={() => setModal({ open: false, data: {} })} />
-
-        {onError.show && (
-          <Alert onClose={() => setOnError({ show: false, msg: "" })}>
-            {onError.msg || "Error."}
-          </Alert>
-        )}
       </Box>
     </Fade>
   );
