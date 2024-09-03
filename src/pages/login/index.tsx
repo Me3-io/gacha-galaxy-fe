@@ -41,7 +41,8 @@ const Login = () => {
   const openModal = async () => {
     try {
       waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
-      await connect({ ...modalConfig, size: "wide" });
+      const response = await connect({ ...modalConfig, size: "wide" });
+      console.log("method: ", response.id);
     } catch (error) {
       console.error(error);
     }

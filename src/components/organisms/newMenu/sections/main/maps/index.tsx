@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useContext } from "react";
 import { Box, ButtonBase, Fade, Stack, Typography } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -23,10 +23,11 @@ const MapItem = ({ thumbnail, title, description, active, onClick }: any) => {
 const ListMaps = () => {
   const { lang } = useParams();
   const { listMaps, map: activeMap, setMap } = useContext(MapContext);
-
+  const navigate = useNavigate();
+  
   const handleMap = (map: any) => {
     setMap(map);
-    window.history.replaceState(null, "", `/${lang}/home/${map.code}`);
+    navigate(`/${lang}/home/${map.code}`);
   };
 
   return (

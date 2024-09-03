@@ -20,7 +20,7 @@ import Campaign from "components/organisms/campaing";
 import GameDetails from "components/organisms/gameDetails";
 import MainPanel from "components/organisms/newMenu";
 import NFTChekout from "components/molecules/NFTChekout";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 //import TourModal from "components/organisms/tour";
 
@@ -43,17 +43,18 @@ export const MapContext = createContext(initialState);
 
 const Home = () => {
   const { t } = useTranslation();
-  const { map: urlMap } = useParams();
+  const { lang, map: urlMap, building } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const buildingsData = useSelector(getMaps);
 
   const [listMaps, setListMaps] = useState([]);
   const [listGames, setListGames] = useState([]);
   const [listCampaings, setListCampaings] = useState([]);
 
-  const [map, setMap] = useState({});
-  const [game, setGame] = useState({});
-  const [campaing, setCampaing] = useState({});
+  const [map, setMap] = useState<any>({});
+  const [game, setGame] = useState<any>({});
+  const [campaing, setCampaing] = useState<any>({});
   const [openTokens, setOpenTokens] = useState(false);
 
   const goToLeaderboard = () => window.scrollTo(0, document.body.scrollHeight);
@@ -62,6 +63,7 @@ const Home = () => {
   const handleClose = () => {
     setListGames([]);
     setListCampaings([]);
+    navigate(`/${lang}/home/${map?.code}`);
   };
 
   useEffect(() => {
@@ -78,10 +80,17 @@ const Home = () => {
       if (urlMap) {
         const map = buildingsData.find((map: any) => map.code === urlMap);
         setMap(map);
+        if (building) {
+          const buildingData = map.buildings.find((item: any) => item.code === building);
+          setListGames(buildingData?.games || []);
+          setListCampaings(buildingData?.campaigns || []);
+        }
       } else {
         setMap(buildingsData[0]);
+        navigate(buildingsData[0].code);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buildingsData, urlMap]);
 
   return (

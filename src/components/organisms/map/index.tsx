@@ -16,6 +16,7 @@ import { useTour } from "@reactour/tour";
 import { useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 import { MapContext } from "pages/home";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
@@ -25,8 +26,9 @@ const CENTER_MAP = { x: 600, y: 950 };
 const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = () => {
-
-  const { setListGames, setListCampaings } = useContext(MapContext);
+  const { setListGames, setListCampaings, map } = useContext(MapContext);
+  const { lang } = useParams();
+  const navigate = useNavigate();
 
   const Viewer = useRef<any>(null);
   const { t } = useTranslation();
@@ -163,10 +165,11 @@ const InteractiveMap = () => {
     }*/
   };
 
-  const handlerBuildingClick = (games: any, campaings: any) => {
+  const handlerBuildingClick = (games: any, campaings: any, code: string) => {
     setListGames(games);
     setListCampaings(campaings);
     setTooltipData({ visible: false, text: "" });
+    navigate(`/${lang}/home/${map.code}/${code}`);
   };
 
   const handlerOver = (text: any) => {

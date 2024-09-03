@@ -47,6 +47,7 @@ const AppRouter = () => {
       <Route path="/:lang" element={<Login />} />
       <Route path="/:lang/home/" element={Secure(<Home />)} />
       <Route path="/:lang/home/:map" element={Secure(<Home />)} />
+      <Route path="/:lang/home/:map/:building" element={Secure(<Home />)} />
       <Route path="/:lang/game/:code" element={Secure(<Game />)} />
     </Routes>
   );

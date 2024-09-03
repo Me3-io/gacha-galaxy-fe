@@ -21,7 +21,7 @@ const Leaderboard = () => {
   return (
     <Grid container component="section" flexDirection="column" className={styled.main}>
       <Fade in={true} timeout={500}>
-        <Box p={1} className={`${styled.container} leaderboard-step`}>
+        <Box p={1} className={styled.container} >
           <Box className={styled.listData}>
             <Box className={styled.border}></Box>
             <TableContainer className={styled.table}>

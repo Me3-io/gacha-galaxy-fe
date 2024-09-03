@@ -33,7 +33,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
   return (
     <Box className={styled.main}>
       {/* user points and keys */}
-      <Box className={styled.row} px={2} py={1}>
+      <Box className={`${styled.row} points-step`} px={2} py={1}>
         <Box className={styled.item} pr={2}>
           <Box>
             <Box display={"flex"} alignItems={"center"} gap={1}>
@@ -106,6 +106,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
                 onClick={() => handleTab("1")}
                 label="Leaderboard"
                 value="1"
+                className="leaderboard-step"
               />
               <Tab
                 sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}

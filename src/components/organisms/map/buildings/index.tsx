@@ -19,7 +19,7 @@ const Buildings = ({
   // events ---
   const handlerBuilding = (evt: any, item: any) => {
     evt.stopPropagation();
-    item.games && handlerBuildingClick(item.games, item.campaigns);
+    handlerBuildingClick(item.games, item.campaigns, item.code);
   };
 
   const getResource = async (url: string) => {
@@ -33,6 +33,7 @@ const Buildings = ({
     setLoading(true);
 
     const data = buildings?.map(async (item: any) => ({
+      code: item.code,
       position: calculatePosition(item.anchorAddress, item.offset),
       order: {
         x: item?.anchorAddress ? parseInt(item.anchorAddress.split(",")[0]) : 0,
