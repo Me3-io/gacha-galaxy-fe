@@ -13,8 +13,8 @@ import styled from "./styled.module.scss";
 import waitForElement from "utils/waitForElement";
 import ModalLegal from "components/molecules/legal";
 import { useState } from "react";
-import TelegramLoginButton from 'components/social/telegram';
-import GoogleLoginButton from 'components/social/google';
+import TelegramLoginButton from 'components/organisms/social/telegram';
+import GoogleLoginButton from 'components/organisms/social/google';
 
 const Login = () => {
   const { t } = useTranslation();
