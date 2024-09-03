@@ -90,6 +90,7 @@ const InteractiveMap = () => {
             ${posX + PATH_GRID},${posY} 
             ${posX + PATH_GRID / 2},${posY + PATH_GRID / 4}
             `}
+          stroke={map?.gridColor ? map?.gridColor : "#ba00fb"}
           className={styled.gridpath}
           //style={{ strokeOpacity: opacity }}
         />
