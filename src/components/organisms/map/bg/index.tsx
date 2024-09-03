@@ -8,8 +8,8 @@ const MapBg = ({ CENTER_MAP }: any) => {
   const [component, setComponent] = useState<string | null>(null);
 
   const position = {
-    x: parseInt(map?.offset.split(",")[0]) || 0,
-    y: parseInt(map?.offset.split(",")[1]) || 0,
+    x: (parseInt(map?.offset.split(",")[0]) || 0) + CENTER_MAP.x,
+    y: (parseInt(map?.offset.split(",")[1]) || 0) + CENTER_MAP.y,
   };
 
   const getResource = async (url: string) => {
@@ -37,9 +37,9 @@ const MapBg = ({ CENTER_MAP }: any) => {
           className={styled.bg}
         >
           <image
-            style={{ opacity: map.alpha }}
-            x={map.img.width}
-            y={map.img.height}
+            style={{ opacity: map?.alpha || 1 }}
+            x={map.svg[0].width * -1}
+            y={map.svg[0].height * -1}
             href={component}
           />
         </g>

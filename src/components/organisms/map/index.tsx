@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 import { MapContext } from "pages/home";
 import { useNavigate, useParams } from "react-router-dom";
+import MapBg from "./bg";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
@@ -253,8 +254,12 @@ const InteractiveMap = () => {
           //onClick={(evt) => console.log("click", evt)}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
+            {map?.svg && (
+              <g className="bg">
+                <MapBg CENTER_MAP={CENTER_MAP} />
+              </g>
+            )}
             <g className="grid">{renderGrid}</g>
-
             <g className={styled.buildings}>
               <Buildings
                 handlerBuildingClick={handlerBuildingClick}
