@@ -171,7 +171,9 @@ const InteractiveMap = () => {
     setListGames(games);
     setListCampaings(campaings);
     setTooltipData({ visible: false, text: "" });
-    navigate(`/${lang}/home/${map.code}/${code}`);
+    if (games?.length || campaings?.length) {
+      navigate(`/${lang}/home/${map.code}/${code}`);
+    }
   };
 
   const handlerOver = (text: any) => {
