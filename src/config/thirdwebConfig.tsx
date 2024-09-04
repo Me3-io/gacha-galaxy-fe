@@ -7,7 +7,7 @@ import { darkTheme } from "thirdweb/react";
 export const theme = darkTheme({
   colors: {
     modalOverlayBg: "#00000040",
-    modalBg: "#000000dd",
+    modalBg: "#000000cc",
     borderColor: "#ba00fb",
   },
   fontFamily: "ChakraPetchLight",

@@ -6,6 +6,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CreateIcon from "@mui/icons-material/Create";
 import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import WalletIcon from "@mui/icons-material/Wallet";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
@@ -14,6 +15,8 @@ import customAxios from "utils/customAxios";
 import Button from "components/atoms/buttons/base";
 import CustomTooltip from "components/atoms/materialTooltip";
 
+import { useActiveWallet, useWalletDetailsModal } from "thirdweb/react";
+import { modalConfig } from "config/thirdwebConfig";
 import { useTranslation } from "react-i18next";
 import useAlert from "hooks/alertProvider/useAlert";
 
@@ -22,6 +25,8 @@ import styled from "../styled.module.scss";
 const Profile = ({ setOpen }: any) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const detailsModal = useWalletDetailsModal();
+  const wallet = useActiveWallet();
 
   const leaderboardData = useSelector(getLeaderboard);
   const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
@@ -63,7 +68,11 @@ const Profile = ({ setOpen }: any) => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(accountLS?.address || "");
-    setAlert("Copy to clipboard", "success");
+    setAlert("Copy address to clipboard", "success");
+  };
+
+  const handleDetails = () => {
+    if (wallet) detailsModal.open({ ...modalConfig });
   };
 
   useEffect(() => {
@@ -128,6 +137,9 @@ const Profile = ({ setOpen }: any) => {
 
               <CustomTooltip title={t("copy-address")}>
                 <ContentCopyIcon sx={{ cursor: "pointer" }} onClick={handleCopy} />
+              </CustomTooltip>
+              <CustomTooltip title={"Wallet Info"}>
+                <WalletIcon sx={{ cursor: "pointer" }} onClick={handleDetails} />
               </CustomTooltip>
             </Box>
           </Box>

@@ -9,6 +9,7 @@ import {
   useActiveAccount,
   useWalletDetailsModal,
   ConnectButton,
+  useAutoConnect,
 } from "thirdweb/react";
 
 import { chain, client, modalConfig } from "config/thirdwebConfig";
@@ -45,10 +46,13 @@ const LoginBar = () => {
   const location = useLocation();
 
   const { disconnect } = useDisconnect();
+
   const detailsModal = useWalletDetailsModal();
   const wallet = useActiveWallet();
   const account = useActiveAccount() || accountLS;
   const status = useActiveWalletConnectionStatus();
+
+  const { isLoading } = useAutoConnect({ client });
 
   const dataMessageAuth = useSelector(selectMessageAuth);
 
@@ -75,8 +79,13 @@ const LoginBar = () => {
     }
   };
 
-  const details = () => {
+  const handleDetails = () => {
     if (wallet) detailsModal.open({ ...modalConfig });
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(account?.address || "");
+    setAlert("Copy address to clipboard", "success");
   };
 
   useEffect(() => {
@@ -131,6 +140,14 @@ const LoginBar = () => {
   }, [tokenLS, account, status]);
 
   useEffect(() => {
+    const isLoginView = !location.pathname.split("/")[2];
+    if (!isLoading && !isLoginView && status === "disconnected") {
+      logout();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, status]);
+
+  useEffect(() => {
     window.addEventListener("logout", () => logout());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -149,15 +166,13 @@ const LoginBar = () => {
               <span>{`${account?.address?.slice(0, 8)}...${account?.address?.slice(-8)}`}</span>
 
               <CustomTooltip title={t("copy-address")}>
-                <ContentCopyIcon
-                  onClick={() => navigator.clipboard.writeText(account?.address || "")}
-                />
+                <ContentCopyIcon onClick={handleCopy} />
               </CustomTooltip>
-              <CustomTooltip title={"wallet info"}>
-                <WalletIcon onClick={details}></WalletIcon>
+              <CustomTooltip title={"Wallet Info"}>
+                <WalletIcon onClick={handleDetails} />
               </CustomTooltip>
 
-              <Box sx={{ display: "none" }}>
+              <Box display={"none"}>
                 <ConnectButton client={client} />
               </Box>
             </>
