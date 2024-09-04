@@ -7,8 +7,11 @@ import {
   useActiveWallet,
   useActiveWalletConnectionStatus,
   useActiveAccount,
+  useWalletDetailsModal,
+  ConnectButton,
 } from "thirdweb/react";
-import { chain } from "config/thirdwebConfig";
+
+import { chain, client, modalConfig } from "config/thirdwebConfig";
 
 import { useTranslation } from "react-i18next";
 
@@ -24,6 +27,7 @@ import useAlert from "hooks/alertProvider/useAlert";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
+import WalletIcon from "@mui/icons-material/Wallet";
 
 import styled from "./styled.module.scss";
 
@@ -41,6 +45,7 @@ const LoginBar = () => {
   const location = useLocation();
 
   const { disconnect } = useDisconnect();
+  const detailsModal = useWalletDetailsModal();
   const wallet = useActiveWallet();
   const account = useActiveAccount() || accountLS;
   const status = useActiveWalletConnectionStatus();
@@ -70,14 +75,9 @@ const LoginBar = () => {
     }
   };
 
-  /*const checkSession = () => {
-    customAxios()
-      .get("/user/validatesession")
-      .catch((error: any) => {
-        console.error("session error ", error);
-        logout();
-      });
-  };*/
+  const details = () => {
+    if (wallet) detailsModal.open({ ...modalConfig });
+  };
 
   useEffect(() => {
     const address = account?.address;
@@ -97,6 +97,7 @@ const LoginBar = () => {
         }
       );
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, status]);
 
@@ -125,6 +126,7 @@ const LoginBar = () => {
     if (isLoginView && account && tokenLS) {
       navigate(`/${i18n.language}/home/`);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenLS, account, status]);
 
@@ -151,6 +153,13 @@ const LoginBar = () => {
                   onClick={() => navigator.clipboard.writeText(account?.address || "")}
                 />
               </CustomTooltip>
+              <CustomTooltip title={"wallet info"}>
+                <WalletIcon onClick={details}></WalletIcon>
+              </CustomTooltip>
+
+              <Box sx={{ display: "none" }}>
+                <ConnectButton client={client} />
+              </Box>
             </>
           )}
 
