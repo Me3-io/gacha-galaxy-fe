@@ -34,7 +34,7 @@ const ItemChance = ({ text, percent }: any) => {
 
 const GameDetails = () => {
   const dispatch = useDispatch();
-  const { game: details, setGame: setDetails } = useContext(MapContext);
+  const { game: details, setGame: setDetails, map } = useContext(MapContext);
 
   const open = !!details?.code;
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ const GameDetails = () => {
   const goToGame = () => {
     if (!details?.code) return;
     dispatch(setGame(details));
-    navigate(`/${i18n.language}/game/${details.code}`);
+    navigate(`/${i18n.language}/game/${details.code}`, { state: { map: map.code } });
   };
 
   const onClose = (evt: any, reason: string) => {

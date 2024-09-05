@@ -5,7 +5,7 @@ import capsuleIcon from "assets/icons/capsule.svg";
 import CustomTooltip from "components/atoms/materialTooltip";
 
 //import { initializeApp } from "firebase/app";
-import { TwitterAuthProvider, signInWithPopup/*, getAuth*/ } from "firebase/auth";
+import { TwitterAuthProvider, signInWithPopup /*, getAuth*/ } from "firebase/auth";
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ShareIcon from "@mui/icons-material/Share";
@@ -17,7 +17,9 @@ import useAlert from "hooks/alertProvider/useAlert";
 
 import styled from "./styled.module.scss";
 
-import { auth } from 'config/firebaseConfig';
+import { auth } from "config/firebaseConfig";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 /*
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -31,8 +33,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 */
-const CongratsModal = ({ open = false, data, onClose }: any) => {
+const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) => {
   //const auth = getAuth(app);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { i18n } = useTranslation();
   const twitterProvider = new TwitterAuthProvider();
   const rewardVideo = data?.rewardVideo ? data?.rewardVideo[0]?.url : null;
   const { setAlert } = useAlert();
@@ -81,6 +86,11 @@ const CongratsModal = ({ open = false, data, onClose }: any) => {
       });
   };
 
+  const viewRewards = () => { 
+    const mapCode = location.state?.map || "";
+    navigate(`/${i18n.language}/home/${mapCode}`, { state: { openRewards: true } });
+  }
+
   return (
     <Modal open={open} onClose={onClose} className={styled.modalContainer}>
       <Box className={styled.modal}>
@@ -122,7 +132,7 @@ const CongratsModal = ({ open = false, data, onClose }: any) => {
             </Typography>
 
             <Box className={styled.footer}>
-              <Box className={styled.social}>
+              <Box className={styled.item}>
                 <IconButton color="secondary" sx={{ display: "none" }}>
                   <CustomTooltip title={"Share with X"}>
                     <ShareIcon onClick={handleShare} />
@@ -134,7 +144,10 @@ const CongratsModal = ({ open = false, data, onClose }: any) => {
                   </CustomTooltip>
                 </IconButton>
               </Box>
-              <Button onClick={(evt: any) => onClose(evt, "close")}>ACCEPT</Button>
+              <Box className={styled.item}>
+                <Button onClick={viewRewards}>VIEW ALL REWARDS</Button>
+                <Button onClick={handlePlayAgain}>PLAY AGAIN</Button>
+              </Box>
             </Box>
           </Box>
         </Zoom>

@@ -9,7 +9,7 @@ import {
   useActiveAccount,
   useWalletDetailsModal,
   ConnectButton,
-  useAutoConnect,
+  //  useAutoConnect,
 } from "thirdweb/react";
 
 import { chain, client, modalConfig } from "config/thirdwebConfig";
@@ -52,7 +52,7 @@ const LoginBar = () => {
   const account = useActiveAccount() || accountLS;
   const status = useActiveWalletConnectionStatus();
 
-  const { isLoading } = useAutoConnect({ client });
+  //const { isLoading } = useAutoConnect({ client });
 
   const dataMessageAuth = useSelector(selectMessageAuth);
 
@@ -80,7 +80,16 @@ const LoginBar = () => {
   };
 
   const handleDetails = () => {
-    if (wallet) detailsModal.open({ ...modalConfig });
+    if (wallet)
+      detailsModal.open({
+        ...modalConfig,
+        hideDisconnect: true,
+        connectOptions: { ...modalConfig },
+        payOptions: {
+          buyWithCrypto: false,
+          buyWithFiat: false,
+        },
+      });
   };
 
   const handleCopy = () => {
@@ -139,13 +148,13 @@ const LoginBar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenLS, account, status]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const isLoginView = !location.pathname.split("/")[2];
     if (!isLoading && !isLoginView && status === "disconnected") {
       logout();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading, status]);
+  }, [isLoading, status]);*/
 
   useEffect(() => {
     window.addEventListener("logout", () => logout());

@@ -46,7 +46,7 @@ const Home = () => {
   const { lang, map: urlMap, building } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const buildingsData = useSelector(getMaps);
+  const mapsData = useSelector(getMaps);
 
   const [listMaps, setListMaps] = useState([]);
   const [listGames, setListGames] = useState([]);
@@ -74,11 +74,11 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (buildingsData?.length > 0) {
-      setListMaps(buildingsData);
+    if (mapsData?.length > 0) {
+      setListMaps(mapsData);
 
       if (urlMap) {
-        const map = buildingsData.find((map: any) => map.code === urlMap);
+        const map = mapsData.find((map: any) => map.code === urlMap);
         setMap(map);
         if (building) {
           const buildingData = map.buildings.find((item: any) => item.code === building);
@@ -86,12 +86,12 @@ const Home = () => {
           setListCampaings(buildingData?.campaigns || []);
         }
       } else {
-        setMap(buildingsData[0]);
-        navigate(buildingsData[0].code);
+        setMap(mapsData[0]);
+        navigate(mapsData[0].code);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [buildingsData, urlMap]);
+  }, [mapsData, urlMap]);
 
   return (
     <ReactTourProvider>

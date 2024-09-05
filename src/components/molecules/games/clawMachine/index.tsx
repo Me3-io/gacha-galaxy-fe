@@ -29,7 +29,7 @@ const initialState: State = {
   source: "",
 };
 
-const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
+const ClawMachine = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
   const { ref, height } = useResizeObserver();
   const videoRef = useRef<HTMLVideoElement>(null);
   const { setAlert } = useAlert();
@@ -137,6 +137,11 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response, gameState.status]);
 
+  const handlePlayAgain = () => {
+    setModal({ open: false, data: {} });
+    handlePlay();
+  };
+
   // start the game ---
   useEffect(() => {
     if (onPlay) {
@@ -187,7 +192,11 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
           <img alt="machine" className={bgClass} src={machine} />
         </Box>
 
-        <CongratsModal {...modal} onClose={() => setModal({ open: false, data: {} })} />
+        <CongratsModal
+          {...modal}
+          onClose={() => setModal({ open: false, data: {} })}
+          handlePlayAgain={handlePlayAgain}
+        />
       </Box>
     </Fade>
   );

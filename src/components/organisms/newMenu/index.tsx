@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import UpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
@@ -10,7 +10,7 @@ import Rewards from "./sections/rewards";
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
 import { MapContext } from "pages/home";
-
+import { useLocation } from "react-router-dom";
 
 const SectionItem = ({ children, open, opacity = 1 }: any) => {
   const position = opacity && open ? "relative" : "absolute!important";
@@ -27,13 +27,18 @@ const SectionItem = ({ children, open, opacity = 1 }: any) => {
 };
 
 const MainPanel = ({ showBack = false, goToMap, setOpenTokens }: any) => {
-  
+  const location = useLocation();
   const { setGame, setCampaing } = useContext(MapContext);
   const { t } = useTranslation();
   const [openPoints, setOpenPoints] = useState(false);
-
   const [openRewards, setOpenRewards] = useState(false);
-
+  
+  useEffect(() => {
+    if (location.state?.openRewards) {
+      setOpenRewards(true);
+    }
+  }, [location]);
+  
   const mainOpacity = openPoints || openRewards ? 0 : 1;
 
   return (

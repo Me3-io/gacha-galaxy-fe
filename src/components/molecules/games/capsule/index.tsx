@@ -38,7 +38,7 @@ const initialState: State = {
   poster: "",
 };
 
-const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
+const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
   const { ref, height } = useResizeObserver();
   const videoRef = useRef<HTMLVideoElement>(null);
   const { setAlert } = useAlert();
@@ -142,6 +142,11 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
     }, 3000);
   };
 
+  const handlePlayAgain = () => {
+    setModal({ open: false, data: {} });
+    handlePlay();
+  };
+
   /*const getReward = (type: string) => {
     if (/ChainGPT/.test(type)) return rewardChainGPT;
     if (/The Graph/.test(type)) return rewardTheGraph;
@@ -223,7 +228,11 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
           />
         </Box>
 
-        <CongratsModal {...modal} onClose={() => setModal({ open: false, data: {} })} />
+        <CongratsModal
+          {...modal}
+          onClose={() => setModal({ open: false, data: {} })}
+          handlePlayAgain={handlePlayAgain}
+        />
       </Box>
     </Fade>
   );

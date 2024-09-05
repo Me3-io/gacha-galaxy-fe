@@ -101,6 +101,7 @@ const Game = () => {
               onPlay={onPlay}
               balance={balance}
               handleEnd={handleEnd}
+              handlePlay={handlePlay}
               gameData={gameData}
             />
           </Grid>

@@ -72,7 +72,17 @@ const Profile = ({ setOpen }: any) => {
   };
 
   const handleDetails = () => {
-    if (wallet) detailsModal.open({ ...modalConfig });
+    if (wallet) {
+      detailsModal.open({
+        ...modalConfig,
+        hideDisconnect: true,
+        connectOptions: { ...modalConfig },
+        payOptions: {
+          buyWithCrypto: false,
+          buyWithFiat: false,
+        },
+      });
+    }
   };
 
   useEffect(() => {
