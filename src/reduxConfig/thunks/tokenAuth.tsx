@@ -2,12 +2,13 @@ import customAxios from "utils/customAxios";
 import { setTokenFailure, setTokenStart, setTokenSuccess } from "reduxConfig/slices/tokenAuth";
 
 export const fetchChallengeVerify =
-  ({ signature, message }: any) =>
+  ({ signature, message, social }: any) =>
   async (dispatch: any) => {
     dispatch(setTokenStart());
     const data = {
       message: message,
       signature: signature,
+      social
     };
 
     try {

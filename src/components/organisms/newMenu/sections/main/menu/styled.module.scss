@@ -8,7 +8,6 @@
   max-height: inherit;
   overflow: hidden;
 
-
   .item {
     display: flex;
     justify-content: space-between;
@@ -128,7 +127,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
   }
 }
 // sections ---
@@ -201,7 +199,6 @@
   }
 }
 
-
 .profileContainer {
   .textField {
     border: 1px solid transparent;
@@ -241,12 +238,51 @@
       font-weight: 600;
       text-transform: uppercase;
     }
+    .rowWallet {
+      display: flex;
+      justify-content: space-between;
 
-    span {
-      color: #fff;
-      font-family: "ChakraPetch";
+      & > div {
+        display: flex;
+        gap: 1rem;
+        padding: 0 1rem;
+
+        span {
+          color: #fff;
+          font-family: "ChakraPetch";
+          font-size: 1rem;
+          font-weight: 400;
+        }
+
+        .infoLabel {
+          color: #250b30;
+          font-family: "ChakraPetchBold";
+          font-size: 0.8rem;
+          font-weight: 800;
+          background-color: #da7bfb;
+          width: fit-content;
+          padding: 0.2rem 0.3rem;
+          padding-right: 0.6rem;
+          clip-path: polygon(calc(100% - 10px) 0%, 100% 10px, 100% 100%, 0% 100%, 0% 0%);
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+
+  .actions {
+    padding: 2rem 0 1rem 0;
+    display: flex;
+    gap: 1rem;
+
+    button {
+      border: none !important;
+      background-color: rgba(99, 67, 115, 0.4) !important;
+      color: #db74ff;
       font-size: 1rem;
-      font-weight: 400;
+      padding: 0.5rem 1rem !important;
+      display: flex;
+      gap: 0.5rem;
     }
   }
 }

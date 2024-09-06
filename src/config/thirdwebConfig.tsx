@@ -38,6 +38,22 @@ export const wallets = [
   walletConnect(),
 ];
 
+const onlyWallets = [
+  // @ts-ignore
+  createWallet("io.metamask"),
+  // @ts-ignore
+  createWallet("com.okex.wallet"),
+  // @ts-ignore
+  createWallet("com.bitget.web3"),
+  // @ts-ignore
+  createWallet("net.gateweb3"),
+  walletConnect(),
+];
+
+const onlySocial = [
+  inAppWallet({ auth: { options: ["email", "google", "telegram"] } }),
+];
+
 // client ---
 const clientId = process.env.REACT_APP_CLIENT_ID || "0903d0438bd5e33ad92413a0bc5cb21e";
 export const client = createThirdwebClient({
@@ -47,6 +63,8 @@ export const client = createThirdwebClient({
 
 // modal config ---
 export const modalConfig = { client, wallets, appMetadata, theme, chain };
+export const onlyWalletConfig = { client, wallets: onlyWallets, appMetadata, theme, chain };
+export const onlySocialConfig = { client, wallets: onlySocial, appMetadata, theme, chain };
 
 
 //e937664662530887cba89109dc5d9dd4

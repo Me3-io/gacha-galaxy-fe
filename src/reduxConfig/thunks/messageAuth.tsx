@@ -8,13 +8,14 @@ import {
 } from "reduxConfig/slices/messageAuth";
 
 export const fetchChallengeRequest =
-  ({ address, from, chainid }: any) =>
+  ({ address, from, chainid, social }: any) =>
   async (dispatch: any) => {
     dispatch(setMessageStart());
     const data = {
       address,
       chainid,
       uri: from,
+      social,
     };
 
     try {

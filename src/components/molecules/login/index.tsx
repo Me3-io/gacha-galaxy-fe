@@ -7,12 +7,10 @@ import {
   useActiveWallet,
   useActiveWalletConnectionStatus,
   useActiveAccount,
-  useWalletDetailsModal,
   ConnectButton,
-  //  useAutoConnect,
 } from "thirdweb/react";
 
-import { chain, client, modalConfig } from "config/thirdwebConfig";
+import { chain, modalConfig } from "config/thirdwebConfig";
 
 import { useTranslation } from "react-i18next";
 
@@ -28,7 +26,9 @@ import useAlert from "hooks/alertProvider/useAlert";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
-import WalletIcon from "@mui/icons-material/Wallet";
+
+import { getSocial } from "reduxConfig/thunks/social";
+import { clearSocial } from "reduxConfig/slices/social";
 
 import styled from "./styled.module.scss";
 
@@ -47,14 +47,12 @@ const LoginBar = () => {
 
   const { disconnect } = useDisconnect();
 
-  const detailsModal = useWalletDetailsModal();
   const wallet = useActiveWallet();
   const account = useActiveAccount() || accountLS;
   const status = useActiveWalletConnectionStatus();
 
-  //const { isLoading } = useAutoConnect({ client });
-
   const dataMessageAuth = useSelector(selectMessageAuth);
+  const social = useSelector(getSocial);
 
   const logout = () => {
     if (wallet) disconnect(wallet);
@@ -79,7 +77,7 @@ const LoginBar = () => {
     }
   };
 
-  const handleDetails = () => {
+  /*const handleDetails = () => {
     if (wallet)
       detailsModal.open({
         ...modalConfig,
@@ -90,7 +88,7 @@ const LoginBar = () => {
           buyWithFiat: false,
         },
       });
-  };
+  };*/
 
   const handleCopy = () => {
     navigator.clipboard.writeText(account?.address || "");
@@ -103,7 +101,7 @@ const LoginBar = () => {
     if (status === "connected" && address && !signMessage && !tokenLS) {
       const from = window.location.hostname;
       setLoadSigning(true);
-      dispatch(fetchChallengeRequest({ address, from, chainid }) as any).then(
+      dispatch(fetchChallengeRequest({ address, from, chainid, social }) as any).then(
         async (response: any) => {
           if (response?.message) {
             signedMessage(response.message);
@@ -120,10 +118,12 @@ const LoginBar = () => {
   }, [account, status]);
 
   useEffect(() => {
-    if (signMessage && dataMessageAuth?.message) {
-      const signParams = { signature: signMessage, message: dataMessageAuth.message };
+    if (signMessage && dataMessageAuth?.message && social !== null) {
+      const signParams = { signature: signMessage, message: dataMessageAuth.message, social };
       dispatch(fetchChallengeVerify(signParams) as any).then(async (response: any) => {
         setLoadSigning(false);
+        dispatch(clearSocial());
+        
         if (response?.sessionToken) {
           localStorage.setItem("session.token", response?.sessionToken);
           localStorage.setItem("session.account", JSON.stringify({ ...account, ...signParams }));
@@ -137,7 +137,7 @@ const LoginBar = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signMessage, dataMessageAuth?.message]);
+  }, [signMessage, dataMessageAuth?.message, social]);
 
   useEffect(() => {
     const isLoginView = !location.pathname.split("/")[2];
@@ -161,6 +161,7 @@ const LoginBar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
   return (
     <>
       {account?.address && (
@@ -177,12 +178,13 @@ const LoginBar = () => {
               <CustomTooltip title={t("copy-address")}>
                 <ContentCopyIcon onClick={handleCopy} />
               </CustomTooltip>
-              <CustomTooltip title={"Wallet Info"}>
+
+              {/*<CustomTooltip title={"Wallet Info"}>
                 <WalletIcon onClick={handleDetails} />
-              </CustomTooltip>
+              </CustomTooltip>*/}
 
               <Box display={"none"}>
-                <ConnectButton client={client} />
+                <ConnectButton {...modalConfig} />
               </Box>
             </>
           )}
