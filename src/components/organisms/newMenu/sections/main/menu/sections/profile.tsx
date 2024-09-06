@@ -17,7 +17,6 @@ import customAxios from "utils/customAxios";
 import Button from "components/atoms/buttons/base";
 
 import CustomTooltip from "components/atoms/materialTooltip";
-
 import { useTranslation } from "react-i18next";
 import { useConnectModal } from "thirdweb/react";
 import useAlert from "hooks/alertProvider/useAlert";
@@ -98,20 +97,6 @@ const Profile = ({ setOpen }: any) => {
       console.error(error);
     }
   };
-
-  /*const handleDetails = () => {
-    if (wallet) {
-      detailsModal.open({
-        ...modalConfig,
-        hideDisconnect: true,
-        connectOptions: { ...modalConfig },
-        payOptions: {
-          buyWithCrypto: false,
-          buyWithFiat: false,
-        },
-      });
-    }
-  };*/
 
   useEffect(() => {
     setNickname(leaderboardData?.userNickname || "");
