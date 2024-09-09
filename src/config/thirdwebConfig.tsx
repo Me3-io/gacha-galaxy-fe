@@ -51,7 +51,7 @@ const onlyWallets = [
 ];
 
 const onlySocial = [
-  inAppWallet({ auth: { options: ["email", "google", "telegram"] } }),
+  inAppWallet({ auth: { options: [ "google", "telegram"] } }),
 ];
 
 // client ---

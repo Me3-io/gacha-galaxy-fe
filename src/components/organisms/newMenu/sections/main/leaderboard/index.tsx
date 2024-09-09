@@ -7,6 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import user from "assets/icons/user.svg";
 import arrowUp from "assets/icons/arrowUp.svg";
 import arrowDown from "assets/icons/arrowDown.svg";
+import StarIcon from "@mui/icons-material/Star";
 
 import { useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
@@ -21,7 +22,7 @@ const Leaderboard = () => {
   return (
     <Grid container component="section" flexDirection="column" className={styled.main}>
       <Fade in={true} timeout={500}>
-        <Box p={1} className={styled.container} >
+        <Box p={1} className={styled.container}>
           <Box className={styled.listData}>
             <Box className={styled.border}></Box>
             <TableContainer className={styled.table}>
@@ -36,10 +37,14 @@ const Leaderboard = () => {
                           <Typography>{row.nickname}</Typography>
                         </TableCell>
                         <TableCell align="right" width={"5%"} className={styled.arrow}>
-                          <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />
+                          {row.position === 1 ? (
+                            <StarIcon />
+                          ) : (
+                            <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />
+                          )}
                         </TableCell>
                         <TableCell align="right" width={"35%"} sx={{ paddingLeft: "0!important" }}>
-                          {row?.points?.toFixed(2) || 0} pts
+                          {row?.points?.toFixed(0) || 0} pts
                         </TableCell>
                       </TableRow>
                     ))

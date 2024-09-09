@@ -21,7 +21,7 @@ import ListMaps from "./maps";
 
 const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
   const { t } = useTranslation();
-  const [value, setValue] = useState<string>("0");
+  const [value, setValue] = useState<string>("2");
 
   const leaderboardData = useSelector(getLeaderboard);
   const claimeables = useSelector(getClaims)?.claimeables || [];
@@ -42,7 +42,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
                 #{leaderboardData?.userPosition || "-"}
               </Typography>
             </Box>
-            <Typography>{leaderboardData?.userPoints?.toFixed(2) || "0"}</Typography>
+            <Typography>{leaderboardData?.userPoints?.toFixed(0) || "0"}</Typography>
           </Box>
 
           <Box className={styled.action}>

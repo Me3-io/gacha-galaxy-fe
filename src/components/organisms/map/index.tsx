@@ -118,7 +118,7 @@ const InteractiveMap = () => {
   useEffect(() => {
     _drawGrid();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gridConfig, showNumbers]);
+  }, [gridConfig, showNumbers, map?.gridColor]);
 
   const _drawCentralGuide = () => {
     return (
@@ -202,6 +202,17 @@ const InteractiveMap = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, leaderboardData]);
 
+  useEffect(() => {
+    if (!value?.focus) {
+      //console.log("value: ", value);
+      const x = value?.e?.toFixed(0);
+      const y = value?.f?.toFixed(0);
+      const z = value?.a?.toFixed(3);
+      navigate({ search: `?@${x},${y},${z}` });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
   return (
     <Box ref={ref} className={styled.main}>
       {loading && (
@@ -253,7 +264,6 @@ const InteractiveMap = () => {
           preventPanOutside={true}
           onPan={calculateGrid}
           onZoom={calculateGrid}
-          //onClick={(evt) => console.log("click", evt)}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
             {map?.svg && (

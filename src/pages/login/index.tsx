@@ -47,12 +47,21 @@ const Login = () => {
     try {
       waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
       const response = await connect({ ...modalConfig, size: "wide" });
-      dispatch(setSocial(response.id === "inApp") as any);
+
+      //@ts-ignore
+      if (typeof response?.getProfiles === "function") {
+        //@ts-ignore
+        const profiles = await response?.getProfiles();
+        const social = profiles[0]?.type || false;
+        dispatch(setSocial(social) as any);
+      } else {
+        dispatch(setSocial(false) as any);
+      }
+
     } catch (error) {
       console.error(error);
     }
   };
-  
 
   return (
     <Layout>
