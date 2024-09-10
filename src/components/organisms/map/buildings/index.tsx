@@ -111,7 +111,7 @@ const Buildings = ({
   return (
     <>
       {buildings?.length > 0
-        ? buildings?.map((item: any, pos: number) => (
+        && buildings?.map((item: any, pos: number) => (
             <g
               key={pos}
               transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
@@ -152,13 +152,13 @@ const Buildings = ({
               )}
             </g>
           ))
-        : !loading && (
+        /*: !loading && (
             <g>
               <text x={CENTER_MAP.x} y={CENTER_MAP.y} fontSize="30" fill="#ddd" textAnchor="middle">
                 sorry, we could not load the map
               </text>
             </g>
-          )}
+          )*/}
     </>
   );
 };

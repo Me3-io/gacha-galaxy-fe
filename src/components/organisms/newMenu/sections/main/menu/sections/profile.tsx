@@ -18,16 +18,20 @@ import Button from "components/atoms/buttons/base";
 
 import CustomTooltip from "components/atoms/materialTooltip";
 import { useTranslation } from "react-i18next";
-import { useConnectModal } from "thirdweb/react";
+import { useActiveWallet, useConnectModal, useProfiles, useSetActiveWallet } from "thirdweb/react";
 import useAlert from "hooks/alertProvider/useAlert";
 
-import styled from "../styled.module.scss";
 import { onlySocialConfig, onlyWalletConfig } from "config/thirdwebConfig";
+import styled from "../styled.module.scss";
 
 const Profile = ({ setOpen }: any) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { connect } = useConnectModal();
+
+  const wallet = useActiveWallet();
+  const setActiveAccount = useSetActiveWallet();
+  const { data: profiles } = useProfiles();
 
   const leaderboardData = useSelector(getLeaderboard);
   const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
@@ -42,9 +46,8 @@ const Profile = ({ setOpen }: any) => {
   const rowWallets = [
     {
       address: `${accountLS?.address?.slice(0, 8)}...${accountLS?.address?.slice(-8)}`,
-      custodial: true,
+      type: "me3-created",
     },
-    { address: `${accountLS?.address?.slice(0, 8)}...${accountLS?.address?.slice(-8)}`, name: "" },
   ];
 
   const handleCancel = () => {
@@ -81,18 +84,30 @@ const Profile = ({ setOpen }: any) => {
   };
 
   const addWallet = async () => {
+    const activeAccount = wallet;
     try {
       const response = await connect({ ...onlyWalletConfig, size: "compact", title: "Add Wallet" });
-      console.log(response);
+      const account = response?.getAccount();
+
+      console.log("aca guardar: ", "wallet", account?.address);
+
+      if (activeAccount) setActiveAccount(activeAccount);
     } catch (error) {
       console.error(error);
     }
   };
 
   const addSocial = async () => {
+    const activeAccount = wallet;
+
     try {
       const response = await connect({ ...onlySocialConfig, size: "compact", title: "Add Social" });
-      console.log(response);
+      const account = response?.getAccount();
+      // @ts-ignore
+      const profiles = await response?.getProfiles();
+      console.log("aca guardar: ", profiles[0].type, account?.address);
+
+      if (activeAccount) setActiveAccount(activeAccount);
     } catch (error) {
       console.error(error);
     }
@@ -157,10 +172,10 @@ const Profile = ({ setOpen }: any) => {
               <Box key={index} className={styled.rowWallet}>
                 <Box>
                   <span>{row.address}</span>
-                  {row.custodial && <span className={styled.infoLabel}>Me3</span>}
+                  {row.type === "me3-created" && <span className={styled.infoLabel}>Me3</span>}
                 </Box>
                 <Box>
-                  {row.custodial && (
+                  {row.type === "me3-created" && (
                     <CustomTooltip title={"Get Private Key"}>
                       <KeyIcon sx={{ cursor: "pointer" }} onClick={() => {}} />
                     </CustomTooltip>
@@ -179,16 +194,43 @@ const Profile = ({ setOpen }: any) => {
 
           <Box className={styled.actions}>
             <Button onClick={addSocial}>
-              <PersonIcon /> Link social
+              <PersonIcon /> Link Social
             </Button>
 
             <Button onClick={addWallet}>
               <WalletIcon /> Add wallet
             </Button>
           </Box>
+
+          <Box p={2}>
+            {profiles?.map((profile: any) => (
+              <Typography>{profile.type}</Typography>
+            ))}
+          </Box>
+
+          {/*<Box className={styled.info} mb={2}>
+            <InfoIcon />
+            <Typography>Add a social link will create a me3 wallet. You can only add one</Typography>
+          </Box>*/}
         </Box>
       </Box>
     </Grid>
   );
 };
 export default Profile;
+
+/*
+post("wallet/add", {
+  social: true | false
+  address : "0x1234567890"
+})
+
+post("wallet/unlink", {
+  address : "0x1234567890"
+})
+
+post("wallet/active", {
+  address : "0x1234567890"
+})
+
+*/

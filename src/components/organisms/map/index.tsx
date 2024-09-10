@@ -16,7 +16,7 @@ import { useTour } from "@reactour/tour";
 import { useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 import { MapContext } from "pages/home";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import MapBg from "./bg";
 
 const MAX_ZOOM = 1.5;
@@ -29,6 +29,7 @@ const isMobile = navigator.userAgent.includes("Mobi");
 const InteractiveMap = () => {
   const { setListGames, setListCampaings, map } = useContext(MapContext);
   const { lang } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const Viewer = useRef<any>(null);
@@ -101,6 +102,7 @@ const InteractiveMap = () => {
 
   const calculateGrid = (value: any) => {
     if (value?.mode !== "idle" && !value?.a) return;
+    console.log("pasa aca");
     setTooltipData({ visible: false, text: "" });
 
     const posX = value?.e / value?.a;
@@ -128,17 +130,17 @@ const InteractiveMap = () => {
           y="0"
           width={SVG_SIZE.width}
           height={SVG_SIZE.height}
-          stroke="red"
+          stroke="yellow"
           strokeWidth="1px"
           fill="transparent"
         />
 
-        <line
+        {/*<line
           x1="0"
           y1={CENTER_MAP.y}
           x2={SVG_SIZE.width}
           y2={CENTER_MAP.y}
-          stroke="red"
+          stroke="yellow"
           strokeWidth="1px"
         />
         <line
@@ -146,9 +148,9 @@ const InteractiveMap = () => {
           y1="0"
           x2={CENTER_MAP.x}
           y2={SVG_SIZE.height}
-          stroke="red"
+          stroke="yellow"
           strokeWidth="1px"
-        />
+        />*/}
       </g>
     );
   };
@@ -160,11 +162,22 @@ const InteractiveMap = () => {
 
   const _fitCenter = () => {
     Viewer.current?.fitToViewer("center", "center");
+  };
 
-    // zoomIn only mobile
-    /*if (isMobile && width && width < 500) {
-      setTimeout(() => Viewer.current?.zoomOnViewerCenter(1.5), 50);
-    }*/
+  const _fitSelection = () => {
+    const searchValue = searchParams.get("@");
+    if (searchValue) {
+      const [x, y, z] = searchValue.split(",");
+      setValue((prev: any) => ({
+        ...prev,
+        a: parseFloat(z),
+        d: parseFloat(z),
+        e: parseInt(x),
+        f: parseInt(y),
+      }));
+    } else {
+      Viewer.current?.fitToViewer("center", "center");
+    }
   };
 
   const handlerBuildingClick = (games: any, campaings: any, code: string) => {
@@ -187,7 +200,7 @@ const InteractiveMap = () => {
   // window resize ---
   useEffect(() => {
     if (Viewer.current?.fitToViewer !== undefined && height && width) {
-      setTimeout(() => _fitCenter(), 50);
+      setTimeout(() => _fitSelection(), 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Viewer.current?.fitToViewer, height, width]);
@@ -203,12 +216,12 @@ const InteractiveMap = () => {
   }, [loading, leaderboardData]);
 
   useEffect(() => {
+    calculateGrid(value);
     if (!value?.focus) {
-      //console.log("value: ", value);
       const x = value?.e?.toFixed(0);
       const y = value?.f?.toFixed(0);
       const z = value?.a?.toFixed(3);
-      navigate({ search: `?@${x},${y},${z}` });
+      if (x && y && z) navigate({ search: `?@=${x},${y},${z}` });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
@@ -250,7 +263,7 @@ const InteractiveMap = () => {
           SVGBackground={"transparent"}
           background={"transparent"}
           scaleFactorMax={MAX_ZOOM}
-          scaleFactorMin={isMobile ? 0.1 : 0.4}
+          scaleFactorMin={isMobile ? 0.1 : 0.3}
           toolbarProps={{
             position: "none",
           }}
@@ -261,9 +274,9 @@ const InteractiveMap = () => {
             height: 250,
           }}
           detectAutoPan={false}
-          preventPanOutside={true}
-          onPan={calculateGrid}
-          onZoom={calculateGrid}
+          preventPanOutside={false}
+          //onPan={calculateGrid}
+          //onZoom={calculateGrid}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
             {map?.svg && (
