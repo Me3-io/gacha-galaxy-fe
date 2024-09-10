@@ -70,7 +70,7 @@ const Campaing = () => {
           {loading && (
             <Box className={styled.loading}>
               <CircularProgress className={styled.spinner} size={36} />
-              loading campaing...
+              loading campaign...
             </Box>
           )}
 
