@@ -102,7 +102,6 @@ const InteractiveMap = () => {
 
   const calculateGrid = (value: any) => {
     if (value?.mode !== "idle" && !value?.a) return;
-    console.log("pasa aca");
     setTooltipData({ visible: false, text: "" });
 
     const posX = value?.e / value?.a;
@@ -168,13 +167,14 @@ const InteractiveMap = () => {
     const searchValue = searchParams.get("@");
     if (searchValue) {
       const [x, y, z] = searchValue.split(",");
-      setValue((prev: any) => ({
+      /*setValue((prev: any) => ({
         ...prev,
         a: parseFloat(z),
         d: parseFloat(z),
         e: parseInt(x),
         f: parseInt(y),
-      }));
+      }))*/
+      Viewer.current?.setPointOnViewerCenter(x, y, parseFloat(z));
     } else {
       Viewer.current?.fitToViewer("center", "center");
     }
@@ -218,9 +218,10 @@ const InteractiveMap = () => {
   useEffect(() => {
     calculateGrid(value);
     if (!value?.focus) {
-      const x = value?.e?.toFixed(0);
-      const y = value?.f?.toFixed(0);
+      const x = ((value?.viewerWidth / 2 - value.e) / value.a)?.toFixed(0);
+      const y = ((value?.viewerHeight / 2 - value.f) / value.a)?.toFixed(0);
       const z = value?.a?.toFixed(3);
+
       if (x && y && z) navigate({ search: `?@=${x},${y},${z}` });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

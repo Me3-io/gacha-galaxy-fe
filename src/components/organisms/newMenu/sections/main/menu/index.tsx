@@ -2,15 +2,12 @@ import { useState } from "react";
 import { Box, ButtonBase, Fade, Stack, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-
-import iconNotification from "assets/icons/notification.svg";
 import iconUser from "assets/icons/menuUser.svg";
 import iconCalendar from "assets/icons/menuCalendar.svg";
 import iconHelp from "assets/icons/menuHelp.svg";
 import iconSettings from "assets/icons/menuSettings.svg";
 import { useTranslation } from "react-i18next";
 
-import Notifications from "./sections/notifications";
 import Profile from "./sections/profile";
 import Settings from "./sections/settings";
 
@@ -42,16 +39,10 @@ const SectionItem = ({ children, open, opacity = 1 }: any) => {
 
 const Menu = () => {
   const { t } = useTranslation();
-  const [openNotifications, setOpenNotifications] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
 
   const rows = [
-    {
-      icon: iconNotification,
-      name: t("menu-notifications"),
-      onClick: () => setOpenNotifications(true),
-    },
     { icon: iconUser, name: t("menu-profile"), onClick: () => setOpenProfile(true) },
     { icon: iconCalendar, name: t("menu-schedule"), onClick: () => {} },
     {
@@ -62,7 +53,7 @@ const Menu = () => {
     { icon: iconSettings, name: t("menu-settings"), onClick: () => setOpenSettings(true) },
   ];
 
-  const mainOpacity = openNotifications || openProfile || openSettings ? 0 : 1;
+  const mainOpacity = openProfile || openSettings ? 0 : 1;
 
   return (
     <Fade in={true} timeout={500}>
@@ -73,10 +64,6 @@ const Menu = () => {
               <MenuItem key={pos} {...row} />
             ))}
           </Stack>
-        </SectionItem>
-
-        <SectionItem open={openNotifications}>
-          <Notifications setOpen={setOpenNotifications} />
         </SectionItem>
 
         <SectionItem open={openProfile}>

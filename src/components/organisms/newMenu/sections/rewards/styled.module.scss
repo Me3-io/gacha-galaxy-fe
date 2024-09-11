@@ -2,8 +2,8 @@
   height: 100%;
   color: white;
   display: flex;
-  flex-flow: column!important;
-  box-sizing: border-box!important;
+  flex-flow: column !important;
+  box-sizing: border-box !important;
   transition: 0.2s all;
   position: relative;
   overflow: auto;
@@ -49,7 +49,6 @@
     display: flex;
     flex-direction: column;
 
-
     .table {
       box-sizing: border-box;
       height: 100%;
@@ -77,13 +76,18 @@
           p {
             font-family: "ChakraPetch";
           }
-          .status {
+          .status,
+          .type {
             color: #d490ec;
             font-size: 0.8rem;
 
             span {
               color: #d490ec80;
             }
+          }
+
+          .type {
+            color: #d490ec80;
           }
         }
 

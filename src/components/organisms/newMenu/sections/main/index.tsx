@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Box, Tab, Typography } from "@mui/material";
 import Button from "components/atoms/buttons/base";
 
-import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 import { getClaims } from "reduxConfig/thunks/claim";
@@ -14,10 +13,14 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
-import styled from "./styled.module.scss";
-import Menu from "./menu";
-import Leaderboard from "./leaderboard";
+// sections ---
 import ListMaps from "./maps";
+import Leaderboard from "./leaderboard";
+import Menu from "./menu";
+import Notifications from "./notifications";
+
+import { useTranslation } from "react-i18next";
+import styled from "./styled.module.scss";
 
 const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
   const { t } = useTranslation();
@@ -104,15 +107,15 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
               <Tab
                 sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
                 onClick={() => handleTab("1")}
-                label="Leaderboard"
+                label="Maps Regions"
                 value="1"
-                className="leaderboard-step"
               />
               <Tab
                 sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
                 onClick={() => handleTab("2")}
-                label="Maps Regions"
+                label="Leaderboard"
                 value="2"
+                className="leaderboard-step"
               />
               <Tab
                 sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
@@ -120,17 +123,26 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
                 label="Menu"
                 value="3"
               />
+              <Tab
+                sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
+                onClick={() => handleTab("4")}
+                label="Notifications"
+                value="4"
+              />
             </TabList>
           </Box>
           <Box className={styled.tabPanel}>
             <TabPanel value="1">
-              <Leaderboard />
+              <ListMaps />
             </TabPanel>
             <TabPanel value="2">
-              <ListMaps />
+              <Leaderboard />
             </TabPanel>
             <TabPanel value="3">
               <Menu />
+            </TabPanel>
+            <TabPanel value="4">
+              <Notifications />
             </TabPanel>
           </Box>
         </TabContext>

@@ -6,10 +6,10 @@ import Button from "components/atoms/buttons/base";
 import { client, chain, modalConfig } from "config/thirdwebConfig";
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
 
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
+//import Tab from "@mui/material/Tab";
+//import TabContext from "@mui/lab/TabContext";
+//import TabList from "@mui/lab/TabList";
+//import TabPanel from "@mui/lab/TabPanel";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -142,9 +142,10 @@ const MainTable = ({ data }: any) => {
                   {item?.rewardStatePending ? "Pending" : "Approved"}{" "}
                   <span>({format(item?.date, "d MMMM yy - HH:mm")})</span>
                 </Typography>
+                <Typography className={styled.type}>{item?.rewardType}</Typography>
               </TableCell>
               <TableCell align="right">
-                <RewardButton reward={item} /*setOnAlert={setOnAlert}*/ />
+                <RewardButton reward={item} />
               </TableCell>
             </TableRow>
           ))}
@@ -157,13 +158,13 @@ const MainTable = ({ data }: any) => {
 const Rewards = ({ setOpen }: any) => {
   const { t } = useTranslation();
 
-  const [value, setValue] = useState("1");
-  const handleChange = (evt: any, newValue: string) => setValue(newValue);
+  //const [value, setValue] = useState("1");
+  //const handleChange = (evt: any, newValue: string) => setValue(newValue);
 
   // redux data ---
   const claimeables = useSelector(getClaims)?.claimeables || [];
-  const rewardNFTs = claimeables?.filter((claim: any) => claim.rewardType === "NFTs");
-  const rewardTokens = claimeables?.filter((claim: any) => claim.rewardType !== "NFTs");
+  //const rewardNFTs = claimeables?.filter((claim: any) => claim.rewardType === "NFTs");
+  //const rewardTokens = claimeables?.filter((claim: any) => claim.rewardType !== "NFTs");
 
   return (
     <>
@@ -176,8 +177,10 @@ const Rewards = ({ setOpen }: any) => {
             {t("rewards").toUpperCase()}
           </Typography>
         </Box>
-        <Box className={styled.container} px={2}>
-          <TabContext value={value}>
+        <Box className={styled.container}>
+          <MainTable data={claimeables} />
+
+          {/*<TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "#7A57A5" }}>
               <TabList
                 onChange={handleChange}
@@ -190,12 +193,12 @@ const Rewards = ({ setOpen }: any) => {
               </TabList>
             </Box>
             <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "auto" }}>
-              <MainTable data={rewardNFTs} /*setOnAlert={setOnAlert}*/ />
+              <MainTable data={rewardNFTs} />
             </TabPanel>
             <TabPanel value="2" sx={{ padding: "1rem 0", overflow: "auto" }}>
-              <MainTable data={rewardTokens} /*setOnAlert={setOnAlert}*/ />
+              <MainTable data={rewardTokens} />
             </TabPanel>
-          </TabContext>
+          </TabContext>*/}
         </Box>
       </Grid>
     </>
