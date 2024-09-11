@@ -217,6 +217,7 @@ const InteractiveMap = () => {
 
   useEffect(() => {
     calculateGrid(value);
+
     if (!value?.focus) {
       const x = ((value?.viewerWidth / 2 - value.e) / value.a)?.toFixed(0);
       const y = ((value?.viewerHeight / 2 - value.f) / value.a)?.toFixed(0);

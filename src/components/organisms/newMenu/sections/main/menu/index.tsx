@@ -8,8 +8,8 @@ import iconHelp from "assets/icons/menuHelp.svg";
 import iconSettings from "assets/icons/menuSettings.svg";
 import { useTranslation } from "react-i18next";
 
-import Profile from "./sections/profile";
-import Settings from "./sections/settings";
+import Profile from "./profile/profile";
+import Settings from "./settings/settings";
 
 import styled from "./styled.module.scss";
 
