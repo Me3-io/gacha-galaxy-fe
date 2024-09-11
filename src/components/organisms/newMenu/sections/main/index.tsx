@@ -24,7 +24,7 @@ import styled from "./styled.module.scss";
 
 const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
   const { t } = useTranslation();
-  const [value, setValue] = useState<string>("2");
+  const [value, setValue] = useState<string>("1");
 
   const leaderboardData = useSelector(getLeaderboard);
   const claimeables = useSelector(getClaims)?.claimeables || [];
