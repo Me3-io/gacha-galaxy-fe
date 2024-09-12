@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBuildings, getBuildings } from "reduxConfig/thunks/buildings";
 import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -14,25 +13,27 @@ import Layout from "components/templates/layout";
 import GameBar from "components/organisms/game/bar";
 import GameContainer from "components/organisms/game/container";
 
+import useAlert from "hooks/alertProvider/useAlert";
+import { getGame } from "reduxConfig/thunks/game";
+
 import styled from "./styled.module.scss";
-import Alert from "components/molecules/alert";
 
 const Game = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   const { code } = useParams();
+  const { setAlert } = useAlert();
 
-  const buildings = useSelector(getBuildings);
   const leaderboard = useSelector(getLeaderboard);
+  const game = useSelector(getGame);
 
-  const [onError, setOnError] = useState({ show: false, msg: "" });
-  const [gameData, setGameData] = useState<any>({});
+  const [gameData, setGameData] = useState<any>(game || {});
   const [onPlay, setOnPlay] = useState<boolean>(false);
   const [balance, setBalance] = useState(0);
 
   const handleBack = () => {
-    navigate(`/${i18n.language}/home`);
+    navigate(-1);
   };
 
   const handleEnd = (response: any) => {
@@ -46,27 +47,22 @@ const Game = () => {
 
   const handlePlay = () => {
     if (balance === 0 || balance - gameData?.price < 0) {
-      setOnError({ show: true, msg: t("game-no-balance") });
+      setAlert(t("game-no-balance"), "error");
     } else {
       setOnPlay(true);
     }
   };
 
   useEffect(() => {
-    if (buildings) {
-      const game =
-        (buildings &&
-          buildings
-            .find((building: any) => building?.games?.find((game: any) => game.code === code))
-            ?.games?.find((game: any) => game.code === code)) ||
-        null;
-
+    if (game) {
       setGameData(game);
     } else {
-      dispatch(fetchBuildings() as any);
+      const listGames = JSON.parse(localStorage.getItem("games") || "");
+      const game = listGames.find((game: any) => game.code === code) || null;
+      setGameData(game);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [buildings]);
+  }, [game]);
 
   useEffect(() => {
     if (leaderboard) {
@@ -78,9 +74,8 @@ const Game = () => {
   }, [leaderboard]);
 
   useEffect(() => {
-    if (!gameData) {
-      navigate(`/${i18n.language}/home/`);
-    }
+    if (!gameData) setAlert("Game not found", "error");
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameData]);
 
@@ -106,6 +101,7 @@ const Game = () => {
               onPlay={onPlay}
               balance={balance}
               handleEnd={handleEnd}
+              handlePlay={handlePlay}
               gameData={gameData}
             />
           </Grid>
@@ -119,12 +115,6 @@ const Game = () => {
             />
           </Grid>
         </Grid>
-
-        {onError.show && (
-          <Alert onClose={() => setOnError({ show: false, msg: "" })}>
-            {onError.msg || "Error"}
-          </Alert>
-        )}
       </Container>
     </Layout>
   );

@@ -41,7 +41,7 @@ const Card = ({ item, type, setDetails }: any) => {
 
         <Typography className={styled.title}>{item.name}</Typography>
         <Button onClick={() => setDetails(item)}>
-          {type === "game" ? t("select").toUpperCase() : "START QUEST"}
+          {type === "game" ? "START GAME" : "START QUEST"}
         </Button>
       </Box>
     </Box>

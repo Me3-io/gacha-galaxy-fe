@@ -6,23 +6,23 @@ const initialState = {
   error: null,
 };
 
-const buildingsSlice = createSlice({
-  name: "building",
+const mapsSlice = createSlice({
+  name: "maps",
   initialState,
   reducers: {
-    setBuildingStart(state) {
+    setMapStart(state) {
       state.loading = true;
       state.error = null;
     },
-    setBuildingSuccess(state, { payload }) {
+    setMapSuccess(state, { payload }) {
       state.data = payload;
       state.loading = false;
     },
-    setBuildingFailure(state, { payload }) {
+    setMapFailure(state, { payload }) {
       state.loading = false;
       state.error = payload;
     },
-    clearBuilding(state) {
+    clearMaps(state) {
       state.data = initialState.data;
       state.loading = initialState.loading;
       state.error = initialState.error;
@@ -30,7 +30,6 @@ const buildingsSlice = createSlice({
   },
 });
 
-export const { setBuildingStart, setBuildingSuccess, setBuildingFailure, clearBuilding } =
-  buildingsSlice.actions;
+export const { setMapStart, setMapSuccess, setMapFailure, clearMaps } = mapsSlice.actions;
 
-export default buildingsSlice.reducer;
+export default mapsSlice.reducer;

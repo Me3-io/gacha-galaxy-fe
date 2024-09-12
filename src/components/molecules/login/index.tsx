@@ -7,8 +7,10 @@ import {
   useActiveWallet,
   useActiveWalletConnectionStatus,
   useActiveAccount,
+  ConnectButton,
 } from "thirdweb/react";
-import { chain } from "config/thirdwebConfig";
+
+import { chain, modalConfig } from "config/thirdwebConfig";
 
 import { useTranslation } from "react-i18next";
 
@@ -19,21 +21,24 @@ import { clearAuthToken } from "reduxConfig/slices/tokenAuth";
 import { clearMessageAuth } from "reduxConfig/slices/messageAuth";
 
 import CustomTooltip from "components/atoms/materialTooltip";
-import Alert from "../alert";
+import useAlert from "hooks/alertProvider/useAlert";
 
 import LogoutIcon from "@mui/icons-material/Logout";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
+
+import { getSocial } from "reduxConfig/thunks/social";
+import { clearSocial } from "reduxConfig/slices/social";
 
 import styled from "./styled.module.scss";
 
 const LoginBar = () => {
   const tokenLS = localStorage.getItem("session.token");
   const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
+  const { setAlert } = useAlert();
 
   const [loadSigning, setLoadSigning] = useState(false);
   const [signMessage, setSignedMessage] = useState("");
-  const [onError, setOnError] = useState({ show: false, msg: "" });
 
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
@@ -41,11 +46,13 @@ const LoginBar = () => {
   const location = useLocation();
 
   const { disconnect } = useDisconnect();
+
   const wallet = useActiveWallet();
   const account = useActiveAccount() || accountLS;
   const status = useActiveWalletConnectionStatus();
 
   const dataMessageAuth = useSelector(selectMessageAuth);
+  const social = useSelector(getSocial);
 
   const logout = () => {
     if (wallet) disconnect(wallet);
@@ -66,18 +73,27 @@ const LoginBar = () => {
       setSignedMessage(response);
     } catch (error) {
       logout();
-      setOnError({ show: true, msg: t("login-error-rejected") });
+      setAlert(t("login-error-rejected"), "error");
     }
   };
 
-  /*const checkSession = () => {
-    customAxios()
-      .get("/user/validatesession")
-      .catch((error: any) => {
-        console.error("session error ", error);
-        logout();
+  /*const handleDetails = () => {
+    if (wallet)
+      detailsModal.open({
+        ...modalConfig,
+        hideDisconnect: true,
+        connectOptions: { ...modalConfig },
+        payOptions: {
+          buyWithCrypto: false,
+          buyWithFiat: false,
+        },
       });
   };*/
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(account?.address || "");
+    setAlert("Copy address to clipboard", "success");
+  };
 
   useEffect(() => {
     const address = account?.address;
@@ -85,53 +101,66 @@ const LoginBar = () => {
     if (status === "connected" && address && !signMessage && !tokenLS) {
       const from = window.location.hostname;
       setLoadSigning(true);
-      dispatch(fetchChallengeRequest({ address, from, chainid }) as any).then(
+      dispatch(fetchChallengeRequest({ address, from, chainid, social }) as any).then(
         async (response: any) => {
           if (response?.message) {
             signedMessage(response.message);
           } else {
-            setOnError({ show: true, msg: t("login-error-request") });
+            setAlert(t("login-error-request"), "error");
             console.error("Error to challenge request: ", response);
             logout();
           }
         }
       );
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, status]);
 
   useEffect(() => {
-    if (signMessage && dataMessageAuth?.message) {
-      const signParams = { signature: signMessage, message: dataMessageAuth.message };
+    if (signMessage && dataMessageAuth?.message && social !== null) {
+      const signParams = { signature: signMessage, message: dataMessageAuth.message, social };
       dispatch(fetchChallengeVerify(signParams) as any).then(async (response: any) => {
         setLoadSigning(false);
+        dispatch(clearSocial());
+        
         if (response?.sessionToken) {
           localStorage.setItem("session.token", response?.sessionToken);
           localStorage.setItem("session.account", JSON.stringify({ ...account, ...signParams }));
           setSignedMessage("");
           navigate(`/${i18n.language}/home/`);
         } else {
-          setOnError({ show: true, msg: t("login-error-verify") });
+          setAlert(t("login-error-verify"), "error");
           console.error("Error to challenge verify: ", response);
           logout();
         }
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signMessage, dataMessageAuth?.message]);
+  }, [signMessage, dataMessageAuth?.message, social]);
 
   useEffect(() => {
     const isLoginView = !location.pathname.split("/")[2];
     if (isLoginView && account && tokenLS) {
       navigate(`/${i18n.language}/home/`);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenLS, account, status]);
+
+  /*useEffect(() => {
+    const isLoginView = !location.pathname.split("/")[2];
+    if (!isLoading && !isLoginView && status === "disconnected") {
+      logout();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, status]);*/
 
   useEffect(() => {
     window.addEventListener("logout", () => logout());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   return (
     <>
@@ -147,10 +176,16 @@ const LoginBar = () => {
               <span>{`${account?.address?.slice(0, 8)}...${account?.address?.slice(-8)}`}</span>
 
               <CustomTooltip title={t("copy-address")}>
-                <ContentCopyIcon
-                  onClick={() => navigator.clipboard.writeText(account?.address || "")}
-                />
+                <ContentCopyIcon onClick={handleCopy} />
               </CustomTooltip>
+
+              {/*<CustomTooltip title={"Wallet Info"}>
+                <WalletIcon onClick={handleDetails} />
+              </CustomTooltip>*/}
+
+              <Box display={"none"}>
+                <ConnectButton {...modalConfig} />
+              </Box>
             </>
           )}
 
@@ -160,12 +195,6 @@ const LoginBar = () => {
             <LogoutIcon onClick={logout} />
           </CustomTooltip>
         </Box>
-      )}
-
-      {onError.show && (
-        <Alert onClose={() => setOnError({ show: false, msg: "" })}>
-          {onError.msg || "Error to login."}
-        </Alert>
       )}
     </>
   );

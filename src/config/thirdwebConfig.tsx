@@ -7,7 +7,7 @@ import { darkTheme } from "thirdweb/react";
 export const theme = darkTheme({
   colors: {
     modalOverlayBg: "#00000040",
-    modalBg: "#000000dd",
+    modalBg: "#000000cc",
     borderColor: "#ba00fb",
   },
   fontFamily: "ChakraPetchLight",
@@ -26,7 +26,7 @@ export const appMetadata = {
 
 // wallets ---
 export const wallets = [
-  inAppWallet({ auth: { options: ["email", "google"] } }),
+  inAppWallet({ auth: { options: ["email", "google", "telegram"] } }),
   // @ts-ignore
   createWallet("io.metamask"),
   // @ts-ignore
@@ -38,8 +38,24 @@ export const wallets = [
   walletConnect(),
 ];
 
+const onlyWallets = [
+  // @ts-ignore
+  createWallet("io.metamask"),
+  // @ts-ignore
+  createWallet("com.okex.wallet"),
+  // @ts-ignore
+  createWallet("com.bitget.web3"),
+  // @ts-ignore
+  createWallet("net.gateweb3"),
+  walletConnect(),
+];
+
+const onlySocial = [
+  inAppWallet({ auth: { options: [ "google", "telegram"] } }),
+];
+
 // client ---
-const clientId = process.env.REACT_APP_CLIENT_ID || "0903d0438bd5e33ad92413a0bc5cb21e";
+const clientId = process.env.REACT_APP_CLIENT_ID || "5cd1541d0cee6ee2590766551383aacb";
 export const client = createThirdwebClient({
   clientId,
 });
@@ -47,6 +63,8 @@ export const client = createThirdwebClient({
 
 // modal config ---
 export const modalConfig = { client, wallets, appMetadata, theme, chain };
+export const onlyWalletConfig = { client, wallets: onlyWallets, appMetadata, theme, chain };
+export const onlySocialConfig = { client, wallets: onlySocial, appMetadata, theme, chain };
 
 
 //e937664662530887cba89109dc5d9dd4

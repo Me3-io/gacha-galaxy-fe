@@ -14,11 +14,14 @@ import keyIcon from "assets/icons/key.svg";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import styled from "./styled.module.scss";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { MapContext } from "pages/home";
+import { setGame } from "reduxConfig/slices/game";
+import waitForElement from "utils/waitForElement";
 
 const ItemChance = ({ text, percent }: any) => {
   return (
@@ -29,7 +32,10 @@ const ItemChance = ({ text, percent }: any) => {
   );
 };
 
-const GameDetails = ({ details, setDetails }: any) => {
+const GameDetails = () => {
+  const dispatch = useDispatch();
+  const { game: details, setGame: setDetails, map } = useContext(MapContext);
+
   const open = !!details?.code;
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
@@ -37,7 +43,8 @@ const GameDetails = ({ details, setDetails }: any) => {
 
   const goToGame = () => {
     if (!details?.code) return;
-    navigate(`/${i18n.language}/game/${details.code}`);
+    dispatch(setGame(details));
+    navigate(`/${i18n.language}/game/${details.code}`, { state: { map: map.code } });
   };
 
   const onClose = (evt: any, reason: string) => {
@@ -54,12 +61,18 @@ const GameDetails = ({ details, setDetails }: any) => {
   };
 
   useEffect(() => {
-    const rewardsContainer = document.querySelector("#rewards");
-    rewardsContainer?.addEventListener("wheel", (e: any) => {
-      e.preventDefault();
-      rewardsContainer.scrollLeft += e?.deltaY;
+    if (!open) return;
+
+    waitForElement("#rewards").then((element: any) => {
+      const handleWheel = (evt: any) => {
+        evt.preventDefault();
+        element.scrollLeft += evt?.deltaY;
+      };
+
+      element.addEventListener("wheel", handleWheel);
+      return () => element.removeEventListener("wheel", handleWheel);
     });
-  }, []);
+  }, [open]);
 
   return (
     <Modal open={open} onClose={onClose} className={styled.modalContainer}>

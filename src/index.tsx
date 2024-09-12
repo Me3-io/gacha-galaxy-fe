@@ -6,6 +6,7 @@ import "./i18n";
 import store from "reduxConfig/store";
 import { Provider } from "react-redux";
 import { ThirdwebProvider } from "thirdweb/react";
+import { AlertProvider } from "hooks/alertProvider/alertContext";
 
 import App from "App";
 import "./index.css";
@@ -16,7 +17,9 @@ root.render(
     <BrowserRouter>
       <Provider store={store}>
         <ThirdwebProvider>
-          <App />
+          <AlertProvider>
+            <App />
+          </AlertProvider>
         </ThirdwebProvider>
       </Provider>
     </BrowserRouter>

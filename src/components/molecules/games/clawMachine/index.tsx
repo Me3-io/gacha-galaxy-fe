@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Fade } from "@mui/material";
 import useResizeObserver from "use-resize-observer";
 
+import useAlert from "hooks/alertProvider/useAlert";
 import customAxios from "utils/customAxios";
-import Alert from "components/molecules/alert";
 import CongratsModal from "components/molecules/games/modal";
 
 import styled from "./styled.module.scss";
@@ -29,13 +29,12 @@ const initialState: State = {
   source: "",
 };
 
-const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
+const ClawMachine = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
   const { ref, height } = useResizeObserver();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { setAlert } = useAlert();
 
   const [gameState, setGameState] = useState<State>(initialState);
-  //const [onSuccess, setOnSuccess] = useState(false);
-  const [onError, setOnError] = useState({ show: false, msg: "" });
   const [response, setResponse] = useState<any>(null);
   const [modal, setModal] = useState({ open: false, data: {} });
 
@@ -82,12 +81,12 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
 
   // game actions ---
   const nextStep = (sourceAnimation?: string) => {
-    if (onError.show) return;
+    //if (onError.show) return;
 
     switch (gameState.status) {
       case "init":
         setGameState(states.load);
-        setTimeout(() => { 
+        setTimeout(() => {
           setGameState(states.ready);
         }, 3000);
         break;
@@ -109,7 +108,7 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
   };
 
   const errorGame = (error?: string) => {
-    setOnError({ show: true, msg: "Error to play game." });
+    setAlert("Error to play game.", "error");
     setTimeout(() => {
       setGameState(states.ready);
       if (videoRef?.current) videoRef?.current?.pause();
@@ -137,6 +136,11 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response, gameState.status]);
+
+  const handlePlayAgain = () => {
+    setModal({ open: false, data: {} });
+    handlePlay();
+  };
 
   // start the game ---
   useEffect(() => {
@@ -188,13 +192,11 @@ const ClawMachine = ({ onPlay, handleEnd, gameData }: any) => {
           <img alt="machine" className={bgClass} src={machine} />
         </Box>
 
-        <CongratsModal {...modal} onClose={() => setModal({ open: false, data: {} })} />
-
-        {onError.show && (
-          <Alert onClose={() => setOnError({ show: false, msg: "" })}>
-            {onError.msg || "Error."}
-          </Alert>
-        )}
+        <CongratsModal
+          {...modal}
+          onClose={() => setModal({ open: false, data: {} })}
+          handlePlayAgain={handlePlayAgain}
+        />
       </Box>
     </Fade>
   );

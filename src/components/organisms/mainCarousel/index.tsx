@@ -5,10 +5,13 @@ import Grow from "@mui/material/Grow";
 
 import GameCampaingCarousel from "./carousel";
 import styled from "./styled.module.scss";
+import { useContext } from "react";
+import { MapContext } from "pages/home";
 
-const MainCarousel = ({ listGames, listCampaings, setGame, setCampaing, handleClose }: any) => {
+const MainCarousel = ({ handleClose }: any) => {
+  const { setGame, listGames, setCampaing, listCampaings } = useContext(MapContext);
   const open = !!listGames?.length || !!listCampaings?.length || false;
-  
+
   const onClose = (evt: any, reason: string) => {
     if (reason !== "backdropClick") handleClose();
   };
