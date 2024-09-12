@@ -358,11 +358,12 @@ const Profile = ({ setOpen }: any) => {
           }}
         />
 
-        <Box className={styled.walletContainer}>
+        <Box className={styled.walletContainer} pb={2}>
           <Typography pb={1}>Connected Wallets</Typography>
           <ListWallets unlinkWallet={unlinkWallet} activeWallet={activeWallet} />
         </Box>
 
+        {/*
         <Box className={styled.actions}>
           <Button onClick={addWallet}>
             <WalletIcon /> Add Wallet
@@ -379,6 +380,7 @@ const Profile = ({ setOpen }: any) => {
             <PersonIcon /> Add Social
           </Button>
         </Box>
+        */}
       </Box>
     </Grid>
   );
