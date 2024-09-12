@@ -152,14 +152,7 @@ const Profile = ({ setOpen }: any) => {
       return;
     }
 
-    await customAxios()
-      .post("/user/updateprofile", { nickname })
-      .then(() => setAlert("Updated successfully", "success"))
-      .catch((error: any) => {
-        setAlert(error?.response?.data?.message || error?.message || "error", "error");
-      });
-
-    dispatch(fetchLeaderboard() as any);
+    await updateprofile();
     setOnEditNickname(false);
   };
 
@@ -185,16 +178,21 @@ const Profile = ({ setOpen }: any) => {
       return;
     }
 
+    await updateprofile();
+    setOnEditEmail(false);
+  };
+
+
+  const updateprofile = async () => { 
     await customAxios()
-      .post("/user/updateprofile", { email })
+      .post("/user/updateprofile", { nickname, email })
       .then(() => setAlert("Updated successfully", "success"))
       .catch((error: any) => {
         setAlert(error?.response?.data?.message || error?.message || "error", "error");
       });
 
     dispatch(fetchLeaderboard() as any);
-    setOnEditNickname(false);
-  };
+  }
 
   // wallets and social ---
   const addWallet = async () => {

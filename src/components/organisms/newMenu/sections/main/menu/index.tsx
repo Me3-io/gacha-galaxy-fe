@@ -3,9 +3,9 @@ import { Box, ButtonBase, Fade, Stack, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import iconUser from "assets/icons/menuUser.svg";
-import iconCalendar from "assets/icons/menuCalendar.svg";
+//import iconCalendar from "assets/icons/menuCalendar.svg";
 import iconHelp from "assets/icons/menuHelp.svg";
-import iconSettings from "assets/icons/menuSettings.svg";
+//import iconSettings from "assets/icons/menuSettings.svg";
 import { useTranslation } from "react-i18next";
 
 import Profile from "./profile/profile";
