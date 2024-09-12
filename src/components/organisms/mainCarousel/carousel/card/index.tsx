@@ -5,11 +5,11 @@ import capsuleIcon from "assets/games/capsule/capsule-machine-angle-view.png";
 import clawMachineIcon from "assets/games/clawMachine/Angled_View.png";
 
 import styled from "./styled.module.scss";
-import { useTranslation } from "react-i18next";
+//import { useTranslation } from "react-i18next";
 
 const Card = ({ item, type, setDetails }: any) => {
 
-  const { t } = useTranslation();
+  //const { t } = useTranslation();
 
   const getMachineIcon = (code: string) => {
     switch (code) {
