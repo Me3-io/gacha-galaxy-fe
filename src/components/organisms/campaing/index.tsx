@@ -1,12 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import Button from "components/atoms/buttons/base";
+//import CloseIcon from "@mui/icons-material/Close";
 import CircularProgress from "@mui/material/CircularProgress";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-import styled from "./styled.module.scss";
 import { MapContext } from "pages/home";
 
+import { useTranslation } from "react-i18next";
+import styled from "./styled.module.scss";
+
 const Campaing = () => {
+  const { t } = useTranslation();
   const { campaing: details, setCampaing: setDetails } = useContext(MapContext);
 
   const open = !!details?.claimrId;
@@ -65,8 +70,14 @@ const Campaing = () => {
   return (
     <Modal open={open} onClose={onClose} className={styled.modalContainer}>
       <>
-        <CloseIcon className={styled.close} onClick={(evt: any) => onClose(evt, "close")} />
+        {/*<CloseIcon className={styled.close} onClick={(evt: any) => onClose(evt, "close")} />*/}
+
         <Box className={styled.modal}>
+          <Box className={styled.backButton}>
+            <Button onClick={(evt: any) => onClose(evt, "close")}>
+              <ArrowBackIcon /> {t("back")}
+            </Button>
+          </Box>
           {loading && (
             <Box className={styled.loading}>
               <CircularProgress className={styled.spinner} size={36} />

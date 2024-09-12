@@ -18,20 +18,20 @@ const ButtonGroup = ({ next, previous }: any) => {
 
 const GameCampaingCarousel = ({ listGames, listCampaings, setGame, setCampaing }: any) => {
   const total = listGames?.length + listCampaings?.length || 1;
-  const length = total >= 3 ? 3 : total;
+  //const length = total >= 3 ? 3 : total;
 
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: length,
+      items: total >= 3 ? 3 : total,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: length,
+      items: total >= 3 ? 3 : total,
     },
     tablet: {
       breakpoint: { max: 1024, min: 800 },
-      items: 2,
+      items: total >= 2 ? 2 : total,
     },
     mobile: {
       breakpoint: { max: 800, min: 0 },
