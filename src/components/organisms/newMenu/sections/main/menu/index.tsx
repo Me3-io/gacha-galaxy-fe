@@ -44,13 +44,13 @@ const Menu = () => {
 
   const rows = [
     { icon: iconUser, name: t("menu-profile"), onClick: () => setOpenProfile(true) },
-    { icon: iconCalendar, name: t("menu-schedule"), onClick: () => {} },
+   // { icon: iconCalendar, name: t("menu-schedule"), onClick: () => {} },
     {
       icon: iconHelp,
       name: t("menu-help"),
       onClick: () => window.open("https://help.me3.io/en/", "_blank"),
     },
-    { icon: iconSettings, name: t("menu-settings"), onClick: () => setOpenSettings(true) },
+   //{ icon: iconSettings, name: t("menu-settings"), onClick: () => setOpenSettings(true) },
   ];
 
   const mainOpacity = openProfile || openSettings ? 0 : 1;

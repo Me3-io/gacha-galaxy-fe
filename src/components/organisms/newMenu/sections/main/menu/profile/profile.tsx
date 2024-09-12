@@ -121,22 +121,26 @@ const Profile = ({ setOpen }: any) => {
   const { connect } = useConnectModal();
   const { setAlert } = useAlert();
 
-  const [onEdit, setOnEdit] = useState(false);
+  const [onEditNickname, setOnEditNickname] = useState(false);
+  const [onEditEmail, setOnEditEmail] = useState(false);
+
   const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
 
   const wallet = useActiveWallet();
   const setActiveAccount = useSetActiveWallet();
   const leaderboardData = useSelector(getLeaderboard);
 
-  const handleChange = (e: any) => setNickname(e.target.value);
-  const handleEdit = () => setOnEdit(true);
+  // nickname ---
+  const handleChangeNickname = (e: any) => setNickname(e.target.value);
+  const handleEditNickname = () => setOnEditNickname(true);
 
-  const handleCancel = () => {
+  const handleCancelNickname = () => {
     setNickname(leaderboardData?.userNickname);
-    setOnEdit(false);
+    setOnEditNickname(false);
   };
 
-  const handleSave = async () => {
+  const handleSaveNickname = async () => {
     if (!nickname) {
       setAlert("Nickname is required", "error");
       return;
@@ -156,9 +160,43 @@ const Profile = ({ setOpen }: any) => {
       });
 
     dispatch(fetchLeaderboard() as any);
-    setOnEdit(false);
+    setOnEditNickname(false);
   };
 
+  // email ---
+  const handleChangeEmail = (e: any) => setEmail(e.target.value);
+  const handleEditEmail = () => setOnEditEmail(true);
+
+  const handleCancelEmail = () => {
+    setEmail(leaderboardData?.userEmail);
+    setOnEditEmail(false);
+  };
+
+  const handleSaveEmail = async () => {
+    if (!email) {
+      setAlert("Email is required", "error");
+      return;
+    }
+
+    const regex =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!regex.test(email)) {
+      setAlert("The email format is not valid", "error");
+      return;
+    }
+
+    await customAxios()
+      .post("/user/updateprofile", { email })
+      .then(() => setAlert("Updated successfully", "success"))
+      .catch((error: any) => {
+        setAlert(error?.response?.data?.message || error?.message || "error", "error");
+      });
+
+    dispatch(fetchLeaderboard() as any);
+    setOnEditNickname(false);
+  };
+
+  // wallets and social ---
   const addWallet = async () => {
     const activeAccount = wallet;
     try {
@@ -230,6 +268,7 @@ const Profile = ({ setOpen }: any) => {
 
   useEffect(() => {
     setNickname(leaderboardData?.userNickname || "");
+    setEmail(leaderboardData?.userEmail || "");
   }, [leaderboardData]);
 
   return (
@@ -243,34 +282,75 @@ const Profile = ({ setOpen }: any) => {
         </Typography>
       </Box>
       <Box p={2} px={3} className={styled.container}>
+        {/* Nickname */}
         <TextField
           type="text"
           size="medium"
           variant="outlined"
           className={styled.textField}
           sx={
-            onEdit
+            onEditNickname
               ? { border: "1px solid #ba00fb!important" }
               : { borderBottom: "1px dashed #ba00fbaa!important" }
           }
-          disabled={!onEdit}
+          disabled={!onEditNickname}
           value={nickname}
-          onChange={handleChange}
+          placeholder="nickname"
+          onChange={handleChangeNickname}
           autoComplete="off"
           inputProps={{ maxLength: 25 }}
           InputProps={{
             endAdornment: (
               <>
-                {!onEdit ? (
-                  <IconButton edge="end" color="secondary" onClick={handleEdit}>
+                {!onEditNickname ? (
+                  <IconButton edge="end" color="secondary" onClick={handleEditNickname}>
                     <CreateIcon />
                   </IconButton>
                 ) : (
                   <Box display={"flex"} gap={1}>
-                    <IconButton edge="end" color="secondary" onClick={handleCancel}>
+                    <IconButton edge="end" color="secondary" onClick={handleCancelNickname}>
                       <CloseIcon />
                     </IconButton>
-                    <IconButton edge="end" color="secondary" onClick={handleSave}>
+                    <IconButton edge="end" color="secondary" onClick={handleSaveNickname}>
+                      <CheckIcon />
+                    </IconButton>
+                  </Box>
+                )}
+              </>
+            ),
+          }}
+        />
+
+        {/* Email */}
+        <TextField
+          type="text"
+          size="medium"
+          variant="outlined"
+          className={styled.textField}
+          sx={
+            onEditEmail
+              ? { border: "1px solid #ba00fb!important" }
+              : { borderBottom: "1px dashed #ba00fbaa!important" }
+          }
+          disabled={!onEditEmail}
+          value={email}
+          placeholder="email"
+          onChange={handleChangeEmail}
+          autoComplete="off"
+          inputProps={{ maxLength: 25 }}
+          InputProps={{
+            endAdornment: (
+              <>
+                {!onEditEmail ? (
+                  <IconButton edge="end" color="secondary" onClick={handleEditEmail}>
+                    <CreateIcon />
+                  </IconButton>
+                ) : (
+                  <Box display={"flex"} gap={1}>
+                    <IconButton edge="end" color="secondary" onClick={handleCancelEmail}>
+                      <CloseIcon />
+                    </IconButton>
+                    <IconButton edge="end" color="secondary" onClick={handleSaveEmail}>
                       <CheckIcon />
                     </IconButton>
                   </Box>

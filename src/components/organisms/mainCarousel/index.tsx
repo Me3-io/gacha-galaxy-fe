@@ -9,10 +9,9 @@ import { useContext } from "react";
 import { MapContext } from "pages/home";
 
 const MainCarousel = ({ handleClose }: any) => {
-  
   const { setGame, listGames, setCampaing, listCampaings } = useContext(MapContext);
   const open = !!listGames?.length || !!listCampaings?.length || false;
-  
+
   const onClose = (evt: any, reason: string) => {
     if (reason !== "backdropClick") handleClose();
   };
