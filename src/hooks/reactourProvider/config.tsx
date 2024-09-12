@@ -15,6 +15,11 @@ export const steps = [
     "Points and Keys: Here you can see the points you’ve earned and Arcade Keys you have to play in the Gacha Arcade.",
   },
   {
+    selector: ".maps-step",
+    content:
+      "Maps Regions: Select the different maps to find new buildings to earn points and keys.",
+  },
+  {
     selector: ".leaderboard-step",
     content:
       "Leaderboard: In this list you will see the ranking positions of other players across the world. Top ranks win rare and valuable prizes!",

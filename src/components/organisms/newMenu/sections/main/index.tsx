@@ -8,6 +8,11 @@ import { getClaims } from "reduxConfig/thunks/claim";
 
 import keyIcon from "assets/icons/key.svg";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import menuIcon from "assets/icons/menu.svg";
+import leaderboardIcon from "assets/icons/leaderboard.svg";
+import mapIcon from "assets/icons/map.svg";
+import notificationsIcon from "assets/icons/notifications.svg";
+
 
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -107,26 +112,31 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
               <Tab
                 sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
                 onClick={() => handleTab("1")}
-                label="Maps Regions"
+                title="Maps Regions"
+                icon={<img src={mapIcon} alt="menu" height={24} />}
                 value="1"
+                className="maps-step"
               />
               <Tab
                 sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
                 onClick={() => handleTab("2")}
-                label="Leaderboard"
+                title="Leaderboard"
                 value="2"
+                icon={<img src={leaderboardIcon} alt="menu" height={26} />}
                 className="leaderboard-step"
               />
               <Tab
                 sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
                 onClick={() => handleTab("3")}
-                label="Menu"
+                title="Menu"
+                icon={<img src={menuIcon} alt="menu" height={16} />}
                 value="3"
               />
               <Tab
                 sx={{ "&.Mui-selected": { backgroundColor: "#634373aa" } }}
                 onClick={() => handleTab("4")}
-                label="Notifications"
+                title="Notifications"
+                icon={<img src={notificationsIcon} alt="menu" height={22} />}
                 value="4"
               />
             </TabList>
