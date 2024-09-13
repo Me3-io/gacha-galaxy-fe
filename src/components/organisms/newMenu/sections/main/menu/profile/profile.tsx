@@ -133,6 +133,7 @@ const Profile = ({ setOpen }: any) => {
 
   // nickname ---
   const handleChangeNickname = (e: any) => setNickname(e.target.value);
+  
   const handleEditNickname = () => setOnEditNickname(true);
 
   const handleCancelNickname = () => {
@@ -158,6 +159,7 @@ const Profile = ({ setOpen }: any) => {
 
   // email ---
   const handleChangeEmail = (e: any) => setEmail(e.target.value);
+
   const handleEditEmail = () => setOnEditEmail(true);
 
   const handleCancelEmail = () => {

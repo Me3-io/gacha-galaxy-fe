@@ -52,10 +52,10 @@ const Login = () => {
       if (typeof response?.getProfiles === "function") {
         //@ts-ignore
         const profiles = await response?.getProfiles();
-        const social = profiles[0]?.type || null;
+        const social = profiles[0]?.type || "";
         dispatch(setSocial(social) as any);
       } else {
-        dispatch(setSocial(false) as any);
+        dispatch(setSocial("") as any);
       }
 
     } catch (error) {

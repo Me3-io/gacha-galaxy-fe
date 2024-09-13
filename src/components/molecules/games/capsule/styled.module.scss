@@ -121,3 +121,27 @@
     transform: scale(2.4, 2.4);
   }
 }
+
+
+
+.loading {
+  position: absolute;
+  inset: 0;
+  z-index: 899;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #e4bcf2;
+  font-family: "ChakraPetch";
+  font-size: 1.5rem;
+  gap: 2rem;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(3px);
+  transition: 0.2s all;
+
+  .spinner {
+    color: #d490ec !important;
+  }
+}
