@@ -101,7 +101,7 @@ const LoginBar = () => {
     if (status === "connected" && address && !signMessage && !tokenLS) {
       const from = window.location.hostname;
       setLoadSigning(true);
-      dispatch(fetchChallengeRequest({ address, from, chainid, social }) as any).then(
+      dispatch(fetchChallengeRequest({ address, from, chainid }) as any).then(
         async (response: any) => {
           if (response?.message) {
             signedMessage(response.message);
