@@ -20,6 +20,6 @@ export const fetchChallengeVerify =
     }
   };
 
-export const selectAuthToken = (state: any) => state.authToken.data;
-export const selectAuthTokenLoading = (state: any) => state.authToken.loading;
-export const selectAuthTokenError = (state: any) => state.authToken.error;
+export const selectAuthToken = (state: any) => state.tokenAuth.data;
+export const selectAuthTokenLoading = (state: any) => state.tokenAuth.loading;
+export const selectAuthTokenError = (state: any) => state.tokenAuth.error;
