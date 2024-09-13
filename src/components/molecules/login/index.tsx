@@ -15,7 +15,7 @@ import { chain, modalConfig } from "config/thirdwebConfig";
 import { useTranslation } from "react-i18next";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchChallengeRequest, selectMessageAuth } from "reduxConfig/thunks/messageAuth";
+import { fetchChallengeRequest, selectMessageAuth, selectMessageAuthLoading } from "reduxConfig/thunks/messageAuth";
 import { fetchChallengeVerify } from "reduxConfig/thunks/tokenAuth";
 import { clearAuthToken } from "reduxConfig/slices/tokenAuth";
 import { clearMessageAuth } from "reduxConfig/slices/messageAuth";
@@ -54,6 +54,7 @@ const LoginBar = () => {
   const status = useActiveWalletConnectionStatus();
 
   const dataMessageAuth = useSelector(selectMessageAuth);
+  const loadingMessageAuth = useSelector(selectMessageAuthLoading);
   const social = useSelector(getSocial);
   const leaderboardData = useSelector(getLeaderboard);
 
@@ -101,20 +102,23 @@ const LoginBar = () => {
   useEffect(() => {
     const address = account?.address;
     const chainid = chain?.id || 1;
+
     if (status === "connected" && address && !signMessage && !tokenLS) {
       const from = window.location.hostname;
-      setLoadSigning(true);
-      dispatch(fetchChallengeRequest({ address, from, chainid }) as any).then(
-        async (response: any) => {
-          if (response?.message) {
-            signedMessage(response.message);
-          } else {
-            setAlert(t("login-error-request"), "error");
-            console.error("Error to challenge request: ", response);
-            logout();
+      if (!loadingMessageAuth) {
+        setLoadSigning(true);
+        dispatch(fetchChallengeRequest({ address, from, chainid }) as any).then(
+          async (response: any) => {
+            if (response?.message) {
+              signedMessage(response.message);
+            } else {
+              setAlert(t("login-error-request"), "error");
+              console.error("Error to challenge request: ", response);
+              logout();
+            }
           }
-        }
-      );
+        );
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
