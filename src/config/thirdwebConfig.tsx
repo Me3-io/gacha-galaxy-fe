@@ -55,7 +55,7 @@ const onlySocial = [
 ];
 
 // client ---
-const clientId = process.env.REACT_APP_CLIENT_ID || "5cd1541d0cee6ee2590766551383aacb";
+const clientId = process.env.REACT_APP_CLIENT_ID || "";
 export const client = createThirdwebClient({
   clientId,
 });
