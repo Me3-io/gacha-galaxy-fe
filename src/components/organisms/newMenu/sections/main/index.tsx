@@ -13,7 +13,6 @@ import leaderboardIcon from "assets/icons/leaderboard.svg";
 import mapIcon from "assets/icons/map.svg";
 import notificationsIcon from "assets/icons/notifications.svg";
 
-
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -122,7 +121,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
                 onClick={() => handleTab("2")}
                 title="Leaderboard"
                 value="2"
-                icon={<img src={leaderboardIcon} alt="menu" height={26} />}
+                icon={<img src={leaderboardIcon} alt="menu" height={22} />}
                 className="leaderboard-step"
               />
               <Tab

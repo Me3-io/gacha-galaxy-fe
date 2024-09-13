@@ -17,11 +17,12 @@ import useAlert from "hooks/alertProvider/useAlert";
 import { getGame } from "reduxConfig/thunks/game";
 
 import styled from "./styled.module.scss";
+import customAxios from "utils/customAxios";
 
 const Game = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { code } = useParams();
   const { setAlert } = useAlert();
 
@@ -78,6 +79,16 @@ const Game = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameData]);
+
+  useEffect(() => {
+    customAxios()
+      .get("/user/validatesession")
+      .catch((error: any) => {
+        console.error("session error ", error);
+        navigate(`/${i18n.language}/`);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Layout>
