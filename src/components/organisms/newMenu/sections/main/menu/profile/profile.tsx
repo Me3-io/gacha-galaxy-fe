@@ -6,7 +6,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CreateIcon from "@mui/icons-material/Create";
 import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import KeyIcon from "@mui/icons-material/Key";
+//import KeyIcon from "@mui/icons-material/Key";
 //import PersonIcon from "@mui/icons-material/Person";
 //import WalletIcon from "@mui/icons-material/Wallet";
 import LinkOffIcon from "@mui/icons-material/LinkOff";
@@ -38,6 +38,18 @@ const ListWallets = ({ unlinkWallet, activeWallet }: any) => {
     setAlert("Copy address to clipboard", "success");
   };
 
+  /*const getPrivateKey = async (address: string) => {
+    await customAxios()
+      .post("/wallet/key", { address })
+      .then((response) => {
+        console.log(response);
+        setAlert("Linked successfully", "success");
+      })
+      .catch((error: any) => {
+        setAlert(error?.response?.data?.message || error?.message || "error", "error");
+      });
+  };*/
+
   return (
     <>
       {wallets.map((row: any) => (
@@ -54,11 +66,11 @@ const ListWallets = ({ unlinkWallet, activeWallet }: any) => {
             </CustomTooltip>
           </Box>
           <Box>
-            {row?.type === "me3-created" && (
+            {/*row?.type === "me3-created" && (
               <CustomTooltip title={"Get Private Key"}>
-                <KeyIcon sx={{ cursor: "pointer" }} onClick={() => {}} />
+                <KeyIcon sx={{ cursor: "pointer" }} onClick={() => getPrivateKey(row.address)} />
               </CustomTooltip>
-            )}
+            )*/}
 
             {!row?.active ? (
               <>
@@ -133,7 +145,7 @@ const Profile = ({ setOpen }: any) => {
 
   // nickname ---
   const handleChangeNickname = (e: any) => setNickname(e.target.value);
-  
+
   const handleEditNickname = () => setOnEditNickname(true);
 
   const handleCancelNickname = () => {
@@ -184,8 +196,7 @@ const Profile = ({ setOpen }: any) => {
     setOnEditEmail(false);
   };
 
-
-  const updateprofile = async () => { 
+  const updateprofile = async () => {
     await customAxios()
       .post("/user/updateprofile", { nickname, email })
       .then(() => setAlert("Updated successfully", "success"))
@@ -194,7 +205,7 @@ const Profile = ({ setOpen }: any) => {
       });
 
     dispatch(fetchLeaderboard() as any);
-  }
+  };
 
   // wallets and social ---
   const addWallet = async () => {
