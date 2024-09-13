@@ -24,13 +24,15 @@ import CustomTooltip from "components/atoms/materialTooltip";
 import useAlert from "hooks/alertProvider/useAlert";
 
 import LogoutIcon from "@mui/icons-material/Logout";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+//import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import { getSocial } from "reduxConfig/thunks/social";
 import { clearSocial } from "reduxConfig/slices/social";
 
 import styled from "./styled.module.scss";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 const LoginBar = () => {
   const tokenLS = localStorage.getItem("session.token");
@@ -53,6 +55,7 @@ const LoginBar = () => {
 
   const dataMessageAuth = useSelector(selectMessageAuth);
   const social = useSelector(getSocial);
+  const leaderboardData = useSelector(getLeaderboard);
 
   const logout = () => {
     if (wallet) disconnect(wallet);
@@ -90,10 +93,10 @@ const LoginBar = () => {
       });
   };*/
 
-  const handleCopy = () => {
+  /*const handleCopy = () => {
     navigator.clipboard.writeText(account?.address || "");
     setAlert("Copy address to clipboard", "success");
-  };
+  };*/
 
   useEffect(() => {
     const address = account?.address;
@@ -123,7 +126,7 @@ const LoginBar = () => {
       dispatch(fetchChallengeVerify(signParams) as any).then(async (response: any) => {
         setLoadSigning(false);
         dispatch(clearSocial());
-        
+
         if (response?.sessionToken) {
           localStorage.setItem("session.token", response?.sessionToken);
           localStorage.setItem("session.account", JSON.stringify({ ...account, ...signParams }));
@@ -161,7 +164,6 @@ const LoginBar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   return (
     <>
       {account?.address && (
@@ -173,13 +175,18 @@ const LoginBar = () => {
             </>
           ) : (
             <>
+              <span>{leaderboardData?.userNickname || ""}</span>
+              <AccountCircleIcon />
+
+              {/*}
               <span>{`${account?.address?.slice(0, 8)}...${account?.address?.slice(-8)}`}</span>
 
               <CustomTooltip title={t("copy-address")}>
                 <ContentCopyIcon onClick={handleCopy} />
               </CustomTooltip>
-
-              {/*<CustomTooltip title={"Wallet Info"}>
+              */}
+              {/*
+              <CustomTooltip title={"Wallet Info"}>
                 <WalletIcon onClick={handleDetails} />
               </CustomTooltip>*/}
 
