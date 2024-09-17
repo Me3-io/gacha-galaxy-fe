@@ -6,9 +6,9 @@ import CheckIcon from "@mui/icons-material/Check";
 import CreateIcon from "@mui/icons-material/Create";
 import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-//import KeyIcon from "@mui/icons-material/Key";
-//import PersonIcon from "@mui/icons-material/Person";
-//import WalletIcon from "@mui/icons-material/Wallet";
+import KeyIcon from "@mui/icons-material/Key";
+import PersonIcon from "@mui/icons-material/Person";
+import WalletIcon from "@mui/icons-material/Wallet";
 import LinkOffIcon from "@mui/icons-material/LinkOff";
 import GoogleIcon from "@mui/icons-material/Google";
 import TelegramIcon from "@mui/icons-material/Telegram";
@@ -24,12 +24,14 @@ import { useTranslation } from "react-i18next";
 import { useActiveWallet, useConnectModal, useSetActiveWallet } from "thirdweb/react";
 import useAlert from "hooks/alertProvider/useAlert";
 
-import { onlySocialConfig, onlyWalletConfig } from "config/thirdwebConfig";
+import { appMetadata, chain, client, onlyWalletConfig, theme } from "config/thirdwebConfig";
 import styled from "./styled.module.scss";
+import { inAppWallet } from "thirdweb/wallets";
 
 const ListWallets = ({ unlinkWallet, activeWallet }: any) => {
-  const leaderboardData = useSelector(getLeaderboard);
-  const wallets = leaderboardData?.wallets.filter((wallet: any) => !wallet?.social) || [];
+  const data = useSelector(getLeaderboard);
+  const wallets = data?.wallets.filter((w: any) => !w?.social) || [];
+
   const { setAlert } = useAlert();
   const { t } = useTranslation();
 
@@ -38,17 +40,18 @@ const ListWallets = ({ unlinkWallet, activeWallet }: any) => {
     setAlert("Copy address to clipboard", "success");
   };
 
-  /*const getPrivateKey = async (address: string) => {
+  const getPrivateKey = async (address: string) => {
     await customAxios()
       .post("/wallet/key", { address })
       .then((response) => {
-        console.log(response);
-        setAlert("Linked successfully", "success");
+        //console.log(response);
+        navigator.clipboard.writeText(response?.data?.data || "");
+        setAlert("Copy Private Key to clipboard", "success");
       })
       .catch((error: any) => {
         setAlert(error?.response?.data?.message || error?.message || "error", "error");
       });
-  };*/
+  };
 
   return (
     <>
@@ -66,11 +69,11 @@ const ListWallets = ({ unlinkWallet, activeWallet }: any) => {
             </CustomTooltip>
           </Box>
           <Box>
-            {/*row?.type === "me3-created" && (
+            {row?.type === "me3-created" && (
               <CustomTooltip title={"Get Private Key"}>
                 <KeyIcon sx={{ cursor: "pointer" }} onClick={() => getPrivateKey(row.address)} />
               </CustomTooltip>
-            )*/}
+            )}
 
             {!row?.active ? (
               <>
@@ -95,11 +98,15 @@ const ListWallets = ({ unlinkWallet, activeWallet }: any) => {
 };
 
 const ListSocials = ({ unlinkWallet }: any) => {
-  const leaderboardData = useSelector(getLeaderboard);
-  const wallets =
-    leaderboardData?.wallets.filter(
-      (wallet: any) => wallet?.social && wallet?.type !== "me3-wallet"
-    ) || [];
+  const data = useSelector(getLeaderboard);
+
+  // validate on unlink social
+  const hasUserOwned = data?.wallets.filter((w: any) => !w?.type ||  w?.type === "user-owned").length;
+  const hasSocial = data?.wallets.filter((w: any) => w?.type === "third-party-created").length;
+  const allowLinked = hasUserOwned > 0 || hasSocial > 1;
+
+  // filter social wallets
+  const wallets = data?.wallets.filter((w: any) => w?.social && w?.type !== "me3-wallet") || [];
 
   return (
     <>
@@ -111,11 +118,17 @@ const ListSocials = ({ unlinkWallet }: any) => {
               {row?.social === "telegram" && <TelegramIcon />}
               <span>{(row?.social || "social").toUpperCase()}</span>
             </Box>
-            <Box>
-              <CustomTooltip title={"Unlink Social"}>
-                <LinkOffIcon sx={{ cursor: "pointer" }} onClick={() => unlinkWallet(row.address)} />
-              </CustomTooltip>
-            </Box>
+
+            {allowLinked && (
+              <Box>
+                <CustomTooltip title={"Unlink Social"}>
+                  <LinkOffIcon
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => unlinkWallet(row.address)}
+                  />
+                </CustomTooltip>
+              </Box>
+            )}
           </Box>
         ))
       ) : (
@@ -141,7 +154,13 @@ const Profile = ({ setOpen }: any) => {
 
   const wallet = useActiveWallet();
   const setActiveAccount = useSetActiveWallet();
-  const leaderboardData = useSelector(getLeaderboard);
+  const data = useSelector(getLeaderboard);
+
+  const activeSocials = data?.wallets.map((w: any) => w?.social);
+  const socials = ["google", "telegram"].filter((s) => !activeSocials.includes(s)) as (
+    | "google"
+    | "telegram"
+  )[];
 
   // nickname ---
   const handleChangeNickname = (e: any) => setNickname(e.target.value);
@@ -149,7 +168,7 @@ const Profile = ({ setOpen }: any) => {
   const handleEditNickname = () => setOnEditNickname(true);
 
   const handleCancelNickname = () => {
-    setNickname(leaderboardData?.userNickname);
+    setNickname(data?.userNickname);
     setOnEditNickname(false);
   };
 
@@ -175,7 +194,7 @@ const Profile = ({ setOpen }: any) => {
   const handleEditEmail = () => setOnEditEmail(true);
 
   const handleCancelEmail = () => {
-    setEmail(leaderboardData?.userEmail);
+    setEmail(data?.userEmail);
     setOnEditEmail(false);
   };
 
@@ -207,6 +226,11 @@ const Profile = ({ setOpen }: any) => {
     dispatch(fetchLeaderboard() as any);
   };
 
+  useEffect(() => {
+    setNickname(data?.userNickname || "");
+    setEmail(data?.userEmail || "");
+  }, [data]);
+
   // wallets and social ---
   const addWallet = async () => {
     const activeAccount = wallet;
@@ -224,9 +248,15 @@ const Profile = ({ setOpen }: any) => {
   const addSocial = async () => {
     const activeAccount = wallet;
 
+    const wallets = [inAppWallet({ auth: { options: socials } })];
+
     try {
       const response = await connect({
-        ...onlySocialConfig,
+        client,
+        wallets,
+        appMetadata,
+        theme,
+        chain,
         size: "compact",
         title: "Link Social",
       });
@@ -276,11 +306,6 @@ const Profile = ({ setOpen }: any) => {
         setAlert(error?.response?.data?.message || error?.message || "error", "error");
       });
   };
-
-  useEffect(() => {
-    setNickname(leaderboardData?.userNickname || "");
-    setEmail(leaderboardData?.userEmail || "");
-  }, [leaderboardData]);
 
   return (
     <Grid container flexDirection="column" className={styled.main}>
@@ -376,7 +401,6 @@ const Profile = ({ setOpen }: any) => {
           <ListWallets unlinkWallet={unlinkWallet} activeWallet={activeWallet} />
         </Box>
 
-        {/*
         <Box className={styled.actions}>
           <Button onClick={addWallet}>
             <WalletIcon /> Add Wallet
@@ -389,11 +413,10 @@ const Profile = ({ setOpen }: any) => {
         </Box>
 
         <Box className={styled.actions}>
-          <Button onClick={addSocial}>
+          <Button onClick={addSocial} disabled={socials.length === 0}>
             <PersonIcon /> Add Social
           </Button>
         </Box>
-        */}
       </Box>
     </Grid>
   );

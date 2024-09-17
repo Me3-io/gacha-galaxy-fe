@@ -105,20 +105,19 @@
           .infoLabel {
             color: #250b30;
             font-family: "ChakraPetchBold";
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 800;
             background-color: #da7bfb;
             width: fit-content;
-            padding: 0.2rem 0.6rem;
-            padding-right: 0.6rem;
-            clip-path: polygon(calc(100% - 10px) 0%, 100% 10px, 100% 100%, 0% 100%, 0% 0%);
+            padding: 0.2rem 0.3rem;
+            clip-path: polygon(calc(100% - 5px) 0%, 100% 5px, 100% 100%, 0% 100%, 0% 0%);
             border-radius: 2px;
             min-width: auto;
           }
         }
 
         &.active {
-          //background-color: rgba(186, 0, 251, 0.25);
+          background-color: rgba(186, 0, 251, 0.25);
           border-radius: 0.25rem;
         }
       }
