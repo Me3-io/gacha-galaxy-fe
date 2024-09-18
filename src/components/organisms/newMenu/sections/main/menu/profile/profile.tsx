@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Grid, IconButton, Link, TextField, Typography } from "@mui/material";
+import { Box, Grid, IconButton, TextField, Typography } from "@mui/material";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CheckIcon from "@mui/icons-material/Check";
@@ -25,7 +25,6 @@ import ListWallets from "./components/listWallets";
 import ListSocials from "./components/listSocial";
 
 import styled from "./styled.module.scss";
-
 
 const Profile = ({ setOpen }: any) => {
   const { t } = useTranslation();
@@ -167,29 +166,6 @@ const Profile = ({ setOpen }: any) => {
       });
   };
 
-  const unlinkWallet = async (address: string) => {
-    await customAxios()
-      .post("/wallet/unlink", { address })
-      .then(() => {
-        dispatch(fetchLeaderboard() as any);
-        setAlert("Unlink successfully", "success");
-      })
-      .catch((error: any) => {
-        setAlert(error?.response?.data?.message || error?.message || "error", "error");
-      });
-  };
-
-  const activeWallet = async (address: string) => {
-    await customAxios()
-      .post("/wallet/active", { address })
-      .then(() => {
-        dispatch(fetchLeaderboard() as any);
-        setAlert("Activated successfully", "success");
-      })
-      .catch((error: any) => {
-        setAlert(error?.response?.data?.message || error?.message || "error", "error");
-      });
-  };
 
   return (
     <Grid container flexDirection="column" className={styled.main}>
@@ -280,7 +256,7 @@ const Profile = ({ setOpen }: any) => {
 
         <Box className={styled.walletContainer} pb={2}>
           <Typography pb={1}>Connected Wallets</Typography>
-          <ListWallets unlinkWallet={unlinkWallet} activeWallet={activeWallet} />
+          <ListWallets />
         </Box>
 
         <Box className={styled.actions}>
@@ -291,7 +267,7 @@ const Profile = ({ setOpen }: any) => {
 
         <Box className={styled.socialContainer}>
           <Typography pb={1}>Social Linked</Typography>
-          <ListSocials unlinkWallet={unlinkWallet} />
+          <ListSocials />
         </Box>
 
         <Box className={styled.actions}>

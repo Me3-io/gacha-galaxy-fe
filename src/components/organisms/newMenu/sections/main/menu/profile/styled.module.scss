@@ -94,7 +94,7 @@
           padding: 0;
           align-items: center;
 
-          span {
+          span:not(.spinner) {
             color: #fff;
             font-family: "ChakraPetch";
             font-size: 1rem;
@@ -103,16 +103,16 @@
           }
 
           .infoLabel {
-            color: #250b30;
-            font-family: "ChakraPetchBold";
-            font-size: 0.7rem;
-            font-weight: 800;
+            color: #250b30!important;
+            font-family: "ChakraPetchBold"!important;
+            font-size: 0.7rem!important;
+            font-weight: 800!important;
             background-color: #da7bfb;
             width: fit-content;
             padding: 0.2rem 0.3rem;
             clip-path: polygon(calc(100% - 5px) 0%, 100% 5px, 100% 100%, 0% 100%, 0% 0%);
             border-radius: 2px;
-            min-width: auto;
+            min-width: auto!important;
           }
         }
 
@@ -158,4 +158,9 @@
     text-decoration: none;
     cursor: pointer;
   }
+}
+
+
+.spinner {
+  color: #db74ff!important;
 }

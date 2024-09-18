@@ -9,7 +9,7 @@ import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 import styled from "../styled.module.scss";
 import UnlinkTimmer from "./unlinkTimer";
 
-const ListSocials = ({ unlinkWallet }: any) => {
+const ListSocials = () => {
   const data = useSelector(getLeaderboard);
 
   // validate on unlink social
@@ -33,7 +33,7 @@ const ListSocials = ({ unlinkWallet }: any) => {
 
             {allowLinked && (
               <Box>
-                <UnlinkTimmer address={row.address} unlinkWallet={unlinkWallet} />
+                <UnlinkTimmer address={row.address} />
               </Box>
             )}
           </Box>

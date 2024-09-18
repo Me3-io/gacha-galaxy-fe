@@ -1,11 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import KeyIcon from "@mui/icons-material/Key";
-import LinkOffIcon from "@mui/icons-material/LinkOff";
 
-import { useSelector } from "react-redux";
-import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import customAxios from "utils/customAxios";
 import CustomTooltip from "components/atoms/materialTooltip";
@@ -15,9 +14,51 @@ import { useTranslation } from "react-i18next";
 
 import styled from "../styled.module.scss";
 import UnlinkTimmer from "./unlinkTimer";
+import { useState } from "react";
 
-const ListWallets = ({ unlinkWallet, activeWallet }: any) => {
+const ActiveWallet = ({ address, actionDisabled, setActionDisabled }: any) => {
+  const [loading, setLoading] = useState(false);
+  const { setAlert } = useAlert();
+  const dispatch = useDispatch();
+
+  const setActiveWallet = async (address: string) => {
+    setLoading(true);
+    setActionDisabled(true);
+    await customAxios()
+      .post("/wallet/active", { address })
+      .then(async () => {
+        await dispatch(fetchLeaderboard() as any);
+        setAlert("Activated successfully", "success");
+        setLoading(false);
+        setActionDisabled(false);
+      })
+      .catch((error: any) => {
+        setLoading(false);
+        setActionDisabled(false);
+        setAlert(error?.response?.data?.message || error?.message || "error", "error");
+      });
+  };
+
+  return (
+    <>
+      {loading ? (
+        <CircularProgress className={styled.spinner} size={20} />
+      ) : (
+        <CustomTooltip title={"Set Active Wallet"}>
+          <CheckIcon
+            sx={{ cursor: "pointer", pointerEvents: actionDisabled ? "none" : "auto" }}
+            onClick={() => setActiveWallet(address)}
+          />
+        </CustomTooltip>
+      )}
+    </>
+  );
+};
+
+const ListWallets = () => {
+  const [actionDisabled, setActionDisabled] = useState(false);
   const data = useSelector(getLeaderboard);
+
   const wallets = data?.wallets.filter((w: any) => !w?.social) || [];
 
   const { setAlert } = useAlert();
@@ -32,7 +73,6 @@ const ListWallets = ({ unlinkWallet, activeWallet }: any) => {
     await customAxios()
       .post("/wallet/key", { address })
       .then((response) => {
-        //console.log(response);
         navigator.clipboard.writeText(response?.data?.data || "");
         setAlert("Copy Private Key to clipboard", "success");
       })
@@ -62,10 +102,12 @@ const ListWallets = ({ unlinkWallet, activeWallet }: any) => {
 
             {!row?.active ? (
               <>
-                <CustomTooltip title={"Set Active Wallet"}>
-                  <CheckIcon sx={{ cursor: "pointer" }} onClick={() => activeWallet(row.address)} />
-                </CustomTooltip>
-                <UnlinkTimmer address={row.address} unlinkWallet={unlinkWallet} />
+                <ActiveWallet
+                  address={row.address}
+                  actionDisabled={actionDisabled}
+                  setActionDisabled={setActionDisabled}
+                />
+                <UnlinkTimmer address={row.address} />
               </>
             ) : (
               <span className={styled.infoLabel}>Active</span>
