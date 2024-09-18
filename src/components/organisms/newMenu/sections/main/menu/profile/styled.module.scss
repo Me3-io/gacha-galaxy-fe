@@ -86,12 +86,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.5rem 0;
+        padding: 0.5rem;
 
         & > div {
           display: flex;
           gap: 0.5rem;
-          padding: 0 1rem;
+          padding: 0;
           align-items: center;
 
           span {
@@ -140,5 +140,22 @@
         gap: 0.5rem;
       }
     }
+  }
+}
+
+.actionsUnlink {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+
+  & > a {
+    text-transform: uppercase;
+    color: #db74ff;
+    font-family: "ChakraPetch";
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-decoration: none;
+    cursor: pointer;
   }
 }

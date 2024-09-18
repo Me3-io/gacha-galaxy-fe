@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
-import { Box, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Link, TextField, Typography } from "@mui/material";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CheckIcon from "@mui/icons-material/Check";
 import CreateIcon from "@mui/icons-material/Create";
 import CloseIcon from "@mui/icons-material/Close";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import KeyIcon from "@mui/icons-material/Key";
 import PersonIcon from "@mui/icons-material/Person";
 import WalletIcon from "@mui/icons-material/Wallet";
-import LinkOffIcon from "@mui/icons-material/LinkOff";
-import GoogleIcon from "@mui/icons-material/Google";
-import TelegramIcon from "@mui/icons-material/Telegram";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
@@ -19,126 +14,18 @@ import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard
 import customAxios from "utils/customAxios";
 import Button from "components/atoms/buttons/base";
 
-import CustomTooltip from "components/atoms/materialTooltip";
 import { useTranslation } from "react-i18next";
 import { useActiveWallet, useConnectModal, useSetActiveWallet } from "thirdweb/react";
 import useAlert from "hooks/alertProvider/useAlert";
 
 import { appMetadata, chain, client, onlyWalletConfig, theme } from "config/thirdwebConfig";
-import styled from "./styled.module.scss";
 import { inAppWallet } from "thirdweb/wallets";
 
-const ListWallets = ({ unlinkWallet, activeWallet }: any) => {
-  const data = useSelector(getLeaderboard);
-  const wallets = data?.wallets.filter((w: any) => !w?.social) || [];
+import ListWallets from "./components/listWallets";
+import ListSocials from "./components/listSocial";
 
-  const { setAlert } = useAlert();
-  const { t } = useTranslation();
+import styled from "./styled.module.scss";
 
-  const handleCopy = (address: string) => {
-    navigator.clipboard.writeText(address || "");
-    setAlert("Copy address to clipboard", "success");
-  };
-
-  const getPrivateKey = async (address: string) => {
-    await customAxios()
-      .post("/wallet/key", { address })
-      .then((response) => {
-        //console.log(response);
-        navigator.clipboard.writeText(response?.data?.data || "");
-        setAlert("Copy Private Key to clipboard", "success");
-      })
-      .catch((error: any) => {
-        setAlert(error?.response?.data?.message || error?.message || "error", "error");
-      });
-  };
-
-  return (
-    <>
-      {wallets.map((row: any) => (
-        <Box
-          key={row.address}
-          className={`${styled.rowWallet} ${row?.active ? styled.active : ""}`}
-        >
-          <Box>
-            <span>{`${row.address?.slice(0, 8)}...${row.address?.slice(-8)}`}</span>
-            {row?.type === "me3-created" && <span className={styled.infoLabel}>Me3</span>}
-
-            <CustomTooltip title={t("copy-address")}>
-              <ContentCopyIcon sx={{ cursor: "pointer" }} onClick={() => handleCopy(row.address)} />
-            </CustomTooltip>
-          </Box>
-          <Box>
-            {row?.type === "me3-created" && (
-              <CustomTooltip title={"Get Private Key"}>
-                <KeyIcon sx={{ cursor: "pointer" }} onClick={() => getPrivateKey(row.address)} />
-              </CustomTooltip>
-            )}
-
-            {!row?.active ? (
-              <>
-                <CustomTooltip title={"Set Active Wallet"}>
-                  <CheckIcon sx={{ cursor: "pointer" }} onClick={() => activeWallet(row.address)} />
-                </CustomTooltip>
-                <CustomTooltip title={"Unlink Wallet"}>
-                  <LinkOffIcon
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => unlinkWallet(row.address)}
-                  />
-                </CustomTooltip>
-              </>
-            ) : (
-              <span className={styled.infoLabel}>Active</span>
-            )}
-          </Box>
-        </Box>
-      ))}
-    </>
-  );
-};
-
-const ListSocials = ({ unlinkWallet }: any) => {
-  const data = useSelector(getLeaderboard);
-
-  // validate on unlink social
-  const hasUserOwned = data?.wallets.filter((w: any) => !w?.type ||  w?.type === "user-owned").length;
-  const hasSocial = data?.wallets.filter((w: any) => w?.type === "third-party-created").length;
-  const allowLinked = hasUserOwned > 0 || hasSocial > 1;
-
-  // filter social wallets
-  const wallets = data?.wallets.filter((w: any) => w?.social && w?.type !== "me3-wallet") || [];
-
-  return (
-    <>
-      {wallets.length > 0 ? (
-        wallets.map((row: any) => (
-          <Box key={row.address} className={styled.rowWallet}>
-            <Box>
-              {row?.social === "google" && <GoogleIcon />}
-              {row?.social === "telegram" && <TelegramIcon />}
-              <span>{(row?.social || "social").toUpperCase()}</span>
-            </Box>
-
-            {allowLinked && (
-              <Box>
-                <CustomTooltip title={"Unlink Social"}>
-                  <LinkOffIcon
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => unlinkWallet(row.address)}
-                  />
-                </CustomTooltip>
-              </Box>
-            )}
-          </Box>
-        ))
-      ) : (
-        <Box px={2}>
-          <span>no social linked</span>
-        </Box>
-      )}
-    </>
-  );
-};
 
 const Profile = ({ setOpen }: any) => {
   const { t } = useTranslation();
@@ -157,10 +44,7 @@ const Profile = ({ setOpen }: any) => {
   const data = useSelector(getLeaderboard);
 
   const activeSocials = data?.wallets.map((w: any) => w?.social);
-  const socials = ["google", "telegram"].filter((s) => !activeSocials.includes(s)) as (
-    | "google"
-    | "telegram"
-  )[];
+  const socials = ["google", "telegram"].filter((s) => !activeSocials.includes(s)) as ("google" | "telegram")[];
 
   // nickname ---
   const handleChangeNickname = (e: any) => setNickname(e.target.value);
@@ -364,9 +248,7 @@ const Profile = ({ setOpen }: any) => {
           variant="outlined"
           className={styled.textField}
           sx={
-            onEditEmail
-              ? { border: "1px solid #ba00fb!important" }
-              : { borderBottom: "1px dashed #ba00fbaa!important" }
+            onEditEmail ? { border: "1px solid #ba00fb!important" } : { borderBottom: "1px dashed #ba00fbaa!important" }
           }
           disabled={!onEditEmail}
           value={email}
