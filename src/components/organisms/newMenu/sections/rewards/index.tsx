@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "components/atoms/buttons/base";
 
-import { client, chain, modalConfig } from "config/thirdwebConfig";
+import { client, chain, onlyWalletConfig } from "config/thirdwebConfig";
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
 
 //import Tab from "@mui/material/Tab";
@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useActiveAccount, useConnectModal } from "thirdweb/react";
 
-import waitForElement from "utils/waitForElement";
+//import waitForElement from "utils/waitForElement";
 import customAxios from "utils/customAxios";
 import { format } from "date-fns";
 import useAlert from "hooks/alertProvider/useAlert";
@@ -35,7 +35,7 @@ const RewardButton = ({ reward }: any) => {
   const [loading, setLoading] = useState(false);
   const { claimContractABI, claimContractAddress } = useSelector(getClaims) || {};
 
-  const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
+  //const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
   const { connect } = useConnectModal();
   const activeAccount = useActiveAccount();
   const dispatch = useDispatch();
@@ -52,15 +52,19 @@ const RewardButton = ({ reward }: any) => {
 
   const getReward = async (reward: any) => {
     setLoading(true);
-    console.log("reward: ", reward);
+
     try {
       let loginAccount = null;
-      if (!activeAccount) {
-        waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
-        const response = await connect({ ...modalConfig, size: "wide" });
+
+      if (!activeAccount || activeAccount?.address.toLowerCase() !== reward?.destination.toLowerCase()) {
+        const response = await connect({
+          ...onlyWalletConfig,
+          size: "compact",
+          title: `Login to wallet ${reward?.destination?.slice(0, 6)}...${reward?.destination?.slice(-6)}`,
+        });
         loginAccount = response.getAccount();
 
-        if (loginAccount?.address !== accountLS?.address) {
+        if (loginAccount?.address.toLowerCase() !== reward?.destination.toLowerCase()) {
           await response?.disconnect();
           throw new Error("the address do not match");
         }
@@ -119,11 +123,7 @@ const RewardButton = ({ reward }: any) => {
   };
 
   return (
-    <Button
-      onClick={() => getReward(reward)}
-      isLoading={loading}
-      disabled={loading || reward?.rewardStatePending}
-    >
+    <Button onClick={() => getReward(reward)} isLoading={loading} disabled={loading || reward?.rewardStatePending}>
       {t("go").toUpperCase()}
     </Button>
   );
