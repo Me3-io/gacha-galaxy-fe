@@ -407,9 +407,12 @@ $clip-min: 10px;
     }
   }
 
-  .backButton {
+  .modalContainer .backButton {
     top: 1rem !important;
     left: 1rem !important;
+    button {
+      background-color: rgba(99, 67, 115) !important;
+    }
   }
 
   .dotted {
