@@ -25,6 +25,25 @@ $clip-min: 10px;
     z-index: -1;
   }
 
+  .backButton {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 991;
+
+    button {
+      border: none !important;
+      background-color: rgba(99, 67, 115, 0.4) !important;
+      color: #db74ff;
+      font-size: 0.9rem;
+      padding: 5px 15px !important;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+
   .modal {
     position: relative;
     //max-width: 1000px;
@@ -38,9 +57,7 @@ $clip-min: 10px;
     height: auto;
     outline: none;
   }
-
 }
-
 
 .gameDetail {
   border-radius: 16px;
@@ -189,13 +206,7 @@ $clip-min: 10px;
           position: absolute;
           top: 0;
           left: 0;
-          clip-path: polygon(
-            100% 0%,
-            100% calc(100% - $clip-min),
-            calc(100% - $clip-min) 100%,
-            0% 100%,
-            0% 0%
-          );
+          clip-path: polygon(100% 0%, 100% calc(100% - $clip-min), calc(100% - $clip-min) 100%, 0% 100%, 0% 0%);
           background-color: #9a41cc;
         }
 
@@ -394,6 +405,15 @@ $clip-min: 10px;
         display: none;
       }
     }
+  }
+
+  .backButton {
+    top: 1rem !important;
+    left: 1rem !important;
+  }
+
+  .dotted {
+    left: 0 !important;
   }
 }
 
