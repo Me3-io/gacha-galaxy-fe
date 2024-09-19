@@ -223,7 +223,7 @@ const InteractiveMap = () => {
       const y = ((value?.viewerHeight / 2 - value.f) / value.a)?.toFixed(0);
       const z = value?.a?.toFixed(3);
 
-      if (x && y && z) navigate({ search: `?@=${x},${y},${z}` });
+      if (x && y && z && !isMobile) navigate({ search: `?@=${x},${y},${z}` });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);

@@ -58,6 +58,7 @@ const MainPanel = ({ showBack = false, goToMap, setOpenTokens }: any) => {
               setOpenPoints={setOpenPoints}
               setOpenTokens={setOpenTokens}
               setOpenRewards={setOpenRewards}
+              goToMap={goToMap}
             />
           </SectionItem>
 

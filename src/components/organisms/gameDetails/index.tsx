@@ -17,11 +17,13 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
-import styled from "./styled.module.scss";
 import { useContext, useEffect } from "react";
 import { MapContext } from "pages/home";
 import { setGame } from "reduxConfig/slices/game";
 import waitForElement from "utils/waitForElement";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
+import styled from "./styled.module.scss";
 
 const ItemChance = ({ text, percent }: any) => {
   return (
@@ -76,131 +78,133 @@ const GameDetails = () => {
 
   return (
     <Modal open={open} onClose={onClose} className={styled.modalContainer}>
-      <Box className={styled.modal}>
-        <Grow in={open}>
-          <Box className={styled.gameDetail}>
-            <Button onClick={(evt: any) => onClose(evt, "close")}>{t("close")}</Button>
+      <>
+        <Box className={styled.backButton}>
+          <Button onClick={(evt: any) => onClose(evt, "close")}>
+            <ArrowBackIcon /> {t("back")}
+          </Button>
+        </Box>
 
-            <Box className={styled.dotted}></Box>
-            <Grid container className={styled.container}>
-              <Grid item xs={12} sm={6} md={5} className={styled.leftCol}>
-                <Typography variant="h4" className={styled.title}>
-                  {details.name}
-                </Typography>
+        <Box className={styled.modal}>
+          <Grow in={open}>
+            <Box className={styled.gameDetail}>
+              <Box className={styled.dotted}></Box>
+              <Grid container className={styled.container}>
+                <Grid item xs={12} sm={6} md={5} className={styled.leftCol}>
+                  <Typography variant="h4" className={styled.title}>
+                    {details.name}
+                  </Typography>
 
-                <Box className={styled.image}>
-                  <img src={getMachineIcon(details?.code)} alt="machineIcon" />
-                </Box>
-              </Grid>
-
-              <Grid item container xs={12} sm={6} md={7} className={styled.rightCol}>
-                <Grid item container xs={12} gap={"1.5rem"} flexWrap={{ md: "nowrap" }}>
-                  <Grid
-                    item
-                    sm={12}
-                    md={6}
-                    className={styled.info}
-                    alignItems={"flex-end"}
-                    textAlign={"right"}
-                    height={"100%"}
-                  >
-                    <Typography variant="h5" className={styled.subtitle}>
-                      {t("details-how-to-play")}
-                    </Typography>
-                    <img src={joystick} alt="joystick" />
-                    <Typography className={styled.text}>
-                      {details?.howToPlay || "No instructions available"}
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    sm={12}
-                    md={6}
-                    className={styled.info}
-                    alignItems={"flex-start"}
-                    textAlign={"left"}
-                    height={"100%"}
-                  >
-                    <Typography variant="h5" className={styled.subtitle}>
-                      {t("details-prizes")}
-                    </Typography>
-                    <img src={prize} alt="prize" />
-                    <Typography className={styled.text}>
-                      {details?.prizes || "No data available"}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid item xs={12} className={styled.info} p={"1rem!important"}>
-                  <Box className={styled.dropChances}>
-                    <Typography pb={1} className={styled.subtitle}>
-                      {t("details-drop-chances")}
-                    </Typography>
-
-                    <Box display={"flex"} flexDirection={"row"} gap={2}>
-                      {details?.oddsForPoints && (
-                        <ItemChance
-                          text={t("details-odds-points")}
-                          percent={(details?.oddsForPoints * 100).toFixed(2) || "-"}
-                        />
-                      )}
-
-                      {details?.oddsForPrize && (
-                        <ItemChance
-                          text={t("details-odds-prize")}
-                          percent={(details?.oddsForPrize * 100).toFixed(2) || "-"}
-                        />
-                      )}
-
-                      {details?.oddsForNothing && (
-                        <ItemChance
-                          text={t("details-odds-nothing")}
-                          percent={(details?.oddsForNothing * 100).toFixed(2) || "-"}
-                        />
-                      )}
-                    </Box>
+                  <Box className={styled.image}>
+                    <img src={getMachineIcon(details?.code)} alt="machineIcon" />
                   </Box>
+                </Grid>
 
-                  <Box className={styled.rewards} mb={1}>
-                    <Box id="rewards">
-                      {details?.rewards?.map((row: any, pos: number) => (
-                        <Box key={pos} className={styled.reward}>
-                          <Box>
-                            <Typography>{row.name}</Typography>
-                            <span>{(row?.winningOdds * 100).toFixed(0) || "-"}%</span>
+                <Grid item container xs={12} sm={6} md={7} className={styled.rightCol}>
+                  <Grid item container xs={12} gap={"1.5rem"} flexWrap={{ md: "nowrap" }}>
+                    <Grid
+                      item
+                      sm={12}
+                      md={6}
+                      className={styled.info}
+                      alignItems={"flex-end"}
+                      textAlign={"right"}
+                      height={"100%"}
+                    >
+                      <Typography variant="h5" className={styled.subtitle}>
+                        {t("details-how-to-play")}
+                      </Typography>
+                      <img src={joystick} alt="joystick" />
+                      <Typography className={styled.text}>
+                        {details?.howToPlay || "No instructions available"}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      sm={12}
+                      md={6}
+                      className={styled.info}
+                      alignItems={"flex-start"}
+                      textAlign={"left"}
+                      height={"100%"}
+                    >
+                      <Typography variant="h5" className={styled.subtitle}>
+                        {t("details-prizes")}
+                      </Typography>
+                      <img src={prize} alt="prize" />
+                      <Typography className={styled.text}>{details?.prizes || "No data available"}</Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={12} className={styled.info} p={"1rem!important"}>
+                    <Box className={styled.dropChances}>
+                      <Typography pb={1} className={styled.subtitle}>
+                        {t("details-drop-chances")}
+                      </Typography>
+
+                      <Box display={"flex"} flexDirection={"row"} gap={2}>
+                        {details?.oddsForPoints && (
+                          <ItemChance
+                            text={t("details-odds-points")}
+                            percent={(details?.oddsForPoints * 100).toFixed(2) || "-"}
+                          />
+                        )}
+
+                        {details?.oddsForPrize && (
+                          <ItemChance
+                            text={t("details-odds-prize")}
+                            percent={(details?.oddsForPrize * 100).toFixed(2) || "-"}
+                          />
+                        )}
+
+                        {details?.oddsForNothing && (
+                          <ItemChance
+                            text={t("details-odds-nothing")}
+                            percent={(details?.oddsForNothing * 100).toFixed(2) || "-"}
+                          />
+                        )}
+                      </Box>
+                    </Box>
+
+                    <Box className={styled.rewards} mb={1}>
+                      <Box id="rewards">
+                        {details?.rewards?.map((row: any, pos: number) => (
+                          <Box key={pos} className={styled.reward}>
+                            <Box>
+                              <Typography>{row.name}</Typography>
+                              <span>{(row?.winningOdds * 100).toFixed(0) || "-"}%</span>
+                            </Box>
+                            <img src={row.image[0].url} alt={"icon"} />
                           </Box>
-                          <img src={row.image[0].url} alt={"icon"} />
-                        </Box>
-                      ))}
-                    </Box>
-                  </Box>
-                </Grid>
-
-                <Grid item container xs={12} className={styled.footer} alignItems="center">
-                  <Grid item xs={12} md={6} className={styled.keysContainer}>
-                    <Typography
-                      dangerouslySetInnerHTML={{ __html: t("details-available-keys") }}
-                    ></Typography>
-                    <Box className={styled.keys}>
-                      <img src={keyIcon} alt="key" height={"36px"} />
-                      <span>{leaderboardData?.userKeys || 0}</span>
+                        ))}
+                      </Box>
                     </Box>
                   </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                    display={"flex"}
-                    justifyContent={{ xs: "center", sm: "flex-end" }}
-                    pt={{ xs: "1.5rem", md: "0" }}
-                  >
-                    <ButtonDefault onClick={goToGame}>{t("play").toUpperCase()}</ButtonDefault>
+
+                  <Grid item container xs={12} className={styled.footer} alignItems="center">
+                    <Grid item xs={12} md={6} className={styled.keysContainer}>
+                      <Typography dangerouslySetInnerHTML={{ __html: t("details-available-keys") }}></Typography>
+                      <Box className={styled.keys}>
+                        <img src={keyIcon} alt="key" height={"36px"} />
+                        <span>{leaderboardData?.userKeys || 0}</span>
+                      </Box>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      md={6}
+                      display={"flex"}
+                      justifyContent={{ xs: "center", sm: "flex-end" }}
+                      pt={{ xs: "1.5rem", md: "0" }}
+                    >
+                      <ButtonDefault onClick={goToGame}>{t("play").toUpperCase()}</ButtonDefault>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Box>
-        </Grow>
-      </Box>
+            </Box>
+          </Grow>
+        </Box>
+      </>
     </Modal>
   );
 };

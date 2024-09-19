@@ -12,7 +12,6 @@ const Buildings = ({
   setLoading,
   loading,
 }: any) => {
-
   const { map } = useContext(MapContext);
   const [buildings, setBuildings] = useState<any>([]);
 
@@ -39,29 +38,28 @@ const Buildings = ({
         x: item?.anchorAddress ? parseInt(item.anchorAddress.split(",")[0]) : 0,
         y: item?.anchorAddress ? parseInt(item.anchorAddress.split(",")[1]) : 0,
       },
-      img: item?.svg[0],
-      component: await getResource(item?.svg[0].url),
+      img: item?.svg?.length && item?.svg[0],
+      component: item?.svg?.length && (await getResource(item?.svg[0].url)),
       scale: item.scale || 1,
       name: item.name || "",
       opacity: item.alpha || 1,
-      partner: item.partner
-        ? {
-            name: item.partner.displayName,
-            img: item.partner.logo[0],
-            component: await getResource(item.partner.logo[0].url),
-            color: item.partner.bGColor || "transparent",
-            orientation: item.partnerOrientation === "LEFT" ? 26.5 : -26.5,
-            scale: item.partnerScale || 1,
-            position: {
-              x: item?.partnerOffset
-                ? parseInt(item.partnerOffset.split(",")[0]) - item.svg[0].width
-                : 0,
-              y: item?.partnerOffset
-                ? parseInt(item.partnerOffset.split(",")[1]) - item.svg[0].height
-                : 0,
-            },
-          }
-        : null,
+      partner:
+        item.partner && item.partner?.logo?.length
+          ? {
+              name: item.partner.displayName,
+              img: item.partner.logo[0],
+              component: await getResource(item.partner.logo[0].url),
+              color: item.partner.bGColor || "transparent",
+              orientation: item.partnerOrientation === "LEFT" ? 26.5 : -26.5,
+              scale: item.partnerScale || 1,
+              position: item?.svg?.length
+                ? {
+                    x: item?.partnerOffset ? parseInt(item.partnerOffset.split(",")[0]) - item.svg[0].width : 0,
+                    y: item?.partnerOffset ? parseInt(item.partnerOffset.split(",")[1]) - item.svg[0].height : 0,
+                  }
+                : { x: 0, y: 0 },
+            }
+          : null,
       games: item.games || [],
       campaigns: item.campaigns || [],
     }));
@@ -104,30 +102,29 @@ const Buildings = ({
   useEffect(() => {
     if (map) {
       loadBuildings(map?.buildings || []);
-    } 
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
   return (
     <>
-      {buildings?.length > 0
-        && buildings?.map((item: any, pos: number) => (
+      {
+        buildings?.length > 0 &&
+          buildings?.map((item: any, pos: number) => (
             <g
               key={pos}
               transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
               onClick={(evt) => handlerBuilding(evt, item)}
               onTouchEnd={(evt) => evt.stopPropagation()}
-              className={`${styled.building} ${
-                pos === buildings?.length - 1 ? "building-step" : ""
-              }`}
+              className={`${styled.building} ${pos === buildings?.length - 1 ? "building-step" : ""}`}
             >
               <image
                 style={{
                   cursor: item.games || item.campaing ? "pointer" : "default",
                   opacity: item.opacity,
                 }}
-                x={item.img.width * -1}
-                y={item.img.height * -1}
+                x={item?.img?.width * -1}
+                y={item?.img?.height * -1}
                 href={item.component}
                 onMouseMove={() => handlerOver(item.name)}
                 onMouseLeave={handlerLeave}
@@ -145,7 +142,7 @@ const Buildings = ({
                   <image
                     x={0}
                     y={0}
-                    href={item.partner.component}
+                    href={item?.partner?.component}
                     style={{ cursor: "pointer", width: "100px", transform: "translateY(10px)" }}
                   />
                 </g>
@@ -158,7 +155,8 @@ const Buildings = ({
                 sorry, we could not load the map
               </text>
             </g>
-          )*/}
+          )*/
+      }
     </>
   );
 };

@@ -12,15 +12,18 @@ import { fetchMaps, getMaps } from "reduxConfig/thunks/maps";
 import { fetchLeaderboard } from "reduxConfig/thunks/leaderboard";
 import { fetchClaims } from "reduxConfig/thunks/claim";
 
-import { useTranslation } from "react-i18next";
+//import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
 import { ReactTourProvider } from "hooks/reactourProvider";
 
 import Campaign from "components/organisms/campaing";
 import GameDetails from "components/organisms/gameDetails";
 import MainPanel from "components/organisms/newMenu";
-import NFTChekout from "components/molecules/NFTChekout";
+//import NFTChekout from "components/molecules/NFTChekout";
 import { useNavigate, useParams } from "react-router-dom";
+//import { client } from "config/thirdwebConfig";
+//import { PayEmbed } from "thirdweb/react";
+//import FiatCheckout from "components/molecules/fiatCheckout";
 
 //import TourModal from "components/organisms/tour";
 
@@ -42,7 +45,7 @@ const initialState = {
 export const MapContext = createContext(initialState);
 
 const Home = () => {
-  const { t } = useTranslation();
+  //const { t } = useTranslation();
   const { lang, map: urlMap, building } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -120,14 +123,14 @@ const Home = () => {
                 </Box>
 
                 <Box display={{ xs: "none", md: "flex" }}>
-                  <MainPanel showBack={false} setOpenTokens={setOpenTokens} />
+                  <MainPanel showBack={false} goToMap={goToMap} setOpenTokens={setOpenTokens} />
                 </Box>
               </Grid>
 
               <Grid item xs={12}>
                 <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
                   <Box className={styled.downIcon} onClick={goToLeaderboard}>
-                    <span>{t("leaderboard")}</span>
+                    <span>Menu</span>
                     <DownIcon />
                   </Box>
 
@@ -142,7 +145,11 @@ const Home = () => {
             <Campaign />
 
             {/* subsection NFTChekout */}
-            {openTokens && <NFTChekout setOpenTokens={setOpenTokens} />}
+            {/*openTokens && <NFTChekout setOpenTokens={setOpenTokens} />*/}
+
+            {/* subsection FiatCheckout */}
+            {/*openTokens && <FiatCheckout />*/}
+            
           </Container>
         </Layout>
       </MapContext.Provider>

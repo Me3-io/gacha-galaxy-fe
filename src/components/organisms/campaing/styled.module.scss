@@ -18,8 +18,6 @@
     color: #fff;
   }*/
 
-
-
   .modal {
     position: relative;
     width: 100%;
@@ -41,8 +39,8 @@
       position: absolute;
       top: 1rem;
       left: 1rem;
-      z-index: 991;
-  
+      z-index: 9999;
+
       button {
         border: none !important;
         background-color: rgba(99, 67, 115, 0.4) !important;
@@ -57,7 +55,7 @@
     }
 
     .campaign {
-      height: 100%!important;
+      height: 100% !important;
     }
 
     .loading {
@@ -77,14 +75,13 @@
       gap: 2rem;
       box-sizing: border-box;
       background-color: rgba(0, 0, 0, 0.5);
-  
+
       .spinner {
         color: #d490ec !important;
       }
     }
   }
 }
-
 
 @media screen and (max-width: 1000px) {
   .modalContainer .modal {
@@ -95,5 +92,11 @@
     padding: 10px;
     max-width: none;
     max-height: none;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .modalContainer .modal .backButton > button {
+    background-color: rgba(99, 67, 115) !important;
   }
 }

@@ -26,7 +26,7 @@ import Notifications from "./notifications";
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
 
-const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
+const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards, goToMap }: any) => {
   const { t } = useTranslation();
   const [value, setValue] = useState<string>("1");
 
@@ -45,9 +45,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
           <Box>
             <Box display={"flex"} alignItems={"center"} gap={1}>
               <span>{t("points")}</span>
-              <Typography className={styled.position}>
-                #{leaderboardData?.userPosition || "-"}
-              </Typography>
+              <Typography className={styled.position}>#{leaderboardData?.userPosition || "-"}</Typography>
             </Box>
             <Typography>{leaderboardData?.userPoints?.toFixed(0) || "0"}</Typography>
           </Box>
@@ -142,7 +140,7 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards }: any) => {
           </Box>
           <Box className={styled.tabPanel}>
             <TabPanel value="1">
-              <ListMaps />
+              <ListMaps goToMap={goToMap} />
             </TabPanel>
             <TabPanel value="2">
               <Leaderboard />

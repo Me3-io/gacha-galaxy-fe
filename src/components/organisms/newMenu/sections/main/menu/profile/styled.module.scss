@@ -86,15 +86,15 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.5rem 0;
+        padding: 0.5rem;
 
         & > div {
           display: flex;
           gap: 0.5rem;
-          padding: 0 1rem;
+          padding: 0;
           align-items: center;
 
-          span {
+          span:not(.spinner) {
             color: #fff;
             font-family: "ChakraPetch";
             font-size: 1rem;
@@ -103,22 +103,21 @@
           }
 
           .infoLabel {
-            color: #250b30;
-            font-family: "ChakraPetchBold";
-            font-size: 0.8rem;
-            font-weight: 800;
+            color: #250b30!important;
+            font-family: "ChakraPetchBold"!important;
+            font-size: 0.7rem!important;
+            font-weight: 800!important;
             background-color: #da7bfb;
             width: fit-content;
-            padding: 0.2rem 0.6rem;
-            padding-right: 0.6rem;
-            clip-path: polygon(calc(100% - 10px) 0%, 100% 10px, 100% 100%, 0% 100%, 0% 0%);
+            padding: 0.2rem 0.3rem;
+            clip-path: polygon(calc(100% - 5px) 0%, 100% 5px, 100% 100%, 0% 100%, 0% 0%);
             border-radius: 2px;
-            min-width: auto;
+            min-width: auto!important;
           }
         }
 
         &.active {
-          //background-color: rgba(186, 0, 251, 0.25);
+          background-color: rgba(186, 0, 251, 0.25);
           border-radius: 0.25rem;
         }
       }
@@ -142,4 +141,26 @@
       }
     }
   }
+}
+
+.actionsUnlink {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+
+  & > a {
+    text-transform: uppercase;
+    color: #db74ff;
+    font-family: "ChakraPetch";
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+
+.spinner {
+  color: #db74ff!important;
 }
