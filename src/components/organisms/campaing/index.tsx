@@ -23,7 +23,9 @@ const Campaing = () => {
     if (reason !== "backdropClick") {
       console.log("Removing claimr script...", details?.claimrId);
       const scriptLoad = document.querySelector(`script[data-container="${details.claimrId}"]`);
+      const claimrWallet = document.querySelector("#claimr-walletconnect-popup");
       if (scriptLoad) scriptLoad.remove();
+      if (claimrWallet) claimrWallet.remove();
       window.removeEventListener("message", () => {});
       setDetails({});
     }
