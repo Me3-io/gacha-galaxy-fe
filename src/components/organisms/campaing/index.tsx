@@ -9,6 +9,8 @@ import { MapContext } from "pages/home";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
+import { useSelector } from "react-redux";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 const Campaing = () => {
   const { t } = useTranslation();
@@ -16,8 +18,11 @@ const Campaing = () => {
 
   const open = !!details?.claimrId;
 
+  const data = useSelector(getLeaderboard);
+  const address = data?.wallets.find((w: any) => w?.active)?.address || "";
+
   const [loading, setLoading] = useState(false);
-  const { address, signature, message } = JSON.parse(localStorage.getItem("session.account") || "{}");
+  const { signature, message } = JSON.parse(localStorage.getItem("session.account") || "{}");
 
   const onClose = (evt: any, reason: string) => {
     if (reason !== "backdropClick") {
@@ -59,7 +64,7 @@ const Campaing = () => {
       script.defer = true;
       script.src = "https://widgets.claimr.io/claimr.min.js";
       script.id = "claimr-script";
-      script.setAttribute("data-addons", "sup,sur");
+      script.setAttribute("data-addons", "sup,sur,iqv");
       script.setAttribute("data-campaign", details.claimrId);
       script.setAttribute("data-container", details.claimrId);
       script.setAttribute("data-autoresize", "true");
