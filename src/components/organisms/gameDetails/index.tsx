@@ -145,21 +145,21 @@ const GameDetails = () => {
                         {details?.oddsForPoints && (
                           <ItemChance
                             text={t("details-odds-points")}
-                            percent={(details?.oddsForPoints * 100).toFixed(2) || "-"}
+                            percent={(details?.oddsForPoints * 100).toFixed(1) || "-"}
                           />
                         )}
 
                         {details?.oddsForPrize && (
                           <ItemChance
                             text={t("details-odds-prize")}
-                            percent={(details?.oddsForPrize * 100).toFixed(2) || "-"}
+                            percent={(details?.oddsForPrize * 100).toFixed(1) || "-"}
                           />
                         )}
 
                         {details?.oddsForNothing && (
                           <ItemChance
                             text={t("details-odds-nothing")}
-                            percent={(details?.oddsForNothing * 100).toFixed(2) || "-"}
+                            percent={(details?.oddsForNothing * 100).toFixed(1) || "-"}
                           />
                         )}
                       </Box>
@@ -171,7 +171,7 @@ const GameDetails = () => {
                           <Box key={pos} className={styled.reward}>
                             <Box>
                               <Typography>{row.name}</Typography>
-                              <span>{(row?.winningOdds * 100).toFixed(0) || "-"}%</span>
+                              <span>{(row?.winningOdds * 100).toFixed(1) || "-"}%</span>
                             </Box>
                             <img src={row.image[0].url} alt={"icon"} />
                           </Box>
