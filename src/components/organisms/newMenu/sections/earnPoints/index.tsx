@@ -109,10 +109,10 @@ const EarnPoints = ({ setOpen }: any) => {
               <Tab label={t("all-games")} value="2" />
             </TabList>
           </Box>
-          <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "auto" }}>
+          <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "hidden" }}>
             <MainTable data={campaigns} handleClick={handlerCampaingClick} />
           </TabPanel>
-          <TabPanel value="2" sx={{ padding: "1rem 0", overflow: "auto" }}>
+          <TabPanel value="2" sx={{ padding: "1rem 0", overflow: "hidden" }}>
             <MainTable data={games} handleClick={handlerGameClick} />
           </TabPanel>
         </TabContext>
