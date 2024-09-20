@@ -59,7 +59,7 @@ const Campaing = () => {
       script.defer = true;
       script.src = "https://widgets.claimr.io/claimr.min.js";
       script.id = "claimr-script";
-      script.setAttribute("data-addons", "sup,sur");
+      script.setAttribute("data-addons", "sup,sur,iqv");
       script.setAttribute("data-campaign", details.claimrId);
       script.setAttribute("data-container", details.claimrId);
       script.setAttribute("data-autoresize", "true");
