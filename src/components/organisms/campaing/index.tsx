@@ -6,11 +6,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { MapContext } from "pages/home";
-
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+
 import styled from "./styled.module.scss";
-//import { useSelector } from "react-redux";
-//import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 const Campaing = () => {
   const { t } = useTranslation();
@@ -18,20 +18,23 @@ const Campaing = () => {
 
   const open = !!details?.claimrId;
 
-  //const data = useSelector(getLeaderboard);
-  //const address = data?.wallets.find((w: any) => w?.active)?.address || "";
+  const data = useSelector(getLeaderboard);
+  const token = data?.userCampaignsToken || "";
 
   const [loading, setLoading] = useState(false);
-  const { address, signature, message } = JSON.parse(localStorage.getItem("session.account") || "{}");
+  //const { address, signature, message } = JSON.parse(localStorage.getItem("session.account") || "{}");
 
   const onClose = (evt: any, reason: string) => {
     if (reason !== "backdropClick") {
       console.log("Removing claimr script...", details?.claimrId);
       const scriptLoad = document.querySelector(`script[data-container="${details.claimrId}"]`);
-      const claimrWallet = document.querySelector("#claimr-walletconnect-popup");
       if (scriptLoad) scriptLoad.remove();
-      if (claimrWallet) claimrWallet.remove();
+
+      //const claimrWallet = document.querySelector("#claimr-walletconnect-popup");
+      //if (claimrWallet) claimrWallet.remove();
       window.removeEventListener("message", () => {});
+      //@ts-ignore
+      window.claimr.destroy();
       setDetails({});
     }
   };
@@ -43,16 +46,13 @@ const Campaing = () => {
       setLoading(true);
       const receive_message = async (event: any) => {
         const data = event.data;
-
         if (data.event === "widget::ready") {
-          console.log("Widget ready", data);
+          //console.log("Widget ready", data);
+          //console.log("Widget loaded: ", window?.claimr);
+
           //@ts-ignore
-          console.log("Widget loaded: ", window?.claimr);
-          console.log("address: ", address);
-          console.log("signature: ", signature);
-          console.log("message: ", message);
-          //@ts-ignore
-          window?.claimr.connect_wallet(address, signature, message);
+          window?.claimr.set_user_token(token);
+          //window?.claimr.connect_wallet(address, signature, message);
           setLoading(false);
         }
       };
