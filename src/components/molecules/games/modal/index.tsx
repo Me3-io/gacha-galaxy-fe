@@ -138,14 +138,14 @@ const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) =>
                     <ShareIcon onClick={handleShare} />
                   </CustomTooltip>
                 </IconButton>
-                <IconButton color="secondary">
+                <IconButton color="secondary" sx={{ display: "none" }}>
                   <CustomTooltip title={"Copy"}>
                     <ContentCopyIcon onClick={handleCopy} />
                   </CustomTooltip>
                 </IconButton>
+                <Button onClick={viewRewards}>VIEW ALL REWARDS</Button>
               </Box>
               <Box className={styled.item}>
-                <Button onClick={viewRewards}>VIEW ALL REWARDS</Button>
                 <Button onClick={handlePlayAgain}>PLAY AGAIN</Button>
               </Box>
             </Box>
