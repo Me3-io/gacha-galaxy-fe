@@ -142,6 +142,7 @@ const Profile = ({ setOpen }: any) => {
         chain,
         size: "compact",
         title: "Link Social",
+        showThirdwebBranding: false,
       });
       const account = response?.getAccount();
       // @ts-ignore
