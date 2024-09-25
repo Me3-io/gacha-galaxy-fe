@@ -124,7 +124,7 @@ const RewardButton = ({ reward }: any) => {
 
   return (
     <Button onClick={() => getReward(reward)} isLoading={loading} disabled={loading || reward?.rewardStatePending}>
-      {t("go").toUpperCase()}
+      {reward?.rewardStatePending ? "PENDING" : reward?.customButtonText.toUpperCase() || "CLAIM"}
     </Button>
   );
 };
