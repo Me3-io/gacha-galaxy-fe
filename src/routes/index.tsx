@@ -8,6 +8,8 @@ import Login from "pages/login";
 
 const languages = ["en", "tr", "pt", "ar", "ko", "ja", "vi", "id", "cn"];
 
+console.log("ENVIRONMENT", process.env.REACT_APP_NODE_ENV);
+
 const AppRouter = () => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
@@ -44,6 +46,8 @@ const AppRouter = () => {
       <Route path="/" element={<Navigate to={`/${lang}/`} />} />
       <Route path="/:lang" element={<Login />} />
       <Route path="/:lang/home/" element={Secure(<Home />)} />
+      <Route path="/:lang/home/:map" element={Secure(<Home />)} />
+      <Route path="/:lang/home/:map/:building" element={Secure(<Home />)} />
       <Route path="/:lang/game/:code" element={Secure(<Game />)} />
     </Routes>
   );

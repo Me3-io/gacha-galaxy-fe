@@ -2,12 +2,13 @@ import customAxios from "utils/customAxios";
 import { setTokenFailure, setTokenStart, setTokenSuccess } from "reduxConfig/slices/tokenAuth";
 
 export const fetchChallengeVerify =
-  ({ signature, message }: any) =>
+  ({ signature, message, social }: any) =>
   async (dispatch: any) => {
     dispatch(setTokenStart());
     const data = {
       message: message,
       signature: signature,
+      social
     };
 
     try {
@@ -19,6 +20,6 @@ export const fetchChallengeVerify =
     }
   };
 
-export const selectAuthToken = (state: any) => state.authToken.data;
-export const selectAuthTokenLoading = (state: any) => state.authToken.loading;
-export const selectAuthTokenError = (state: any) => state.authToken.error;
+export const selectAuthToken = (state: any) => state.tokenAuth.data;
+export const selectAuthTokenLoading = (state: any) => state.tokenAuth.loading;
+export const selectAuthTokenError = (state: any) => state.tokenAuth.error;

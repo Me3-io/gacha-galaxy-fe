@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
@@ -15,6 +15,9 @@ import { useTranslation } from "react-i18next";
 import { useTour } from "@reactour/tour";
 import { useSelector } from "react-redux";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+import { MapContext } from "pages/home";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import MapBg from "./bg";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
@@ -23,7 +26,12 @@ const CENTER_MAP = { x: 600, y: 950 };
 
 const isMobile = navigator.userAgent.includes("Mobi");
 
-const InteractiveMap = ({ setGames, setCampaings }: any) => {
+const InteractiveMap = () => {
+  const { setListGames, setListCampaings, map } = useContext(MapContext);
+  const { lang } = useParams();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   const Viewer = useRef<any>(null);
   const { t } = useTranslation();
   const { setIsOpen, setCurrentStep } = useTour();
@@ -84,6 +92,7 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
             ${posX + PATH_GRID},${posY} 
             ${posX + PATH_GRID / 2},${posY + PATH_GRID / 4}
             `}
+          stroke={map?.gridColor ? map?.gridColor : "#ba00fb"}
           className={styled.gridpath}
           //style={{ strokeOpacity: opacity }}
         />
@@ -110,7 +119,7 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
   useEffect(() => {
     _drawGrid();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gridConfig, showNumbers]);
+  }, [gridConfig, showNumbers, map?.gridColor]);
 
   const _drawCentralGuide = () => {
     return (
@@ -120,17 +129,17 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
           y="0"
           width={SVG_SIZE.width}
           height={SVG_SIZE.height}
-          stroke="red"
+          stroke="yellow"
           strokeWidth="1px"
           fill="transparent"
         />
 
-        <line
+        {/*<line
           x1="0"
           y1={CENTER_MAP.y}
           x2={SVG_SIZE.width}
           y2={CENTER_MAP.y}
-          stroke="red"
+          stroke="yellow"
           strokeWidth="1px"
         />
         <line
@@ -138,9 +147,9 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
           y1="0"
           x2={CENTER_MAP.x}
           y2={SVG_SIZE.height}
-          stroke="red"
+          stroke="yellow"
           strokeWidth="1px"
-        />
+        />*/}
       </g>
     );
   };
@@ -152,17 +161,32 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
 
   const _fitCenter = () => {
     Viewer.current?.fitToViewer("center", "center");
-
-    // zoomIn only mobile
-    /*if (isMobile && width && width < 500) {
-      setTimeout(() => Viewer.current?.zoomOnViewerCenter(1.5), 50);
-    }*/
   };
 
-  const handlerBuildingClick = (games: any, campaings: any) => {
-    setGames(games);
-    setCampaings(campaings);
+  const _fitSelection = () => {
+    const searchValue = searchParams.get("@");
+    if (searchValue) {
+      const [x, y, z] = searchValue.split(",");
+      /*setValue((prev: any) => ({
+        ...prev,
+        a: parseFloat(z),
+        d: parseFloat(z),
+        e: parseInt(x),
+        f: parseInt(y),
+      }))*/
+      Viewer.current?.setPointOnViewerCenter(x, y, parseFloat(z));
+    } else {
+      Viewer.current?.fitToViewer("center", "center");
+    }
+  };
+
+  const handlerBuildingClick = (games: any, campaings: any, code: string) => {
+    setListGames(games);
+    setListCampaings(campaings);
     setTooltipData({ visible: false, text: "" });
+    if (games?.length || campaings?.length) {
+      navigate(`/${lang}/home/${map.code}/${code}`);
+    }
   };
 
   const handlerOver = (text: any) => {
@@ -176,7 +200,7 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
   // window resize ---
   useEffect(() => {
     if (Viewer.current?.fitToViewer !== undefined && height && width) {
-      setTimeout(() => _fitCenter(), 50);
+      setTimeout(() => _fitSelection(), 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Viewer.current?.fitToViewer, height, width]);
@@ -190,6 +214,19 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, leaderboardData]);
+
+  useEffect(() => {
+    calculateGrid(value);
+
+    if (!value?.focus) {
+      const x = ((value?.viewerWidth / 2 - value.e) / value.a)?.toFixed(0);
+      const y = ((value?.viewerHeight / 2 - value.f) / value.a)?.toFixed(0);
+      const z = value?.a?.toFixed(3);
+
+      if (x && y && z && !isMobile) navigate({ search: `?@=${x},${y},${z}` });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   return (
     <Box ref={ref} className={styled.main}>
@@ -228,7 +265,7 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
           SVGBackground={"transparent"}
           background={"transparent"}
           scaleFactorMax={MAX_ZOOM}
-          scaleFactorMin={isMobile ? 0.1 : 0.4}
+          scaleFactorMin={isMobile ? 0.1 : 0.3}
           toolbarProps={{
             position: "none",
           }}
@@ -239,20 +276,24 @@ const InteractiveMap = ({ setGames, setCampaings }: any) => {
             height: 250,
           }}
           detectAutoPan={false}
-          preventPanOutside={true}
-          onPan={calculateGrid}
-          onZoom={calculateGrid}
-          //onClick={(evt) => console.log("click", evt)}
+          preventPanOutside={false}
+          //onPan={calculateGrid}
+          //onZoom={calculateGrid}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
+            {map?.svg && (
+              <g className="bg">
+                <MapBg CENTER_MAP={CENTER_MAP} />
+              </g>
+            )}
             <g className="grid">{renderGrid}</g>
-
             <g className={styled.buildings}>
               <Buildings
                 handlerBuildingClick={handlerBuildingClick}
                 handlerOver={handlerOver}
                 handlerLeave={handlerLeave}
                 setLoading={setLoading}
+                loading={loading}
                 PATH_GRID={PATH_GRID}
                 CENTER_MAP={CENTER_MAP}
               />

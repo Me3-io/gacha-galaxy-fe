@@ -1,0 +1,145 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  max-height: inherit;
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+
+    .item:first-child {
+      border-right: 1px dotted #ba00fb;
+    }
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+      text-transform: uppercase;
+      width: 50%;
+      justify-content: space-evenly;
+
+      & > div {
+        display: flex;
+        flex-direction: column;
+      }
+
+      p {
+        color: #9a4aff;
+        font-family: "ChakraPetchBold";
+        font-size: 2rem;
+      }
+
+      span {
+        color: #e4bcf2;
+        font-family: "ChakraPetch";
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .action > button {
+        border: none !important;
+        background-color: rgba(99, 67, 115, 0.4) !important;
+        color: #db74ff;
+        font-size: 1rem;
+        padding: 8px 16px !important;
+        display: flex;
+        justify-content: space-between;
+        width: 160px;
+      }
+
+      .position {
+        color: #e5c7f1;
+        font-family: "ChakraPetch";
+        font-size: 0.8rem;
+        background: #4f3662;
+        padding: 0 5px;
+        border-radius: 2px;
+      }
+
+      .rewards {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+
+        .infoLabel {
+          color: #250b30;
+          font-family: "ChakraPetchBold";
+          font-size: 0.8rem;
+          font-weight: 800;
+          background-color: #da7bfb;
+          width: fit-content;
+          padding: 0.2rem;
+          padding-right: 1.5rem;
+          clip-path: polygon(calc(100% - 10px) 0%, 100% 10px, 100% 100%, 0% 100%, 0% 0%);
+          border-radius: 2px;
+        }
+
+        & > div {
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+          flex-direction: row;
+          & > p {
+            color: #c3a0e9;
+            font-size: 2.5rem;
+            font-family: "ChakraPetchBold";
+            font-weight: 400;
+            padding: 0;
+          }
+
+          & > span {
+            font-family: "ChakraPetch";
+            font-size: 1rem;
+            font-weight: 400;
+            background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: capitalize;
+          }
+        }
+      }
+
+      .claimBtn > button span {
+        font-size: 1rem;
+        padding: 0.25rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+
+    .tabs {
+      padding: 0.5rem 0.5rem 0 0.5rem;
+      button {
+        font-family: "ChakraPetch";
+        clip-path: polygon(calc(100% - 10px) 0%, 100% 10px, 100% 100%, 0% 100%, 0% 0%);
+        padding: 0.5rem;
+        min-height: auto;
+      }
+
+      .hiddenTab {
+        position: absolute;
+        z-index: -1;
+        visibility: hidden;
+      }
+    }
+
+    .tabPanel {
+      display: flex;
+      flex-direction: column;
+      max-height: inherit;
+      overflow: hidden;
+
+      & > div {
+        border-top: 1px solid rgba(186, 0, 251, 0.6);
+        padding: 0;
+        box-sizing: border-box;
+        overflow: auto;
+      }
+    }
+  }
+}

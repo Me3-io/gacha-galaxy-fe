@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Fade } from "@mui/material";
+import { Box, CircularProgress, Fade } from "@mui/material";
 import useResizeObserver from "use-resize-observer";
 
+import useAlert from "hooks/alertProvider/useAlert";
 import customAxios from "utils/customAxios";
-import Alert from "components/molecules/alert";
 import CongratsModal from "components/molecules/games/modal";
 
 import styled from "./styled.module.scss";
@@ -11,6 +11,7 @@ import styled from "./styled.module.scss";
 // resources ---
 import machine from "assets/games/capsule/machine_front_view.png";
 import machineEmpty from "assets/games/capsule/machine_front_view_empty.png";
+
 const urlAnimation = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Game_Animation.mp4`;
 const urlSuccess = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Animation_Success.mp4`;
 // rewards ---
@@ -37,13 +38,15 @@ const initialState: State = {
   poster: "",
 };
 
-const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
+const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
   const { ref, height } = useResizeObserver();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { setAlert } = useAlert();
 
+  const [loading, setLoading] = useState(true);
   const [gameState, setGameState] = useState<State>(initialState);
   const [onSuccess, setOnSuccess] = useState(false);
-  const [onError, setOnError] = useState({ show: false, msg: "" });
+
   const [response, setResponse] = useState<any>(null);
   const [modal, setModal] = useState({ open: false, data: {} });
 
@@ -92,8 +95,6 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
 
   // game actions ---
   const nextStep = () => {
-    if (onError.show) return;
-
     switch (gameState.status) {
       case "init":
         setGameState(states.load);
@@ -134,12 +135,17 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
   };
 
   const errorGame = (error?: string) => {
-    setOnError({ show: true, msg: "Error to play game." });
+    setAlert("Error to play game.", "error");
     setTimeout(() => {
       setGameState(states.ready);
       if (videoRef?.current) videoRef?.current?.pause();
       handleEnd({ error });
     }, 3000);
+  };
+
+  const handlePlayAgain = () => {
+    setModal({ open: false, data: {} });
+    handlePlay();
   };
 
   /*const getReward = (type: string) => {
@@ -183,55 +189,63 @@ const Capsule = ({ onPlay, handleEnd, gameData }: any) => {
     setGameState(states.init);
 
     (async () => {
+      setLoading(true);
       const sourceA = (await getResource(urlAnimation)) || "";
       const sourceB = (await getResource(urlSuccess)) || "";
 
       setSourceAnimation(sourceA);
       setSourceSuccess(sourceB);
+      setLoading(false);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Fade in={true}>
-      <Box className={styled.main}>
-        <Box ref={ref} className={styled.videoInner} sx={{ opacity: gameState.visible ? 1 : 0 }}>
-          {gameState.visible && (
-            <video
-              ref={videoRef}
-              loop={gameState.loop}
-              key={gameState.source}
-              poster={gameState.poster}
-              autoPlay={gameState.play}
-              controls={false}
-              preload="auto"
-              muted
-              playsInline
-              onEnded={endGame}
-              style={{ width: height ? height : "auto" }}
-            >
-              <source src={gameState.source} type="video/mp4" />
-            </video>
-          )}
+    <>
+      {loading && (
+        <Box className={styled.loading}>
+          <CircularProgress className={styled.spinner} size={36} />
+          loading game...
         </Box>
+      )}
+      <Fade in={true}>
+        <Box className={styled.main}>
+          <Box ref={ref} className={styled.videoInner} sx={{ opacity: gameState.visible ? 1 : 0 }}>
+            {gameState.visible && (
+              <video
+                ref={videoRef}
+                loop={gameState.loop}
+                key={gameState.source}
+                poster={gameState.poster}
+                autoPlay={gameState.play}
+                controls={false}
+                preload="auto"
+                muted
+                playsInline
+                onEnded={endGame}
+                style={{ width: height ? height : "auto" }}
+              >
+                <source src={gameState.source} type="video/mp4" />
+              </video>
+            )}
+          </Box>
 
-        <Box className={styled.bgContainer}>
-          <img
-            alt="machine"
-            className={bgClass}
-            src={gameState.status === "success" ? machineEmpty : machine}
+          <Box className={styled.bgContainer}>
+            <img
+              alt="machine"
+              className={bgClass}
+              src={gameState.status === "success" ? machineEmpty : machine}
+            />
+          </Box>
+
+          <CongratsModal
+            {...modal}
+            onClose={() => setModal({ open: false, data: {} })}
+            handlePlayAgain={handlePlayAgain}
           />
         </Box>
-
-        <CongratsModal {...modal} onClose={() => setModal({ open: false, data: {} })} />
-
-        {onError.show && (
-          <Alert onClose={() => setOnError({ show: false, msg: "" })}>
-            {onError.msg || "Error."}
-          </Alert>
-        )}
-      </Box>
-    </Fade>
+      </Fade>
+    </>
   );
 };
 

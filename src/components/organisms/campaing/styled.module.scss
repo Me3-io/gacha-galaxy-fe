@@ -6,7 +6,7 @@
   flex-wrap: wrap;
   background-color: rgba(0, 0, 0, 0.75);
 
-  .close {
+  /*.close {
     position: absolute;
     top: 1.2rem;
     right: 1.2rem;
@@ -16,7 +16,7 @@
     background-color: #000;
     border-radius: 50%;
     color: #fff;
-  }
+  }*/
 
   .modal {
     position: relative;
@@ -35,8 +35,27 @@
     filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 0.4));
     background-color: #140e23;
 
+    .backButton {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 9999;
+
+      button {
+        border: none !important;
+        background-color: rgba(99, 67, 115, 0.4) !important;
+        color: #db74ff;
+        font-size: 0.9rem;
+        padding: 5px 15px !important;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+
     .campaign {
-      height: 100%!important;
+      height: 100% !important;
     }
 
     .loading {
@@ -56,14 +75,13 @@
       gap: 2rem;
       box-sizing: border-box;
       background-color: rgba(0, 0, 0, 0.5);
-  
+
       .spinner {
         color: #d490ec !important;
       }
     }
   }
 }
-
 
 @media screen and (max-width: 1000px) {
   .modalContainer .modal {
@@ -74,5 +92,11 @@
     padding: 10px;
     max-width: none;
     max-height: none;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .modalContainer .modal .backButton > button {
+    background-color: rgba(99, 67, 115) !important;
   }
 }

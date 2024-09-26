@@ -1,0 +1,46 @@
+.main {
+  height: 100%;
+  color: white;
+  flex-flow: column;
+  box-sizing: border-box;
+  transition: 0.2s all;
+  position: relative;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 1rem;
+
+    .title {
+      font-family: "OrbitronBlack";
+      font-size: 1.2rem;
+      background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    button {
+      border: none !important;
+      background-color: rgba(99, 67, 115, 0.4) !important;
+      color: #db74ff;
+      font-size: 0.9rem;
+      padding: 5px 15px !important;
+      display: flex;
+      justify-content: space-between;
+      gap: 5px;
+    }
+  }
+
+  .container {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    flex: 1;
+    color: #d490ec;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}

@@ -5,35 +5,36 @@ import "react-multi-carousel/lib/styles.css";
 
 import Card from "./card";
 import styled from "./styled.module.scss";
+import { Box } from "@mui/material";
 
 const ButtonGroup = ({ next, previous }: any) => {
   return (
-    <>
+    <Box className={styled.arrowContainer}>
       <ArrowBackIosIcon className={styled.arrowLeft} onClick={() => previous()} />
       <ArrowForwardIosIcon className={styled.arrowRight} onClick={() => next()} />
-    </>
+    </Box>
   );
 };
 
 const GameCampaingCarousel = ({ listGames, listCampaings, setGame, setCampaing }: any) => {
   const total = listGames?.length + listCampaings?.length || 1;
-  const length = total >= 3 ? 3 : total;
+  //const length = total >= 3 ? 3 : total;
 
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: length,
+      items: total >= 3 ? 3 : total,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: length,
+      items: total >= 3 ? 3 : total,
     },
     tablet: {
-      breakpoint: { max: 1024, min: 600 },
-      items: 2,
+      breakpoint: { max: 1024, min: 800 },
+      items: total >= 2 ? 2 : total,
     },
     mobile: {
-      breakpoint: { max: 600, min: 0 },
+      breakpoint: { max: 800, min: 0 },
       items: 1,
     },
   };
@@ -54,7 +55,7 @@ const GameCampaingCarousel = ({ listGames, listCampaings, setGame, setCampaing }
         <Card key={item?.claimrId} item={item} setDetails={setCampaing} type="campaing" />
       ))}
 
-      {listGames?.map((item: any,) => (
+      {listGames?.map((item: any) => (
         <Card key={item?.code} item={item} setDetails={setGame} type="game" />
       ))}
     </Carousel>

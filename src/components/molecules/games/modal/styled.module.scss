@@ -128,21 +128,21 @@
         justify-content: space-between;
         align-items: center;
 
-        .social {
+        .item {
           display: flex;
           gap: 1rem;
           button {
-            padding: 10px;
             svg {
               width: 2rem;
               height: 2rem;
               cursor: pointer;
             }
-          }
-        }
 
-        & > button span {
-          padding: 0.3rem 0.6rem;
+            span {
+              font-size: 0.9rem;
+              padding: 0.3rem 0 !important;
+            }
+          }
         }
       }
     }

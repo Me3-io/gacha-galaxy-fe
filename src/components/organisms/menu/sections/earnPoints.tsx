@@ -15,7 +15,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 
 import { useSelector } from "react-redux";
-import { getBuildings } from "reduxConfig/thunks/buildings";
+import { getMaps } from "reduxConfig/thunks/maps";
 
 import styled from "../styled.module.scss";
 import { useTranslation } from "react-i18next";
@@ -52,7 +52,7 @@ const EarnPoints = ({ setOpenPoints, setGame, setCampaing }: any) => {
   const { t } = useTranslation();
   const [value, setValue] = useState("1");
   const handleChange = (evt: any, newValue: string) => setValue(newValue);
-  const buildingsData = useSelector(getBuildings) || [];
+  const buildingsData = useSelector(getMaps) || [];
 
   // filter games data ---
   let auxGames: { [key: string]: boolean } = {};
