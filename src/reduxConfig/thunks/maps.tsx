@@ -1,11 +1,6 @@
 import customAxios from "utils/customAxios";
 
-import {
-  setMapFailure,
-  setMapStart,
-  setMapSuccess,
-  clearMaps as clear,
-} from "reduxConfig/slices/maps";
+import { setMapFailure, setMapStart, setMapSuccess, clearMaps as clear } from "reduxConfig/slices/maps";
 
 const createCode = (name: string) => name?.toLowerCase().replace(/\s/g, "-");
 
@@ -17,19 +12,19 @@ export const fetchMaps = () => async (dispatch: any) => {
     const data = response.data.data;
     const maps = data?.map((map: any) => ({
       ...map,
-      code: createCode(map?.title),
-      buildings:
-        map?.buildings ?
-        map?.buildings?.map((building: any) => ({
-          ...building,
-          code: createCode(building?.name),
-          games:
-            building?.games ?
-            building?.games?.map((game: any) => ({
-              ...game,
-              code: createCode(game?.name),
-            })) : null,
-        })) : null,
+      code: map.urlSlug || createCode(map?.title),
+      buildings: map?.buildings
+        ? map?.buildings?.map((building: any) => ({
+            ...building,
+            code: building.urlSlug || createCode(building?.name),
+            games: building?.games
+              ? building?.games?.map((game: any) => ({
+                  ...game,
+                  code: game.urlSlug || createCode(game?.name),
+                }))
+              : null,
+          }))
+        : null,
     }));
 
     dispatch(setMapSuccess(maps));

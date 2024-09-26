@@ -50,9 +50,7 @@ const onlyWallets = [
   walletConnect(),
 ];
 
-const onlySocial = [
-  inAppWallet({ auth: { options: [ "google", "telegram"] } }),
-];
+const onlySocial = [inAppWallet({ auth: { options: ["google", "telegram"] } })];
 
 // client ---
 const clientId = process.env.REACT_APP_CLIENT_ID || "";
@@ -60,11 +58,11 @@ export const client = createThirdwebClient({
   clientId,
 });
 
+// hide thirdweb branding ---
+const showThirdwebBranding = false;
+
 // modal config ---
-export const modalConfig = { client, wallets, appMetadata, theme, chain };
-export const onlyWalletConfig = { client, wallets: onlyWallets, appMetadata, theme, chain };
-export const onlySocialConfig = { client, wallets: onlySocial, appMetadata, theme, chain };
+export const modalConfig = { client, wallets, appMetadata, theme, chain, showThirdwebBranding };
+export const onlyWalletConfig = { client, wallets: onlyWallets, appMetadata, theme, chain, showThirdwebBranding };
+export const onlySocialConfig = { client, wallets: onlySocial, appMetadata, theme, chain, showThirdwebBranding };
 
-
-//e937664662530887cba89109dc5d9dd4
-//nXIz-LstD3ce5bb1t0TLDd0TBcYieZ1bJEHsrty-VKWav33WaI7pI4Y4qwUunwy4x0YVI87zA8VSfpz62unLkA

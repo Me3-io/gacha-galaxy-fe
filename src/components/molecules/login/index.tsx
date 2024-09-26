@@ -7,10 +7,10 @@ import {
   useActiveWallet,
   useActiveWalletConnectionStatus,
   useActiveAccount,
-  ConnectButton,
+  AutoConnect,
 } from "thirdweb/react";
 
-import { chain, modalConfig } from "config/thirdwebConfig";
+import { chain, client, modalConfig } from "config/thirdwebConfig";
 
 import { useTranslation } from "react-i18next";
 
@@ -32,7 +32,9 @@ import { getSocial } from "reduxConfig/thunks/social";
 import { clearSocial } from "reduxConfig/slices/social";
 
 import styled from "./styled.module.scss";
-import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
+import customAxios from "utils/customAxios";
+import { privateKeyToAccount } from "thirdweb/wallets";
 
 const LoginBar = () => {
   const tokenLS = localStorage.getItem("session.token");
@@ -81,24 +83,6 @@ const LoginBar = () => {
     }
   };
 
-  /*const handleDetails = () => {
-    if (wallet)
-      detailsModal.open({
-        ...modalConfig,
-        hideDisconnect: true,
-        connectOptions: { ...modalConfig },
-        payOptions: {
-          buyWithCrypto: false,
-          buyWithFiat: false,
-        },
-      });
-  };*/
-
-  /*const handleCopy = () => {
-    navigator.clipboard.writeText(account?.address || "");
-    setAlert("Copy address to clipboard", "success");
-  };*/
-
   useEffect(() => {
     const address = account?.address;
     const chainid = chain?.id || 1;
@@ -107,17 +91,15 @@ const LoginBar = () => {
       const from = window.location.hostname;
       if (!loadingMessageAuth) {
         setLoadSigning(true);
-        dispatch(fetchChallengeRequest({ address, from, chainid }) as any).then(
-          async (response: any) => {
-            if (response?.message) {
-              signedMessage(response.message);
-            } else {
-              setAlert(t("login-error-request"), "error");
-              console.error("Error to challenge request: ", response);
-              logout();
-            }
+        dispatch(fetchChallengeRequest({ address, from, chainid }) as any).then(async (response: any) => {
+          if (response?.message) {
+            signedMessage(response.message);
+          } else {
+            setAlert(t("login-error-request"), "error");
+            console.error("Error to challenge request: ", response);
+            logout();
           }
-        );
+        });
       }
     }
 
@@ -135,6 +117,8 @@ const LoginBar = () => {
           localStorage.setItem("session.token", response?.sessionToken);
           localStorage.setItem("session.account", JSON.stringify({ ...account, ...signParams }));
           setSignedMessage("");
+
+          //await valideActiveAddress();
           navigate(`/${i18n.language}/home/`);
         } else {
           setAlert(t("login-error-verify"), "error");
@@ -155,13 +139,30 @@ const LoginBar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenLS, account, status]);
 
-  /*useEffect(() => {
-    const isLoginView = !location.pathname.split("/")[2];
-    if (!isLoading && !isLoginView && status === "disconnected") {
-      logout();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading, status]);*/
+  const valideActiveAddress = async () => {
+    console.log("OLD account", account);
+    await dispatch(fetchLeaderboard() as any).then(async (response: any) => {
+      const walletActive = response?.result?.wallets.find((w: any) => w?.active && w.type === "me3-created") || [];
+      if (
+        account?.address &&
+        walletActive?.address &&
+        account?.address.toLowerCase() !== walletActive?.address.toLowerCase()
+      ) {
+        await customAxios()
+          .post("/wallet/key", { address: walletActive?.address })
+          .then(async (response) => {
+            const personalAccount = privateKeyToAccount({
+              client,
+              privateKey: response?.data?.data,
+            });
+
+            console.log("personalAccount", personalAccount);
+
+            // aca setear account activa
+          });
+      }
+    });
+  };
 
   useEffect(() => {
     window.addEventListener("logout", () => logout());
@@ -194,9 +195,7 @@ const LoginBar = () => {
                 <WalletIcon onClick={handleDetails} />
               </CustomTooltip>*/}
 
-              <Box display={"none"}>
-                <ConnectButton {...modalConfig} />
-              </Box>
+              <AutoConnect timeout={10000} {...modalConfig} />
             </>
           )}
 

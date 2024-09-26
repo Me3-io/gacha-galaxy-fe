@@ -28,6 +28,7 @@ const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = () => {
   const { setListGames, setListCampaings, map } = useContext(MapContext);
+
   const { lang } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ const InteractiveMap = () => {
   const [tool, setTool] = useState<any>(TOOL_AUTO);
   const [tooltipData, setTooltipData] = useState({ visible: false, text: "" });
   const [loading, setLoading] = useState(true);
+  const [activeUrlCoords, setActiveUrlCoords] = useState(false);
 
   //const [showMap, setShowMap] = useState<boolean>(true);
   const [showNumbers, setShowNumbers] = useState<boolean>(false);
@@ -62,9 +64,7 @@ const InteractiveMap = () => {
       for (let x = 0; x < gridConfig.width; x++) {
         const posX = x * (PATH_GRID / 2) + gridConfig.originX;
         const posY =
-          x % 2
-            ? y * (PATH_GRID / 2) + PATH_GRID / 4 + gridConfig.originY
-            : y * (PATH_GRID / 2) + gridConfig.originY;
+          x % 2 ? y * (PATH_GRID / 2) + PATH_GRID / 4 + gridConfig.originY : y * (PATH_GRID / 2) + gridConfig.originY;
 
         const key = `${x}-${y}`;
         const item = { key, posX, posY };
@@ -164,16 +164,9 @@ const InteractiveMap = () => {
   };
 
   const _fitSelection = () => {
-    const searchValue = searchParams.get("@");
+    const searchValue = searchParams.get("@") || map?.mapCoordinates;
     if (searchValue) {
       const [x, y, z] = searchValue.split(",");
-      /*setValue((prev: any) => ({
-        ...prev,
-        a: parseFloat(z),
-        d: parseFloat(z),
-        e: parseInt(x),
-        f: parseInt(y),
-      }))*/
       Viewer.current?.setPointOnViewerCenter(x, y, parseFloat(z));
     } else {
       Viewer.current?.fitToViewer("center", "center");
@@ -200,10 +193,10 @@ const InteractiveMap = () => {
   // window resize ---
   useEffect(() => {
     if (Viewer.current?.fitToViewer !== undefined && height && width) {
-      setTimeout(() => _fitSelection(), 1000);
+      setTimeout(() => _fitSelection(), 100);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Viewer.current?.fitToViewer, height, width]);
+  }, [Viewer.current?.fitToViewer, height, width, map?.buildings]);
 
   useEffect(() => {
     if (!loading && leaderboardData && !leaderboardData?.hideGuide) {
@@ -212,18 +205,19 @@ const InteractiveMap = () => {
         setIsOpen(true);
       }, 2000);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, leaderboardData]);
 
   useEffect(() => {
     calculateGrid(value);
 
-    if (!value?.focus) {
+    if (!value?.focus && !loading && !isMobile && activeUrlCoords) {
       const x = ((value?.viewerWidth / 2 - value.e) / value.a)?.toFixed(0);
       const y = ((value?.viewerHeight / 2 - value.f) / value.a)?.toFixed(0);
       const z = value?.a?.toFixed(3);
 
-      if (x && y && z && !isMobile) navigate({ search: `?@=${x},${y},${z}` });
+      if (x && y && z) navigate({ search: `?@=${x},${y},${z}` });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
@@ -277,8 +271,8 @@ const InteractiveMap = () => {
           }}
           detectAutoPan={false}
           preventPanOutside={false}
-          //onPan={calculateGrid}
-          //onZoom={calculateGrid}
+          onPan={() => setActiveUrlCoords(true)}
+          onZoom={() => setActiveUrlCoords(true)}
         >
           <svg width={SVG_SIZE.width} height={SVG_SIZE.height}>
             {map?.svg && (
