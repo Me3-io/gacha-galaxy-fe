@@ -17,12 +17,12 @@ const FiatCheckout = ({ setOpen }: any) => {
   const { connect } = useConnectModal();
   const { setAlert } = useAlert();
 
-  const walletActive = data?.wallets.find((w: any) => w?.active && w.type === "me3-created") || [];
+  const walletActive = data?.wallets.find((w: any) => w?.active && !w.social) || null;
   const [sameWallet, setSameWallet] = useState<boolean>(false);
 
   const valideActiveAddress = async () => {
     try {
-      if (!account || account?.address.toLowerCase() !== walletActive?.address.toLowerCase()) {
+      if (!account || account?.address?.toLowerCase() !== walletActive?.address?.toLowerCase()) {
         const response = await connect({
           ...onlyWalletConfig,
           size: "compact",
