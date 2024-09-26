@@ -28,7 +28,11 @@ const ListMaps = ({ goToMap }: any) => {
   const handleMap = (map: any) => {
     setMap(map);
     goToMap();
-    navigate(`/${lang}/home/${map.code}`);
+    if (map?.mapCoordinates) {
+      navigate(`/${lang}/home/${map.code}?@=${map.mapCoordinates}`);
+    } else {
+      navigate(`/${lang}/home/${map.code}`);
+    }
   };
 
   return (

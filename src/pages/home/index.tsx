@@ -20,7 +20,7 @@ import Campaign from "components/organisms/campaing";
 import GameDetails from "components/organisms/gameDetails";
 import MainPanel from "components/organisms/newMenu";
 //import NFTChekout from "components/molecules/NFTChekout";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 //import { client } from "config/thirdwebConfig";
 //import { PayEmbed } from "thirdweb/react";
 //import FiatCheckout from "components/molecules/fiatCheckout";
@@ -47,6 +47,7 @@ export const MapContext = createContext(initialState);
 const Home = () => {
   //const { t } = useTranslation();
   const { lang, map: urlMap, building } = useParams();
+  const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const mapsData = useSelector(getMaps);
@@ -66,7 +67,12 @@ const Home = () => {
   const handleClose = () => {
     setListGames([]);
     setListCampaings([]);
-    navigate(`/${lang}/home/${map?.code}`);
+    const searchValue = searchParams.get("@") || map?.mapCoordinates;
+    if (searchValue) {
+      navigate(`/${lang}/home/${map.code}?@=${searchValue}`);
+    } else {
+      navigate(`/${lang}/home/${map.code}`);
+    }
   };
 
   useEffect(() => {
@@ -149,7 +155,6 @@ const Home = () => {
 
             {/* subsection FiatCheckout */}
             {/*openTokens && <FiatCheckout />*/}
-            
           </Container>
         </Layout>
       </MapContext.Provider>

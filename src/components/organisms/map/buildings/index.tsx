@@ -10,7 +10,6 @@ const Buildings = ({
   PATH_GRID,
   CENTER_MAP,
   setLoading,
-  loading,
 }: any) => {
   const { map } = useContext(MapContext);
   const [buildings, setBuildings] = useState<any>([]);

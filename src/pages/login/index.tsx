@@ -9,7 +9,6 @@ import Button from "components/atoms/buttons/default";
 import Logo from "assets/logo.svg";
 import LogoGacha from "assets/logo-gacha.svg";
 
-import waitForElement from "utils/waitForElement";
 import ModalLegal from "components/molecules/legal";
 
 import { useDispatch } from "react-redux";
@@ -45,7 +44,7 @@ const Login = () => {
 
   const openModal = async () => {
     try {
-      waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
+
       const response = await connect({ ...modalConfig, size: "wide" });
 
       //@ts-ignore
