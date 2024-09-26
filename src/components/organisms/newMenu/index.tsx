@@ -11,6 +11,7 @@ import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
 import { MapContext } from "pages/home";
 import { useLocation } from "react-router-dom";
+import FiatCheckout from "components/molecules/fiatCheckout";
 
 const SectionItem = ({ children, open, opacity = 1 }: any) => {
   const position = opacity && open ? "relative" : "absolute!important";
@@ -32,6 +33,7 @@ const MainPanel = ({ showBack = false, goToMap, setOpenTokens }: any) => {
   const { t } = useTranslation();
   const [openPoints, setOpenPoints] = useState(false);
   const [openRewards, setOpenRewards] = useState(false);
+  const [openCheckout, setOpenCheckout] = useState(false);
   
   useEffect(() => {
     if (location.state?.openRewards) {
@@ -69,10 +71,12 @@ const MainPanel = ({ showBack = false, goToMap, setOpenTokens }: any) => {
 
           {/* subsection ClaimAll*/}
           <SectionItem open={openRewards}>
-            <Rewards setOpen={setOpenRewards} />
+            <Rewards setOpen={setOpenRewards} setOpenCheckout={setOpenCheckout} />
           </SectionItem>
         </Box>
       </Box>
+
+      {openCheckout && <FiatCheckout setOpen={setOpenCheckout} />}
     </>
   );
 };

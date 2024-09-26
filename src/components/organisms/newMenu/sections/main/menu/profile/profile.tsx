@@ -37,6 +37,7 @@ const Profile = ({ setOpen }: any) => {
 
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
+  const [form, setForm] = useState({ nickname: "", email: "" });
 
   const wallet = useActiveWallet();
   const setActiveAccount = useSetActiveWallet();
@@ -67,7 +68,8 @@ const Profile = ({ setOpen }: any) => {
       return;
     }
 
-    await updateprofile();
+    setForm((prev) => ({ ...prev, nickname }));
+
     setOnEditNickname(false);
   };
 
@@ -94,13 +96,14 @@ const Profile = ({ setOpen }: any) => {
       return;
     }
 
-    await updateprofile();
+    setForm((prev) => ({ ...prev, email }));
+
     setOnEditEmail(false);
   };
 
   const updateprofile = async () => {
     await customAxios()
-      .post("/user/updateprofile", { nickname, email })
+      .post("/user/updateprofile", { ...form })
       .then(() => setAlert("Updated successfully", "success"))
       .catch((error: any) => {
         setAlert(error?.response?.data?.message || error?.message || "error", "error");
@@ -112,7 +115,15 @@ const Profile = ({ setOpen }: any) => {
   useEffect(() => {
     setNickname(data?.userNickname || "");
     setEmail(data?.userEmail || "");
+    setForm({ nickname: data?.userNickname || "", email: data?.userEmail || "" });
   }, [data]);
+
+  useEffect(() => {
+    if ((form.nickname || form.email) && (form.nickname !== data?.userNickname || form.email !== data?.userEmail)) {
+      updateprofile();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form]);
 
   // wallets and social ---
   const addWallet = async () => {
@@ -166,7 +177,6 @@ const Profile = ({ setOpen }: any) => {
         setAlert(error?.response?.data?.message || error?.message || "error", "error");
       });
   };
-
 
   return (
     <Grid container flexDirection="column" className={styled.main}>

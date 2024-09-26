@@ -7,14 +7,15 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { MapContext } from "pages/home";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import styled from "./styled.module.scss";
 
 const Campaing = () => {
   const { t } = useTranslation();
   const { campaing: details, setCampaing: setDetails } = useContext(MapContext);
+  const dispatch = useDispatch();
 
   const open = !!details?.claimrId;
 
@@ -30,19 +31,17 @@ const Campaing = () => {
       const scriptLoad = document.querySelector(`script[data-container="${details.claimrId}"]`);
       if (scriptLoad) scriptLoad.remove();
 
-      //const claimrWallet = document.querySelector("#claimr-walletconnect-popup");
-      //if (claimrWallet) claimrWallet.remove();
       window.removeEventListener("message", () => {});
       //@ts-ignore
       window.claimr.destroy();
       setDetails({});
+
+      dispatch(fetchLeaderboard() as any);
     }
   };
 
   useEffect(() => {
     if (details?.claimrId) {
-      //const preLoad = document.querySelector(`script[data-container="${details.claimrId}"]`);
-      //if (!preLoad) {
       setLoading(true);
       const receive_message = async (event: any) => {
         const data = event.data;
@@ -71,7 +70,6 @@ const Campaing = () => {
       script.setAttribute("data-organization", "me3");
 
       document.head.appendChild(script);
-      //}
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

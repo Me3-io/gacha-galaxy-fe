@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "components/atoms/buttons/base";
+import WalletIcon from "@mui/icons-material/Wallet";
 
 import { client, chain, onlyWalletConfig } from "config/thirdwebConfig";
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
@@ -22,7 +23,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useActiveAccount, useConnectModal } from "thirdweb/react";
 
-//import waitForElement from "utils/waitForElement";
 import customAxios from "utils/customAxios";
 import { format } from "date-fns";
 import useAlert from "hooks/alertProvider/useAlert";
@@ -31,8 +31,9 @@ import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
 
 const RewardButton = ({ reward }: any) => {
-  const { t } = useTranslation();
+  //const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+
   const { claimContractABI, claimContractAddress } = useSelector(getClaims) || {};
 
   //const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
@@ -155,50 +156,28 @@ const MainTable = ({ data }: any) => {
   );
 };
 
-const Rewards = ({ setOpen }: any) => {
+const Rewards = ({ setOpen, setOpenCheckout }: any) => {
   const { t } = useTranslation();
-
-  //const [value, setValue] = useState("1");
-  //const handleChange = (evt: any, newValue: string) => setValue(newValue);
-
-  // redux data ---
   const claimeables = useSelector(getClaims)?.claimeables || [];
-  //const rewardNFTs = claimeables?.filter((claim: any) => claim.rewardType === "NFTs");
-  //const rewardTokens = claimeables?.filter((claim: any) => claim.rewardType !== "NFTs");
 
   return (
     <>
       <Grid container flexDirection="column" className={styled.main} pb={2}>
         <Box className={styled.header}>
-          <Button onClick={() => setOpen(false)}>
-            <ArrowBackIcon /> {t("back")}
-          </Button>
+          <Box display={"flex"} gap={"1rem"}>
+            <Button onClick={() => setOpen(false)}>
+              <ArrowBackIcon /> {t("back")}
+            </Button>
+            <Button onClick={() => setOpenCheckout(true)}>
+              <WalletIcon /> Buy
+            </Button>
+          </Box>
           <Typography pb={2} className={styled.title}>
             {t("rewards").toUpperCase()}
           </Typography>
         </Box>
         <Box className={styled.container}>
           <MainTable data={claimeables} />
-
-          {/*<TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: "#7A57A5" }}>
-              <TabList
-                onChange={handleChange}
-                textColor="inherit"
-                variant="fullWidth"
-                indicatorColor="secondary"
-              >
-                <Tab label="NFTs" value="1" />
-                <Tab label="Tokens" value="2" disabled />
-              </TabList>
-            </Box>
-            <TabPanel value="1" sx={{ padding: "1rem 0", overflow: "auto" }}>
-              <MainTable data={rewardNFTs} />
-            </TabPanel>
-            <TabPanel value="2" sx={{ padding: "1rem 0", overflow: "auto" }}>
-              <MainTable data={rewardTokens} />
-            </TabPanel>
-          </TabContext>*/}
         </Box>
       </Grid>
     </>
