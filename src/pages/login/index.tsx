@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Container } from "@mui/material";
 
-import { modalConfig } from "config/thirdwebConfig";
+import { client, modalConfig } from "config/thirdwebConfig";
 import { useConnectModal } from "thirdweb/react";
 
 import Layout from "components/templates/layout";
@@ -16,6 +16,7 @@ import { setSocial } from "reduxConfig/slices/social";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
+import { getProfiles } from "thirdweb/wallets";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -44,20 +45,17 @@ const Login = () => {
 
   const openModal = async () => {
     try {
+      await connect({ ...modalConfig, size: "wide" });
 
-      const response = await connect({ ...modalConfig, size: "wide" });
-
-      //@ts-ignore
-      if (typeof response?.getProfiles === "function") {
-        //@ts-ignore
-        const profiles = await response?.getProfiles();
+      const profiles = await getProfiles({ client });
+      if (profiles) {
         const social = profiles[0]?.type || "";
         dispatch(setSocial(social) as any);
       } else {
         dispatch(setSocial("") as any);
       }
-
     } catch (error) {
+      dispatch(setSocial("") as any);
       console.error(error);
     }
   };
