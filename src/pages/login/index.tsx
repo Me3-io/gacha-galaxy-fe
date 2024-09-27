@@ -77,8 +77,8 @@ const Login = () => {
               <img src={LogoGacha} alt="Gacha Galaxy" />
             </Box>
 
-            {/*<Button onClick={handleConnect}>{t("enter-game")}</Button>*/}
-            <Button disabled>COMING SOON</Button>
+            <Button onClick={handleConnect}>{t("enter-game")}</Button>
+            {/*<Button disabled>COMING SOON</Button>*/}
 
           </Box>
         </Box>
