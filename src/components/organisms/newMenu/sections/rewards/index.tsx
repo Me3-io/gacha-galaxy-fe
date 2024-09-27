@@ -136,21 +136,25 @@ const MainTable = ({ data, isCrytoUser }: any) => {
     <TableContainer className={styled.table}>
       <Table>
         <TableBody>
-          {data?.map((item: any, pos: number) => (
-            <TableRow key={pos} className={styled.earnRow}>
-              <TableCell align="left">
-                <Typography>{item?.rewardName || item?.rewardText || item?.rewardType}</Typography>
-                <Typography className={styled.status}>
-                  {item?.rewardStatePending ? "Pending" : "Approved"}{" "}
-                  <span>({format(item?.date, "d MMMM yy - HH:mm")})</span>
-                </Typography>
-                <Typography className={styled.type}>{item?.rewardType}</Typography>
-              </TableCell>
-              <TableCell align="right">
-                {isCrytoUser && <RewardButton reward={item} />}
-              </TableCell>
-            </TableRow>
-          ))}
+          {data.length > 0 ? (
+            data?.map((item: any, pos: number) => (
+              <TableRow key={pos} className={styled.earnRow}>
+                <TableCell align="left">
+                  <Typography>{item?.rewardName || item?.rewardText || item?.rewardType}</Typography>
+                  <Typography className={styled.status}>
+                    {item?.rewardStatePending ? "Pending" : "Approved"}{" "}
+                    <span>({format(item?.date, "d MMMM yy - HH:mm")})</span>
+                  </Typography>
+                  <Typography className={styled.type}>{item?.rewardType}</Typography>
+                </TableCell>
+                <TableCell align="right">{isCrytoUser && <RewardButton reward={item} />}</TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <Box px={3}>
+              <span>no rewards available</span>
+            </Box>
+          )}
         </TableBody>
       </Table>
     </TableContainer>
@@ -164,7 +168,7 @@ const Rewards = ({ setOpen, setOpenCheckout }: any) => {
 
   const walletActive = leaderboard?.wallets.find((w: any) => w?.active && !w.social) || {};
   const isCrytoUser = walletActive?.type !== "me3-created" ? true : false;
-  
+
   return (
     <>
       <Grid container flexDirection="column" className={styled.main} pb={2}>
