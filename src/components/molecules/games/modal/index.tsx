@@ -143,7 +143,7 @@ const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) =>
                     <ContentCopyIcon onClick={handleCopy} />
                   </CustomTooltip>
                 </IconButton>
-                <Button onClick={viewRewards}>VIEW ALL REWARDS</Button>
+                <Button onClick={viewRewards}>VIEW REWARDS COLLECTION</Button>
               </Box>
               <Box className={styled.item}>
                 <Button onClick={handlePlayAgain}>PLAY AGAIN</Button>

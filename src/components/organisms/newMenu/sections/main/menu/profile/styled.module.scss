@@ -68,6 +68,19 @@
       }
     }
 
+    .switch {
+      display: flex;
+      padding: 1.5rem 0.5rem 1rem 1.5rem;
+      justify-content: space-between;
+      margin: 0;
+      border-bottom: 1px dashed #ba00fbaa;
+      span {
+        font-family: "Orbitron";
+        font-size: 1rem;
+        font-weight: 400;
+      }
+    }
+
     .walletContainer,
     .socialContainer {
       padding-top: 2rem;
@@ -81,12 +94,13 @@
         font-size: 1rem;
         font-weight: 600;
         text-transform: uppercase;
+        padding: 0 0.5rem;
       }
       .rowWallet {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.5rem;
+        padding: 0.5rem 1.5rem;
 
         & > div {
           display: flex;
@@ -103,16 +117,16 @@
           }
 
           .infoLabel {
-            color: #250b30!important;
-            font-family: "ChakraPetchBold"!important;
-            font-size: 0.7rem!important;
-            font-weight: 800!important;
+            color: #250b30 !important;
+            font-family: "ChakraPetchBold" !important;
+            font-size: 0.7rem !important;
+            font-weight: 800 !important;
             background-color: #da7bfb;
             width: fit-content;
             padding: 0.2rem 0.3rem;
             clip-path: polygon(calc(100% - 5px) 0%, 100% 5px, 100% 100%, 0% 100%, 0% 0%);
             border-radius: 2px;
-            min-width: auto!important;
+            min-width: auto !important;
           }
         }
 
@@ -124,7 +138,7 @@
     }
 
     .actions {
-      padding: 1rem 0;
+      padding-bottom: 1rem;
       display: flex;
       justify-content: flex-end;
       gap: 1rem;
@@ -160,7 +174,6 @@
   }
 }
 
-
 .spinner {
-  color: #db74ff!important;
+  color: #db74ff !important;
 }

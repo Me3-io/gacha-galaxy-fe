@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Box, FormControlLabel, Grid, IconButton, Switch, TextField, Typography } from "@mui/material";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CheckIcon from "@mui/icons-material/Check";
@@ -41,10 +41,19 @@ const Profile = ({ setOpen }: any) => {
 
   const wallet = useActiveWallet();
   const setActiveAccount = useSetActiveWallet();
-  const data = useSelector(getLeaderboard);
+  const leaderboard = useSelector(getLeaderboard);
 
-  const activeSocials = data?.wallets.map((w: any) => w?.social);
+  const activeSocials = leaderboard?.wallets.map((w: any) => w?.social);
   const socials = ["google", "telegram"].filter((s) => !activeSocials.includes(s)) as ("google" | "telegram")[];
+
+  const walletActive = leaderboard?.wallets.find((w: any) => w?.active && !w.social) || {};
+  const cryptoUser = walletActive?.type !== "me3-created" ? true : false;
+
+  const [isCryptoUser, setIsCryptoUser] = useState(cryptoUser);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsCryptoUser(event.target.checked);
+  };
 
   // nickname ---
   const handleChangeNickname = (e: any) => setNickname(e.target.value);
@@ -52,7 +61,7 @@ const Profile = ({ setOpen }: any) => {
   const handleEditNickname = () => setOnEditNickname(true);
 
   const handleCancelNickname = () => {
-    setNickname(data?.userNickname);
+    setNickname(leaderboard?.userNickname);
     setOnEditNickname(false);
   };
 
@@ -79,7 +88,7 @@ const Profile = ({ setOpen }: any) => {
   const handleEditEmail = () => setOnEditEmail(true);
 
   const handleCancelEmail = () => {
-    setEmail(data?.userEmail);
+    setEmail(leaderboard?.userEmail);
     setOnEditEmail(false);
   };
 
@@ -113,13 +122,16 @@ const Profile = ({ setOpen }: any) => {
   };
 
   useEffect(() => {
-    setNickname(data?.userNickname || "");
-    setEmail(data?.userEmail || "");
-    setForm({ nickname: data?.userNickname || "", email: data?.userEmail || "" });
-  }, [data]);
+    setNickname(leaderboard?.userNickname || "");
+    setEmail(leaderboard?.userEmail || "");
+    setForm({ nickname: leaderboard?.userNickname || "", email: leaderboard?.userEmail || "" });
+  }, [leaderboard]);
 
   useEffect(() => {
-    if ((form.nickname || form.email) && (form.nickname !== data?.userNickname || form.email !== data?.userEmail)) {
+    if (
+      (form.nickname || form.email) &&
+      (form.nickname !== leaderboard?.userNickname || form.email !== leaderboard?.userEmail)
+    ) {
       updateprofile();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -188,7 +200,7 @@ const Profile = ({ setOpen }: any) => {
           {t("menu-profile").toUpperCase()}
         </Typography>
       </Box>
-      <Box p={2} px={3} className={styled.container}>
+      <Box p={2} className={styled.container}>
         {/* Nickname */}
         <TextField
           type="text"
@@ -265,16 +277,27 @@ const Profile = ({ setOpen }: any) => {
           }}
         />
 
-        <Box className={styled.walletContainer} pb={2}>
-          <Typography pb={1}>Connected Wallets</Typography>
-          <ListWallets />
-        </Box>
+        <FormControlLabel
+          control={<Switch checked={isCryptoUser} onChange={handleChange} name="cryptouser" color="secondary" />}
+          label="Enable Crypto Functions"
+          labelPlacement="start"
+          className={styled.switch}
+        />
 
-        <Box className={styled.actions}>
-          <Button onClick={addWallet}>
-            <WalletIcon /> Add Wallet
-          </Button>
-        </Box>
+        {isCryptoUser && (
+          <>
+            <Box className={styled.walletContainer} pb={2}>
+              <Typography pb={1}>Connected Wallets</Typography>
+              <ListWallets />
+            </Box>
+
+            <Box className={styled.actions}>
+              <Button onClick={addWallet}>
+                <WalletIcon /> Add Wallet
+              </Button>
+            </Box>
+          </>
+        )}
 
         <Box className={styled.socialContainer}>
           <Typography pb={1}>Social Linked</Typography>

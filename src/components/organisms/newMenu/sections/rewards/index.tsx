@@ -29,6 +29,7 @@ import useAlert from "hooks/alertProvider/useAlert";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 const RewardButton = ({ reward }: any) => {
   //const { t } = useTranslation();
@@ -130,7 +131,7 @@ const RewardButton = ({ reward }: any) => {
   );
 };
 
-const MainTable = ({ data }: any) => {
+const MainTable = ({ data, isCrytoUser }: any) => {
   return (
     <TableContainer className={styled.table}>
       <Table>
@@ -146,7 +147,7 @@ const MainTable = ({ data }: any) => {
                 <Typography className={styled.type}>{item?.rewardType}</Typography>
               </TableCell>
               <TableCell align="right">
-                <RewardButton reward={item} />
+                {isCrytoUser && <RewardButton reward={item} />}
               </TableCell>
             </TableRow>
           ))}
@@ -159,7 +160,11 @@ const MainTable = ({ data }: any) => {
 const Rewards = ({ setOpen, setOpenCheckout }: any) => {
   const { t } = useTranslation();
   const claimeables = useSelector(getClaims)?.claimeables || [];
+  const leaderboard = useSelector(getLeaderboard);
 
+  const walletActive = leaderboard?.wallets.find((w: any) => w?.active && !w.social) || {};
+  const isCrytoUser = walletActive?.type !== "me3-created" ? true : false;
+  
   return (
     <>
       <Grid container flexDirection="column" className={styled.main} pb={2}>
@@ -168,16 +173,18 @@ const Rewards = ({ setOpen, setOpenCheckout }: any) => {
             <Button onClick={() => setOpen(false)}>
               <ArrowBackIcon /> {t("back")}
             </Button>
-            <Button onClick={() => setOpenCheckout(true)}>
-              <WalletIcon /> Buy
-            </Button>
+            {isCrytoUser && (
+              <Button onClick={() => setOpenCheckout(true)}>
+                <WalletIcon /> Buy Gas
+              </Button>
+            )}
           </Box>
           <Typography pb={2} className={styled.title}>
             {t("rewards").toUpperCase()}
           </Typography>
         </Box>
         <Box className={styled.container}>
-          <MainTable data={claimeables} />
+          <MainTable data={claimeables} isCrytoUser={isCrytoUser} />
         </Box>
       </Grid>
     </>
