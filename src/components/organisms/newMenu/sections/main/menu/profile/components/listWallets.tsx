@@ -21,7 +21,7 @@ const ListWallets = () => {
   const [btnDisabled, setBtnDisabled] = useState(false);
   const data = useSelector(getLeaderboard);
 
-  const wallets = data?.wallets.filter((w: any) => !w?.social) || [];
+  const wallets = data?.wallets.filter((w: any) => !w?.social && w.type !== "me3-created") || [];
 
   const { setAlert } = useAlert();
   const { t } = useTranslation();
@@ -45,34 +45,40 @@ const ListWallets = () => {
 
   return (
     <>
-      {wallets.map((row: any) => (
-        <Box key={row.address} className={`${styled.rowWallet} ${row?.active ? styled.active : ""}`}>
-          <Box>
-            <span>{`${row.address?.slice(0, 8)}...${row.address?.slice(-8)}`}</span>
-            {row?.type === "me3-created" && <span className={styled.infoLabel}>Me3</span>}
+      {wallets.length > 0 ? (
+        wallets.map((row: any) => (
+          <Box key={row.address} className={`${styled.rowWallet} ${row?.active ? styled.active : ""}`}>
+            <Box>
+              <span>{`${row.address?.slice(0, 8)}...${row.address?.slice(-8)}`}</span>
+              {row?.type === "me3-created" && <span className={styled.infoLabel}>Me3</span>}
 
-            <CustomTooltip title={t("copy-address")}>
-              <ContentCopyIcon sx={{ cursor: "pointer" }} onClick={() => handleCopy(row.address)} />
-            </CustomTooltip>
-          </Box>
-          <Box>
-            {row?.type === "me3-created" && (
-              <CustomTooltip title={"Get Private Key"}>
-                <KeyIcon sx={{ cursor: "pointer" }} onClick={() => getPrivateKey(row.address)} />
+              <CustomTooltip title={t("copy-address")}>
+                <ContentCopyIcon sx={{ cursor: "pointer" }} onClick={() => handleCopy(row.address)} />
               </CustomTooltip>
-            )}
+            </Box>
+            <Box>
+              {row?.type === "me3-created" && (
+                <CustomTooltip title={"Get Private Key"}>
+                  <KeyIcon sx={{ cursor: "pointer" }} onClick={() => getPrivateKey(row.address)} />
+                </CustomTooltip>
+              )}
 
-            {!row?.active ? (
-              <>
-                <ActiveWallet address={row.address} btnDisabled={btnDisabled} setBtnDisabled={setBtnDisabled} />
-                <UnlinkTimmer address={row.address} />
-              </>
-            ) : (
-              <span className={styled.infoLabel}>Active</span>
-            )}
+              {!row?.active ? (
+                <>
+                  <ActiveWallet address={row.address} btnDisabled={btnDisabled} setBtnDisabled={setBtnDisabled} />
+                  <UnlinkTimmer address={row.address} />
+                </>
+              ) : (
+                <span className={styled.infoLabel}>Active</span>
+              )}
+            </Box>
           </Box>
+        ))
+      ) : (
+        <Box px={3}>
+          <span>no connected wallets</span>
         </Box>
-      ))}
+      )}
     </>
   );
 };
