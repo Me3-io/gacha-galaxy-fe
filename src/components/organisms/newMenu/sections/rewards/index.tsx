@@ -60,8 +60,8 @@ const RewardButton = ({ reward, walletActive }: any) => {
   };
 
   const getChallenge = async (accountingId: any) => {
-    await customAxios()
-      .post("/challenge/generateChallenge", {
+    const response = await customAxios()
+      .post("/challenge/generatechallenge", {
         accountingId,
       })
       .then((response) => {
@@ -70,7 +70,7 @@ const RewardButton = ({ reward, walletActive }: any) => {
       .catch((error: any) => {
         console.error("Error to challenge: ", error);
       });
-    return null;
+    return response;
   };
 
   const switchRewardChain = async (rewardNetwork: any) => {
@@ -183,7 +183,7 @@ const RewardButton = ({ reward, walletActive }: any) => {
         await switchRewardChain(reward?.rewardNetwork);
       }
 
-      const challengeReward = await getChallenge(reward?.rewardAssetRecordId);
+      const challengeReward = await getChallenge(reward?.accountingId);
       if (!challengeReward) {
         throw new Error("Failed to get challenge reward");
       }
@@ -217,8 +217,14 @@ const RewardButton = ({ reward, walletActive }: any) => {
   };
 
   return (
-    <Button onClick={() => getReward(reward)} isLoading={loading} disabled={loading || reward?.rewardStatePending}>
-      {reward?.rewardStatePending ? "PENDING" : reward?.customButtonText.toUpperCase() || "CLAIM"}
+    <Button
+      onClick={() => getReward(reward)}
+      isLoading={loading}
+      disabled={loading || (reward?.rewardStatePending && reward?.rewardType !== "Lazy")}
+    >
+      {reward?.rewardStatePending && reward?.rewardType !== "Lazy"
+        ? "PENDING"
+        : reward?.customButtonText.toUpperCase() || "CLAIM"}
     </Button>
   );
 };
