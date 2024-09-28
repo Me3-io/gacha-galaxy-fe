@@ -47,7 +47,12 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards, goToMap }: any) =>
               <span>{t("points")}</span>
               <Typography className={styled.position}>#{leaderboardData?.userPosition || "-"}</Typography>
             </Box>
-            <Typography>{leaderboardData?.userPoints?.toFixed(0) || "0"}</Typography>
+            <Box display={"flex"} gap={1} alignItems={"center"}>
+              <Typography>{leaderboardData?.userPoints?.toFixed(0) || "0"}</Typography>
+              {leaderboardData?.userPointsMultiplier > 0 && (
+                <span className={styled.multiple}>{`(${leaderboardData?.userPointsMultiplier?.toFixed(1)}x)`}</span>
+              )}
+            </Box>
           </Box>
 
           <Box className={styled.action}>
