@@ -198,7 +198,7 @@ const RewardButton = ({ reward, walletActive }: any) => {
       const { buyer, recordId, quantity, tokenId, signature } = challengeReward;
 
       const transaction = prepareContractCall({
-        contractLazy,
+        contract: contractLazy,
         method: "function mint(address buyer, string recordId, uint8 quantity, string tokenId, bytes signature)",
         params: [buyer, recordId, quantity, tokenId, signature],
         maxFeePerGas: 60n,
