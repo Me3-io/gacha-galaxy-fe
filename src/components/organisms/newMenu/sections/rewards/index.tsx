@@ -28,7 +28,7 @@ import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 const RewardButton = ({ reward, walletActive }: any) => {
   const [loading, setLoading] = useState(false);
-  const { claimContractABI, claimContractAddress } = useSelector(getClaims) || {};
+  const { claimContractABI, claimContractAddress, lazyContractAddress , lazyContractABI } = useSelector(getClaims) || {};
 
   const { connect } = useConnectModal();
   const activeAccount = useActiveAccount();
@@ -36,6 +36,13 @@ const RewardButton = ({ reward, walletActive }: any) => {
   const dispatch = useDispatch();
 
   const { setAlert } = useAlert();
+  
+  const contractLazy = getContract({
+    client,
+    chain,
+    address: lazyContractAddress,
+    abi: lazyContractABI as any,
+  });
 
   const contract = getContract({
     client,
@@ -191,7 +198,7 @@ const RewardButton = ({ reward, walletActive }: any) => {
       const { buyer, recordId, quantity, tokenId, signature } = challengeReward;
 
       const transaction = prepareContractCall({
-        contract,
+        contractLazy,
         method: "function mint(address buyer, string recordId, uint8 quantity, string tokenId, bytes signature)",
         params: [buyer, recordId, quantity, tokenId, signature],
         maxFeePerGas: 60n,
