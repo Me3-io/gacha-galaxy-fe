@@ -6,11 +6,8 @@ import WalletIcon from "@mui/icons-material/Wallet";
 
 import { client, chain, onlyWalletConfig } from "config/thirdwebConfig";
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
-
-//import Tab from "@mui/material/Tab";
-//import TabContext from "@mui/lab/TabContext";
-//import TabList from "@mui/lab/TabList";
-//import TabPanel from "@mui/lab/TabPanel";
+import { useActiveAccount, useConnectModal, useSwitchActiveWalletChain } from "thirdweb/react";
+import { sepolia, bsc, ethereum, polygon, base } from "thirdweb/chains";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -21,8 +18,6 @@ import TableRow from "@mui/material/TableRow";
 import { fetchClaims, getClaims } from "reduxConfig/thunks/claim";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useActiveAccount, useConnectModal } from "thirdweb/react";
-
 import customAxios from "utils/customAxios";
 import { format } from "date-fns";
 import useAlert from "hooks/alertProvider/useAlert";
@@ -31,20 +26,17 @@ import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
 import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
-const RewardButton = ({ reward }: any) => {
-  //const { t } = useTranslation();
+const RewardButton = ({ reward, walletActive }: any) => {
   const [loading, setLoading] = useState(false);
-
   const { claimContractABI, claimContractAddress } = useSelector(getClaims) || {};
 
-  //const accountLS = JSON.parse(localStorage.getItem("session.account") || "{}");
   const { connect } = useConnectModal();
   const activeAccount = useActiveAccount();
+  const switchChain = useSwitchActiveWalletChain();
   const dispatch = useDispatch();
 
   const { setAlert } = useAlert();
 
-  // @ts-ignore
   const contract = getContract({
     client,
     chain,
@@ -52,12 +44,68 @@ const RewardButton = ({ reward }: any) => {
     abi: claimContractABI as any,
   });
 
-  const getReward = async (reward: any) => {
-    setLoading(true);
+  const setClaimed = async (accountingId: any, tx: any) => {
+    await customAxios()
+      .post("/user/setclaimed", {
+        accountingId,
+        tx,
+      })
+      .then(() => {
+        setAlert(`Claim successfully - Transaction Hash: ${tx}`, "success");
+        dispatch(fetchClaims() as any);
+      })
+      .catch((error: any) => {
+        setAlert(error?.response?.data?.message || error?.message || "error", "error");
+      });
+  };
 
+  const getChallenge = async (accountingId: any) => {
+    await customAxios()
+      .post("/challenge/generateChallenge", {
+        accountingId,
+      })
+      .then((response) => {
+        return response?.data?.message || {};
+      })
+      .catch((error: any) => {
+        console.error("Error to challenge: ", error);
+      });
+    return null;
+  };
+
+  const switchRewardChain = async (rewardNetwork: any) => {
+    let chain = bsc;
+    if (rewardNetwork === "Sepolia") {
+      chain = sepolia;
+    }
+    if (rewardNetwork === "Ethereum ") {
+      chain = ethereum;
+    }
+    if (rewardNetwork === "Poligon") {
+      chain = polygon;
+    }
+    if (rewardNetwork === "Base") {
+      chain = base;
+    }
+    await switchChain(chain);
+  };
+
+  const getReward = async (reward: any) => {
+    console.log("Reward: ", reward);
+
+    if (reward?.rewardType === "NFTs") {
+      await getRewardNFT(reward);
+    }
+
+    if (reward?.rewardType === "Lazy") {
+      await getRewardLazy(reward);
+    }
+  };
+
+  const getRewardNFT = async (reward: any) => {
+    setLoading(true);
     try {
       let loginAccount = null;
-
       if (!activeAccount || activeAccount?.address.toLowerCase() !== reward?.destination.toLowerCase()) {
         const response = await connect({
           ...onlyWalletConfig,
@@ -72,17 +120,15 @@ const RewardButton = ({ reward }: any) => {
         }
       }
 
-      if (!activeAccount && !loginAccount) {
+      const account = activeAccount || loginAccount;
+      if (!account) {
         throw new Error("account not found");
       }
 
-      const account = activeAccount || loginAccount;
+      if (reward?.rewardNetwork) {
+        await switchRewardChain(reward?.rewardNetwork);
+      }
 
-      //console.log("reward: ", reward);
-      //console.log("account: ", account);
-      //console.log("contract: ", contract);
-
-      // @ts-ignore
       const transaction = prepareContractCall({
         contract,
         method: "function claimNft(address _token, uint256 tokenId)",
@@ -92,29 +138,75 @@ const RewardButton = ({ reward }: any) => {
         gas: 400000n,
       });
 
-      //console.log("_token: ", reward?.rewardContractAddress, "tokenId: ", reward?.rewardTokenId);
-
-      if (!account) return;
       const { transactionHash } = await sendTransaction({
         account,
         transaction,
       });
 
       console.log("Transaction Hash: ", transactionHash);
-
       if (transactionHash) {
-        await customAxios()
-          .post("/user/setclaimed", {
-            accountingId: reward.accountingId,
-            tx: transactionHash,
-          })
-          .then(() => {
-            setAlert(`Claim successfully - Transaction Hash: ${transactionHash}`, "success");
-            dispatch(fetchClaims() as any);
-          })
-          .catch((error: any) => {
-            setAlert(error?.response?.data?.message || error?.message || "error", "error");
-          });
+        await setClaimed(reward?.accountingId, transactionHash);
+      }
+    } catch (error: any) {
+      setAlert(error?.message || "error to claim item", "error");
+      console.error(error);
+    }
+
+    setLoading(false);
+  };
+
+  const getRewardLazy = async (reward: any) => {
+    setLoading(true);
+    try {
+      let loginAccount = null;
+      if (!activeAccount) {
+        const response = await connect({
+          ...onlyWalletConfig,
+          size: "compact",
+          title: `Login to wallet ${walletActive?.address?.slice(0, 6)}...${walletActive?.address?.slice(-6)}`,
+        });
+
+        loginAccount = response.getAccount();
+
+        if (loginAccount?.address.toLowerCase() !== walletActive?.address.toLowerCase()) {
+          await response?.disconnect();
+          throw new Error("the address do not match");
+        }
+      }
+
+      const account = activeAccount || loginAccount;
+      if (!account) {
+        throw new Error("account not found");
+      }
+
+      if (reward?.rewardNetwork) {
+        await switchRewardChain(reward?.rewardNetwork);
+      }
+
+      const challengeReward = await getChallenge(reward?.rewardAssetRecordId);
+      if (!challengeReward) {
+        throw new Error("Failed to get challenge reward");
+      }
+
+      const { buyer, recordId, quantity, tokenId, signature } = challengeReward;
+
+      const transaction = prepareContractCall({
+        contract,
+        method: "function mint(address buyer, string recordId, uint8 quantity, string tokenId, bytes signature)",
+        params: [buyer, recordId, quantity, tokenId, signature],
+        maxFeePerGas: 60n,
+        maxPriorityFeePerGas: 1n,
+        gas: 400000n,
+      });
+
+      const { transactionHash } = await sendTransaction({
+        account,
+        transaction,
+      });
+
+      console.log("Transaction Hash: ", transactionHash);
+      if (transactionHash) {
+        await setClaimed(reward?.accountingId, transactionHash);
       }
     } catch (error: any) {
       setAlert(error?.message || "error to claim item", "error");
@@ -131,7 +223,7 @@ const RewardButton = ({ reward }: any) => {
   );
 };
 
-const MainTable = ({ data, isCrytoUser }: any) => {
+const MainTable = ({ data, walletActive, isCrytoUser }: any) => {
   return (
     <TableContainer className={styled.table}>
       <Table>
@@ -147,7 +239,9 @@ const MainTable = ({ data, isCrytoUser }: any) => {
                   </Typography>
                   <Typography className={styled.type}>{item?.rewardType}</Typography>
                 </TableCell>
-                <TableCell align="right">{isCrytoUser && <RewardButton reward={item} />}</TableCell>
+                <TableCell align="right">
+                  {isCrytoUser && <RewardButton reward={item} walletActive={walletActive} />}
+                </TableCell>
               </TableRow>
             ))
           ) : (
@@ -188,7 +282,7 @@ const Rewards = ({ setOpen, setOpenCheckout }: any) => {
           </Typography>
         </Box>
         <Box className={styled.container}>
-          <MainTable data={claimeables} isCrytoUser={isCrytoUser} />
+          <MainTable data={claimeables} walletActive={walletActive} isCrytoUser={isCrytoUser} />
         </Box>
       </Grid>
     </>
