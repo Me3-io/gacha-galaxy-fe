@@ -28,7 +28,7 @@ import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 const RewardButton = ({ reward, walletActive }: any) => {
   const [loading, setLoading] = useState(false);
-  const { claimContractABI, claimContractAddress, lazyContractAddress , lazyContractABI } = useSelector(getClaims) || {};
+  const { claimContractABI, claimContractAddress, lazyContractAddress, lazyContractABI } = useSelector(getClaims) || {};
 
   const { connect } = useConnectModal();
   const activeAccount = useActiveAccount();
@@ -36,7 +36,7 @@ const RewardButton = ({ reward, walletActive }: any) => {
   const dispatch = useDispatch();
 
   const { setAlert } = useAlert();
-  
+
   const contractLazy = getContract({
     client,
     chain,
@@ -237,6 +237,13 @@ const RewardButton = ({ reward, walletActive }: any) => {
 };
 
 const MainTable = ({ data, walletActive, isCrytoUser }: any) => {
+  const { setAlert } = useAlert();
+
+  const handleCopy = (code: string) => {
+    navigator.clipboard.writeText(code || "");
+    setAlert("Copy code to clipboard", "success");
+  };
+
   return (
     <TableContainer className={styled.table}>
       <Table>
@@ -253,7 +260,15 @@ const MainTable = ({ data, walletActive, isCrytoUser }: any) => {
                   <Typography className={styled.type}>{item?.rewardType}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                  {isCrytoUser && <RewardButton reward={item} walletActive={walletActive} />}
+                  {isCrytoUser && item?.rewardType !== "Codes" && (
+                    <RewardButton reward={item} walletActive={walletActive} />
+                  )}
+
+                  {item?.rewardType === "Codes" && (
+                    <Button onClick={() => handleCopy(item?.rewardText)}>
+                      {item?.customButtonText.toUpperCase() || "Copy Code"}
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             ))

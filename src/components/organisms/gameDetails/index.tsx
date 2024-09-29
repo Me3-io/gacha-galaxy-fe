@@ -173,7 +173,7 @@ const GameDetails = () => {
                               <Typography>{row.name}</Typography>
                               <span>{(row?.winningOdds * 100).toFixed(1) || "-"}%</span>
                             </Box>
-                            <img src={row.image[0].url} alt={"icon"} />
+                            <img src={row?.image[0]?.url} alt={"icon"} />
                           </Box>
                         ))}
                       </Box>
