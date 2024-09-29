@@ -149,6 +149,8 @@ const RewardButton = ({ reward, walletActive }: any) => {
         gas: 400000n,
       });
 
+    
+
       const { transactionHash } = await sendTransaction({
         account,
         transaction,
@@ -209,6 +211,8 @@ const RewardButton = ({ reward, walletActive }: any) => {
         maxPriorityFeePerGas: 1n,
         gas: 400000n,
       });
+
+      console.log("transaction",transaction);
 
       const { transactionHash } = await sendTransaction({
         account,
