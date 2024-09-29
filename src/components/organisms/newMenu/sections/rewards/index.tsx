@@ -37,6 +37,10 @@ const RewardButton = ({ reward, walletActive }: any) => {
 
   const { setAlert } = useAlert();
 
+
+  console.log("lazyContractAddress",lazyContractAddress);
+  console.log("lazyContractABI",lazyContractABI);
+
   const contractLazy = getContract({
     client,
     chain,
