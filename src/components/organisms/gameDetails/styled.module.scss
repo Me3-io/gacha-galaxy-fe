@@ -284,6 +284,9 @@ $clip-min: 10px;
               flex-direction: row;
               align-items: flex-start;
               gap: 5px;
+              justify-content: space-between;
+              width: 100%;
+              max-width: 120px;
 
               p {
                 font-family: "ChakraPetch";
