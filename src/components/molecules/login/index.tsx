@@ -10,7 +10,7 @@ import {
   AutoConnect,
 } from "thirdweb/react";
 
-import { chain, client, modalConfig } from "config/thirdwebConfig";
+import { chain, modalConfig } from "config/thirdwebConfig";
 
 import { useTranslation } from "react-i18next";
 
@@ -32,9 +32,10 @@ import { getSocial } from "reduxConfig/thunks/social";
 import { clearSocial } from "reduxConfig/slices/social";
 
 import styled from "./styled.module.scss";
-import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
-import customAxios from "utils/customAxios";
-import { privateKeyToAccount } from "thirdweb/wallets";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+//import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
+//import customAxios from "utils/customAxios";
+//import { privateKeyToAccount } from "thirdweb/wallets";
 
 const LoginBar = () => {
   const tokenLS = localStorage.getItem("session.token");
@@ -139,7 +140,7 @@ const LoginBar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenLS, account, status]);
 
-  const valideActiveAddress = async () => {
+  /*const valideActiveAddress = async () => {
     console.log("OLD account", account);
     await dispatch(fetchLeaderboard() as any).then(async (response: any) => {
       const walletActive = response?.result?.wallets.find((w: any) => w?.active && w.type === "me3-created") || [];
@@ -162,7 +163,7 @@ const LoginBar = () => {
           });
       }
     });
-  };
+  };*/
 
   useEffect(() => {
     window.addEventListener("logout", () => logout());
@@ -182,18 +183,6 @@ const LoginBar = () => {
             <>
               <span>{leaderboardData?.userNickname || ""}</span>
               <AccountCircleIcon />
-
-              {/*}
-              <span>{`${account?.address?.slice(0, 8)}...${account?.address?.slice(-8)}`}</span>
-
-              <CustomTooltip title={t("copy-address")}>
-                <ContentCopyIcon onClick={handleCopy} />
-              </CustomTooltip>
-              */}
-              {/*
-              <CustomTooltip title={"Wallet Info"}>
-                <WalletIcon onClick={handleDetails} />
-              </CustomTooltip>*/}
 
               <AutoConnect timeout={10000} {...modalConfig} />
             </>

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Box, Fade, Grid, Typography } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
@@ -9,15 +10,21 @@ import arrowUp from "assets/icons/arrowUp.svg";
 import arrowDown from "assets/icons/arrowDown.svg";
 import StarIcon from "@mui/icons-material/Star";
 
-import { useSelector } from "react-redux";
-import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
 
 const Leaderboard = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const leaderboardData = useSelector(getLeaderboard);
+
+  useEffect(() => {
+    dispatch(fetchLeaderboard() as any);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Grid container component="section" flexDirection="column" className={styled.main}>
@@ -37,11 +44,7 @@ const Leaderboard = () => {
                           <Typography>{row.nickname}</Typography>
                         </TableCell>
                         <TableCell align="right" width={"5%"} className={styled.arrow}>
-                          {row.position === 1 ? (
-                            <StarIcon />
-                          ) : (
-                            <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />
-                          )}
+                          {row.position === 1 ? <StarIcon /> : <img src={row.isUp ? arrowUp : arrowDown} alt="arrow" />}
                         </TableCell>
                         <TableCell align="right" width={"35%"} sx={{ paddingLeft: "0!important" }}>
                           {row?.points?.toFixed(0) || 0} pts

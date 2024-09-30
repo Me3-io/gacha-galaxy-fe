@@ -3,7 +3,7 @@ import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
 import CircularProgress from "@mui/material/CircularProgress";
-import { Add, Remove, CropFree, Numbers } from "@mui/icons-material";
+import { Add, Remove, CropFree, Numbers, ShareOutlined } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
 import Tooltip from "components/atoms/tooltip";
@@ -18,6 +18,8 @@ import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 import { MapContext } from "pages/home";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import MapBg from "./bg";
+import useAlert from "hooks/alertProvider/useAlert";
+import CustomTooltip from "components/atoms/materialTooltip";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
@@ -36,6 +38,7 @@ const InteractiveMap = () => {
   const Viewer = useRef<any>(null);
   const { t } = useTranslation();
   const { setIsOpen, setCurrentStep } = useTour();
+  const { setAlert } = useAlert();
 
   const { ref, width, height } = useResizeObserver();
   const [value, setValue] = useState<any>({});
@@ -56,6 +59,8 @@ const InteractiveMap = () => {
   }>({ originX: 0, originY: 0, width: 0, height: 0 });
 
   const leaderboardData = useSelector(getLeaderboard);
+
+  const devMode = process.env.REACT_APP_CHAIN === "sepolia";
 
   // calculate grid data ---
   const _drawGrid = () => {
@@ -163,6 +168,15 @@ const InteractiveMap = () => {
     Viewer.current?.fitToViewer("center", "center");
   };
 
+  const _share = () => {
+    const x = ((value?.viewerWidth / 2 - value.e) / value.a)?.toFixed(0);
+    const y = ((value?.viewerHeight / 2 - value.f) / value.a)?.toFixed(0);
+    const z = value?.a?.toFixed(3);
+    const url = `${window.location.origin}/${lang}/home/${map.code}/?@=${x},${y},${z}`;
+    navigator.clipboard.writeText(url);
+    setAlert("Copy to clipboard", "success");
+  };
+
   const _fitSelection = () => {
     const searchValue = searchParams.get("@") || map?.mapCoordinates;
     if (searchValue) {
@@ -234,17 +248,32 @@ const InteractiveMap = () => {
 
       <Box className={styled.actions}>
         <Button onClick={_zoomIn}>
-          <Add />
+          <CustomTooltip title="Zoom In" placement="left-start">
+            <Add />
+          </CustomTooltip>
         </Button>
         <Button onClick={_zoomOut}>
-          <Remove />
+          <CustomTooltip title="Zoom Out" placement="left-start">
+            <Remove />
+          </CustomTooltip>
         </Button>
         <Button onClick={_fitCenter}>
-          <CropFree />
+          <CustomTooltip title="Fit Center" placement="left-start">
+            <CropFree />
+          </CustomTooltip>
         </Button>
-        <Button onClick={() => setShowNumbers((prev) => !prev)}>
-          <Numbers />
+        <Button onClick={_share}>
+          <CustomTooltip title="Share Map" placement="left-start">
+            <ShareOutlined />
+          </CustomTooltip>
         </Button>
+        {devMode && (
+          <Button onClick={() => setShowNumbers((prev) => !prev)}>
+            <CustomTooltip title="Map Anchor Address" placement="left-start">
+            <Numbers />
+            </CustomTooltip>
+          </Button>
+        )}
       </Box>
 
       <Box>

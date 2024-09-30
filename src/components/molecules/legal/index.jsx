@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Typography } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 
 import Checkbox from "components/atoms/checkbox";
 import Button from "components/atoms/buttons/default";
@@ -20,15 +20,17 @@ const ModalLegal = ({ handleClose }) => {
       localStorage.setItem("legalCheck", true);
     }
   };
-  
+
   return (
     <Box className={styled.wrapperModal}>
       <Box className={styled.modal}>
         <CloseIcon className={styled.close} onClick={() => handleClose(false)} />
         <div className={styled.title}>Welcome to Gacha Galaxy</div>
         <div className={styled.subtitle}>
-          By checking the box next to each of the items below and clicking “<b>proceed</b>”, you
-          acknowledge that you have read, understand, and accept these disclosures:
+          By checking the box next to each of the items below and clicking “<b>proceed</b>”, you acknowledge that you
+          have read, understand, and accept these disclosure, and that you will not circumvent any gameplay limitations
+          that Me3 has put in place to comply with your local and regional laws. You also acknowledge that this service
+          is purely for entertainment, and not a gambling service:
         </div>
         <Box className={styled.legalContainer}>
           <Box className={styled.optionsLegal}>

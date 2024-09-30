@@ -168,7 +168,7 @@ const RewardButton = ({ reward, walletActive }: any) => {
     setLoading(true);
     try {
       let loginAccount = null;
-      if (!activeAccount) {
+      if (!activeAccount || activeAccount?.address?.toLowerCase() !== walletActive?.address?.toLowerCase()) {
         const response = await connect({
           ...onlyWalletConfig,
           size: "compact",
