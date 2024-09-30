@@ -19,7 +19,8 @@ const AppRouter = () => {
   const lang = window.location.pathname.split("/")[1] || localLang;
 
   const Secure = (component: JSX.Element): JSX.Element => {
-    if (!tokenLS) return <Navigate to={`/${lang}/`} />;
+    const origin = window.location?.pathname.slice(4) + window.location?.search;
+    if (!tokenLS) return <Navigate to={`/${lang}/?origin=${origin}`} />;
     return component;
   };
 

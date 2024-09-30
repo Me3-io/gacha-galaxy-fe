@@ -299,8 +299,8 @@ const Profile = ({ setOpen }: any) => {
           </>
         )}
 
-        <Box className={styled.socialContainer}>
-          <Typography pb={1}>Social Linked</Typography>
+        <Box className={styled.socialContainer} pb={2}>
+          <Typography pb={1}>Linked Social</Typography>
           <ListSocials />
         </Box>
 

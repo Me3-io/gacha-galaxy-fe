@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { Box } from "@mui/material";
 
 import {
@@ -44,6 +44,7 @@ const LoginBar = () => {
 
   const [loadSigning, setLoadSigning] = useState(false);
   const [signMessage, setSignedMessage] = useState("");
+  const [searchParams] = useSearchParams();
 
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
@@ -84,6 +85,16 @@ const LoginBar = () => {
     }
   };
 
+  const goToHome = () => {
+    const searchValue = searchParams.get("origin") || "";
+    if (searchValue) {
+      console.log(`/${i18n.language}/${searchValue}`);
+      navigate(`/${i18n.language}/${searchValue}`);
+    } else {
+      navigate(`/${i18n.language}/home/`);
+    }
+  };
+
   useEffect(() => {
     const address = account?.address;
     const chainid = chain?.id || 1;
@@ -119,8 +130,7 @@ const LoginBar = () => {
           localStorage.setItem("session.account", JSON.stringify({ ...account, ...signParams }));
           setSignedMessage("");
 
-          //await valideActiveAddress();
-          navigate(`/${i18n.language}/home/`);
+          goToHome();
         } else {
           setAlert(t("login-error-verify"), "error");
           console.error("Error to challenge verify: ", response);
@@ -134,7 +144,7 @@ const LoginBar = () => {
   useEffect(() => {
     const isLoginView = !location.pathname.split("/")[2];
     if (isLoginView && account && tokenLS) {
-      navigate(`/${i18n.language}/home/`);
+      goToHome();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

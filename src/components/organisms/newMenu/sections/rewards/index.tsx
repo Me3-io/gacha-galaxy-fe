@@ -145,8 +145,6 @@ const RewardButton = ({ reward, walletActive }: any) => {
         gas: 400000n,
       });
 
-    
-
       const { transactionHash } = await sendTransaction({
         account,
         transaction,
@@ -202,13 +200,15 @@ const RewardButton = ({ reward, walletActive }: any) => {
       const transaction = prepareContractCall({
         contract: contractLazy,
         method: "function mint((address buyer, string recordId, uint8 quantity, string tokenId, bytes signature))",
-        params: [{
-          buyer,       
-          recordId,    
-          quantity,    
-          tokenId,      
-          signature    
-        }],
+        params: [
+          {
+            buyer,
+            recordId,
+            quantity,
+            tokenId,
+            signature,
+          },
+        ],
         maxFeePerGas: 60n,
         maxPriorityFeePerGas: 1n,
         gas: 1000000n,

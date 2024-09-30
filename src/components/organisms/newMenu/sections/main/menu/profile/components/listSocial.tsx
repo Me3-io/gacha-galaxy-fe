@@ -40,7 +40,7 @@ const ListSocials = () => {
         ))
       ) : (
         <Box px={3}>
-          <span>no social linked</span>
+          <span>no linked social</span>
         </Box>
       )}
     </>
