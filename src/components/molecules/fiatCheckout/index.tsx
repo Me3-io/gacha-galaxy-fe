@@ -20,6 +20,8 @@ const FiatCheckout = ({ setOpen }: any) => {
   const walletActive = data?.wallets.find((w: any) => w?.active && !w.social) || null;
   const [sameWallet, setSameWallet] = useState<boolean>(false);
 
+  const testMode = process.env.REACT_APP_CHAIN === "sepolia";
+
   const valideActiveAddress = async () => {
     try {
       if (!account || account?.address?.toLowerCase() !== walletActive?.address?.toLowerCase()) {
@@ -48,8 +50,8 @@ const FiatCheckout = ({ setOpen }: any) => {
   };
 
   useEffect(() => {
-    console.log(sameWallet);
     valideActiveAddress();
+    console.log("testMode: ", testMode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -68,11 +70,14 @@ const FiatCheckout = ({ setOpen }: any) => {
               ...onlyWalletConfig,
             },
           }}
-          payOptions={
-            {
-              //buyWithCrypto: false,
-            }
-          }
+          payOptions={{
+            buyWithFiat: {
+              testMode: testMode,
+            },
+            buyWithCrypto: {
+              testMode: testMode,
+            },
+          }}
         />
       )}
     </Box>
