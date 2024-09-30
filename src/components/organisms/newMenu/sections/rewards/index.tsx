@@ -211,7 +211,7 @@ const RewardButton = ({ reward, walletActive }: any) => {
         }],
         maxFeePerGas: 60n,
         maxPriorityFeePerGas: 1n,
-        gas: 400000n,
+        gas: 1000000n,
       });
 
       const { transactionHash } = await sendTransaction({
