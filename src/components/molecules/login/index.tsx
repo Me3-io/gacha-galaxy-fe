@@ -24,18 +24,14 @@ import CustomTooltip from "components/atoms/materialTooltip";
 import useAlert from "hooks/alertProvider/useAlert";
 
 import LogoutIcon from "@mui/icons-material/Logout";
-//import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CircularProgress from "@mui/material/CircularProgress";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import { getSocial } from "reduxConfig/thunks/social";
 import { clearSocial } from "reduxConfig/slices/social";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import styled from "./styled.module.scss";
-import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
-//import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard";
-//import customAxios from "utils/customAxios";
-//import { privateKeyToAccount } from "thirdweb/wallets";
 
 const LoginBar = () => {
   const tokenLS = localStorage.getItem("session.token");
@@ -51,11 +47,10 @@ const LoginBar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { disconnect } = useDisconnect();
-
   const wallet = useActiveWallet();
   const account = useActiveAccount() || accountLS;
   const status = useActiveWalletConnectionStatus();
+  const { disconnect } = useDisconnect();
 
   const dataMessageAuth = useSelector(selectMessageAuth);
   const loadingMessageAuth = useSelector(selectMessageAuthLoading);
@@ -75,6 +70,15 @@ const LoginBar = () => {
     navigate(`/${i18n.language}/`);
   };
 
+  const goToHome = () => {
+    const searchValue = searchParams.get("origin") || "";
+    if (searchValue) {
+      navigate(`/${i18n.language}/${searchValue}`);
+    } else {
+      navigate(`/${i18n.language}/home/`);
+    }
+  };
+
   const signedMessage = async (message: any) => {
     try {
       const response = await account?.signMessage({ message });
@@ -82,16 +86,6 @@ const LoginBar = () => {
     } catch (error) {
       logout();
       setAlert(t("login-error-rejected"), "error");
-    }
-  };
-
-  const goToHome = () => {
-    const searchValue = searchParams.get("origin") || "";
-    if (searchValue) {
-      console.log(`/${i18n.language}/${searchValue}`);
-      navigate(`/${i18n.language}/${searchValue}`);
-    } else {
-      navigate(`/${i18n.language}/home/`);
     }
   };
 
