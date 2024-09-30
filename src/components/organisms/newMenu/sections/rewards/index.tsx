@@ -273,7 +273,7 @@ const MainTable = ({ data, walletActive, isCrytoUser }: any) => {
                   )}
 
                   {item?.rewardType === "Codes" && (
-                    <Button onClick={() => handleCopy(item?.copyText || item?.rewardText)}>
+                    <Button onClick={() => handleCopy(item?.rewardCopyText || item?.rewardText)}>
                       {item?.customButtonText.toUpperCase() || "Copy Code"}
                     </Button>
                   )}
