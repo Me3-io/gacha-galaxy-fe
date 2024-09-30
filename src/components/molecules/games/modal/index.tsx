@@ -43,9 +43,7 @@ const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) =>
   const { setAlert } = useAlert();
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(
-      `${data?.prize} ${rewardVideo ? `- ${encodeURI(rewardVideo)}` : ""}`
-    );
+    navigator.clipboard.writeText(`${data?.prize} ${rewardVideo ? `- ${encodeURI(rewardVideo)}` : ""}`);
     setAlert("Copy to clipboard", "success");
   };
 
@@ -86,10 +84,10 @@ const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) =>
       });
   };
 
-  const viewRewards = () => { 
+  const viewRewards = () => {
     const mapCode = location.state?.map || "";
     navigate(`/${i18n.language}/home/${mapCode}`, { state: { openRewards: true } });
-  }
+  };
 
   return (
     <Modal open={open} onClose={onClose} className={styled.modalContainer}>
@@ -113,23 +111,22 @@ const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) =>
               ) : (
                 <>
                   <CircularProgress className={styled.loader} size={40} />
-                  <video
-                    loop={true}
-                    autoPlay={true}
-                    controls={false}
-                    preload="auto"
-                    muted
-                    playsInline
-                  >
+                  <video loop={true} autoPlay={true} controls={false} preload="auto" muted playsInline>
                     <source src={rewardVideo} type="video/mp4" />
                   </video>
                 </>
               )}
             </Box>
 
-            <Typography pt={2} pb={4} className={styled.prize}>
+            <Typography pt={2} pb={2} className={styled.prize}>
               {data?.prize || ""}
             </Typography>
+
+            {data?.rewardText && (
+              <Typography pb={2} className={styled.prize}>
+                {data?.rewardText || ""}
+              </Typography>
+            )}
 
             <Box className={styled.footer}>
               <Box className={styled.item}>
