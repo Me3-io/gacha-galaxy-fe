@@ -37,10 +37,6 @@ const RewardButton = ({ reward, walletActive }: any) => {
 
   const { setAlert } = useAlert();
 
-
-  console.log("lazyContractAddress",lazyContractAddress);
-  console.log("lazyContractABI",lazyContractABI);
-
   const contractLazy = getContract({
     client,
     chain,
@@ -205,14 +201,18 @@ const RewardButton = ({ reward, walletActive }: any) => {
 
       const transaction = prepareContractCall({
         contract: contractLazy,
-        method: "function mint(address buyer, string recordId, uint8 quantity, string tokenId, bytes signature)",
-        params: [buyer, recordId, quantity, tokenId, signature],
+        method: "function mint((address buyer, string recordId, uint8 quantity, string tokenId, bytes signature))",
+        params: [{
+          buyer,       
+          recordId,    
+          quantity,    
+          tokenId,      
+          signature    
+        }],
         maxFeePerGas: 60n,
         maxPriorityFeePerGas: 1n,
         gas: 400000n,
       });
-
-      console.log("transaction",transaction);
 
       const { transactionHash } = await sendTransaction({
         account,
