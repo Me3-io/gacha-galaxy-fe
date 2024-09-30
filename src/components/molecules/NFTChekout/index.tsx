@@ -1,16 +1,16 @@
-import { useEffect } from "react";
-import { TransakConfig, Transak } from "@transak/transak-sdk";
-import { Interface } from "ethers";
-import keysABI from "abi/keysABI.json";
+//import { useEffect } from "react";
+//import { TransakConfig, Transak } from "@transak/transak-sdk";
+//import { Interface } from "ethers";
+//import keysABI from "abi/keysABI.json";
 
-const getSupplyCalldata = () => {
+/*const getSupplyCalldata = () => {
   const ABI = keysABI;
   return new Interface(ABI).encodeFunctionData("mintByAuth", []);
-};
+};*/
 
 const NFTChekout = ({ setOpenTokens }: any) => {
-  const calldata = getSupplyCalldata();
-  const nftData: any = [
+  //const calldata = getSupplyCalldata();
+  /*const nftData: any = [
     {
       imageURL: process.env.REACT_APP_ASSETS_URL + "/keys/image/basic.jpg",
       nftName: "KEYS",
@@ -71,7 +71,7 @@ const NFTChekout = ({ setOpenTokens }: any) => {
   Transak.on(Transak.EVENTS.TRANSAK_ORDER_FAILED, (orderData) => {
     console.log(orderData);
     transak.close();
-  });
+  });*/
 
   return <></>;
 };
