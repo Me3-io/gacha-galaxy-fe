@@ -60,7 +60,7 @@ const InteractiveMap = () => {
 
   const leaderboardData = useSelector(getLeaderboard);
 
-  const devMode = process.env.REACT_APP_CHAIN === "sepolia";
+  const devMode = process.env.REACT_APP_NODE_ENV === "development";
 
   // calculate grid data ---
   const _drawGrid = () => {

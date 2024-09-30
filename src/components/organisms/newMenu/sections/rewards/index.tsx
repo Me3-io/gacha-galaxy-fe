@@ -85,7 +85,7 @@ const RewardButton = ({ reward, walletActive }: any) => {
     if (rewardNetwork === "Sepolia") {
       chain = sepolia;
     }
-    if (rewardNetwork === "Ethereum ") {
+    if (rewardNetwork === "Ethereum") {
       chain = ethereum;
     }
     if (rewardNetwork === "Poligon") {

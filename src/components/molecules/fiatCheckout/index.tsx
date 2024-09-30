@@ -20,7 +20,7 @@ const FiatCheckout = ({ setOpen }: any) => {
   const walletActive = data?.wallets.find((w: any) => w?.active && !w.social) || null;
   const [sameWallet, setSameWallet] = useState<boolean>(false);
 
-  const testMode = process.env.REACT_APP_CHAIN === "sepolia";
+  const testMode = process.env.REACT_APP_NODE_ENV === "development";
 
   const valideActiveAddress = async () => {
     try {

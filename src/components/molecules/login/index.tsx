@@ -19,6 +19,9 @@ import { fetchChallengeRequest, selectMessageAuth, selectMessageAuthLoading } fr
 import { fetchChallengeVerify } from "reduxConfig/thunks/tokenAuth";
 import { clearAuthToken } from "reduxConfig/slices/tokenAuth";
 import { clearMessageAuth } from "reduxConfig/slices/messageAuth";
+import { getSocial } from "reduxConfig/thunks/social";
+import { clearSocial } from "reduxConfig/slices/social";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import CustomTooltip from "components/atoms/materialTooltip";
 import useAlert from "hooks/alertProvider/useAlert";
@@ -27,9 +30,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import CircularProgress from "@mui/material/CircularProgress";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-import { getSocial } from "reduxConfig/thunks/social";
-import { clearSocial } from "reduxConfig/slices/social";
-import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import styled from "./styled.module.scss";
 
@@ -118,12 +118,12 @@ const LoginBar = () => {
       dispatch(fetchChallengeVerify(signParams) as any).then(async (response: any) => {
         setLoadSigning(false);
         dispatch(clearSocial());
+        dispatch(clearMessageAuth());
 
         if (response?.sessionToken) {
           localStorage.setItem("session.token", response?.sessionToken);
           localStorage.setItem("session.account", JSON.stringify({ ...account, ...signParams }));
           setSignedMessage("");
-
           goToHome();
         } else {
           setAlert(t("login-error-verify"), "error");
