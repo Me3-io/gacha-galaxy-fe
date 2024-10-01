@@ -44,8 +44,7 @@
     }
 
     .content {
-      width: 500px;
-
+      max-width: 510px;
       text-align: center;
       border-radius: 12px;
       background: linear-gradient(180deg, #3a1f50 0%, #140e23 78.71%);
@@ -114,9 +113,18 @@
         text-align: center;
         font-family: "Orbitron";
         font-size: 1.6rem;
-        font-style: normal;
         font-weight: 900;
-        line-height: normal;
+        background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .code {
+        text-align: center;
+        font-family: "ChakraPetch";
+        font-size: 1rem;
+        font-weight: 600;
         background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
         background-clip: text;
         -webkit-background-clip: text;

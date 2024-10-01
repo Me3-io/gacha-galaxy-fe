@@ -1,25 +1,23 @@
-import { Box, CircularProgress, IconButton, Modal, Typography } from "@mui/material";
+import { Box, CircularProgress, /*IconButton,*/ Modal, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "components/atoms/buttons/default";
 import capsuleIcon from "assets/icons/capsule.svg";
-import CustomTooltip from "components/atoms/materialTooltip";
-
-//import { initializeApp } from "firebase/app";
-import { TwitterAuthProvider, signInWithPopup /*, getAuth*/ } from "firebase/auth";
-
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import ShareIcon from "@mui/icons-material/Share";
-
 import Zoom from "@mui/material/Zoom";
-
-import customAxios from "utils/customAxios";
 import useAlert from "hooks/alertProvider/useAlert";
+
+import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import styled from "./styled.module.scss";
 
-import { auth } from "config/firebaseConfig";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+//import CustomTooltip from "components/atoms/materialTooltip";
+//import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+//import ShareIcon from "@mui/icons-material/Share";
+//import { TwitterAuthProvider, signInWithPopup /*, getAuth*/ } from "firebase/auth";
+//import { initializeApp } from "firebase/app";
+//import customAxios from "utils/customAxios";
+//import { auth } from "config/firebaseConfig";
+
 /*
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -33,21 +31,27 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 */
+
 const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) => {
   //const auth = getAuth(app);
+  //const twitterProvider = new TwitterAuthProvider();
+
   const location = useLocation();
   const navigate = useNavigate();
   const { i18n } = useTranslation();
-  const twitterProvider = new TwitterAuthProvider();
-  const rewardVideo = data?.rewardVideo ? data?.rewardVideo[0]?.url : null;
   const { setAlert } = useAlert();
 
-  const handleCopy = () => {
+  const rewardVideo =
+    data?.rewardVideo && data?.rewardVideo[0]?.type.includes("video") ? data?.rewardVideo[0]?.url : null;
+  const rewardImage =
+    data?.rewardVideo && data?.rewardVideo[0]?.type.includes("image") ? data?.rewardVideo[0]?.url : null;
+
+  /*const handleCopy = () => {
     navigator.clipboard.writeText(`${data?.prize} ${rewardVideo ? `- ${encodeURI(rewardVideo)}` : ""}`);
     setAlert("Copy to clipboard", "success");
-  };
+  };*/
 
-  const handleShare = () => {
+  /*const handleShare = () => {
     signInWithPopup(auth, twitterProvider)
       .then((result: any) => {
         const credential = TwitterAuthProvider.credentialFromResult(result);
@@ -82,7 +86,7 @@ const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) =>
         setAlert("Error to Share with X", "error");
         console.error(error?.message);
       });
-  };
+  };*/
 
   const viewRewards = () => {
     const mapCode = location.state?.map || "";
@@ -106,15 +110,17 @@ const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) =>
             </Typography>
 
             <Box className={styled.reward}>
-              {!rewardVideo ? (
-                <img src={capsuleIcon} alt="capsule" />
-              ) : (
+              {rewardVideo ? (
                 <>
                   <CircularProgress className={styled.loader} size={40} />
                   <video loop={true} autoPlay={true} controls={false} preload="auto" muted playsInline>
                     <source src={rewardVideo} type="video/mp4" />
                   </video>
                 </>
+              ) : rewardImage ? (
+                <img src={rewardImage} alt="reward" />
+              ) : (
+                <img src={capsuleIcon} alt="capsule" />
               )}
             </Box>
 
@@ -123,14 +129,12 @@ const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) =>
             </Typography>
 
             {data?.rewardText && (
-              <Typography pb={2} className={styled.prize}>
-                {data?.rewardText || ""}
-              </Typography>
+              <Typography dangerouslySetInnerHTML={{ __html: data?.rewardText || "" }} pb={3} className={styled.code} />
             )}
 
-            <Box className={styled.footer}>
+            <Box className={styled.footer} gap={"1rem"}>
               <Box className={styled.item}>
-                <IconButton color="secondary" sx={{ display: "none" }}>
+                {/*<IconButton color="secondary" sx={{ display: "none" }}>
                   <CustomTooltip title={"Share with X"}>
                     <ShareIcon onClick={handleShare} />
                   </CustomTooltip>
@@ -139,7 +143,7 @@ const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) =>
                   <CustomTooltip title={"Copy"}>
                     <ContentCopyIcon onClick={handleCopy} />
                   </CustomTooltip>
-                </IconButton>
+                </IconButton>*/}
                 <Button onClick={viewRewards}>VIEW REWARDS COLLECTION</Button>
               </Box>
               <Box className={styled.item}>

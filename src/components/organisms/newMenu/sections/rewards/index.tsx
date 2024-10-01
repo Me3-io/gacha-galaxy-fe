@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "components/atoms/buttons/base";
-import WalletIcon from "@mui/icons-material/Wallet";
+//import WalletIcon from "@mui/icons-material/Wallet";
 
 import { client, chain, onlyWalletConfig } from "config/thirdwebConfig";
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
@@ -16,6 +16,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 
 import { fetchClaims, getClaims } from "reduxConfig/thunks/claim";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 import { useDispatch, useSelector } from "react-redux";
 
 import customAxios from "utils/customAxios";
@@ -24,7 +25,6 @@ import useAlert from "hooks/alertProvider/useAlert";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
-import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 const RewardButton = ({ reward, walletActive }: any) => {
   const [loading, setLoading] = useState(false);
@@ -262,8 +262,8 @@ const MainTable = ({ data, walletActive, isCrytoUser }: any) => {
                 <TableCell align="left">
                   <Typography>{item?.rewardName || item?.rewardText || item?.rewardType}</Typography>
                   <Typography className={styled.status}>
-                    {item?.rewardStatePending ? "Pending" : "Approved"}{" "}
-                    <span>({format(item?.date, "d MMMM yy - HH:mm")})</span>
+                    {item?.rewardType === "NFTs" ? (item?.rewardStatePending ? "Pending" : "Approved") : ""}{" "}
+                    <span>{format(item?.date, "d MMMM yy - HH:mm")}</span>
                   </Typography>
                   <Typography className={styled.type}>{item?.rewardType}</Typography>
                 </TableCell>
@@ -307,11 +307,11 @@ const Rewards = ({ setOpen, setOpenCheckout }: any) => {
             <Button onClick={() => setOpen(false)}>
               <ArrowBackIcon /> {t("back")}
             </Button>
-            {isCrytoUser && (
+            {/*isCrytoUser && (
               <Button onClick={() => setOpenCheckout(true)}>
                 <WalletIcon /> Buy Gas
               </Button>
-            )}
+            )*/}
           </Box>
           <Typography pb={2} className={styled.title}>
             {t("rewards").toUpperCase()}

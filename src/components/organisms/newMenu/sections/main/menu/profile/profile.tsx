@@ -282,6 +282,7 @@ const Profile = ({ setOpen }: any) => {
           label="Enable Crypto Functions"
           labelPlacement="start"
           className={styled.switch}
+          disabled={cryptoUser}
         />
 
         {isCryptoUser && (
