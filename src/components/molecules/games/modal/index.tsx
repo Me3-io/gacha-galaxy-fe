@@ -41,10 +41,8 @@ const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) =>
   const { i18n } = useTranslation();
   const { setAlert } = useAlert();
 
-  const rewardVideo =
-    data?.rewardVideo && data?.rewardVideo[0]?.type.includes("video") ? data?.rewardVideo[0]?.url : null;
-  const rewardImage =
-    data?.rewardVideo && data?.rewardVideo[0]?.type.includes("image") ? data?.rewardVideo[0]?.url : null;
+  const rewardVideo = data?.rewardVideo ? data?.rewardVideo[0]?.url : null;
+  const rewardImage = data?.rewardImage ? data?.rewardImage[0]?.url : null;
 
   /*const handleCopy = () => {
     navigator.clipboard.writeText(`${data?.prize} ${rewardVideo ? `- ${encodeURI(rewardVideo)}` : ""}`);
@@ -118,7 +116,7 @@ const CongratsModal = ({ open = false, data, onClose, handlePlayAgain }: any) =>
                   </video>
                 </>
               ) : rewardImage ? (
-                <img src={rewardImage} alt="reward" />
+                <img src={rewardImage} alt="reward" className={styled.rewardImage}  />
               ) : (
                 <img src={capsuleIcon} alt="capsule" />
               )}
