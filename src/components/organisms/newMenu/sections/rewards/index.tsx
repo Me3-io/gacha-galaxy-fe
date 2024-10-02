@@ -155,7 +155,7 @@ const RewardButton = ({ reward, walletActive }: any) => {
         await setClaimed(reward?.accountingId, transactionHash);
       }
     } catch (error: any) {
-      setAlert(error?.message || "error to claim item", "error");
+      if (error?.message) setAlert(error?.message, "error");
       console.error(error);
     }
 
@@ -224,7 +224,7 @@ const RewardButton = ({ reward, walletActive }: any) => {
         await setClaimed(reward?.accountingId, transactionHash);
       }
     } catch (error: any) {
-      setAlert(error?.message || "error to claim item", "error");
+      if (error?.message) setAlert(error?.message, "error");
       console.error(error);
     }
 
