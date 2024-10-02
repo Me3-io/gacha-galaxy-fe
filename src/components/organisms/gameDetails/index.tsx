@@ -3,9 +3,6 @@ import { Box, Grid, Grow, Modal, Typography } from "@mui/material";
 import Button from "components/atoms/buttons/base";
 import ButtonDefault from "components/atoms/buttons/default";
 
-import capsuleIcon from "assets/games/capsule/capsule-machine-angle-view.png";
-import clawMachineIcon from "assets/games/clawMachine/Angled_View.png";
-
 import joystick from "assets/icons/joystick.svg";
 import prize from "assets/icons/prize.svg";
 
@@ -24,6 +21,9 @@ import waitForElement from "utils/waitForElement";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import styled from "./styled.module.scss";
+
+const capsuleIcon = `${process.env.REACT_APP_ASSETS_URL}/Capsule/capsule-machine-angle-view.png`;
+const clawMachineIcon = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Angled_View.png`;
 
 const ItemChance = ({ text, percent }: any) => {
   return (
@@ -96,7 +96,7 @@ const GameDetails = () => {
                   </Typography>
 
                   <Box className={styled.image}>
-                    <img src={getMachineIcon(details?.code)} alt="machineIcon" />
+                    <img src={getMachineIcon(details?.code)} alt="machineIcon" loading="lazy" />
                   </Box>
                 </Grid>
 
