@@ -9,16 +9,10 @@ import CongratsModal from "components/molecules/games/modal";
 import styled from "./styled.module.scss";
 
 // resources ---
-import machine from "assets/games/capsule/machine_front_view.png";
-import machineEmpty from "assets/games/capsule/machine_front_view_empty.png";
-
+const machine = `${process.env.REACT_APP_ASSETS_URL}/Capsule/machine_front_view.png`;
+const machineEmpty = `${process.env.REACT_APP_ASSETS_URL}/Capsule/machine_front_view_empty.png`;
 const urlAnimation = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Game_Animation.mp4`;
 const urlSuccess = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Animation_Success.mp4`;
-// rewards ---
-//const rewardChainGPT = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Rewards/ChainGPT.mp4`;
-//const rewardTheGraph = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Rewards/The_Graph.mp4`;
-//const rewardTrustSwap = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Rewards/TrustSwap.mp4`;
-//const rewardPythNetwork = `${process.env.REACT_APP_ASSETS_URL}/Capsule/Rewards/Pyth_Network.mp4`;
 
 interface State {
   status: string;
@@ -61,12 +55,7 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
     success: { status: "success", visible: true, play: true, loop: false, source: sourceSuccess },
   };
 
-  const bgClass =
-    gameState.status === "load"
-      ? styled.zoomIn
-      : gameState.status !== "init"
-      ? styled.zoomFixed
-      : "";
+  const bgClass = gameState.status === "load" ? styled.zoomIn : gameState.status !== "init" ? styled.zoomFixed : "";
 
   const getResource = async (url: string) => {
     return await fetch(url)
@@ -148,14 +137,6 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
     handlePlay();
   };
 
-  /*const getReward = (type: string) => {
-    if (/ChainGPT/.test(type)) return rewardChainGPT;
-    if (/The Graph/.test(type)) return rewardTheGraph;
-    if (/TrustSwap/.test(type)) return rewardTrustSwap;
-    if (/Pyth Network/.test(type)) return rewardPythNetwork;
-    return null;
-  };*/
-
   // effects ---
   useEffect(() => {
     if (gameState.status !== "success" && gameState.status !== "ready") nextStep();
@@ -235,6 +216,7 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
               alt="machine"
               className={bgClass}
               src={gameState.status === "success" ? machineEmpty : machine}
+              loading="lazy"
             />
           </Box>
 

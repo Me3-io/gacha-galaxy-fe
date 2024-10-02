@@ -9,12 +9,11 @@ import CongratsModal from "components/molecules/games/modal";
 import styled from "./styled.module.scss";
 
 // resources ---
-import machine from "assets/games/clawMachine/Front_View.png";
-import poster from "assets/games/clawMachine/poster.jpg";
-
-const urlAnimationMissItem = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Animation_Miss_Item.mp4`;
-const urlAnimationDropinPlace = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Animation_Drop_in_Place.mp4`;
-const urlAnimationDropNearWinner = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Animation_Drop_Near_Winner.mp4`;
+const machine = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Front_View.png`;
+const poster = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/poster.jpg`;
+//const urlAnimationMissItem = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Animation_Miss_Item.mp4`;
+//const urlAnimationDropinPlace = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Animation_Drop_in_Place.mp4`;
+//const urlAnimationDropNearWinner = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Animation_Drop_Near_Winner.mp4`;
 const urlSuccess = `${process.env.REACT_APP_ASSETS_URL}/ClawMachine/Animation_Success.mp4`;
 
 interface State {
@@ -48,12 +47,7 @@ const ClawMachine = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
     play: { status: "play", visible: true, source: sources[0] },
   };
 
-  const bgClass =
-    gameState.status === "load"
-      ? styled.zoomIn
-      : gameState.status !== "init"
-      ? styled.zoomFixed
-      : "";
+  const bgClass = gameState.status === "load" ? styled.zoomIn : gameState.status !== "init" ? styled.zoomFixed : "";
 
   const getResource = async (url: string) => {
     return await fetch(url)
@@ -157,9 +151,9 @@ const ClawMachine = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
 
     (async () => {
       setLoading(true);
-      const sourceA = (await getResource(urlAnimationMissItem)) || ""; // pos 0
-      const sourceB = (await getResource(urlAnimationDropinPlace)) || ""; // pos 1
-      const sourceC = (await getResource(urlAnimationDropNearWinner)) || ""; // pos 2
+      const sourceA = ""; // (await getResource(urlAnimationMissItem)) || ""; // pos 0
+      const sourceB = ""; // (await getResource(urlAnimationDropinPlace)) || ""; // pos 1
+      const sourceC = ""; // (await getResource(urlAnimationDropNearWinner)) || ""; // pos 2
       const sourceD = (await getResource(urlSuccess)) || ""; // pos 3
 
       setSources([sourceA, sourceB, sourceC, sourceD]);
@@ -199,7 +193,7 @@ const ClawMachine = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
           </Box>
 
           <Box className={styled.bgContainer}>
-            <img alt="machine" className={bgClass} src={machine} />
+            <img alt="machine" className={bgClass} src={machine} loading="lazy" />
           </Box>
 
           <CongratsModal
