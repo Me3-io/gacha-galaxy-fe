@@ -8,13 +8,13 @@ import { Provider } from "react-redux";
 import { ThirdwebProvider } from "thirdweb/react";
 import { AlertProvider } from "hooks/alertProvider/alertContext";
 
-import { cookie3Analytics } from "@cookie3/analytics";
+import { UserOptions, cookie3Analytics } from "@cookie3/analytics";
 import { Cookie3Provider } from "hooks/cookie3Provider";
 
 import App from "App";
 import "./index.css";
 
-const config = {
+const config: UserOptions = {
   siteId: Number(process.env.REACT_APP_COOKIE3_SITE_ID),
 };
 

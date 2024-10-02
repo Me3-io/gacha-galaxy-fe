@@ -14,5 +14,6 @@ export const Cookie3Provider = ({ children, value }: ProviderProps) => {
 
 export const useCookie3 = () => {
   const context = useContext(Cookie3Context);
+
   return context;
 };
