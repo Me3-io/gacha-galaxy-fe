@@ -2,29 +2,44 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  gap: 1rem;
 
   td {
     display: flex;
-    flex-direction: column;
-    align-items: start;
+    gap: 1rem;
+    align-items: flex-start;
 
-    p {
-      font-family: "ChakraPetch";
-    }
-    .status,
-    .type {
-      color: #d490ec;
-      font-size: 0.8rem;
+    img {
+      width: 80px;
+      height: 80px;
+      //border: 1px solid #d490ec40;
+      border-radius: 3px;
+      object-fit: cover;
+     }
+
+    div {
       display: flex;
-      gap: 0.5rem;
+      flex-direction: column;
+      flex: 1 1;
+      
+      p {
+        font-family: "ChakraPetch";
+      }
+      .status,
+      .type {
+        color: #d490ec;
+        font-size: 0.8rem;
+        display: flex;
+        gap: 0.5rem;
 
-      span {
+        span {
+          color: #d490ec80;
+        }
+      }
+
+      .type {
         color: #d490ec80;
       }
-    }
-
-    .type {
-      color: #d490ec80;
     }
   }
 
@@ -42,12 +57,17 @@
     justify-content: space-between;
     height: 100%;
 
+    button {
+      min-width: 115px;
+    }
+
     span {
       color: rgba(212, 144, 236, 0.5);
       font-size: 0.8rem;
       display: flex;
       align-items: center;
       cursor: pointer;
+      user-select: none;
     }
   }
 }
@@ -58,8 +78,8 @@
   color: #d490ec;
   box-sizing: border-box;
   background-color: rgba(99, 67, 115, 0.4) !important;
-  border-radius: 0.5rem;
-  margin-bottom: 0.5rem;
+  border-radius: 3px;
+  margin-bottom: 1rem;
 
   p {
     font-size: 0.9rem;

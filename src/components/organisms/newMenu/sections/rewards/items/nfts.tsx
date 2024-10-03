@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 
 import Button from "components/atoms/buttons/base";
 import TableCell from "@mui/material/TableCell";
+import capsuleIcon from "assets/icons/capsule.svg";
 
 import { client, chain, onlyWalletConfig } from "config/thirdwebConfig";
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
@@ -27,6 +28,8 @@ const RewardNFTs = ({ item, isCrytoUser }: any) => {
   const switchChain = useSwitchActiveWalletChain();
   const dispatch = useDispatch();
   const { setAlert } = useAlert();
+
+  const rewardImage = item?.rewardImage ? item?.rewardImage[0]?.url : null;
 
   const contract = getContract({
     client,
@@ -125,11 +128,14 @@ const RewardNFTs = ({ item, isCrytoUser }: any) => {
   return (
     <Box className={styled.item}>
       <TableCell align="left">
-        <Typography>{item?.rewardName || item?.rewardText || item?.rewardType}</Typography>
-        <Typography className={styled.status}>
-          {item?.rewardStatePending ? "Pending" : "Approved"} <span>{format(item?.date, "d MMMM yy - HH:mm")}</span>
-        </Typography>
-        <Typography className={styled.type}>{item?.rewardType}</Typography>
+        <img src={rewardImage || capsuleIcon} alt={"reward"} loading="lazy" />
+        <Box>
+          <Typography>{item?.rewardName || item?.rewardText || item?.rewardType}</Typography>
+          <Typography className={styled.status}>
+            {item?.rewardStatePending ? "Pending" : "Approved"} <span>{format(item?.date, "d MMMM yy - HH:mm")}</span>
+          </Typography>
+          <Typography className={styled.type}>{item?.rewardType}</Typography>
+        </Box>
       </TableCell>
       <TableCell align="right">
         {isCrytoUser && (

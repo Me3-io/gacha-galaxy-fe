@@ -5,6 +5,7 @@ import Button from "components/atoms/buttons/base";
 import TableCell from "@mui/material/TableCell";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import capsuleIcon from "assets/icons/capsule.svg";
 
 import useAlert from "hooks/alertProvider/useAlert";
 
@@ -24,15 +25,20 @@ const RewardCodes = ({ item }: any) => {
     setShowDetails(!showDetails);
   };
 
+  const rewardImage = item?.rewardImage ? item?.rewardImage[0]?.url : null;
+
   return (
     <>
       <Box className={styled.item}>
         <TableCell align="left">
-          <Typography>{item?.rewardName || item?.rewardText || item?.rewardType}</Typography>
-          <Typography className={styled.status}>
-            <span>{format(item?.date, "d MMMM yy - HH:mm")}</span>
-          </Typography>
-          <Typography className={styled.type}>{item?.rewardType}</Typography>
+          <img src={rewardImage || capsuleIcon} alt={"reward"} loading="lazy" />
+          <Box>
+            <Typography>{item?.rewardName || item?.rewardText || item?.rewardType}</Typography>
+            <Typography className={styled.status}>
+              <span>{format(item?.date, "d MMMM yy - HH:mm")}</span>
+            </Typography>
+            <Typography className={styled.type}>{item?.rewardType}</Typography>
+          </Box>
         </TableCell>
         <TableCell align="right">
           <Box className={styled.actions}>
@@ -40,7 +46,7 @@ const RewardCodes = ({ item }: any) => {
               {item?.customButtonText.toUpperCase() || "COPY CODE"}
             </Button>
             <span onClick={handleShowDetails}>
-              details
+              Details
               {showDetails ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </span>
           </Box>
