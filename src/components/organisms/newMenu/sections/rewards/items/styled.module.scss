@@ -1,0 +1,73 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  td {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    p {
+      font-family: "ChakraPetch";
+    }
+    .status,
+    .type {
+      color: #d490ec;
+      font-size: 0.8rem;
+      display: flex;
+      gap: 0.5rem;
+
+      span {
+        color: #d490ec80;
+      }
+    }
+
+    .type {
+      color: #d490ec80;
+    }
+  }
+
+  button {
+    padding: 8px 16px !important;
+    border: none !important;
+    background-color: rgba(99, 67, 115, 0.4) !important;
+    color: #db74ff;
+  }
+
+  .actions {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
+    span {
+      color: rgba(212, 144, 236, 0.5);
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+  }
+}
+
+.details {
+  padding: 0.5rem 1rem;
+  width: 100%;
+  color: #d490ec;
+  box-sizing: border-box;
+  background-color: rgba(99, 67, 115, 0.4) !important;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+
+  p {
+    font-size: 0.9rem;
+    font-family: "ChakraPetch";
+
+    a {
+      color: #d490ec;
+      text-decoration: underline;
+    }
+  }
+}
