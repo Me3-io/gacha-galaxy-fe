@@ -37,7 +37,7 @@ const RewardCodes = ({ item }: any) => {
             <Typography className={styled.status}>
               <span>{format(item?.date, "d MMMM yy - HH:mm")}</span>
             </Typography>
-            <Typography className={styled.type}>{item?.rewardType}</Typography>
+            {/*<Typography className={styled.type}>{item?.rewardType}</Typography>*/}
           </Box>
         </TableCell>
         <TableCell align="right">
