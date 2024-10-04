@@ -1,7 +1,5 @@
 import { useContext } from "react";
-import { Box, Modal } from "@mui/material";
-
-import Grow from "@mui/material/Grow";
+import { Box, Grow, Modal } from "@mui/material";
 
 import GameCampaingCarousel from "./carousel";
 import { MapContext } from "pages/home";
@@ -9,12 +7,13 @@ import { MapContext } from "pages/home";
 import Button from "components/atoms/buttons/base";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
+import bg from "assets/images/playroom.png";
+import styled from "./styled.module.scss";
 
 const MainCarousel = ({ handleClose }: any) => {
   const { t } = useTranslation();
-  const { setGame, listGames, setCampaing, listCampaings } = useContext(MapContext);
+  const { setGame, listGames, setCampaing, listCampaings, buildingBg } = useContext(MapContext);
   const open = !!listGames?.length || !!listCampaings?.length || false;
 
   const onClose = (evt: any, reason: string) => {
@@ -24,13 +23,15 @@ const MainCarousel = ({ handleClose }: any) => {
   return (
     <Modal open={open} className={styled.modalContainer} onClose={onClose}>
       <>
+        <Box className={styled.background} sx={{ backgroundImage: `url(${buildingBg?.url || bg})` }} />
+
         <Box className={styled.backButton}>
           <Button onClick={(evt: any) => onClose(evt, "close")}>
             <ArrowBackIcon /> {t("back")}
           </Button>
         </Box>
 
-        <Grow in={open}>
+        <Grow in={open} timeout={1000}>
           <Box className={styled.modal}>
             <GameCampaingCarousel
               listGames={listGames || []}

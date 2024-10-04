@@ -29,7 +29,7 @@ const CENTER_MAP = { x: 600, y: 950 };
 const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = () => {
-  const { setListGames, setListCampaings, map } = useContext(MapContext);
+  const { setListGames, setListCampaings, setBuildingBg, map } = useContext(MapContext);
 
   const { lang } = useParams();
   const [searchParams] = useSearchParams();
@@ -187,9 +187,10 @@ const InteractiveMap = () => {
     }
   };
 
-  const handlerBuildingClick = (games: any, campaings: any, code: string) => {
+  const handlerBuildingClick = (games: any, campaings: any, code: string, background: any) => {
     setListGames(games);
     setListCampaings(campaings);
+    setBuildingBg(background);
     setTooltipData({ visible: false, text: "" });
     if (games?.length || campaings?.length) {
       navigate(`/${lang}/home/${map.code}/${code}`);

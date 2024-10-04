@@ -20,6 +20,7 @@ import { setGame } from "reduxConfig/slices/game";
 import waitForElement from "utils/waitForElement";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
+import bg from "assets/images/playroom.png";
 import styled from "./styled.module.scss";
 
 const capsuleIcon = `${process.env.REACT_APP_ASSETS_URL}/Capsule/capsule-machine-angle-view.png`;
@@ -36,7 +37,7 @@ const ItemChance = ({ text, percent }: any) => {
 
 const GameDetails = () => {
   const dispatch = useDispatch();
-  const { game: details, setGame: setDetails, map } = useContext(MapContext);
+  const { game: details, setGame: setDetails, buildingBg, map } = useContext(MapContext);
 
   const open = !!details?.code;
   const navigate = useNavigate();
@@ -79,6 +80,8 @@ const GameDetails = () => {
   return (
     <Modal open={open} onClose={onClose} className={styled.modalContainer}>
       <>
+        <Box className={styled.background} sx={{ backgroundImage: `url(${buildingBg?.url || bg})` }} />
+
         <Box className={styled.backButton}>
           <Button onClick={(evt: any) => onClose(evt, "close")}>
             <ArrowBackIcon /> {t("back")}

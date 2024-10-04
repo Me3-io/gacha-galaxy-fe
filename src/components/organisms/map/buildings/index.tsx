@@ -3,21 +3,14 @@ import { MapContext } from "pages/home";
 
 import styled from "../styled.module.scss";
 
-const Buildings = ({
-  handlerBuildingClick,
-  handlerOver,
-  handlerLeave,
-  PATH_GRID,
-  CENTER_MAP,
-  setLoading,
-}: any) => {
+const Buildings = ({ handlerBuildingClick, handlerOver, handlerLeave, PATH_GRID, CENTER_MAP, setLoading }: any) => {
   const { map } = useContext(MapContext);
   const [buildings, setBuildings] = useState<any>([]);
 
   // events ---
   const handlerBuilding = (evt: any, item: any) => {
     evt.stopPropagation();
-    handlerBuildingClick(item.games, item.campaigns, item.code);
+    handlerBuildingClick(item.games, item.campaigns, item.code, item.background);
   };
 
   const getResource = async (url: string) => {
@@ -61,6 +54,7 @@ const Buildings = ({
           : null,
       games: item.games || [],
       campaigns: item.campaigns || [],
+      background: (item?.background?.length && item?.background[0]) || "",
     }));
 
     Promise.all(data).then((resolvedData) => {

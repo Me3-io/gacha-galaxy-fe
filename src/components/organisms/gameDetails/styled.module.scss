@@ -11,18 +11,14 @@ $clip-min: 10px;
   position: relative;
   background-color: #140716;
 
-  &::before {
-    content: "";
-    position: fixed;
-    left: 0;
-    right: 0;
-    background-image: url("/assets/images/playroom.png");
+  .background {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     filter: blur(6px);
     background-size: cover;
-    width: 100%;
-    height: 100%;
-    //opacity: 0.5;
-    z-index: -1;
+    background-position: center;
+    opacity: 0.8;
   }
 
   .backButton {
@@ -430,3 +426,4 @@ $clip-min: 10px;
     border-radius: 0 !important;
   }
 }
+

@@ -35,12 +35,14 @@ const initialState = {
   listMaps: [],
   listGames: [],
   listCampaings: [],
+  buildingBg: {} as any,
   setMap: (map: any) => {},
   setGame: (game: any) => {},
   setCampaing: (campaing: any) => {},
   setListMaps: (maps: any) => {},
   setListGames: (games: any) => {},
   setListCampaings: (campaings: any) => {},
+  setBuildingBg: (bg: any) => {},
 };
 
 export const MapContext = createContext(initialState);
@@ -57,6 +59,7 @@ const Home = () => {
   const [listMaps, setListMaps] = useState([]);
   const [listGames, setListGames] = useState([]);
   const [listCampaings, setListCampaings] = useState([]);
+  const [buildingBg, setBuildingBg] = useState({});
 
   const [map, setMap] = useState<any>({});
   const [game, setGame] = useState<any>({});
@@ -69,6 +72,7 @@ const Home = () => {
   const handleClose = () => {
     setListGames([]);
     setListCampaings([]);
+    setBuildingBg({});
     const searchValue = searchParams.get("@") || map?.mapCoordinates;
     if (searchValue) {
       navigate(`/${lang}/home/${map.code}?@=${searchValue}`);
@@ -97,6 +101,7 @@ const Home = () => {
           const buildingData = map.buildings.find((item: any) => item.code === building);
           setListGames(buildingData?.games || []);
           setListCampaings(buildingData?.campaigns || []);
+          setBuildingBg((buildingData?.background?.length && buildingData?.background[0]) || {});
         }
       } else {
         setMap(mapsData[0]);
@@ -116,12 +121,14 @@ const Home = () => {
           listMaps,
           listGames,
           listCampaings,
+          buildingBg,
           setMap,
           setGame,
           setCampaing,
           setListMaps,
           setListGames,
           setListCampaings,
+          setBuildingBg,
         }}
       >
         <Layout showHelp={true}>
