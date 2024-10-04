@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 
 import Button from "components/atoms/buttons/base";
+import defaultIcon from "assets/logo.svg";
 import TableCell from "@mui/material/TableCell";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import capsuleIcon from "assets/icons/capsule.svg";
 
 import useAlert from "hooks/alertProvider/useAlert";
 
@@ -31,7 +31,7 @@ const RewardCodes = ({ item }: any) => {
     <>
       <Box className={styled.item}>
         <TableCell align="left">
-          <img src={rewardImage || capsuleIcon} alt={"reward"} loading="lazy" />
+          <img src={rewardImage || defaultIcon} alt={"reward"} loading="lazy" />
           <Box>
             <Typography>{item?.rewardName || item?.rewardText || item?.rewardType}</Typography>
             <Typography className={styled.status}>

@@ -19,14 +19,22 @@ import RewardCodes from "./items/codes";
 import RewardNFTs from "./items/nfts";
 import RewardLazy from "./items/lazy";
 
-const MainTable = ({ data, walletActive, isCrytoUser }: any) => {
-  const getItemForType = (item: any, walletActive: any, isCrytoUser: any) => {
+const REWARD_TYPE = { CODE: "Codes", NFT: "NFTs", LAZY: "Lazy" };
+
+const MainTable = () => {
+  const claimeables = useSelector(getClaims)?.claimeables || [];
+  const leaderboard = useSelector(getLeaderboard);
+
+  const walletActive = leaderboard?.wallets.find((w: any) => w?.active && !w.social) || {};
+  const isCrytoUser = walletActive?.type !== "me3-created" ? true : false;
+
+  const getItemForType = (item: any) => {
     switch (item?.rewardType) {
-      case "Codes":
+      case REWARD_TYPE.CODE:
         return <RewardCodes item={item} />;
-      case "NFTs":
+      case REWARD_TYPE.NFT:
         return <RewardNFTs item={item} isCrytoUser={isCrytoUser} />;
-      case "Lazy":
+      case REWARD_TYPE.LAZY:
         return <RewardLazy item={item} walletActive={walletActive} isCrytoUser={isCrytoUser} />;
       default:
         return <></>;
@@ -37,10 +45,10 @@ const MainTable = ({ data, walletActive, isCrytoUser }: any) => {
     <TableContainer className={styled.table}>
       <Table>
         <TableBody>
-          {data.length > 0 ? (
-            data?.map((item: any, pos: number) => (
+          {claimeables.length > 0 ? (
+            claimeables?.map((item: any, pos: number) => (
               <TableRow key={pos} className={styled.earnRow}>
-                {getItemForType(item, walletActive, isCrytoUser)}
+                {getItemForType(item)}
               </TableRow>
             ))
           ) : (
@@ -56,11 +64,6 @@ const MainTable = ({ data, walletActive, isCrytoUser }: any) => {
 
 const Rewards = ({ setOpen, setOpenCheckout }: any) => {
   const { t } = useTranslation();
-  const claimeables = useSelector(getClaims)?.claimeables || [];
-  const leaderboard = useSelector(getLeaderboard);
-
-  const walletActive = leaderboard?.wallets.find((w: any) => w?.active && !w.social) || {};
-  const isCrytoUser = walletActive?.type !== "me3-created" ? true : false;
 
   return (
     <Grid container flexDirection="column" className={styled.main} pb={2}>
@@ -80,7 +83,7 @@ const Rewards = ({ setOpen, setOpenCheckout }: any) => {
         </Typography>
       </Box>
       <Box className={styled.container}>
-        <MainTable data={claimeables} walletActive={walletActive} isCrytoUser={isCrytoUser} />
+        <MainTable />
       </Box>
     </Grid>
   );

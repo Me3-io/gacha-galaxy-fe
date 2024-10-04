@@ -10,18 +10,19 @@
     align-items: flex-start;
 
     img {
-      width: 80px;
-      height: 80px;
-      //border: 1px solid #d490ec40;
+      width: 60px;
+      height: auto;
       border-radius: 3px;
       object-fit: cover;
-     }
+      filter: contrast(1.1);
+      //border: 1px solid #d490ec80;
+    }
 
     div {
       display: flex;
       flex-direction: column;
       flex: 1 1;
-      
+
       p {
         font-family: "ChakraPetch";
       }

@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 
 import Button from "components/atoms/buttons/base";
 import TableCell from "@mui/material/TableCell";
-import capsuleIcon from "assets/icons/capsule.svg";
+import defaultIcon from "assets/logo.svg";
 
 import { client, chain, onlyWalletConfig } from "config/thirdwebConfig";
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
@@ -158,7 +158,7 @@ const RewardLazy = ({ item, walletActive, isCrytoUser }: any) => {
   return (
     <Box className={styled.item}>
       <TableCell align="left">
-        <img src={rewardImage || capsuleIcon} alt={"reward"} loading="lazy" />
+        <img src={rewardImage || defaultIcon} alt={"reward"} loading="lazy" />
         <Box>
           <Typography>{item?.rewardName || item?.rewardText || item?.rewardType}</Typography>
           <Typography className={styled.status}>
