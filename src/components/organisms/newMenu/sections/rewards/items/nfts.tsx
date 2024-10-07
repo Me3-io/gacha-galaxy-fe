@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 
 import Button from "components/atoms/buttons/base";
-import TableCell from "@mui/material/TableCell";
 import defaultIcon from "assets/logo.svg";
 
 import { client, chain, onlyWalletConfig } from "config/thirdwebConfig";
@@ -127,23 +126,22 @@ const RewardNFTs = ({ item, isCrytoUser }: any) => {
 
   return (
     <Box className={styled.item}>
-      <TableCell align="left">
+      <Box>
         <img src={rewardImage || defaultIcon} alt={"reward"} loading="lazy" />
         <Box>
           <Typography>{item?.rewardName || item?.rewardText || item?.rewardType}</Typography>
           <Typography className={styled.status}>
             {item?.rewardStatePending ? "Pending" : "Approved"} <span>{format(item?.date, "d MMMM yy - HH:mm")}</span>
           </Typography>
-          {/*<Typography className={styled.type}>{item?.rewardType}</Typography>*/}
         </Box>
-      </TableCell>
-      <TableCell align="right">
+      </Box>
+      <Box>
         {isCrytoUser && (
           <Button onClick={() => getReward(item)} isLoading={loading} disabled={loading || item?.rewardStatePending}>
             {item?.rewardStatePending ? "PENDING" : item?.customButtonText.toUpperCase() || "CLAIM"}
           </Button>
         )}
-      </TableCell>
+      </Box>
     </Box>
   );
 };

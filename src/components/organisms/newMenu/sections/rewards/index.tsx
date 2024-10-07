@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, TableCell, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -46,13 +46,15 @@ const MainTable = () => {
           {claimeables.length > 0 ? (
             claimeables?.map((item: any, pos: number) => (
               <TableRow key={pos} className={styled.earnRow}>
-                {getItemForType(item)}
+                <TableCell>{getItemForType(item)}</TableCell>
               </TableRow>
             ))
           ) : (
-            <Box px={3}>
-              <span>no rewards available</span>
-            </Box>
+            <TableRow>
+              <TableCell>
+                <span>no rewards available</span>
+              </TableCell>
+            </TableRow>
           )}
         </TableBody>
       </Table>

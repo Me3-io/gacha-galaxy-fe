@@ -4,7 +4,7 @@
   width: 100%;
   gap: 1rem;
 
-  td {
+  & > div {
     display: flex;
     gap: 1rem;
     align-items: flex-start;
@@ -80,7 +80,7 @@
   box-sizing: border-box;
   background-color: rgba(99, 67, 115, 0.4) !important;
   border-radius: 3px;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
 
   p {
     font-size: 0.9rem;
