@@ -62,6 +62,7 @@ const FiatCheckout = ({ setOpen }: any) => {
           <ArrowBackIcon /> back
         </Button>
       </Box>
+
       {sameWallet && (
         <PayEmbed
           client={client}
@@ -72,6 +73,10 @@ const FiatCheckout = ({ setOpen }: any) => {
           }}
           payOptions={{
             buyWithFiat: {
+              preferredProvider: "TRANSAK",
+              prefillSource: {
+                currency: "USD",
+              },
               testMode: testMode,
             },
             buyWithCrypto: {
