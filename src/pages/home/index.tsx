@@ -3,7 +3,7 @@ import { Box, Container, Grid } from "@mui/material";
 
 import Layout from "components/templates/layout";
 import InteractiveMap from "components/organisms/map";
-import MainCarousel from "components/organisms/mainCarousel";
+import BuildingDetails from "components/organisms/buildingDetails";
 
 import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
@@ -156,7 +156,7 @@ const Home = () => {
               </Grid>
             </Grid>
 
-            <MainCarousel handleClose={handleClose} />
+            <BuildingDetails handleClose={handleClose} />
 
             <GameDetails />
             <Campaign />

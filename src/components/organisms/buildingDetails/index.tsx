@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import bg from "assets/images/playroom.png";
 import styled from "./styled.module.scss";
 
-const MainCarousel = ({ handleClose }: any) => {
+const BuildingDetails = ({ handleClose }: any) => {
   const { t } = useTranslation();
   const { setGame, listGames, setCampaing, listCampaings, buildingBg } = useContext(MapContext);
   const open = !!listGames?.length || !!listCampaings?.length || false;
@@ -46,4 +46,4 @@ const MainCarousel = ({ handleClose }: any) => {
   );
 };
 
-export default MainCarousel;
+export default BuildingDetails;
