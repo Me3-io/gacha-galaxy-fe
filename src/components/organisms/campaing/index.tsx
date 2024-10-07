@@ -36,11 +36,12 @@ const Campaing = () => {
       window.claimr.logout();
       setDetails({});
       dispatch(fetchLeaderboard() as any);
-
+      
       setTimeout(() => {
         //@ts-ignore
         window.claimr.destroy();
-      }, 500);
+        console.log("Claimr destroyed");
+      }, 1000);
 
     }
   };
