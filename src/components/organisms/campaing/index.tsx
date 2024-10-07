@@ -33,10 +33,15 @@ const Campaing = () => {
 
       window.removeEventListener("message", () => {});
       //@ts-ignore
-      window.claimr.destroy();
+      window.claimr.logout();
       setDetails({});
-
       dispatch(fetchLeaderboard() as any);
+
+      setTimeout(() => {
+        //@ts-ignore
+        window.claimr.destroy();
+      }, 500);
+
     }
   };
 
