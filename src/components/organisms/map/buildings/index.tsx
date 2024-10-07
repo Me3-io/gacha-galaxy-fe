@@ -1,23 +1,35 @@
-import { useContext, useEffect, useState } from "react";
-import { MapContext } from "pages/home";
+import { useContext, useEffect, useState } from 'react';
+import { MapContext } from 'pages/home';
 
-import styled from "../styled.module.scss";
+import styled from '../styled.module.scss';
 
-const Buildings = ({ handlerBuildingClick, handlerOver, handlerLeave, PATH_GRID, CENTER_MAP, setLoading }: any) => {
+const Buildings = ({
+  handlerBuildingClick,
+  handlerOver,
+  handlerLeave,
+  PATH_GRID,
+  CENTER_MAP,
+  setLoading,
+}: any) => {
   const { map } = useContext(MapContext);
   const [buildings, setBuildings] = useState<any>([]);
 
   // events ---
   const handlerBuilding = (evt: any, item: any) => {
     evt.stopPropagation();
-    handlerBuildingClick(item.games, item.campaigns, item.code, item.background);
+    handlerBuildingClick(
+      item.games,
+      item.campaigns,
+      item.code,
+      item.background
+    );
   };
 
   const getResource = async (url: string) => {
     return await fetch(url)
       .then((res) => res.blob())
       .then((res) => URL.createObjectURL(res))
-      .catch((error) => console.error("error: " + error.message));
+      .catch((error) => console.error('error: ' + error.message));
   };
 
   const loadBuildings = (buildings: any[]) => {
@@ -27,34 +39,41 @@ const Buildings = ({ handlerBuildingClick, handlerOver, handlerLeave, PATH_GRID,
       code: item.code,
       position: calculatePosition(item.anchorAddress, item.offset),
       order: {
-        x: item?.anchorAddress ? parseInt(item.anchorAddress.split(",")[0]) : 0,
-        y: item?.anchorAddress ? parseInt(item.anchorAddress.split(",")[1]) : 0,
+        x: item?.anchorAddress ? parseInt(item.anchorAddress.split(',')[0]) : 0,
+        y: item?.anchorAddress ? parseInt(item.anchorAddress.split(',')[1]) : 0,
       },
       img: item?.svg?.length && item?.svg[0],
       component: item?.svg?.length && (await getResource(item?.svg[0].url)),
       scale: item.scale || 1,
-      name: item.name || "",
+      name: item.name || '',
       opacity: item.alpha || 1,
       partner:
         item.partner && item.partner?.logo?.length
           ? {
               name: item.partner.displayName,
+              description: item?.partner?.description,
               img: item.partner.logo[0],
               component: await getResource(item.partner.logo[0].url),
-              color: item.partner.bGColor || "transparent",
-              orientation: item.partnerOrientation === "LEFT" ? 26.5 : -26.5,
+              color: item.partner.bGColor || 'transparent',
+              orientation: item.partnerOrientation === 'LEFT' ? 26.5 : -26.5,
               scale: item.partnerScale || 1,
               position: item?.svg?.length
                 ? {
-                    x: item?.partnerOffset ? parseInt(item.partnerOffset.split(",")[0]) - item.svg[0].width : 0,
-                    y: item?.partnerOffset ? parseInt(item.partnerOffset.split(",")[1]) - item.svg[0].height : 0,
+                    x: item?.partnerOffset
+                      ? parseInt(item.partnerOffset.split(',')[0]) -
+                        item.svg[0].width
+                      : 0,
+                    y: item?.partnerOffset
+                      ? parseInt(item.partnerOffset.split(',')[1]) -
+                        item.svg[0].height
+                      : 0,
                   }
                 : { x: 0, y: 0 },
             }
           : null,
       games: item.games || [],
       campaigns: item.campaigns || [],
-      background: (item?.background?.length && item?.background[0]) || "",
+      background: (item?.background?.length && item?.background[0]) || '',
     }));
 
     Promise.all(data).then((resolvedData) => {
@@ -81,13 +100,13 @@ const Buildings = ({ handlerBuildingClick, handlerOver, handlerLeave, PATH_GRID,
     if (!anchorAddress || !offset) return { x: 0, y: 0 };
 
     const address = {
-      x: (parseInt(anchorAddress.split(",")[0]) * PATH_GRID) / 2 + CENTER_MAP.x,
-      y: (parseInt(anchorAddress.split(",")[1]) * PATH_GRID) / 4 + CENTER_MAP.y,
+      x: (parseInt(anchorAddress.split(',')[0]) * PATH_GRID) / 2 + CENTER_MAP.x,
+      y: (parseInt(anchorAddress.split(',')[1]) * PATH_GRID) / 4 + CENTER_MAP.y,
     };
 
     return {
-      x: address.x + (parseInt(offset.split(",")[0]) || 0),
-      y: address.y + (parseInt(offset.split(",")[1]) || 0),
+      x: address.x + (parseInt(offset.split(',')[0]) || 0),
+      y: address.y + (parseInt(offset.split(',')[1]) || 0),
     };
   };
 
@@ -109,11 +128,13 @@ const Buildings = ({ handlerBuildingClick, handlerOver, handlerLeave, PATH_GRID,
               transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
               onClick={(evt) => handlerBuilding(evt, item)}
               onTouchEnd={(evt) => evt.stopPropagation()}
-              className={`${styled.building} ${pos === buildings?.length - 1 ? "building-step" : ""}`}
+              className={`${styled.building} ${
+                pos === buildings?.length - 1 ? 'building-step' : ''
+              }`}
             >
               <image
                 style={{
-                  cursor: item.games || item.campaing ? "pointer" : "default",
+                  cursor: item.games || item.campaing ? 'pointer' : 'default',
                   opacity: item.opacity,
                 }}
                 x={item?.img?.width * -1}
@@ -131,12 +152,22 @@ const Buildings = ({ handlerBuildingClick, handlerOver, handlerLeave, PATH_GRID,
                   onMouseLeave={handlerLeave}
                   onTouchEnd={(evt) => evt.stopPropagation()}
                 >
-                  <rect x={0} y={0} width={100} height={120} fill={item.partner.color} />
+                  <rect
+                    x={0}
+                    y={0}
+                    width={100}
+                    height={120}
+                    fill={item.partner.color}
+                  />
                   <image
                     x={0}
                     y={0}
                     href={item?.partner?.component}
-                    style={{ cursor: "pointer", width: "100px", transform: "translateY(10px)" }}
+                    style={{
+                      cursor: 'pointer',
+                      width: '100px',
+                      transform: 'translateY(10px)',
+                    }}
                   />
                 </g>
               )}

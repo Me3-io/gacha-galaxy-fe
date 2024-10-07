@@ -1,27 +1,27 @@
-import { createContext, useEffect, useState } from "react";
-import { Box, Container, Grid } from "@mui/material";
+import { createContext, useEffect, useState } from 'react';
+import { Box, Container, Grid } from '@mui/material';
 
-import Layout from "components/templates/layout";
-import InteractiveMap from "components/organisms/map";
-import BuildingDetails from "components/organisms/buildingDetails";
+import Layout from 'components/templates/layout';
+import InteractiveMap from 'components/organisms/map';
+import BuildingDetails from 'components/organisms/buildingDetails';
 
-import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import DownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 
-import { useDispatch, useSelector } from "react-redux";
-import { fetchMaps, getMaps } from "reduxConfig/thunks/maps";
-import { fetchLeaderboard } from "reduxConfig/thunks/leaderboard";
-import { fetchClaims } from "reduxConfig/thunks/claim";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMaps, getMaps } from 'reduxConfig/thunks/maps';
+import { fetchLeaderboard } from 'reduxConfig/thunks/leaderboard';
+import { fetchClaims } from 'reduxConfig/thunks/claim';
 
 //import { useTranslation } from "react-i18next";
-import styled from "./styled.module.scss";
-import { ReactTourProvider } from "hooks/reactourProvider";
+import styled from './styled.module.scss';
+import { ReactTourProvider } from 'hooks/reactourProvider';
 
-import Campaign from "components/organisms/campaing";
-import GameDetails from "components/organisms/gameDetails";
-import MainPanel from "components/organisms/newMenu";
+import Campaign from 'components/organisms/campaing';
+import GameDetails from 'components/organisms/gameDetails';
+import MainPanel from 'components/organisms/newMenu';
 //import NFTChekout from "components/molecules/NFTChekout";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useCookie3 } from "hooks/cookie3Provider";
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useCookie3 } from 'hooks/cookie3Provider';
 //import { client } from "config/thirdwebConfig";
 //import { PayEmbed } from "thirdweb/react";
 //import FiatCheckout from "components/molecules/fiatCheckout";
@@ -35,14 +35,14 @@ const initialState = {
   listMaps: [],
   listGames: [],
   listCampaings: [],
-  buildingBg: {} as any,
+  buildingData: {} as any,
   setMap: (map: any) => {},
   setGame: (game: any) => {},
   setCampaing: (campaing: any) => {},
   setListMaps: (maps: any) => {},
   setListGames: (games: any) => {},
   setListCampaings: (campaings: any) => {},
-  setBuildingBg: (bg: any) => {},
+  setBuildingData: {} as any,
 };
 
 export const MapContext = createContext(initialState);
@@ -59,7 +59,7 @@ const Home = () => {
   const [listMaps, setListMaps] = useState([]);
   const [listGames, setListGames] = useState([]);
   const [listCampaings, setListCampaings] = useState([]);
-  const [buildingBg, setBuildingBg] = useState({});
+  const [buildingData, setBuildingData] = useState<any>({});
 
   const [map, setMap] = useState<any>({});
   const [game, setGame] = useState<any>({});
@@ -72,8 +72,8 @@ const Home = () => {
   const handleClose = () => {
     setListGames([]);
     setListCampaings([]);
-    setBuildingBg({});
-    const searchValue = searchParams.get("@") || map?.mapCoordinates;
+    setBuildingData({});
+    const searchValue = searchParams.get('@') || map?.mapCoordinates;
     if (searchValue) {
       navigate(`/${lang}/home/${map.code}?@=${searchValue}`);
     } else {
@@ -98,10 +98,19 @@ const Home = () => {
         const map = mapsData.find((map: any) => map.code === urlMap);
         setMap(map);
         if (building) {
-          const buildingData = map.buildings.find((item: any) => item.code === building);
-          setListGames(buildingData?.games || []);
-          setListCampaings(buildingData?.campaigns || []);
-          setBuildingBg((buildingData?.background?.length && buildingData?.background[0]) || {});
+          const buildingDetails = map.buildings.find(
+            (item: any) => item.code === building
+          );
+          setListGames(buildingDetails?.games || []);
+          setListCampaings(buildingDetails?.campaigns || []);
+          setBuildingData({
+            logo: buildingDetails?.partner?.logo?.[0]?.url || '',
+            description: buildingDetails?.partner?.description || '',
+            background:
+              (buildingDetails?.background?.length &&
+                buildingDetails?.background[0]) ||
+              {},
+          });
         }
       } else {
         setMap(mapsData[0]);
@@ -121,37 +130,45 @@ const Home = () => {
           listMaps,
           listGames,
           listCampaings,
-          buildingBg,
+          buildingData,
           setMap,
           setGame,
           setCampaing,
           setListMaps,
           setListGames,
           setListCampaings,
-          setBuildingBg,
+          setBuildingData,
         }}
       >
         <Layout showHelp={true}>
           <Container maxWidth={false} disableGutters={true}>
             <Grid container>
               <Grid item xs={12}>
-                <Box height={"100%"} overflow={"hidden"}>
+                <Box height={'100%'} overflow={'hidden'}>
                   <InteractiveMap />
                 </Box>
 
-                <Box display={{ xs: "none", md: "flex" }}>
-                  <MainPanel showBack={false} goToMap={goToMap} setOpenTokens={setOpenTokens} />
+                <Box display={{ xs: 'none', md: 'flex' }}>
+                  <MainPanel
+                    showBack={false}
+                    goToMap={goToMap}
+                    setOpenTokens={setOpenTokens}
+                  />
                 </Box>
               </Grid>
 
               <Grid item xs={12}>
-                <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
+                <Box display={{ xs: 'flex', md: 'none' }} height={'100svh'}>
                   <Box className={styled.downIcon} onClick={goToLeaderboard}>
                     <span>Menu</span>
                     <DownIcon />
                   </Box>
 
-                  <MainPanel showBack={true} goToMap={goToMap} setOpenTokens={setOpenTokens} />
+                  <MainPanel
+                    showBack={true}
+                    goToMap={goToMap}
+                    setOpenTokens={setOpenTokens}
+                  />
                 </Box>
               </Grid>
             </Grid>
