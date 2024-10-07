@@ -12,7 +12,7 @@ import useAlert from "hooks/alertProvider/useAlert";
 import { format } from "date-fns";
 import styled from "./styled.module.scss";
 
-const RewardCodes = ({ item }: any) => {
+const RewardDefault = ({ item }: any) => {
   const [showDetails, setShowDetails] = useState(false);
   const { setAlert } = useAlert();
 
@@ -53,9 +53,9 @@ const RewardCodes = ({ item }: any) => {
         </TableCell>
       </Box>
       <Box className={styled.details} display={showDetails ? "flex" : "none"}>
-        <Typography dangerouslySetInnerHTML={{ __html: item?.customRewardText || "" }} />
+        <Typography dangerouslySetInnerHTML={{ __html: item?.customRewardText || "no data available" }} />
       </Box>
     </>
   );
 };
-export default RewardCodes;
+export default RewardDefault;

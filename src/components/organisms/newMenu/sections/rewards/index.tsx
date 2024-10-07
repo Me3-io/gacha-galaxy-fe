@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
 
 // items ----
-import RewardCodes from "./items/codes";
+import RewardDefault from "./items/default";
 import RewardNFTs from "./items/nfts";
 import RewardLazy from "./items/lazy";
 
@@ -30,14 +30,12 @@ const MainTable = () => {
 
   const getItemForType = (item: any) => {
     switch (item?.rewardType) {
-      case REWARD_TYPE.CODE:
-        return <RewardCodes item={item} />;
       case REWARD_TYPE.NFT:
         return <RewardNFTs item={item} isCrytoUser={isCrytoUser} />;
       case REWARD_TYPE.LAZY:
         return <RewardLazy item={item} walletActive={walletActive} isCrytoUser={isCrytoUser} />;
       default:
-        return <></>;
+        return <RewardDefault item={item} />;
     }
   };
 
