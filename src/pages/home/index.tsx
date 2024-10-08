@@ -22,6 +22,7 @@ import MainPanel from "components/organisms/newMenu";
 //import NFTChekout from "components/molecules/NFTChekout";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useCookie3 } from "hooks/cookie3Provider";
+import NFTChekout from "components/molecules/NFTChekout";
 //import { client } from "config/thirdwebConfig";
 //import { PayEmbed } from "thirdweb/react";
 //import FiatCheckout from "components/molecules/fiatCheckout";
@@ -162,10 +163,10 @@ const Home = () => {
             <Campaign />
 
             {/* subsection NFTChekout */}
-            {/*openTokens && <NFTChekout setOpenTokens={setOpenTokens} />*/}
+            {/* openTokens && <NFTChekout setOpen={setOpenTokens} /> */}
 
             {/* subsection FiatCheckout */}
-            {/*openTokens && <FiatCheckout />*/}
+            {/* openTokens && <FiatCheckout /> */}
           </Container>
         </Layout>
       </MapContext.Provider>
