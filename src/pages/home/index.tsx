@@ -98,18 +98,13 @@ const Home = () => {
         const map = mapsData.find((map: any) => map.code === urlMap);
         setMap(map);
         if (building) {
-          const buildingDetails = map.buildings.find(
-            (item: any) => item.code === building
-          );
+          const buildingDetails = map.buildings.find((item: any) => item.code === building);
           setListGames(buildingDetails?.games || []);
           setListCampaings(buildingDetails?.campaigns || []);
           setBuildingData({
             logo: buildingDetails?.partner?.logo?.[0]?.url || '',
             description: buildingDetails?.partner?.description || '',
-            background:
-              (buildingDetails?.background?.length &&
-                buildingDetails?.background[0]) ||
-              {},
+            background: (buildingDetails?.background?.length && buildingDetails?.background[0]) || {},
           });
         }
       } else {
@@ -149,11 +144,7 @@ const Home = () => {
                 </Box>
 
                 <Box display={{ xs: 'none', md: 'flex' }}>
-                  <MainPanel
-                    showBack={false}
-                    goToMap={goToMap}
-                    setOpenTokens={setOpenTokens}
-                  />
+                  <MainPanel showBack={false} goToMap={goToMap} setOpenTokens={setOpenTokens} />
                 </Box>
               </Grid>
 
@@ -164,11 +155,7 @@ const Home = () => {
                     <DownIcon />
                   </Box>
 
-                  <MainPanel
-                    showBack={true}
-                    goToMap={goToMap}
-                    setOpenTokens={setOpenTokens}
-                  />
+                  <MainPanel showBack={true} goToMap={goToMap} setOpenTokens={setOpenTokens} />
                 </Box>
               </Grid>
             </Grid>

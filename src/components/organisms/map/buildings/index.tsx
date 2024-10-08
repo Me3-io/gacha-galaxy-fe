@@ -3,26 +3,14 @@ import { MapContext } from 'pages/home';
 
 import styled from '../styled.module.scss';
 
-const Buildings = ({
-  handlerBuildingClick,
-  handlerOver,
-  handlerLeave,
-  PATH_GRID,
-  CENTER_MAP,
-  setLoading,
-}: any) => {
+const Buildings = ({ handlerBuildingClick, handlerOver, handlerLeave, PATH_GRID, CENTER_MAP, setLoading }: any) => {
   const { map } = useContext(MapContext);
   const [buildings, setBuildings] = useState<any>([]);
 
   // events ---
   const handlerBuilding = (evt: any, item: any) => {
     evt.stopPropagation();
-    handlerBuildingClick(
-      item.games,
-      item.campaigns,
-      item.code,
-      item.background
-    );
+    handlerBuildingClick(item.games, item.campaigns, item.code, item.background);
   };
 
   const getResource = async (url: string) => {
@@ -59,14 +47,8 @@ const Buildings = ({
               scale: item.partnerScale || 1,
               position: item?.svg?.length
                 ? {
-                    x: item?.partnerOffset
-                      ? parseInt(item.partnerOffset.split(',')[0]) -
-                        item.svg[0].width
-                      : 0,
-                    y: item?.partnerOffset
-                      ? parseInt(item.partnerOffset.split(',')[1]) -
-                        item.svg[0].height
-                      : 0,
+                    x: item?.partnerOffset ? parseInt(item.partnerOffset.split(',')[0]) - item.svg[0].width : 0,
+                    y: item?.partnerOffset ? parseInt(item.partnerOffset.split(',')[1]) - item.svg[0].height : 0,
                   }
                 : { x: 0, y: 0 },
             }
@@ -128,9 +110,7 @@ const Buildings = ({
               transform={`translate(${item.position.x} ${item.position.y}) scale(${item?.scale})`}
               onClick={(evt) => handlerBuilding(evt, item)}
               onTouchEnd={(evt) => evt.stopPropagation()}
-              className={`${styled.building} ${
-                pos === buildings?.length - 1 ? 'building-step' : ''
-              }`}
+              className={`${styled.building} ${pos === buildings?.length - 1 ? 'building-step' : ''}`}
             >
               <image
                 style={{
@@ -152,13 +132,7 @@ const Buildings = ({
                   onMouseLeave={handlerLeave}
                   onTouchEnd={(evt) => evt.stopPropagation()}
                 >
-                  <rect
-                    x={0}
-                    y={0}
-                    width={100}
-                    height={120}
-                    fill={item.partner.color}
-                  />
+                  <rect x={0} y={0} width={100} height={120} fill={item.partner.color} />
                   <image
                     x={0}
                     y={0}
