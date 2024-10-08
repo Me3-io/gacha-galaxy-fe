@@ -10,7 +10,7 @@ const Buildings = ({ handlerBuildingClick, handlerOver, handlerLeave, PATH_GRID,
   // events ---
   const handlerBuilding = (evt: any, item: any) => {
     evt.stopPropagation();
-    handlerBuildingClick(item.games, item.campaigns, item.code, item.background);
+    handlerBuildingClick(item.games, item.campaigns, item.code, item.background, item.partner);
   };
 
   const getResource = async (url: string) => {

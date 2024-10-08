@@ -102,8 +102,7 @@ const Home = () => {
           setListGames(buildingDetails?.games || []);
           setListCampaings(buildingDetails?.campaigns || []);
           setBuildingData({
-            logo: buildingDetails?.partner?.logo?.[0]?.url || '',
-            description: buildingDetails?.partner?.description || '',
+            partner: buildingDetails?.partner || {},
             background: (buildingDetails?.background?.length && buildingDetails?.background[0]) || {},
           });
         }

@@ -1,0 +1,133 @@
+$clip-size: 15px;
+$clip-size2: 25px;
+$mask-size: 150px;
+
+.modalContainer {
+  z-index: 901;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  transition: all 0.2s ease;
+
+  &::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    background: rgba(6, 5, 17, 0.2);
+    backdrop-filter: blur(6px);
+  }
+
+  .modal {
+    position: relative;
+    width: 100%;
+    padding: 0px;
+    color: #fff;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    outline: none;
+  }
+
+  .card {
+    filter: drop-shadow(0px 0px 20px rgba(141, 0, 251, 0.6));
+    height: auto;
+    min-width: 270px;
+    padding: 20px;
+    margin: 0 20px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #3a1f50 0%, #140e23 78.71%);
+    filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 0.4));
+    box-sizing: border-box;
+    position: relative;
+
+    .dotted {
+      position: absolute;
+      background-image: radial-gradient(#c66ae620 1px, transparent 0);
+      background-size: 10px 10px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 40%;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      height: 100%;
+      width: 460px;
+      padding: 20px;
+      box-sizing: border-box;
+      font-size: 2rem;
+      position: relative;
+
+      .title {
+        text-align: center;
+        font-family: 'OrbitronBlack';
+        font-size: 1.4rem;
+        line-height: normal;
+        background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        padding: 10px 0;
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+      }
+
+      .description {
+        text-align: center;
+        font-family: 'ChakraPetch';
+        size: 1.5rem;
+        font-weight: 300;
+      }
+
+      .keyImg {
+        img {
+          height: 150px;
+          object-fit: cover;
+          border-radius: 10px;
+        }
+      }
+
+      .backButton {
+        position: fixed;
+        top: 1.5rem;
+        left: 1.5rem;
+        z-index: 991;
+
+        button {
+          border: none !important;
+          background-color: rgba(99, 67, 115, 0.4) !important;
+          color: #db74ff;
+          font-size: 0.9rem;
+          padding: 5px 15px !important;
+          display: flex;
+          justify-content: space-between;
+          gap: 5px;
+        }
+      }
+
+      button > span {
+        padding: 0.2rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 500px) {
+  .card {
+    height: 350px;
+  }
+}

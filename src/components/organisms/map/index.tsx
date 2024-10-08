@@ -3,13 +3,7 @@ import { ReactSVGPanZoom, TOOL_AUTO } from 'react-svg-pan-zoom';
 import useResizeObserver from 'use-resize-observer';
 
 import CircularProgress from '@mui/material/CircularProgress';
-import {
-  Add,
-  Remove,
-  CropFree,
-  Numbers,
-  ShareOutlined,
-} from '@mui/icons-material';
+import { Add, Remove, CropFree, Numbers, ShareOutlined } from '@mui/icons-material';
 import { Box } from '@mui/material';
 
 import Tooltip from 'components/atoms/tooltip';
@@ -35,8 +29,7 @@ const CENTER_MAP = { x: 600, y: 950 };
 const isMobile = navigator.userAgent.includes('Mobi');
 
 const InteractiveMap = () => {
-  const { setListGames, setListCampaings, setBuildingData, map } =
-    useContext(MapContext);
+  const { setListGames, setListCampaings, setBuildingData, map } = useContext(MapContext);
 
   const { lang } = useParams();
   const [searchParams] = useSearchParams();
@@ -76,9 +69,7 @@ const InteractiveMap = () => {
       for (let x = 0; x < gridConfig.width; x++) {
         const posX = x * (PATH_GRID / 2) + gridConfig.originX;
         const posY =
-          x % 2
-            ? y * (PATH_GRID / 2) + PATH_GRID / 4 + gridConfig.originY
-            : y * (PATH_GRID / 2) + gridConfig.originY;
+          x % 2 ? y * (PATH_GRID / 2) + PATH_GRID / 4 + gridConfig.originY : y * (PATH_GRID / 2) + gridConfig.originY;
 
         const key = `${x}-${y}`;
         const item = { key, posX, posY };
@@ -196,17 +187,10 @@ const InteractiveMap = () => {
     }
   };
 
-  const handlerBuildingClick = (
-    games: any,
-    campaings: any,
-    code: string,
-    background: any,
-    logo: any,
-    description: any
-  ) => {
+  const handlerBuildingClick = (games: any, campaings: any, code: string, background: any, partner: any) => {
     setListGames(games);
     setListCampaings(campaings);
-    setBuildingData({ background, logo, description });
+    setBuildingData({ background, partner });
     setTooltipData({ visible: false, text: '' });
     if (games?.length || campaings?.length) {
       navigate(`/${lang}/home/${map.code}/${code}`);

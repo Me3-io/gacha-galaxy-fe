@@ -15,8 +15,7 @@ import styled from './styled.module.scss';
 
 const BuildingDetails = ({ handleClose }: any) => {
   const { t } = useTranslation();
-  const { setGame, listGames, setCampaing, listCampaings, buildingData } =
-    useContext(MapContext);
+  const { setGame, listGames, setCampaing, listCampaings, buildingData } = useContext(MapContext);
   const open = !!listGames?.length || !!listCampaings?.length || false;
 
   const onClose = (evt: any, reason: string) => {
@@ -26,10 +25,7 @@ const BuildingDetails = ({ handleClose }: any) => {
   return (
     <Modal open={open} className={styled.modalContainer} onClose={onClose}>
       <>
-        <Box
-          className={styled.background}
-          sx={{ backgroundImage: `url(${buildingData?.url || bg})` }}
-        />
+        <Box className={styled.background} sx={{ backgroundImage: `url(${buildingData?.url || bg})` }} />
 
         <Box className={styled.backButton}>
           <Button onClick={(evt: any) => onClose(evt, 'close')}>
