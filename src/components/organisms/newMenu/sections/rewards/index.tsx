@@ -4,6 +4,7 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
+import WalletIcon from "@mui/icons-material/Wallet";
 
 import Button from "components/atoms/buttons/base";
 
@@ -21,19 +22,15 @@ import RewardLazy from "./items/lazy";
 
 const REWARD_TYPE = { CODE: "Codes", NFT: "NFTs", LAZY: "Lazy" };
 
-const MainTable = () => {
+const MainTable = ({ isCrytoUser, walletActive }: any) => {
   const claimeables = useSelector(getClaims)?.claimeables || [];
-  const leaderboard = useSelector(getLeaderboard);
-
-  const walletActive = leaderboard?.wallets.find((w: any) => w?.active && !w.social) || {};
-  const isCrytoUser = walletActive?.type !== "me3-created" ? true : false;
 
   const getItemForType = (item: any) => {
     switch (item?.rewardType) {
       case REWARD_TYPE.NFT:
         return <RewardNFTs item={item} isCrytoUser={isCrytoUser} />;
       case REWARD_TYPE.LAZY:
-        return <RewardLazy item={item} walletActive={walletActive} isCrytoUser={isCrytoUser} />;
+        return <RewardLazy item={item} isCrytoUser={isCrytoUser} walletActive={walletActive} />;
       default:
         return <RewardDefault item={item} />;
     }
@@ -65,6 +62,10 @@ const MainTable = () => {
 const Rewards = ({ setOpen, setOpenCheckout }: any) => {
   const { t } = useTranslation();
 
+  const leaderboard = useSelector(getLeaderboard);
+  const walletActive = leaderboard?.wallets.find((w: any) => w?.active && !w.social) || {};
+  const isCrytoUser = walletActive?.type !== "me3-created" ? true : false;
+
   return (
     <Grid container flexDirection="column" className={styled.main} pb={2}>
       <Box className={styled.header}>
@@ -72,18 +73,18 @@ const Rewards = ({ setOpen, setOpenCheckout }: any) => {
           <Button onClick={() => setOpen(false)}>
             <ArrowBackIcon /> {t("back")}
           </Button>
-          {/*isCrytoUser && (
-              <Button onClick={() => setOpenCheckout(true)}>
-                <WalletIcon /> Buy Gas
-              </Button>
-            )*/}
+          {isCrytoUser && (
+            <Button onClick={() => setOpenCheckout(true)}>
+              <WalletIcon /> Buy Gas
+            </Button>
+          )}
         </Box>
         <Typography pb={2} className={styled.title}>
           {t("rewards").toUpperCase()}
         </Typography>
       </Box>
       <Box className={styled.container}>
-        <MainTable />
+        <MainTable isCrytoUser={isCrytoUser} walletActive={walletActive} />
       </Box>
     </Grid>
   );
