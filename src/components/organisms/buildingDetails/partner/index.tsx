@@ -1,17 +1,17 @@
-import { Box, Grid } from '@mui/material';
-import styled from './styled.module.scss';
+import { Box, Grid } from "@mui/material";
+import styled from "./styled.module.scss";
 
 const Partner = ({ buildingData }: any) => {
-  const logoImg = buildingData?.partner?.logo ? buildingData?.partner?.logo[0]?.url : null;
+  const logoImg = buildingData?.partner?.img ? buildingData?.partner?.img?.url : null;
 
   return (
     <>
       <Box className={styled.container}>
-        <Grid container justifyContent="space-between" style={{ height: '100%' }}>
+        <Grid container justifyContent="space-between" style={{ height: "100%" }}>
           <Grid item xs={3} sm={3} md={5} lg={5} display="flex" flexDirection="column" alignItems="center">
             <div className={styled.content}>
               <Box className={styled.dotted}></Box>
-              <img src={logoImg} alt="logo" height={140} width={140} className={styled.logo} />
+              <img src={logoImg} alt="logo" height={140} width={140} className={styled.logo} loading="lazy" />
               <span className={styled.email}>{buildingData?.partner?.website}</span>
             </div>
           </Grid>
