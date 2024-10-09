@@ -3,6 +3,7 @@ $clip-size: 20px;
 
 .container {
   height: 129px;
+  margin-top: 1rem;
   width: 80%;
   position: relative;
   background: linear-gradient(
@@ -13,7 +14,7 @@ $clip-size: 20px;
   );
 
   .description {
-    font-family: 'ChakraPetch';
+    font-family: "ChakraPetch";
     font-size: 0.8rem;
     line-height: normal;
     background: white;
@@ -23,6 +24,7 @@ $clip-size: 20px;
     -webkit-text-fill-color: transparent;
     max-width: 400px;
     max-height: 48px;
+    margin-top: 1rem;
     border-top: 0.68px solid #ba00fb;
     border-right: none;
     border-left: 0.68px solid #ba00fb;
@@ -31,8 +33,21 @@ $clip-size: 20px;
     padding: 2rem;
     display: flex;
 
+    &::after {
+      content: " ";
+      position: absolute;
+      bottom: 70px;
+      right: -10px;
+      background-image: url("../../../../assets/icons/plus.svg");
+      height: 21px;
+      width: 19px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      z-index: 10;
+    }
+
     &::before {
-      content: ' ';
+      content: " ";
       height: $clip-size;
       width: $clip-size;
       position: absolute;
@@ -41,6 +56,19 @@ $clip-size: 20px;
       clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
       background-color: $color;
       transition: 0.2s all;
+    }
+
+    .icon {
+      content: " ";
+      position: absolute;
+      top: 70px;
+      left: -10px;
+      background-image: url("../../../../assets/icons/plus.svg");
+      height: 21px;
+      width: 19px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      z-index: 10;
     }
   }
 }
@@ -55,7 +83,7 @@ $clip-size: 20px;
   justify-content: center;
 
   .email {
-    font-family: 'Orbitron';
+    font-family: "Orbitron";
     position: absolute;
     font-size: 0.8rem;
     line-height: normal;
@@ -64,11 +92,19 @@ $clip-size: 20px;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     bottom: 1rem;
+    z-index: 2;
+  }
+  .logo {
+    position: absolute;
+    z-index: 2;
+    bottom: 20px;
   }
 
   .dotted {
     position: absolute;
-    background-image: radial-gradient(#c66ae620 1px, transparent 0);
+    z-index: 1;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.2), 1px, transparent 0);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     background-size: 10px 10px;
     top: 0;
     left: 0;
@@ -80,9 +116,11 @@ $clip-size: 20px;
 
 @media screen and (max-width: 500px) {
   .content {
+    width: 100%;
     .logo {
       width: 60px !important;
       height: 60px !important;
+      bottom: 40px !important;
     }
     .email {
       font-size: 0.5rem !important;
@@ -91,10 +129,13 @@ $clip-size: 20px;
       left: 0 !important;
     }
   }
-
-  .description {
-    font-size: 0.5rem !important;
-    height: auto;
-    width: 180px !important;
+  .container {
+    .description {
+      font-size: 0.5rem !important;
+      height: inherit !important;
+      padding: 1rem;
+      display: none !important;
+      width: 180px !important;
+    }
   }
 }

@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
-import { Box, CircularProgress, Fade } from '@mui/material';
-import useResizeObserver from 'use-resize-observer';
+import { useEffect, useRef, useState } from "react";
+import { Box, CircularProgress, Fade } from "@mui/material";
+import useResizeObserver from "use-resize-observer";
 
-import useAlert from 'hooks/alertProvider/useAlert';
-import customAxios from 'utils/customAxios';
-import CongratsModal from 'components/molecules/games/modal';
+import useAlert from "hooks/alertProvider/useAlert";
+import customAxios from "utils/customAxios";
+import CongratsModal from "components/molecules/games/modal";
 
-import styled from './styled.module.scss';
+import styled from "./styled.module.scss";
 
 // resources ---
 const machine = `${process.env.REACT_APP_ASSETS_URL}/Capsule/machine_front_view.png`;
@@ -24,12 +24,12 @@ interface State {
 }
 
 const initialState: State = {
-  status: 'init',
+  status: "init",
   visible: false,
   play: false,
   loop: false,
-  source: '',
-  poster: '',
+  source: "",
+  poster: "",
 };
 
 const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
@@ -44,34 +44,34 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
   const [response, setResponse] = useState<any>(null);
   const [modal, setModal] = useState({ open: false, data: {} });
 
-  const [sourceAnimation, setSourceAnimation] = useState<string>('');
-  const [sourceSuccess, setSourceSuccess] = useState<string>('');
+  const [sourceAnimation, setSourceAnimation] = useState<string>("");
+  const [sourceSuccess, setSourceSuccess] = useState<string>("");
 
   const states = {
-    init: { status: 'init', visible: false, play: false, loop: false },
-    load: { status: 'load', visible: false, play: false, loop: false },
-    ready: { status: 'ready', visible: true, play: false, loop: true, source: sourceAnimation },
-    play: { status: 'play', visible: true, play: true, loop: true, source: sourceAnimation },
-    success: { status: 'success', visible: true, play: true, loop: false, source: sourceSuccess },
+    init: { status: "init", visible: false, play: false, loop: false },
+    load: { status: "load", visible: false, play: false, loop: false },
+    ready: { status: "ready", visible: true, play: false, loop: true, source: sourceAnimation },
+    play: { status: "play", visible: true, play: true, loop: true, source: sourceAnimation },
+    success: { status: "success", visible: true, play: true, loop: false, source: sourceSuccess },
   };
 
-  const bgClass = gameState.status === 'load' ? styled.zoomIn : gameState.status !== 'init' ? styled.zoomFixed : '';
+  const bgClass = gameState.status === "load" ? styled.zoomIn : gameState.status !== "init" ? styled.zoomFixed : "";
 
   const getResource = async (url: string) => {
     return await fetch(url)
       .then((res) => res.blob())
       .then((res) => URL.createObjectURL(res))
-      .catch((error) => console.error('error: ' + error.message));
+      .catch((error) => console.error("error: " + error.message));
   };
 
   // get game data ---
   const getPlayGame = () => {
     customAxios()
-      .post('/game/play', {
+      .post("/game/play", {
         gameRecordId: gameData.recordId,
       })
       .then((response) => {
-        if (response?.data?.status !== 'error') {
+        if (response?.data?.status !== "error") {
           setResponse(response?.data?.result || {});
         } else {
           errorGame();
@@ -85,29 +85,29 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
   // game actions ---
   const nextStep = () => {
     switch (gameState.status) {
-      case 'init':
+      case "init":
         setGameState(states.load);
         break;
 
-      case 'load':
+      case "load":
         setTimeout(() => {
           setGameState(states.play);
           if (videoRef?.current) videoRef?.current?.play();
         }, 3000);
         break;
 
-      case 'ready':
+      case "ready":
         setGameState(states.play);
         if (videoRef?.current) videoRef?.current?.play();
         break;
 
-      case 'play':
+      case "play":
         setTimeout(() => {
           setOnSuccess(true);
         }, 5000);
         break;
 
-      case 'success':
+      case "success":
         setGameState(states.play);
         break;
 
@@ -124,7 +124,7 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
   };
 
   const errorGame = (error?: string) => {
-    setAlert('Error to play game.', 'error');
+    setAlert("Error to play game.", "error");
     setTimeout(() => {
       setGameState(states.ready);
       if (videoRef?.current) videoRef?.current?.pause();
@@ -139,7 +139,7 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
 
   // effects ---
   useEffect(() => {
-    if (gameState.status !== 'success' && gameState.status !== 'ready') nextStep();
+    if (gameState.status !== "success" && gameState.status !== "ready") nextStep();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState.status]);
 
@@ -162,7 +162,7 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
 
   // on close congrats modal ---
   useEffect(() => {
-    if (modal.open && gameState.status !== 'init') setGameState(states.ready);
+    if (modal.open && gameState.status !== "init") setGameState(states.ready);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modal?.open]);
 
@@ -171,8 +171,8 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
 
     (async () => {
       setLoading(true);
-      const sourceA = (await getResource(urlAnimation)) || '';
-      const sourceB = (await getResource(urlSuccess)) || '';
+      const sourceA = (await getResource(urlAnimation)) || "";
+      const sourceB = (await getResource(urlSuccess)) || "";
 
       setSourceAnimation(sourceA);
       setSourceSuccess(sourceB);
@@ -204,7 +204,7 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
                 muted
                 playsInline
                 onEnded={endGame}
-                style={{ width: height ? height : 'auto' }}
+                style={{ width: height ? height : "auto" }}
               >
                 <source src={gameState.source} type="video/mp4" />
               </video>
@@ -215,7 +215,7 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
             <img
               alt="machine"
               className={bgClass}
-              src={gameState.status === 'success' ? machineEmpty : machine}
+              src={gameState.status === "success" ? machineEmpty : machine}
               loading="lazy"
             />
           </Box>

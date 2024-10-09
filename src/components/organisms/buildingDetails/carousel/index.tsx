@@ -1,11 +1,11 @@
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
-import Card from './card';
-import styled from './styled.module.scss';
-import { Box } from '@mui/material';
+import Card from "./card";
+import styled from "./styled.module.scss";
+import { Box } from "@mui/material";
 
 const ButtonGroup = ({ next, previous }: any) => {
   return (

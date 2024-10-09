@@ -1,13 +1,13 @@
-import customAxios from 'utils/customAxios';
+import customAxios from "utils/customAxios";
 
-import { setMapFailure, setMapStart, setMapSuccess, clearMaps as clear } from 'reduxConfig/slices/maps';
+import { setMapFailure, setMapStart, setMapSuccess, clearMaps as clear } from "reduxConfig/slices/maps";
 
-const createCode = (name: string) => name?.toLowerCase().replace(/\s/g, '-');
+const createCode = (name: string) => name?.toLowerCase().replace(/\s/g, "-");
 
 export const fetchMaps = () => async (dispatch: any) => {
   dispatch(setMapStart());
   try {
-    const response = await customAxios().get('config/getconfig');
+    const response = await customAxios().get("config/getconfig");
 
     const data = response.data.data;
     const maps = data?.map((map: any) => ({

@@ -1,12 +1,12 @@
-import { Box, Modal, Typography } from '@mui/material';
-import Button from 'components/atoms/buttons/default';
-import ButtonBase from 'components/atoms/buttons/base';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import keyImage from '../../../assets/images/keyImage.png';
+import { Box, Modal, Typography } from "@mui/material";
+import Button from "components/atoms/buttons/default";
+import ButtonBase from "components/atoms/buttons/base";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import keyImage from "../../../assets/images/keyImage.png";
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
-import styled from './styled.module.scss';
+import styled from "./styled.module.scss";
 
 const KeysModal = ({ open, onClose }: any) => {
   const { t } = useTranslation();
@@ -16,14 +16,14 @@ const KeysModal = ({ open, onClose }: any) => {
       <>
         <Box className={styled.backButton}>
           <ButtonBase onClick={onClose}>
-            <ArrowBackIcon /> {t('back')}
+            <ArrowBackIcon /> {t("back")}
           </ButtonBase>
         </Box>
 
         <Box className={styled.modal}>
           <Box className={styled.bg}>
             <Box className={styled.keyImg}>
-              <img src={keyImage} alt={'keyImage'} className={styled.image} />
+              <img src={keyImage} alt={"keyImage"} className={styled.image} />
             </Box>
           </Box>
 

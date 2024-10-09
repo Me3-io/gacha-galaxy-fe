@@ -1,17 +1,17 @@
-import { useContext } from 'react';
-import { Box, Grow, Modal } from '@mui/material';
+import { useContext } from "react";
+import { Box, Grow, Modal } from "@mui/material";
 
-import GameCampaingCarousel from './carousel';
-import Partner from './partner';
+import GameCampaingCarousel from "./carousel";
+import Partner from "./partner";
 
-import { MapContext } from 'pages/home';
+import { MapContext } from "pages/home";
 
-import Button from 'components/atoms/buttons/base';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Button from "components/atoms/buttons/base";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-import { useTranslation } from 'react-i18next';
-import bg from 'assets/images/playroom.png';
-import styled from './styled.module.scss';
+import { useTranslation } from "react-i18next";
+import bg from "assets/images/playroom.png";
+import styled from "./styled.module.scss";
 
 const BuildingDetails = ({ handleClose }: any) => {
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ const BuildingDetails = ({ handleClose }: any) => {
   const open = !!listGames?.length || !!listCampaings?.length || false;
 
   const onClose = (evt: any, reason: string) => {
-    if (reason !== 'backdropClick') handleClose();
+    if (reason !== "backdropClick") handleClose();
   };
 
   return (
@@ -28,8 +28,8 @@ const BuildingDetails = ({ handleClose }: any) => {
         <Box className={styled.background} sx={{ backgroundImage: `url(${buildingData?.url || bg})` }} />
 
         <Box className={styled.backButton}>
-          <Button onClick={(evt: any) => onClose(evt, 'close')}>
-            <ArrowBackIcon /> {t('back')}
+          <Button onClick={(evt: any) => onClose(evt, "close")}>
+            <ArrowBackIcon /> {t("back")}
           </Button>
         </Box>
 

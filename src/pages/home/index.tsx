@@ -1,28 +1,28 @@
-import { createContext, useEffect, useState } from 'react';
-import { Box, Container, Grid } from '@mui/material';
+import { createContext, useEffect, useState } from "react";
+import { Box, Container, Grid } from "@mui/material";
 
-import Layout from 'components/templates/layout';
-import InteractiveMap from 'components/organisms/map';
-import BuildingDetails from 'components/organisms/buildingDetails';
+import Layout from "components/templates/layout";
+import InteractiveMap from "components/organisms/map";
+import BuildingDetails from "components/organisms/buildingDetails";
 
-import DownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import DownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMaps, getMaps } from 'reduxConfig/thunks/maps';
-import { fetchLeaderboard } from 'reduxConfig/thunks/leaderboard';
-import { fetchClaims } from 'reduxConfig/thunks/claim';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMaps, getMaps } from "reduxConfig/thunks/maps";
+import { fetchLeaderboard } from "reduxConfig/thunks/leaderboard";
+import { fetchClaims } from "reduxConfig/thunks/claim";
 
 //import { useTranslation } from "react-i18next";
-import styled from './styled.module.scss';
-import { ReactTourProvider } from 'hooks/reactourProvider';
+import styled from "./styled.module.scss";
+import { ReactTourProvider } from "hooks/reactourProvider";
 
-import Campaign from 'components/organisms/campaing';
-import GameDetails from 'components/organisms/gameDetails';
-import MainPanel from 'components/organisms/newMenu';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { useCookie3 } from 'hooks/cookie3Provider';
+import Campaign from "components/organisms/campaing";
+import GameDetails from "components/organisms/gameDetails";
+import MainPanel from "components/organisms/newMenu";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useCookie3 } from "hooks/cookie3Provider";
 // import NFTChekout from 'components/molecules/NFTChekout';
-import KeysModal from 'components/molecules/keysModal';
+import KeysModal from "components/molecules/keysModal";
 //import { client } from "config/thirdwebConfig";
 //import { PayEmbed } from "thirdweb/react";
 //import FiatCheckout from "components/molecules/fiatCheckout";
@@ -78,7 +78,7 @@ const Home = () => {
     setListGames([]);
     setListCampaings([]);
     setBuildingData({});
-    const searchValue = searchParams.get('@') || map?.mapCoordinates;
+    const searchValue = searchParams.get("@") || map?.mapCoordinates;
     if (searchValue) {
       navigate(`/${lang}/home/${map.code}?@=${searchValue}`);
     } else {
@@ -151,17 +151,17 @@ const Home = () => {
           <Container maxWidth={false} disableGutters={true}>
             <Grid container>
               <Grid item xs={12}>
-                <Box height={'100%'} overflow={'hidden'}>
+                <Box height={"100%"} overflow={"hidden"}>
                   <InteractiveMap />
                 </Box>
 
-                <Box display={{ xs: 'none', md: 'flex' }}>
+                <Box display={{ xs: "none", md: "flex" }}>
                   <MainPanel showBack={false} goToMap={goToMap} setOpenTokens={setOpenTokens} />
                 </Box>
               </Grid>
 
               <Grid item xs={12}>
-                <Box display={{ xs: 'flex', md: 'none' }} height={'100svh'}>
+                <Box display={{ xs: "flex", md: "none" }} height={"100svh"}>
                   <Box className={styled.downIcon} onClick={goToLeaderboard}>
                     <span>Menu</span>
                     <DownIcon />
