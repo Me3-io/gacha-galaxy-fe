@@ -19,10 +19,10 @@ import { ReactTourProvider } from "hooks/reactourProvider";
 import Campaign from "components/organisms/campaing";
 import GameDetails from "components/organisms/gameDetails";
 import MainPanel from "components/organisms/newMenu";
-//import NFTChekout from "components/molecules/NFTChekout";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useCookie3 } from "hooks/cookie3Provider";
-import NFTChekout from "components/molecules/NFTChekout";
+// import NFTChekout from 'components/molecules/NFTChekout';
+import KeysModal from "components/molecules/keysModal";
 //import { client } from "config/thirdwebConfig";
 //import { PayEmbed } from "thirdweb/react";
 //import FiatCheckout from "components/molecules/fiatCheckout";
@@ -36,14 +36,14 @@ const initialState = {
   listMaps: [],
   listGames: [],
   listCampaings: [],
-  buildingBg: {} as any,
+  buildingData: {} as any,
   setMap: (map: any) => {},
   setGame: (game: any) => {},
   setCampaing: (campaing: any) => {},
   setListMaps: (maps: any) => {},
   setListGames: (games: any) => {},
   setListCampaings: (campaings: any) => {},
-  setBuildingBg: (bg: any) => {},
+  setBuildingData: {} as any,
 };
 
 export const MapContext = createContext(initialState);
@@ -60,7 +60,7 @@ const Home = () => {
   const [listMaps, setListMaps] = useState([]);
   const [listGames, setListGames] = useState([]);
   const [listCampaings, setListCampaings] = useState([]);
-  const [buildingBg, setBuildingBg] = useState({});
+  const [buildingData, setBuildingData] = useState<any>({});
 
   const [map, setMap] = useState<any>({});
   const [game, setGame] = useState<any>({});
@@ -70,10 +70,14 @@ const Home = () => {
   const goToLeaderboard = () => window.scrollTo(0, document.body.scrollHeight);
   const goToMap = () => window.scrollTo(0, 0);
 
+  const handleCloseTokens = () => {
+    setOpenTokens(false);
+  };
+
   const handleClose = () => {
     setListGames([]);
     setListCampaings([]);
-    setBuildingBg({});
+    setBuildingData({});
     const searchValue = searchParams.get("@") || map?.mapCoordinates;
     if (searchValue) {
       navigate(`/${lang}/home/${map.code}?@=${searchValue}`);
@@ -99,10 +103,21 @@ const Home = () => {
         const map = mapsData.find((map: any) => map.code === urlMap);
         setMap(map);
         if (building) {
-          const buildingData = map.buildings.find((item: any) => item.code === building);
-          setListGames(buildingData?.games || []);
-          setListCampaings(buildingData?.campaigns || []);
-          setBuildingBg((buildingData?.background?.length && buildingData?.background[0]) || {});
+          const buildingDetails = map.buildings.find((item: any) => item.code === building);
+          setListGames(buildingDetails?.games || []);
+          setListCampaings(buildingDetails?.campaigns || []);
+          setBuildingData({
+            partner:
+              buildingDetails.partner && buildingDetails.partner?.logo?.length
+                ? {
+                    name: buildingDetails.partner.displayName,
+                    website: buildingDetails.partner.website,
+                    description: buildingDetails?.partner?.description,
+                    img: buildingDetails.partner.logo[0],
+                  }
+                : null,
+            background: (buildingDetails?.background?.length && buildingDetails?.background[0]) || {},
+          });
         }
       } else {
         setMap(mapsData[0]);
@@ -122,14 +137,14 @@ const Home = () => {
           listMaps,
           listGames,
           listCampaings,
-          buildingBg,
+          buildingData,
           setMap,
           setGame,
           setCampaing,
           setListMaps,
           setListGames,
           setListCampaings,
-          setBuildingBg,
+          setBuildingData,
         }}
       >
         <Layout showHelp={true}>
@@ -163,7 +178,7 @@ const Home = () => {
             <Campaign />
 
             {/* subsection NFTChekout */}
-            {/* openTokens && <NFTChekout setOpen={setOpenTokens} /> */}
+            {openTokens && <KeysModal open={setOpenTokens} onClose={handleCloseTokens} />}
 
             {/* subsection FiatCheckout */}
             {/* openTokens && <FiatCheckout /> */}

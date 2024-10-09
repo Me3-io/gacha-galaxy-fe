@@ -13,8 +13,8 @@ import styled from "./styled.module.scss";
 import waitForElement from "utils/waitForElement";
 import ModalLegal from "components/molecules/legal";
 import { useState } from "react";
-import TelegramLoginButton from 'components/organisms/social/telegram';
-import GoogleLoginButton from 'components/organisms/social/google';
+import TelegramLoginButton from "components/organisms/social/telegram";
+import GoogleLoginButton from "components/organisms/social/google";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -45,9 +45,8 @@ const Login = () => {
       waitForElement(".css-1wcqaod").then((element: any) => (element.style.display = "none"));
       const response = await connect({ ...modalConfig, size: "wide" });
       console.log("response: ", response.getAccount(), response.getConfig(), response.getChain());
-
     } catch (error) {
-      console.error(error); 
+      console.error(error);
     }
   };
 
@@ -70,8 +69,7 @@ const Login = () => {
 
             <TelegramLoginButton />
             <GoogleLoginButton />
-
-          </Box>          
+          </Box>
         </Box>
       </Container>
 

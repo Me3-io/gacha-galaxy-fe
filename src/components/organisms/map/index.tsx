@@ -29,7 +29,7 @@ const CENTER_MAP = { x: 600, y: 950 };
 const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = () => {
-  const { setListGames, setListCampaings, setBuildingBg, map } = useContext(MapContext);
+  const { setListGames, setListCampaings, setBuildingData, map } = useContext(MapContext);
 
   const { lang } = useParams();
   const [searchParams] = useSearchParams();
@@ -187,10 +187,10 @@ const InteractiveMap = () => {
     }
   };
 
-  const handlerBuildingClick = (games: any, campaings: any, code: string, background: any) => {
+  const handlerBuildingClick = (games: any, campaings: any, code: string, background: any, partner: any) => {
     setListGames(games);
     setListCampaings(campaings);
-    setBuildingBg(background);
+    setBuildingData({ background, partner });
     setTooltipData({ visible: false, text: "" });
     if (games?.length || campaings?.length) {
       navigate(`/${lang}/home/${map.code}/${code}`);
@@ -271,7 +271,7 @@ const InteractiveMap = () => {
         {devMode && (
           <Button onClick={() => setShowNumbers((prev) => !prev)}>
             <CustomTooltip title="Map Anchor Address" placement="left-start">
-            <Numbers />
+              <Numbers />
             </CustomTooltip>
           </Button>
         )}

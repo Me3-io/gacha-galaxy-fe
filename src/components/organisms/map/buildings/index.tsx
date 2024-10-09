@@ -10,7 +10,7 @@ const Buildings = ({ handlerBuildingClick, handlerOver, handlerLeave, PATH_GRID,
   // events ---
   const handlerBuilding = (evt: any, item: any) => {
     evt.stopPropagation();
-    handlerBuildingClick(item.games, item.campaigns, item.code, item.background);
+    handlerBuildingClick(item.games, item.campaigns, item.code, item.background, item.partner);
   };
 
   const getResource = async (url: string) => {
@@ -39,6 +39,8 @@ const Buildings = ({ handlerBuildingClick, handlerOver, handlerLeave, PATH_GRID,
         item.partner && item.partner?.logo?.length
           ? {
               name: item.partner.displayName,
+              description: item?.partner?.description,
+              website: item?.partner?.website,
               img: item.partner.logo[0],
               component: await getResource(item.partner.logo[0].url),
               color: item.partner.bGColor || "transparent",
@@ -136,7 +138,11 @@ const Buildings = ({ handlerBuildingClick, handlerOver, handlerLeave, PATH_GRID,
                     x={0}
                     y={0}
                     href={item?.partner?.component}
-                    style={{ cursor: "pointer", width: "100px", transform: "translateY(10px)" }}
+                    style={{
+                      cursor: "pointer",
+                      width: "100px",
+                      transform: "translateY(10px)",
+                    }}
                   />
                 </g>
               )}

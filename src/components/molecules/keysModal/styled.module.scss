@@ -1,0 +1,135 @@
+.modalContainer {
+  z-index: 901;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  transition: all 0.2s ease;
+
+  &::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    background: rgba(6, 5, 17, 0.2);
+    backdrop-filter: blur(6px);
+  }
+
+  .backButton {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 991;
+
+    button {
+      border: none !important;
+      background-color: rgba(99, 67, 115, 0.4) !important;
+      color: #db74ff;
+      font-size: 0.9rem;
+      padding: 5px 15px !important;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+
+  .modal {
+    filter: drop-shadow(0px 0px 20px rgba(141, 0, 251, 0.6));
+    height: auto;
+    padding: 20px;
+    height: 600px;
+    margin: 20px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #3a1f50 0%, #140e23 78.71%);
+    filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 0.4));
+    box-sizing: border-box;
+
+    position: relative;
+    width: 500px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    outline: none;
+
+    .bg {
+      position: relative;
+      background-image: url('../../../assets/images/circleBg.png');
+      background-position: center;
+      background-size: contain;
+      top: 0;
+      left: 0;
+      width: 500px;
+      height: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .keyImg {
+      img {
+        height: 150px;
+        object-fit: cover;
+        filter: drop-shadow(0px 0px 20px rgba(141, 0, 251, 0.6));
+        filter: drop-shadow(0px 0px 10px rgba(141, 0, 251, 0.4));
+        border-radius: 10px;
+        position: relative;
+      }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      height: auto;
+      box-sizing: border-box;
+      font-size: 2rem;
+      width: 400px;
+      position: relative;
+
+      .title {
+        text-align: center;
+        font-family: 'OrbitronBlack';
+        font-size: 1.4rem;
+        line-height: normal;
+        background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: flex;
+        align-items: center;
+      }
+
+      .description {
+        text-align: center;
+        font-family: 'ChakraPetch';
+        font-size: 1.5rem !important;
+        font-weight: 300;
+      }
+    }
+
+    button > span {
+      padding: 0.2rem;
+      width: 160px;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .modal {
+    height: 560px !important;
+    width: 340px !important;
+
+    .container {
+      width: 270px !important;
+    }
+  }
+}
