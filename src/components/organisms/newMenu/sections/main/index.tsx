@@ -49,9 +49,8 @@ const Main = ({ setOpenPoints, setOpenTokens, setOpenRewards, goToMap }: any) =>
 
   return (
     <>
-      {' '}
-      <KeysModal open={open} onClose={handleCloseModal} />
       <Box className={styled.main}>
+        <KeysModal open={open} onClose={handleCloseModal} />
         {/* user points and keys */}
         <Box className={`${styled.row} points-step`} px={2} py={1}>
           <Box className={styled.item} pr={2}>
