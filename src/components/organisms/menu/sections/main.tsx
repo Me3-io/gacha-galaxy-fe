@@ -15,26 +15,18 @@ import styled from "../styled.module.scss";
 
 const Main = ({ setOpenPoints, setOpenTokens, setOpenClaimAll, opacity }: any) => {
   const { t } = useTranslation();
-  
+
   const leaderboardData = useSelector(getLeaderboard);
   const claimeables = useSelector(getClaims)?.claimeables || [];
 
   return (
-    <Grid
-      container
-      component="section"
-      flexDirection="column"
-      className={styled.main}
-      sx={{ opacity: opacity }}
-    >
+    <Grid container component="section" flexDirection="column" className={styled.main} sx={{ opacity: opacity }}>
       <Box px={4} py={2} className={`${styled.row} points-step`}>
         <Box className={styled.item} pr={2}>
           <Box>
             <Box display={"flex"} alignItems={"center"} gap={1}>
               <span>{t("points")}</span>
-              <Typography className={styled.position}>
-                #{leaderboardData?.userPosition || "-"}
-              </Typography>
+              <Typography className={styled.position}>#{leaderboardData?.userPosition || "-"}</Typography>
             </Box>
             <Typography>{leaderboardData?.userPoints?.toFixed(2) || "0"}</Typography>
           </Box>

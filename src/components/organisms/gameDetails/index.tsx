@@ -37,7 +37,7 @@ const ItemChance = ({ text, percent }: any) => {
 
 const GameDetails = () => {
   const dispatch = useDispatch();
-  const { game: details, setGame: setDetails, buildingBg, map } = useContext(MapContext);
+  const { game: details, setGame: setDetails, buildingData, map } = useContext(MapContext);
 
   const open = !!details?.code;
   const navigate = useNavigate();
@@ -47,7 +47,9 @@ const GameDetails = () => {
   const goToGame = () => {
     if (!details?.code) return;
     dispatch(setGame(details));
-    navigate(`/${i18n.language}/game/${details.code}`, { state: { map: map.code } });
+    navigate(`/${i18n.language}/game/${details.code}`, {
+      state: { map: map.code },
+    });
   };
 
   const onClose = (evt: any, reason: string) => {
@@ -80,7 +82,12 @@ const GameDetails = () => {
   return (
     <Modal open={open} onClose={onClose} className={styled.modalContainer}>
       <>
-        <Box className={styled.background} sx={{ backgroundImage: `url(${buildingBg?.url || bg})` }} />
+        <Box
+          className={styled.background}
+          sx={{
+            backgroundImage: `url(${buildingData?.background?.url || bg})`,
+          }}
+        />
 
         <Box className={styled.backButton}>
           <Button onClick={(evt: any) => onClose(evt, "close")}>
@@ -185,7 +192,11 @@ const GameDetails = () => {
 
                   <Grid item container xs={12} className={styled.footer} alignItems="center">
                     <Grid item xs={12} md={6} className={styled.keysContainer}>
-                      <Typography dangerouslySetInnerHTML={{ __html: t("details-available-keys") }}></Typography>
+                      <Typography
+                        dangerouslySetInnerHTML={{
+                          __html: t("details-available-keys"),
+                        }}
+                      ></Typography>
                       <Box className={styled.keys}>
                         <img src={keyIcon} alt="key" height={"36px"} />
                         <span>{leaderboardData?.userKeys || 0}</span>

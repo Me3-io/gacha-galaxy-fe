@@ -32,10 +32,7 @@ const MapBg = ({ CENTER_MAP }: any) => {
   return (
     <>
       {component && (
-        <g
-          transform={`translate(${position.x} ${position.y}) scale(${map?.scale})`}
-          className={styled.bg}
-        >
+        <g transform={`translate(${position.x} ${position.y}) scale(${map?.scale})`} className={styled.bg}>
           <image
             style={{ opacity: map?.alpha || 1 }}
             x={map.svg[0].width * -1}
