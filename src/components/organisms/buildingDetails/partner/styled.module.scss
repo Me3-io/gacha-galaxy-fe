@@ -33,19 +33,6 @@ $clip-size: 20px;
     padding: 2rem;
     display: flex;
 
-    &::after {
-      content: " ";
-      position: absolute;
-      bottom: 70px;
-      right: -10px;
-      background-image: url("../../../../assets/icons/plus.svg");
-      height: 21px;
-      width: 19px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      z-index: 10;
-    }
-
     &::before {
       content: " ";
       height: $clip-size;
@@ -56,19 +43,6 @@ $clip-size: 20px;
       clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
       background-color: $color;
       transition: 0.2s all;
-    }
-
-    .icon {
-      content: " ";
-      position: absolute;
-      top: 70px;
-      left: -10px;
-      background-image: url("../../../../assets/icons/plus.svg");
-      height: 21px;
-      width: 19px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      z-index: 10;
     }
   }
 }

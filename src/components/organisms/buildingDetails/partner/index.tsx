@@ -16,12 +16,9 @@ const Partner = ({ buildingData }: any) => {
             </div>
           </Grid>
           <Grid item xs={12} sm={8} md={7} lg={7}>
-            {buildingData?.partner?.description && (
-              <Typography className={styled.description}>
-                {buildingData?.partner?.description}
-                <span className={styled.icon}></span>
-              </Typography>
-            )}
+            {buildingData?.partner?.description ? (
+              <Typography className={styled.description}>{buildingData?.partner?.description}</Typography>
+            ) : null}
           </Grid>
         </Grid>
       </Box>
