@@ -1,6 +1,7 @@
 .modalContainer {
   z-index: 901;
   overflow-y: auto;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,6 +18,25 @@
     height: 100%;
     background: rgba(6, 5, 17, 0.2);
     backdrop-filter: blur(6px);
+  }
+
+  .backButton {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 991;
+
+    button {
+      border: none !important;
+      background-color: rgba(99, 67, 115, 0.4) !important;
+      color: #db74ff;
+      font-size: 0.9rem;
+      padding: 5px 15px !important;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 5px;
+    }
   }
 
   .modal {
@@ -38,24 +58,6 @@
     align-items: center;
     outline: none;
 
-    .backButton {
-      position: fixed;
-      top: 1.5rem;
-      left: 1.5rem;
-      z-index: 991;
-
-      button {
-        border: none !important;
-        background-color: rgba(99, 67, 115, 0.4) !important;
-        color: #db74ff;
-        font-size: 0.9rem;
-        padding: 5px 15px !important;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 5px;
-      }
-    }
     .bg {
       position: relative;
       background-image: url('../../../assets/images/circleBg.png');
