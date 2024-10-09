@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import styled from "./styled.module.scss";
 
 const Partner = ({ buildingData }: any) => {
@@ -17,7 +17,7 @@ const Partner = ({ buildingData }: any) => {
           </Grid>
           <Grid item xs={8} sm={8} md={7} lg={7}>
             {buildingData?.partner?.description ? (
-              <p className={styled.description}>{buildingData?.partner?.description}</p>
+              <Typography className={styled.description}>{buildingData?.partner?.description}</Typography>
             ) : null}
           </Grid>
         </Grid>

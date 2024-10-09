@@ -1,32 +1,32 @@
-import { ReactElement, useContext, useEffect, useRef, useState } from 'react';
-import { ReactSVGPanZoom, TOOL_AUTO } from 'react-svg-pan-zoom';
-import useResizeObserver from 'use-resize-observer';
+import { ReactElement, useContext, useEffect, useRef, useState } from "react";
+import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
+import useResizeObserver from "use-resize-observer";
 
-import CircularProgress from '@mui/material/CircularProgress';
-import { Add, Remove, CropFree, Numbers, ShareOutlined } from '@mui/icons-material';
-import { Box } from '@mui/material';
+import CircularProgress from "@mui/material/CircularProgress";
+import { Add, Remove, CropFree, Numbers, ShareOutlined } from "@mui/icons-material";
+import { Box } from "@mui/material";
 
-import Tooltip from 'components/atoms/tooltip';
-import Button from 'components/atoms/buttons/base';
-import Buildings from './buildings';
+import Tooltip from "components/atoms/tooltip";
+import Button from "components/atoms/buttons/base";
+import Buildings from "./buildings";
 
-import styled from './styled.module.scss';
-import { useTranslation } from 'react-i18next';
-import { useTour } from '@reactour/tour';
-import { useSelector } from 'react-redux';
-import { getLeaderboard } from 'reduxConfig/thunks/leaderboard';
-import { MapContext } from 'pages/home';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import MapBg from './bg';
-import useAlert from 'hooks/alertProvider/useAlert';
-import CustomTooltip from 'components/atoms/materialTooltip';
+import styled from "./styled.module.scss";
+import { useTranslation } from "react-i18next";
+import { useTour } from "@reactour/tour";
+import { useSelector } from "react-redux";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
+import { MapContext } from "pages/home";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import MapBg from "./bg";
+import useAlert from "hooks/alertProvider/useAlert";
+import CustomTooltip from "components/atoms/materialTooltip";
 
 const MAX_ZOOM = 1.5;
 const PATH_GRID = 200;
 const SVG_SIZE = { width: 1200, height: 1200 };
 const CENTER_MAP = { x: 600, y: 950 };
 
-const isMobile = navigator.userAgent.includes('Mobi');
+const isMobile = navigator.userAgent.includes("Mobi");
 
 const InteractiveMap = () => {
   const { setListGames, setListCampaings, setBuildingData, map } = useContext(MapContext);
@@ -43,7 +43,7 @@ const InteractiveMap = () => {
   const { ref, width, height } = useResizeObserver();
   const [value, setValue] = useState<any>({});
   const [tool, setTool] = useState<any>(TOOL_AUTO);
-  const [tooltipData, setTooltipData] = useState({ visible: false, text: '' });
+  const [tooltipData, setTooltipData] = useState({ visible: false, text: "" });
   const [loading, setLoading] = useState(true);
   const [activeUrlCoords, setActiveUrlCoords] = useState(false);
 
@@ -60,7 +60,7 @@ const InteractiveMap = () => {
 
   const leaderboardData = useSelector(getLeaderboard);
 
-  const devMode = process.env.REACT_APP_NODE_ENV === 'development';
+  const devMode = process.env.REACT_APP_NODE_ENV === "development";
 
   // calculate grid data ---
   const _drawGrid = () => {
@@ -97,7 +97,7 @@ const InteractiveMap = () => {
             ${posX + PATH_GRID},${posY} 
             ${posX + PATH_GRID / 2},${posY + PATH_GRID / 4}
             `}
-          stroke={map?.gridColor ? map?.gridColor : '#ba00fb'}
+          stroke={map?.gridColor ? map?.gridColor : "#ba00fb"}
           className={styled.gridpath}
           //style={{ strokeOpacity: opacity }}
         />
@@ -106,8 +106,8 @@ const InteractiveMap = () => {
   };
 
   const calculateGrid = (value: any) => {
-    if (value?.mode !== 'idle' && !value?.a) return;
-    setTooltipData({ visible: false, text: '' });
+    if (value?.mode !== "idle" && !value?.a) return;
+    setTooltipData({ visible: false, text: "" });
 
     const posX = value?.e / value?.a;
     const posY = value?.f / value?.a;
@@ -165,7 +165,7 @@ const InteractiveMap = () => {
   const _zoomOut = () => Viewer.current?.zoomOnViewerCenter(0.9);
 
   const _fitCenter = () => {
-    Viewer.current?.fitToViewer('center', 'center');
+    Viewer.current?.fitToViewer("center", "center");
   };
 
   const _share = () => {
@@ -174,16 +174,16 @@ const InteractiveMap = () => {
     const z = value?.a?.toFixed(3);
     const url = `${window.location.origin}/${lang}/home/${map.code}/?@=${x},${y},${z}`;
     navigator.clipboard.writeText(url);
-    setAlert('Copy to clipboard', 'success');
+    setAlert("Copy to clipboard", "success");
   };
 
   const _fitSelection = () => {
-    const searchValue = searchParams.get('@') || map?.mapCoordinates;
+    const searchValue = searchParams.get("@") || map?.mapCoordinates;
     if (searchValue) {
-      const [x, y, z] = searchValue.split(',');
+      const [x, y, z] = searchValue.split(",");
       Viewer.current?.setPointOnViewerCenter(x, y, parseFloat(z));
     } else {
-      Viewer.current?.fitToViewer('center', 'center');
+      Viewer.current?.fitToViewer("center", "center");
     }
   };
 
@@ -191,7 +191,7 @@ const InteractiveMap = () => {
     setListGames(games);
     setListCampaings(campaings);
     setBuildingData({ background, partner });
-    setTooltipData({ visible: false, text: '' });
+    setTooltipData({ visible: false, text: "" });
     if (games?.length || campaings?.length) {
       navigate(`/${lang}/home/${map.code}/${code}`);
     }
@@ -202,7 +202,7 @@ const InteractiveMap = () => {
   };
 
   const handlerLeave = () => {
-    setTooltipData({ visible: false, text: '' });
+    setTooltipData({ visible: false, text: "" });
   };
 
   // window resize ---
@@ -242,7 +242,7 @@ const InteractiveMap = () => {
       {loading && (
         <Box className={styled.loading}>
           <CircularProgress className={styled.spinner} size={36} />
-          {t('loading-map')}
+          {t("loading-map")}
         </Box>
       )}
       <Box className={styled.backgroundImage}></Box>
@@ -286,16 +286,16 @@ const InteractiveMap = () => {
           onChangeTool={setTool}
           width={width || 100}
           height={height || 100}
-          SVGBackground={'transparent'}
-          background={'transparent'}
+          SVGBackground={"transparent"}
+          background={"transparent"}
           scaleFactorMax={MAX_ZOOM}
           scaleFactorMin={isMobile ? 0.1 : 0.3}
           toolbarProps={{
-            position: 'none',
+            position: "none",
           }}
           miniatureProps={{
-            position: 'none',
-            background: '#000000cc',
+            position: "none",
+            background: "#000000cc",
             width: 250,
             height: 250,
           }}
