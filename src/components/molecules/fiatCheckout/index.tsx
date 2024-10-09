@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { client, onlyWalletConfig } from "config/thirdwebConfig";
+import { chain, client, onlyWalletConfig } from "config/thirdwebConfig";
 import { PayEmbed, useActiveAccount, useConnectModal } from "thirdweb/react";
 import Button from "components/atoms/buttons/base";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -70,17 +70,14 @@ const FiatCheckout = ({ setOpen }: any) => {
             connectModal: {
               ...onlyWalletConfig,
             },
+            chain,
           }}
           payOptions={{
             buyWithFiat: {
-              preferredProvider: "TRANSAK",
-              prefillSource: {
-                currency: "USD",
-              },
-              testMode: testMode,
+              testMode,
             },
             buyWithCrypto: {
-              testMode: testMode,
+              testMode,
             },
           }}
         />

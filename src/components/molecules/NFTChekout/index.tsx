@@ -1,79 +1,114 @@
-//import { useEffect } from "react";
-//import { TransakConfig, Transak } from "@transak/transak-sdk";
-//import { Interface } from "ethers";
-//import keysABI from "abi/keysABI.json";
+import { Box } from "@mui/material";
+import { chain, client, onlyWalletConfig } from "config/thirdwebConfig";
+import { PayEmbed, useActiveAccount, useConnectModal } from "thirdweb/react";
+import Button from "components/atoms/buttons/base";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-/*const getSupplyCalldata = () => {
-  const ABI = keysABI;
-  return new Interface(ABI).encodeFunctionData("mintByAuth", []);
-};*/
+import styled from "./styled.module.scss";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
-const NFTChekout = ({ setOpenTokens }: any) => {
-  //const calldata = getSupplyCalldata();
-  /*const nftData: any = [
-    {
-      imageURL: process.env.REACT_APP_ASSETS_URL + "/keys/image/basic.jpg",
-      nftName: "KEYS",
-      collectionAddress:
-        process.env.REACT_APP_TRANSAK_KEYS_CONTRACT || "0x649a01A7D3DF5a7E5Ee4783cCD43FBb658419001",
-      tokenID: ["6", "7", "8"],
-      price: [1, 1, 1],
-      quantity: 3,
-      nftType: "ERC721",
-    },
-  ];
+import useAlert from "hooks/alertProvider/useAlert";
 
-  const transakConfig: TransakConfig = {
-    apiKey: process.env.REACT_APP_TRANSAK_API_KEY || "07a89245-0fe3-40d3-9e4c-42ac7cbf19d1",
-    environment:
-      process.env.REACT_APP_NODE_ENV !== "production"
-        ? Transak.ENVIRONMENTS.STAGING
-        : Transak.ENVIRONMENTS.PRODUCTION,
-    isNFT: true,
-    contractId: process.env.REACT_APP_TRANSAK_CONTRACT_ID || "66c4d76d061af08419d4577f",
-    nftData: nftData,
-    calldata: calldata,
-    cryptoCurrencyCode: "USDC",
-    estimatedGasLimit: 334399,
+import { getContract, prepareContractCall } from "thirdweb";
+import keysABI from "abi/keysABI.json";
+
+const NFTCheckout = ({ setOpen }: any) => {
+  const account = useActiveAccount();
+  const data = useSelector(getLeaderboard);
+  const { connect } = useConnectModal();
+  const { setAlert } = useAlert();
+
+  const walletActive = data?.wallets.find((w: any) => w?.active && !w.social) || null;
+  const [sameWallet, setSameWallet] = useState<boolean>(false);
+
+  const testMode = process.env.REACT_APP_NODE_ENV === "development";
+
+  const valideActiveAddress = async () => {
+    try {
+      if (!account || account?.address?.toLowerCase() !== walletActive?.address?.toLowerCase()) {
+        const response = await connect({
+          ...onlyWalletConfig,
+          size: "compact",
+          title: `Login to wallet ${walletActive?.address?.slice(0, 6)}...${walletActive?.address?.slice(-6)}`,
+        });
+
+        const loginAccount = response.getAccount();
+
+        if (loginAccount?.address.toLowerCase() !== walletActive?.address.toLowerCase()) {
+          await response?.disconnect();
+          throw new Error("the address do not match");
+        } else {
+          setSameWallet(true);
+        }
+      } else {
+        setSameWallet(true);
+      }
+    } catch (error: any) {
+      setAlert(error?.message, "error");
+      console.error(error);
+      setOpen(false);
+    }
   };
 
-  //console.log(transakConfig);
-
-  const transak = new Transak(transakConfig);
-
   useEffect(() => {
-    transak.init();
-
-    return () => {
-      transak.close();
-    };
+    valideActiveAddress();
+    console.log("testMode: ", testMode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  Transak.on("*", (data) => {
-    console.log(data);
+  const contract = getContract({
+    client,
+    chain,
+    address: "0x649a01A7D3DF5a7E5Ee4783cCD43FBb658419001",
+    abi: keysABI as any,
   });
 
-  Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => {
-    console.log("Transak SDK closed!");
-    setOpenTokens(false);
+  const transaction = prepareContractCall({
+    contract,
+    method: "mintByAuth",
+    params: [],
+    maxFeePerGas: 60n,
+    maxPriorityFeePerGas: 1n,
+    gas: 400000n,
+  
   });
 
-  Transak.on(Transak.EVENTS.TRANSAK_ORDER_CREATED, (orderData) => {
-    console.log(orderData);
-  });
+  return (
+    <Box className={styled.payEmbed}>
+      <Box className={styled.backButton}>
+        <Button onClick={() => setOpen(false)}>
+          <ArrowBackIcon /> back
+        </Button>
+      </Box>
 
-  Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
-    console.log(orderData);
-    transak.close();
-  });
-
-  Transak.on(Transak.EVENTS.TRANSAK_ORDER_FAILED, (orderData) => {
-    console.log(orderData);
-    transak.close();
-  });*/
-
-  return <></>;
+      {sameWallet && (
+        <PayEmbed
+          client={client}
+          connectOptions={{
+            connectModal: {
+              ...onlyWalletConfig,
+            },
+            chain,
+          }}
+          payOptions={{
+            buyWithFiat: {
+              testMode,
+            },
+            buyWithCrypto: {
+              testMode,
+            },
+            mode: "transaction",
+            transaction,
+            metadata: {
+              image: process.env.REACT_APP_ASSETS_URL + "/keys/image/basic.jpg",
+              name: "KEYS"
+            },
+          }}
+        />
+      )}
+    </Box>
+  );
 };
-
-export default NFTChekout;
+export default NFTCheckout;
