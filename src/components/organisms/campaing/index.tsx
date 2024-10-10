@@ -56,7 +56,7 @@ const Campaing = () => {
           //console.log("Widget loaded: ", window?.claimr);
 
           //@ts-ignore
-          window?.claimr.logout();
+          //window?.claimr.logout();
           //@ts-ignore
           window?.claimr.set_user_token(token);
           //window?.claimr.connect_wallet(address, signature, message);
