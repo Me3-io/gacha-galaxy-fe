@@ -11,8 +11,9 @@ import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 
 import useAlert from "hooks/alertProvider/useAlert";
 
-import { getContract, prepareContractCall } from "thirdweb";
+import { getContract, prepareContractCall, prepareTransaction, toWei } from "thirdweb";
 import keysABI from "abi/keysABI.json";
+import { ethereum } from "thirdweb/chains";
 
 const NFTCheckout = ({ setOpen }: any) => {
   const account = useActiveAccount();
@@ -65,13 +66,12 @@ const NFTCheckout = ({ setOpen }: any) => {
     abi: keysABI as any,
   });
 
-  const transaction = prepareContractCall({
-    contract,
-    method: "mintByAuth",
-    params: [],
-    maxFeePerGas: 60n,
-    maxPriorityFeePerGas: 1n,
-    gas: 400000n,
+  const transaction = prepareTransaction({
+    to: account?.address,
+ chain: ethereum,
+ client: client,
+ value: toWei("1.0"),
+ gasPrice: 30n
   
   });
 
@@ -85,20 +85,8 @@ const NFTCheckout = ({ setOpen }: any) => {
 
       {sameWallet && (
         <PayEmbed
-          client={client}
-          connectOptions={{
-            connectModal: {
-              ...onlyWalletConfig,
-            },
-            chain,
-          }}
+          client={client} 
           payOptions={{
-            buyWithFiat: {
-              testMode,
-            },
-            buyWithCrypto: {
-              testMode,
-            },
             mode: "transaction",
             transaction,
             metadata: {

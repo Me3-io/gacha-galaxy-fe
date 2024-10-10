@@ -23,6 +23,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useCookie3 } from "hooks/cookie3Provider";
 // import NFTChekout from 'components/molecules/NFTChekout';
 import KeysModal from "components/molecules/keysModal";
+import NFTCheckout from "components/molecules/NFTChekout";
 //import { client } from "config/thirdwebConfig";
 //import { PayEmbed } from "thirdweb/react";
 //import FiatCheckout from "components/molecules/fiatCheckout";
@@ -170,6 +171,7 @@ const Home = () => {
                   <MainPanel showBack={true} goToMap={goToMap} setOpenTokens={setOpenTokens} />
                 </Box>
               </Grid>
+              
             </Grid>
 
             <BuildingDetails handleClose={handleClose} />
@@ -178,8 +180,8 @@ const Home = () => {
             <Campaign />
 
             {/* subsection NFTChekout */}
-            {/* {openTokens && <KeysModal open={setOpenTokens} onClose={handleCloseTokens} />} */}
-
+            {/*openTokens && <KeysModal open={setOpenTokens} onClose={handleCloseTokens} />*/}
+            { openTokens && <NFTCheckout setOpen={setOpenTokens} /> }
             {/* subsection FiatCheckout */}
             {/* openTokens && <FiatCheckout /> */}
           </Container>
