@@ -21,11 +21,12 @@ const BuildingDetails = ({ handleClose }: any) => {
   const onClose = (evt: any, reason: string) => {
     if (reason !== "backdropClick") handleClose();
   };
+  console.log("BuildingDetails -> buildingData", buildingData);
 
   return (
     <Modal open={open} className={styled.modalContainer} onClose={onClose}>
       <>
-        <Box className={styled.background} sx={{ backgroundImage: `url(${buildingData?.url || bg})` }} />
+        <Box className={styled.background} sx={{ backgroundImage: `url(${buildingData?.background?.url || bg})` }} />
 
         <Box className={styled.backButton}>
           <Button onClick={(evt: any) => onClose(evt, "close")}>

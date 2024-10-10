@@ -178,7 +178,7 @@ const Home = () => {
             <Campaign />
 
             {/* subsection NFTChekout */}
-            {openTokens && <KeysModal open={setOpenTokens} onClose={handleCloseTokens} />}
+            {/* openTokens && <KeysModal open={setOpenTokens} onClose={handleCloseTokens} /> */}
 
             {/* subsection FiatCheckout */}
             {/* openTokens && <FiatCheckout /> */}
