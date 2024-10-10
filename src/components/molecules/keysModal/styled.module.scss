@@ -9,7 +9,7 @@
   transition: all 0.2s ease;
 
   &::before {
-    content: '';
+    content: "";
     position: fixed;
     left: 0;
     right: 0;
@@ -60,7 +60,7 @@
 
     .bg {
       position: relative;
-      background-image: url('../../../assets/images/circleBg.png');
+      background-image: url("../../../assets/images/circleBg.png");
       background-position: center;
       background-size: contain;
       top: 0;
@@ -96,7 +96,7 @@
 
       .title {
         text-align: center;
-        font-family: 'OrbitronBlack';
+        font-family: "OrbitronBlack";
         font-size: 1.4rem;
         line-height: normal;
         background: linear-gradient(108deg, #fff 3.7%, #c66ae6 93.42%);
@@ -109,7 +109,7 @@
 
       .description {
         text-align: center;
-        font-family: 'ChakraPetch';
+        font-family: "ChakraPetch";
         font-size: 1.5rem !important;
         font-weight: 300;
       }
@@ -127,7 +127,9 @@
   .modal {
     height: 560px !important;
     width: 340px !important;
-
+    .bg {
+      width: 340px !important;
+    }
     .container {
       width: 270px !important;
     }

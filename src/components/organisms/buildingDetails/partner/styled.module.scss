@@ -14,26 +14,52 @@ $clip-size: 20px;
     rgba(115, 115, 115, 0) 100%
   );
   max-width: 1200px;
+}
 
-  .description {
-    font-family: "ChakraPetch";
-    font-size: 0.8rem;
-    line-height: normal;
-    background: white;
+.description {
+  padding: 24px 16px 0 16px;
+  color: white;
+  box-sizing: border-box;
+  font-family: "ChakraPetchLight" !important;
+  font-size: 0.8rem !important;
+  line-height: normal !important;
+  padding: 2rem !important;
+  height: 100%;
+  max-width: 460px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: " ";
     position: absolute;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    max-width: 400px;
-    max-height: 48px;
-    margin-top: 1rem;
-    border-top: 0.68px solid #ba00fb;
-    border-right: none;
-    border-left: 0.68px solid #ba00fb;
+    right: 1px;
+    top: 2px;
+    background-image: url("../../../../assets/icons/plus.svg");
+    height: 21px;
+    width: 19px;
+  }
+
+  &::after {
+    content: " ";
+    position: absolute;
+    left: 1px;
+    bottom: 0;
+    background-image: url("../../../../assets/icons/plus.svg");
+    height: 21px;
+    width: 19px;
+  }
+
+  .border {
+    position: absolute;
+    border: 0.68px solid #ba00fb;
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 50px);
+    height: 85px;
+    pointer-events: none;
     border-bottom: none;
+    border-right: none;
     clip-path: polygon($clip-size 0%, 0% $clip-size, 0% 100%, 100% 100%, 100% 0%);
-    padding: 2rem;
-    display: flex;
 
     &::before {
       content: " ";
