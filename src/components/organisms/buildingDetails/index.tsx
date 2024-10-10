@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Box, Grow, Modal } from "@mui/material";
 
 import GameCampaingCarousel from "./carousel";
-import Partner from "./partner";
+//import Partner from "./partner";
 
 import { MapContext } from "pages/home";
 
@@ -36,7 +36,7 @@ const BuildingDetails = ({ handleClose }: any) => {
 
         <Grow in={open} timeout={1000}>
           <Box className={styled.modal}>
-            <Partner buildingData={buildingData} />
+            {/*<Partner buildingData={buildingData} />*/}
             <GameCampaingCarousel
               listGames={listGames || []}
               listCampaings={listCampaings || []}
