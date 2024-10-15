@@ -65,4 +65,3 @@ const showThirdwebBranding = false;
 export const modalConfig = { client, wallets, appMetadata, theme, chain, showThirdwebBranding };
 export const onlyWalletConfig = { client, wallets: onlyWallets, appMetadata, theme, chain, showThirdwebBranding };
 export const onlySocialConfig = { client, wallets: onlySocial, appMetadata, theme, chain, showThirdwebBranding };
-
