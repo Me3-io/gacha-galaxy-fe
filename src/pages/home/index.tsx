@@ -67,6 +67,7 @@ const Home = () => {
   const [game, setGame] = useState<any>({});
   const [campaing, setCampaing] = useState<any>({});
   const [openTokens, setOpenTokens] = useState(false);
+  const [openNFT, setOpenNFT] = useState(false);
 
   const goToLeaderboard = () => window.scrollTo(0, document.body.scrollHeight);
   const goToMap = () => window.scrollTo(0, 0);
@@ -171,7 +172,6 @@ const Home = () => {
                   <MainPanel showBack={true} goToMap={goToMap} setOpenTokens={setOpenTokens} />
                 </Box>
               </Grid>
-              
             </Grid>
 
             <BuildingDetails handleClose={handleClose} />
@@ -180,8 +180,8 @@ const Home = () => {
             <Campaign />
 
             {/* subsection NFTChekout */}
-            {/*openTokens && <KeysModal open={setOpenTokens} onClose={handleCloseTokens} />*/}
-            { /*openTokens && <NFTCheckout setOpen={setOpenTokens} /> */}
+            {openTokens && <KeysModal open={setOpenTokens} onClose={handleCloseTokens} openPayment={setOpenNFT} />}
+            {openNFT && <NFTCheckout setOpen={setOpenNFT} />}
             {/* subsection FiatCheckout */}
             {/* openTokens && <FiatCheckout /> */}
           </Container>
