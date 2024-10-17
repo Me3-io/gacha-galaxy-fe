@@ -153,6 +153,7 @@ const Home = () => {
         <Layout showHelp={true}>
           <Container maxWidth={false} disableGutters={true}>
             <Grid container>
+              <Campaigns />
               <Grid item xs={12}>
                 <Box height={"100%"} overflow={"hidden"}>
                   <InteractiveMap />

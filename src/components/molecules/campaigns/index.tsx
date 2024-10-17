@@ -7,16 +7,13 @@ const Campaigns: React.FC = () => {
 
   return (
     <div>
-      <h2>Campaigns</h2>
       {campaignsData?.length > 0 ? (
-        <ul>
-          {campaignsData?.map((campaign: any) => (
-            <li key={campaign.id}>
-              <h3>{campaign.name}</h3>
-              <p>{campaign.description}</p>
-            </li>
-          ))}
-        </ul>
+        campaignsData.map((campaign: any, index: React.Key | null | undefined) => (
+          <div key={index}>
+            <h3>{campaign.panelName}</h3>
+            {campaign.image.src && <img src={campaign.image.src} alt={campaign.image.alt} />}
+          </div>
+        ))
       ) : (
         <p>No campaigns available.</p>
       )}

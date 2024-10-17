@@ -4,4 +4,4 @@ export const setCampaigns = () => async (dispatch: any) => {
   dispatch(setSlice);
 };
 
-export const getCampaigns = (state: any) => state.data;
+export const getCampaigns = (state: any) => state.campaigns.data;
