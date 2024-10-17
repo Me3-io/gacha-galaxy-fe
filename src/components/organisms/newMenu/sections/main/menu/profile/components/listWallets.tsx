@@ -62,15 +62,7 @@ const ListWallets = () => {
                   <KeyIcon sx={{ cursor: "pointer" }} onClick={() => getPrivateKey(row.address)} />
                 </CustomTooltip>
               )}
-
-              {!row?.active ? (
-                <>
-                  <ActiveWallet address={row.address} btnDisabled={btnDisabled} setBtnDisabled={setBtnDisabled} />
-                  <UnlinkTimmer address={row.address} />
-                </>
-              ) : (
-                <span className={styled.infoLabel}>Active</span>
-              )}
+              {row.active === true ? <span className={styled.infoLabel}>Active</span> : null}
             </Box>
           </Box>
         ))
