@@ -24,7 +24,6 @@ import { useCookie3 } from "hooks/cookie3Provider";
 // import NFTChekout from 'components/molecules/NFTChekout';
 import KeysModal from "components/molecules/keysModal";
 import NFTCheckout from "components/molecules/NFTChekout";
-import Campaigns from "components/molecules/campaigns";
 //import { client } from "config/thirdwebConfig";
 //import { PayEmbed } from "thirdweb/react";
 //import FiatCheckout from "components/molecules/fiatCheckout";
@@ -153,7 +152,6 @@ const Home = () => {
         <Layout showHelp={true}>
           <Container maxWidth={false} disableGutters={true}>
             <Grid container>
-              <Campaigns />
               <Grid item xs={12}>
                 <Box height={"100%"} overflow={"hidden"}>
                   <InteractiveMap />
