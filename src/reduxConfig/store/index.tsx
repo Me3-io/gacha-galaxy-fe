@@ -8,11 +8,13 @@ import social from "reduxConfig/slices/social";
 import tokenAuth from "reduxConfig/slices/tokenAuth";
 import leaderboard from "reduxConfig/slices/leaderboard";
 import messageAuth from "reduxConfig/slices/messageAuth";
+import campaigns from "reduxConfig/slices/campaigns";
 
 const store = configureStore({
   reducer: {
     claim: claim,
     maps: maps,
+    campaigns: campaigns,
     game: game,
     social: social,
     tokenAuth: tokenAuth,
