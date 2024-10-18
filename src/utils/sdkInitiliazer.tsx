@@ -40,7 +40,7 @@ const SDKInitializer: React.FC = () => {
             "MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAcX0zDstF6k10y4hwziXwzREQAfxdDA2ydB+v36ijQiOnhrgP7B3oknVHyx/IM9AfiM/oL9na8BjhZWQeNvHN9Y8AYyrY2peY9PrePD7wOU92pKHMYqLGXZgkYxviJ2UW+McguNoC74Ot/2QJ2NVoglcCHSQO/Er/MBtPBY/nfeRU2kY=",
           email: "renovi@me3.io",
           gameId: "d1dd1a42-f35a-4857-bf42-3bcccb1f1653",
-          panelNames: ["panel-1", "panel-2"],
+          panelNames: ["panel-1 , panel-2"],
           prod: true,
         });
 
