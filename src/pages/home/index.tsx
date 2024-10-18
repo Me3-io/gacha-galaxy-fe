@@ -71,7 +71,7 @@ const Home = () => {
 
   const goToLeaderboard = () => window.scrollTo(0, document.body.scrollHeight);
   const goToMap = () => window.scrollTo(0, 0);
-
+  const testMode = process.env.REACT_APP_NODE_ENV === "development";
   const handleCloseTokens = () => {
     setOpenTokens(false);
   };
@@ -181,7 +181,7 @@ const Home = () => {
 
             {/* subsection NFTChekout */}
             {openTokens && <KeysModal open={setOpenTokens} onClose={handleCloseTokens} openPayment={setOpenNFT} />}
-            {openNFT && <NFTCheckout setOpen={setOpenNFT} />}
+            {testMode && openNFT && <NFTCheckout setOpen={setOpenNFT} />}
             {/* subsection FiatCheckout */}
             {/* openTokens && <FiatCheckout /> */}
           </Container>

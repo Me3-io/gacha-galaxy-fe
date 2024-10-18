@@ -25,6 +25,10 @@ const NFTCheckout = ({ setOpen }: any) => {
   const [sameWallet, setSameWallet] = useState<boolean>(false);
 
   const testMode = process.env.REACT_APP_NODE_ENV === "development";
+  const sellerAddress = process.env.REACT_APP_SELLER_ADDRESS_DIRECT_PAYMENT as string;
+  const nftContractAddress = process.env.REACT_APP_TRANSAK_KEYS_CONTRACT as string;
+  const nameNFT = "KEY";
+  const imageNFT = process.env.REACT_APP_ASSETS_URL + "/keys/image/basic.jpg";
 
   const valideActiveAddress = async () => {
     try {
@@ -59,22 +63,6 @@ const NFTCheckout = ({ setOpen }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const contract = getContract({
-    client,
-    chain,
-    address: "0x649a01A7D3DF5a7E5Ee4783cCD43FBb658419001",
-    abi: keysABI as any,
-  });
-
-  const transaction = prepareTransaction({
-    to: account?.address,
- chain: ethereum,
- client: client,
- value: toWei("1.0"),
- gasPrice: 30n
-  
-  });
-
   return (
     <Box className={styled.payEmbed}>
       <Box className={styled.backButton}>
@@ -82,16 +70,33 @@ const NFTCheckout = ({ setOpen }: any) => {
           <ArrowBackIcon /> back
         </Button>
       </Box>
-
       {sameWallet && (
         <PayEmbed
-          client={client} 
+          client={client}
+          theme={"dark"}
           payOptions={{
-            mode: "transaction",
-            transaction,
+            mode: "direct_payment",
+            buyWithFiat: { testMode: testMode },
+            paymentInfo: {
+              amount: "0.01", // purchase amount for your token
+              chain: chain, // chain of the accepted token. Use optional "tokenInfo" field for non-native tokens.
+              sellerAddress: sellerAddress,
+            },
+            // Purchase Data is added to the webhook response
+            // Add information here that you intend to consume server-side
+            purchaseData: {
+              nftContractAddress: nftContractAddress,
+              chainId: chain,
+              metadata: {
+                name: nameNFT,
+                image: imageNFT,
+                amount: "0.01",
+              },
+            },
+            // Metadata is displayed on PayEmbed client
             metadata: {
-              image: process.env.REACT_APP_ASSETS_URL + "/keys/image/basic.jpg",
-              name: "KEYS"
+              name: nameNFT,
+              image: imageNFT,
             },
           }}
         />
