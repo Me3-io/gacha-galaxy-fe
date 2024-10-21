@@ -38,7 +38,7 @@ const RenderAdvertisement = ({ minImg }: RenderAdvertisementProps) => {
         <Box
           sx={{
             position: "relative",
-            width: "-webkit-fill-available",
+            width: "370px",
             height: "140px",
             borderRadius: "20px",
             alignContent: "center",
@@ -68,8 +68,8 @@ const RenderAdvertisement = ({ minImg }: RenderAdvertisementProps) => {
             <img
               src={image}
               alt="Advertisement"
-              width={"190px"}
-              height={"190px"}
+              width="190px"
+              height="108px"
               style={{
                 display: "block",
                 margin: "0 auto",
@@ -98,7 +98,7 @@ const RenderAdvertisement = ({ minImg }: RenderAdvertisementProps) => {
         <Box
           sx={{
             position: "relative",
-            width: "-webkit-fill-available",
+            width: "100%",
             height: "190px",
             alignContent: "center",
             overflow: "hidden",
@@ -110,9 +110,10 @@ const RenderAdvertisement = ({ minImg }: RenderAdvertisementProps) => {
             <img
               src={image}
               alt="Advertisement"
-              width={"337px"}
-              height={"190px"}
+              width="100% !important"
+              height="177px"
               style={{
+                padding: "1rem",
                 display: "block",
                 margin: "0 auto",
                 transition: "opacity 0.5s ease-in-out",
