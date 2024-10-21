@@ -113,7 +113,6 @@ const RenderAdvertisement = ({ minImg }: RenderAdvertisementProps) => {
               width="100% !important"
               height="177px"
               style={{
-                padding: "1rem",
                 display: "block",
                 margin: "0 auto",
                 transition: "opacity 0.5s ease-in-out",
