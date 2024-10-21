@@ -1,4 +1,5 @@
 {
+  "Advertising": "Advertising",
   "back": "Back",
   "close": "Close",
   "login": "Login",
@@ -17,7 +18,7 @@
   "go": "Go",
   "play": "Play",
   "key": "Key",
- 
+
   "login-signing": "Signing...",
   "login-error-verify": "Error verifying the signature",
   "login-error-request": "Error to challenge request",
@@ -36,7 +37,7 @@
   "keys": "Keys",
   "get-keys": "Get Keys",
   "claim-all": "Claim",
-  "rewards" : "Rewards",
+  "rewards": "Rewards",
   "new-rewards": "New Rewards!",
   "rewards-availables": "Rewards <br/> Available",
   "claimr-campaigns": "Campaigns",
@@ -61,8 +62,7 @@
 
   "game-instructions": "INSTRUCTIONS",
   "game-balance": "YOUR KEYS <br/> BALANCE",
-  "game-no-balance" : "Not enough balance.",
-  "game-price" : "PLAY PRICE",
+  "game-no-balance": "Not enough balance.",
+  "game-price": "PLAY PRICE",
   "game-rotate": "To have a better gaming experience, please rotate your phone horizontally."
-
 }
