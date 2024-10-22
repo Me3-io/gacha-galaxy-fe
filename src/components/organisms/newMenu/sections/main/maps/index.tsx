@@ -6,6 +6,9 @@ import styled from "./styled.module.scss";
 
 import iconMap from "assets/icons/iconMap.svg";
 import { MapContext } from "pages/home";
+import RenderAdvertisement from "components/molecules/advertisement";
+import { getCampaigns } from "reduxConfig/thunks/campaigns";
+import { useSelector } from "react-redux";
 
 const MapItem = ({ thumbnail, title, description, active, onClick }: any) => {
   return (
@@ -24,6 +27,7 @@ const ListMaps = ({ goToMap }: any) => {
   const { lang } = useParams();
   const { listMaps, map: activeMap, setMap } = useContext(MapContext);
   const navigate = useNavigate();
+  const campaignsData = useSelector(getCampaigns);
 
   const handleMap = (map: any) => {
     setMap(map);
@@ -43,6 +47,11 @@ const ListMaps = ({ goToMap }: any) => {
             <MapItem key={pos} {...map} onClick={() => handleMap(map)} active={activeMap?.code === map?.code} />
           ))}
         </Stack>
+        {campaignsData && (
+          <Stack>
+            <RenderAdvertisement minImg={false} />
+          </Stack>
+        )}
       </Box>
     </Fade>
   );

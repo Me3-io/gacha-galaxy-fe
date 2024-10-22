@@ -138,6 +138,19 @@ const Profile = ({ setOpen }: any) => {
   }, [form]);
 
   // wallets and social ---
+
+  const setActiveWallet = async (address: any) => {
+    await customAxios()
+      .post("/wallet/active", { address })
+      .then(async () => {
+        await dispatch(fetchLeaderboard() as any);
+        setAlert("Activated successfully", "success");
+      })
+      .catch((error: any) => {
+        setAlert(error?.response?.data?.message || error?.message || "error", "error");
+      });
+  };
+
   const addWallet = async () => {
     const activeAccount = wallet;
     try {
@@ -146,6 +159,7 @@ const Profile = ({ setOpen }: any) => {
 
       if (account?.address) await linkWallet(account.address);
       if (activeAccount) setActiveAccount(activeAccount);
+      setActiveWallet(account?.address);
     } catch (error: any) {
       console.error(error);
     }
