@@ -72,6 +72,9 @@ const RenderAdvertisement = ({ minImg }: RenderAdvertisementProps) => {
               height="108px"
               style={{
                 display: "block",
+                borderRadius: "20px",
+                objectFit: "cover",
+                border: "1px solid #ba00fb",
                 margin: "0 auto",
                 transition: "opacity 0.5s ease-in-out",
                 opacity: currentIndex % 2 === 0 ? 1 : 0.6,
@@ -114,6 +117,9 @@ const RenderAdvertisement = ({ minImg }: RenderAdvertisementProps) => {
               height="177px"
               style={{
                 display: "block",
+                borderRadius: "20px",
+                border: "1px solid #ba00fb",
+                objectFit: "cover",
                 margin: "0 auto",
                 transition: "opacity 0.5s ease-in-out",
                 opacity: currentIndex % 2 === 0 ? 1 : 0.6,
