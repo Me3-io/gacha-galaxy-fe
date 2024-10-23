@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 import styled from "./styled.module.scss";
 
-const KeysModal = ({ open, onClose }: any) => {
+const KeysModal = ({ open, onClose, openPayment }: any) => {
   const { t } = useTranslation();
 
   return (
@@ -35,7 +35,7 @@ const KeysModal = ({ open, onClose }: any) => {
               Earn free keys by completing the quests available in each building, or purchase additional keys below
             </Typography>
 
-            <Button onClick={() => {}}>Buy Keys</Button>
+            <Button onClick={openPayment}>Buy Keys</Button>
           </Box>
         </Box>
       </>

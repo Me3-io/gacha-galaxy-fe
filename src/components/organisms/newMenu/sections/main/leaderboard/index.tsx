@@ -15,10 +15,13 @@ import { fetchLeaderboard, getLeaderboard } from "reduxConfig/thunks/leaderboard
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";
+import RenderAdvertisement from "components/molecules/advertisement";
+import { getCampaigns } from "reduxConfig/thunks/campaigns";
 
 const Leaderboard = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const campaignsData = useSelector(getCampaigns);
   const leaderboardData = useSelector(getLeaderboard);
 
   useEffect(() => {
@@ -55,6 +58,13 @@ const Leaderboard = () => {
                     <TableRow>
                       <TableCell align="center" colSpan={3}>
                         {t("no-data")}
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  {campaignsData && (
+                    <TableRow>
+                      <TableCell>
+                        <RenderAdvertisement minImg={true} />
                       </TableCell>
                     </TableRow>
                   )}

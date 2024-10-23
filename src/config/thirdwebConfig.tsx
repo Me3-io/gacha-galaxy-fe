@@ -26,9 +26,11 @@ export const appMetadata = {
 
 // wallets ---
 export const wallets = [
-  inAppWallet({ auth: { options: ["email", "google", "telegram"] } }),
+  inAppWallet({ auth: { options: ["email", "google", "telegram", "line", "passkey"] } }),
   // @ts-ignore
   createWallet("io.metamask"),
+  // @ts-ignore
+  createWallet("com.binance"),
   // @ts-ignore
   createWallet("com.okex.wallet"),
   // @ts-ignore
@@ -65,4 +67,3 @@ const showThirdwebBranding = false;
 export const modalConfig = { client, wallets, appMetadata, theme, chain, showThirdwebBranding };
 export const onlyWalletConfig = { client, wallets: onlyWallets, appMetadata, theme, chain, showThirdwebBranding };
 export const onlySocialConfig = { client, wallets: onlySocial, appMetadata, theme, chain, showThirdwebBranding };
-

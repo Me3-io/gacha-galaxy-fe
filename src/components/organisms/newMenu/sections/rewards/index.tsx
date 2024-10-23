@@ -19,11 +19,13 @@ import styled from "./styled.module.scss";
 import RewardDefault from "./items/default";
 import RewardNFTs from "./items/nfts";
 import RewardLazy from "./items/lazy";
+import RenderAdvertisement from "components/molecules/advertisement";
+import { getCampaigns } from "reduxConfig/thunks/campaigns";
 
 const REWARD_TYPE = { CODE: "Codes", NFT: "NFTs", LAZY: "Lazy" };
-
 const MainTable = ({ isCrytoUser, walletActive }: any) => {
   const claimeables = useSelector(getClaims)?.claimeables || [];
+  const campaignsData = useSelector(getCampaigns);
 
   const getItemForType = (item: any) => {
     switch (item?.rewardType) {
@@ -42,14 +44,25 @@ const MainTable = ({ isCrytoUser, walletActive }: any) => {
         <TableBody>
           {claimeables.length > 0 ? (
             claimeables?.map((item: any, pos: number) => (
-              <TableRow key={pos} className={styled.earnRow}>
-                <TableCell>{getItemForType(item)}</TableCell>
-              </TableRow>
+              <>
+                <TableRow key={pos} className={styled.earnRow}>
+                  <TableCell>{getItemForType(item)}</TableCell>
+                </TableRow>
+                <TableRow key={pos} className={styled.earnRow}>
+                  {campaignsData && (
+                    <TableCell>
+                      <TableRow className={styled.advertisement}>
+                        <RenderAdvertisement minImg={false} />
+                      </TableRow>
+                    </TableCell>
+                  )}
+                </TableRow>
+              </>
             ))
           ) : (
             <TableRow>
               <TableCell>
-                <span>no rewards available</span>
+                <span>No rewards available</span>
               </TableCell>
             </TableRow>
           )}
