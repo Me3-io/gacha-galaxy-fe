@@ -9,6 +9,7 @@ import styled from "../styled.module.scss";
 import { createThirdwebClient } from "thirdweb";
 import useAlert from "hooks/alertProvider/useAlert";
 
+
 const wallet = inAppWallet({
   smartAccount: {
     sponsorGas: true,
