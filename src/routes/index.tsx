@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import Home from "pages/home";
 import Game from "pages/game";
 import Login from "pages/login";
+import TelegramLogin from "pages/login/telegram";
 
 const languages = ["en", "tr", "pt", "ar", "ko", "ja", "vi", "id", "cn"];
 
@@ -50,6 +51,7 @@ const AppRouter = () => {
       <Route path="/:lang/home/:map" element={Secure(<Home />)} />
       <Route path="/:lang/home/:map/:building" element={Secure(<Home />)} />
       <Route path="/:lang/game/:code" element={Secure(<Game />)} />
+      <Route path="/:lang/login/telegram/:signature/:message" element={<TelegramLogin/>} />
     </Routes>
   );
 };
