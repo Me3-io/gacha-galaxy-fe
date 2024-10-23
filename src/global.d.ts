@@ -1,5 +1,5 @@
 interface Cookie3 {
-  trackEvent: (eventCategory: string, eventAction: string, eventName?: string, eventValue?: number) => void;
+  trackEvent: (eventData: { category: string; action: string; name?: string; value?: number }) => void;
 }
 
 interface Window {
