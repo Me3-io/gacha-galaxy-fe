@@ -15,13 +15,11 @@ import GameContainer from "components/organisms/game/container";
 
 import useAlert from "hooks/alertProvider/useAlert";
 import { getGame } from "reduxConfig/thunks/game";
-import { useCookie3 } from "hooks/cookie3Provider";
 
 import styled from "./styled.module.scss";
 import customAxios from "utils/customAxios";
 
 const Game = () => {
-  const cookie3 = useCookie3();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
@@ -89,8 +87,6 @@ const Game = () => {
         console.error("session error ", error);
         navigate(`/${i18n.language}/`);
       });
-
-    cookie3?.trackPageView();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -20,7 +20,6 @@ import Campaign from "components/organisms/campaing";
 import GameDetails from "components/organisms/gameDetails";
 import MainPanel from "components/organisms/newMenu";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useCookie3 } from "hooks/cookie3Provider";
 // import NFTChekout from 'components/molecules/NFTChekout';
 import KeysModal from "components/molecules/keysModal";
 import NFTCheckout from "components/molecules/NFTChekout";
@@ -51,7 +50,6 @@ export const MapContext = createContext(initialState);
 
 const Home = () => {
   //const { t } = useTranslation();
-  const cookie3 = useCookie3();
   const { lang, map: urlMap, building } = useParams();
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
@@ -93,7 +91,6 @@ const Home = () => {
     dispatch(fetchLeaderboard() as any);
     dispatch(fetchClaims() as any);
 
-    cookie3?.trackPageView();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
