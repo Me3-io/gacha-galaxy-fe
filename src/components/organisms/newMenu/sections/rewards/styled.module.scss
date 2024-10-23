@@ -67,7 +67,14 @@
         justify-content: space-between;
         flex-direction: column;
         margin: 0 1rem;
-      }      
+      }
+      .advertisement {
+        display: flex;
+        justify-content: space-between;
+        width: 380px !important;
+        flex-direction: column;
+        margin: 0 1rem;
+      }
     }
   }
 }

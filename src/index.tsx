@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+
 import "./i18n";
 
 import store from "reduxConfig/store";
@@ -13,9 +14,10 @@ import { Cookie3Provider } from "hooks/cookie3Provider";
 
 import App from "App";
 import "./index.css";
+import SDKInitializer from "utils/sdkInitiliazer";
 
 const config: UserOptions = {
-  siteId: Number(process.env.REACT_APP_COOKIE3_SITE_ID),
+  siteId: 1609, //then we need to replace with the real data
 };
 
 const analytics = cookie3Analytics(config);
@@ -28,6 +30,7 @@ root.render(
         <Provider store={store}>
           <ThirdwebProvider>
             <AlertProvider>
+              <SDKInitializer />
               <App />
             </AlertProvider>
           </ThirdwebProvider>
