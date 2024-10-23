@@ -17,7 +17,7 @@ import "./index.css";
 import SDKInitializer from "utils/sdkInitiliazer";
 
 const config: UserOptions = {
-  siteId: process.env.REACT_APP_COOKIE3_SITE_ID,
+  siteId: Number(process.env.REACT_APP_COOKIE3_SITE_ID),
 };
 
 const analytics = cookie3Analytics(config);

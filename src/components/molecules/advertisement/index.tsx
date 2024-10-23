@@ -102,7 +102,7 @@ const RenderAdvertisement = ({ minImg }: RenderAdvertisementProps) => {
           sx={{
             position: "relative",
             width: "100%",
-            height: "190px",
+            height: "177px",
             alignContent: "center",
             overflow: "hidden",
             alignSelf: "center",
@@ -114,12 +114,12 @@ const RenderAdvertisement = ({ minImg }: RenderAdvertisementProps) => {
               src={image}
               alt="Advertisement"
               width="100% !important"
-              height="177px"
+              height="100% !important"
               style={{
                 display: "block",
                 borderRadius: "20px",
                 border: "1px solid #ba00fb",
-                objectFit: "cover",
+                objectFit: "fill",
                 margin: "0 auto",
                 transition: "opacity 0.5s ease-in-out",
                 opacity: currentIndex % 2 === 0 ? 1 : 0.6,
