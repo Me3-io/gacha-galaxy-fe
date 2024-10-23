@@ -32,6 +32,14 @@ const Login = () => {
       setModalLegal(true);
       return;
     }
+
+    window.cookie3.trackEvent({
+      category: "Button Click",
+      action: "Click",
+      name: "Login",
+      value: 1,
+    });
+
     openModal();
   };
 
