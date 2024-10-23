@@ -15,8 +15,7 @@ const wallet = inAppWallet({
     }
 });
 
-const TelegramLoginContent = () => {
-    const [searchParams] = useSearchParams();
+const TelegramLogin = () => {
     const { connect } = useConnect();
     const { signature, message } = useParams();
     const [params, setParams] = useState({ signature: '', message: '' });
@@ -38,7 +37,7 @@ const TelegramLoginContent = () => {
             }
             try {
                 const walletOrFn = await connect(async () => {
-                    try{
+                    try {
                         const client = createThirdwebClient({
                             clientId: '5c2008dc15fde34d454e47b09661e39d',
                         });
@@ -53,24 +52,24 @@ const TelegramLoginContent = () => {
                         });
                         console.log('Connection wallet:', wallet);
                         return wallet;
-                    }catch(error){   
+                    } catch (error) {
                         console.error('Connection error:', error);
                         setIsGenerateWallet(false);
                         setError(true);
                         return wallet;
                     }
-                  
+
                 });
-                if(walletOrFn){
+                if (walletOrFn) {
                     setIsGenerateWallet(true);
                     setError(false);
                     return true;
-                }else{
+                } else {
                     setIsGenerateWallet(false);
                     setError(true);
                     return false;
                 }
-               
+
 
             } catch (error) {
                 console.error('Connection error:', error);
@@ -81,26 +80,15 @@ const TelegramLoginContent = () => {
         },
         enabled: !!params.signature && !!params.message,
     });
-
-    return (
-
-        <div className="w-screen h-screen flex flex-col gap-2 items-center justify-center">
-            {!error && !isGenerateWallet && (<div>Generating Wallet...</div>)}
-            {error && !isGenerateWallet && (<div>Error Generating Wallet</div>)}
-            {!error && isGenerateWallet && (<div>Generated Wallet</div>)}
-        </div>
-
-    );
-}
-
-const TelegramLogin = () => {
     return (
         <Layout>
             <Container maxWidth={false} disableGutters={true}>
                 <Box className={styled.main}>
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <TelegramLoginContent />
-                    </Suspense>
+                    <div className="w-screen h-screen flex flex-col gap-2 items-center justify-center" style={{color: "aliceblue"}}>
+                        {!error && !isGenerateWallet && (<div>Generating Wallet...</div>)}
+                        {error && !isGenerateWallet && (<div>Error Generating Wallet</div>)}
+                        {!error && isGenerateWallet && (<div>Generated Wallet</div>)}
+                    </div>
                 </Box>
             </Container>
         </Layout>
