@@ -1,13 +1,12 @@
 import { Suspense, useEffect, useState } from "react";
-import { chain, client, onlyWalletConfig } from "config/thirdwebConfig";
-import { useQuery } from "@tanstack/react-query";
+import { chain, client } from "config/thirdwebConfig";
 import { useConnect } from "thirdweb/react";
 import { Box, Container } from "@mui/material";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { inAppWallet } from "thirdweb/wallets";
 import Layout from "components/templates/layout";
 import styled from "../styled.module.scss";
-import { createThirdwebClient } from "thirdweb";
+
 const wallet = inAppWallet({
     smartAccount: {
         sponsorGas: true,
@@ -31,9 +30,7 @@ const TelegramLogin = () => {
                 try {
                     const walletOrFn = await connect(async () => {
                         try {
-                            const client = createThirdwebClient({
-                                clientId: '5c2008dc15fde34d454e47b09661e39d',
-                            });
+
                             await wallet.connect({
                                 client,
                                 strategy: "auth_endpoint",
