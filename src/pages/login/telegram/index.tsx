@@ -15,92 +15,75 @@ const wallet = inAppWallet({
     }
 });
 
-const TelegramLoginContent = () => {
-    const [searchParams] = useSearchParams();
+const TelegramLogin = () => {
     const { connect } = useConnect();
     const { signature, message } = useParams();
-    const [params, setParams] = useState({ signature: '', message: '' });
     const navigate = useNavigate();
     const [error, setError] = useState(false);
     const [isGenerateWallet, setIsGenerateWallet] = useState(false);
 
-    useEffect(() => {
-        setParams({ signature: signature as string, message: message as string });
-        console.log('SearchParams:', { signature, message });
-    }, [signature, message]);
-
-    useQuery({
-        queryKey: ["telegram-login", params.signature, params.message],
-        queryFn: async () => {
-            if (!params.signature || !params.message) {
-                console.error('Missing signature or message');
-                return false;
-            }
-            try {
-                const walletOrFn = await connect(async () => {
-                    try{
-                        const client = createThirdwebClient({
-                            clientId: '5c2008dc15fde34d454e47b09661e39d',
-                        });
-                        await wallet.connect({
-                            client,
-                            strategy: "auth_endpoint",
-                            payload: JSON.stringify({
-                                signature: params.signature,
-                                message: params.message,
-                            }),
-                            encryptionKey: '00000000000',
-                        });
-                        console.log('Connection wallet:', wallet);
-                        return wallet;
-                    }catch(error){   
-                        console.error('Connection error:', error);
+    useEffect( ()  => {
+     
+        if (!signature || !message) {
+            console.log('Missing signature or message');
+        } else {
+            const connectWallet = (async() =>{
+                try {
+                    const walletOrFn = await connect(async () => {
+                        try {
+                            const client = createThirdwebClient({
+                                clientId: '5c2008dc15fde34d454e47b09661e39d',
+                            });
+                            await wallet.connect({
+                                client,
+                                strategy: "auth_endpoint",
+                                payload: JSON.stringify({
+                                    signature: signature,
+                                    message: message,
+                                }),
+                                encryptionKey: '00000000000',
+                            });
+                            console.log('Connection wallet:', wallet);
+                            return wallet;
+                        } catch (error) {
+                            console.log('Connection error:', error);
+                            setIsGenerateWallet(false);
+                            setError(true);
+                            return wallet;
+                        }
+        
+                    })
+                    if (walletOrFn) {
+                        setIsGenerateWallet(true);
+                        setError(false);
+                        return true;
+                    } else {
                         setIsGenerateWallet(false);
                         setError(true);
-                        return wallet;
+                        return false;
                     }
-                  
-                });
-                if(walletOrFn){
-                    setIsGenerateWallet(true);
-                    setError(false);
-                    return true;
-                }else{
+        
+        
+                } catch (error) {
+                    console.log('Connection error:', error);
                     setIsGenerateWallet(false);
                     setError(true);
                     return false;
                 }
-               
+            })
+            connectWallet();
+        }
+    }, [signature, message]);
 
-            } catch (error) {
-                console.error('Connection error:', error);
-                setIsGenerateWallet(false);
-                setError(true);
-                return false;
-            }
-        },
-        enabled: !!params.signature && !!params.message,
-    });
-
-    return (
-
-        <div className="w-screen h-screen flex flex-col gap-2 items-center justify-center">
-            {!error && !isGenerateWallet && (<div>Generating Wallet...</div>)}
-            {error && !isGenerateWallet && (<div>Error Generating Wallet</div>)}
-            {!error && isGenerateWallet && (<div>Generated Wallet</div>)}
-        </div>
-
-    );
-}
-
-const TelegramLogin = () => {
     return (
         <Layout>
             <Container maxWidth={false} disableGutters={true}>
                 <Box className={styled.main}>
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <TelegramLoginContent />
-                    </Suspense>
+                    <div className="w-screen h-screen flex flex-col gap-2 items-center justify-center" style={{color: "aliceblue"}}>
+                        {!error && !isGenerateWallet && (<div>Generating Wallet...</div>)}
+                        {error && !isGenerateWallet && (<div>Error Generating Wallet</div>)}
+                        {!error && isGenerateWallet && (<div>Generated Wallet</div>)}
+                    </div>
                 </Box>
             </Container>
         </Layout>
