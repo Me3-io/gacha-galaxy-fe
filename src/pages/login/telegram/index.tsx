@@ -18,6 +18,7 @@ const wallet = inAppWallet({
 
 const TelegramLogin = () => {
   const { connect } = useConnect();
+  const { lang } = useParams();
   const { signature, message } = useParams();
   const { setAlert } = useAlert();
   const errorMessage = "Error generating wallet";
@@ -53,7 +54,6 @@ const TelegramLogin = () => {
             } catch (error) {
               console.log("Connection error:", error);
               setIsGenerateWallet(false);
-              setError(true);
               return wallet;
             }
           });
@@ -77,13 +77,18 @@ const TelegramLogin = () => {
     }
   }, [signature, message]);
 
-  if (error && !isGenerateWallet) {
-    setAlert(errorMessage, "error");
-  }
+  useEffect(() => {
+    if (error && !isGenerateWallet) {
+      navigate(`/${lang}/home`);
+      setAlert("Error generating wallet", "error");
+    }
+  }, [error, isGenerateWallet]);
 
-  if (!error && isGenerateWallet) {
-    setAlert(successMessage, "success");
-  }
+  useEffect(() => {
+    if (isGenerateWallet && !error) {
+      setAlert("Generated wallet", "success");
+    }
+  }, [isGenerateWallet, error]);
 
   return (
     <Layout>
