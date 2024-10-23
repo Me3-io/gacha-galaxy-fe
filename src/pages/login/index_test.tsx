@@ -6,7 +6,7 @@ import { useConnectModal } from "thirdweb/react";
 import Layout from "components/templates/layout";
 import Button from "components/atoms/buttons/default";
 import Logo from "assets/logo.svg";
-import LogoGacha from "assets/logo-gacha.svg";
+import LogoGacha from "assets/logo-gacha-galaxy.png";
 
 import { useTranslation } from "react-i18next";
 import styled from "./styled.module.scss";

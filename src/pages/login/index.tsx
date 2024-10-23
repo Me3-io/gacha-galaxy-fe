@@ -7,7 +7,7 @@ import { useConnectModal } from "thirdweb/react";
 import Layout from "components/templates/layout";
 import Button from "components/atoms/buttons/default";
 import Logo from "assets/logo.svg";
-import LogoGacha from "assets/logo-gacha.svg";
+import LogoGacha from "assets/logo-gacha-galaxy.png";
 
 import ModalLegal from "components/molecules/legal";
 
@@ -77,7 +77,6 @@ const Login = () => {
 
             <Button onClick={handleConnect}>{t("enter-game")}</Button>
             {/*<Button disabled>COMING SOON</Button>*/}
-
           </Box>
         </Box>
       </Container>
