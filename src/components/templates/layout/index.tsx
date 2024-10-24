@@ -3,11 +3,11 @@ import styles from "./styled.module.scss";
 import ActionsBar from "components/organisms/actionsbar";
 import AlertPopup from "components/molecules/alert/alertPopup";
 
-const Layout = ({ children, showHelp = false }: any) => {
+const Layout = ({ children, showActions, showHelp = false }: any) => {
   return (
     <Box className={styles.appLayout}>
       <AlertPopup />
-      <ActionsBar showHelp={showHelp} />
+      <ActionsBar showActions={showActions} showHelp={showHelp} />
       {children}
     </Box>
   );
