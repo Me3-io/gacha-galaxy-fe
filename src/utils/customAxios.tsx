@@ -59,6 +59,7 @@ const customAxios = (contentType?: string) => {
 
   instance.interceptors.response.use(
     (response) => {
+   
       if (response.data.status === 401) {
         window.dispatchEvent(new Event("logout"));
       } else if (response.data.status === 400) {
@@ -111,6 +112,27 @@ export const customAxiosLocalTest = (contentType?: string) => {
     }
   );
 
+  return instance;
+};
+
+export const customAxiosTelegram = (contentType?: string) => {
+  const accessToken = _getAccessToken();
+  const config = {
+    baseURL: API_URL,
+    headers: {
+      "Content-Type": contentType || "application/json",
+      Authorization: accessToken,
+    },
+  };
+
+  const instance = axios.create(config);
+
+  instance.interceptors.request.use((config) => {
+    const { data, params } = config;
+    config.data = _parse(data);
+    config.params = _parse(params);
+    return config;
+  });
   return instance;
 };
 
