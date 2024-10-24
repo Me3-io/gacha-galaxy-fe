@@ -11,7 +11,7 @@ import CustomTooltip from "components/atoms/materialTooltip";
 import { useTranslation } from "react-i18next";
 import { useTour } from "@reactour/tour";
 
-const ActionsBar = ({ showHelp = false }) => {
+const ActionsBar = ({ showActions = true, showHelp = false }) => {
   const { t } = useTranslation();
   // languaje menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -35,13 +35,15 @@ const ActionsBar = ({ showHelp = false }) => {
         </CustomTooltip>
       )}
 
-      <Box className={styled.lngBar}>
-        <CustomTooltip title={t("language")}>
-          <LanguageIcon onClick={!openLng ? handleOpen : handleClose} className={styled.lngIcon} />
-        </CustomTooltip>
+      {showActions && (
+        <Box className={styled.lngBar}>
+          <CustomTooltip title={t("language")}>
+            <LanguageIcon onClick={!openLng ? handleOpen : handleClose} className={styled.lngIcon} />
+          </CustomTooltip>
 
-        <LanguageMenu anchorEl={anchorEl} open={openLng} handleClose={handleClose} />
-      </Box>
+          <LanguageMenu anchorEl={anchorEl} open={openLng} handleClose={handleClose} />
+        </Box>
+      )}
 
       <LoginBar />
     </Box>
