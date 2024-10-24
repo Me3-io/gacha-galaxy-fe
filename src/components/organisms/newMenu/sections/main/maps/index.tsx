@@ -47,11 +47,11 @@ const ListMaps = ({ goToMap }: any) => {
             <MapItem key={pos} {...map} onClick={() => handleMap(map)} active={activeMap?.code === map?.code} />
           ))}
         </Stack>
-        {campaignsData && (
+        {/* {campaignsData && (
           <Stack>
             <RenderAdvertisement minImg={false} />
           </Stack>
-        )}
+        )} */}
       </Box>
     </Fade>
   );

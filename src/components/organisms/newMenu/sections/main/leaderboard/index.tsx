@@ -61,13 +61,13 @@ const Leaderboard = () => {
                       </TableCell>
                     </TableRow>
                   )}
-                  {campaignsData && (
+                  {/* {campaignsData && (
                     <TableRow>
                       <TableCell>
                         <RenderAdvertisement minImg={true} />
                       </TableCell>
                     </TableRow>
-                  )}
+                  )} */}
                 </tbody>
               </Table>
             </TableContainer>

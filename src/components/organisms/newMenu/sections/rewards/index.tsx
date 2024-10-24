@@ -49,13 +49,13 @@ const MainTable = ({ isCrytoUser, walletActive }: any) => {
                   <TableCell>{getItemForType(item)}</TableCell>
                 </TableRow>
                 <TableRow key={pos} className={styled.earnRow}>
-                  {campaignsData && (
+                  {/* {campaignsData && (
                     <TableCell>
                       <TableRow className={styled.advertisement}>
                         <RenderAdvertisement minImg={false} />
                       </TableRow>
                     </TableCell>
-                  )}
+                  )} */}
                 </TableRow>
               </>
             ))
