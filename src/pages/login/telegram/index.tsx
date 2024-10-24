@@ -10,7 +10,7 @@ import { client } from "config/thirdwebConfig";
 import { setSocial } from "reduxConfig/slices/social";
 import { useDispatch } from "react-redux";
 import { getProfiles, inAppWallet } from "thirdweb/wallets";
-import customAxiosTelegram from "utils/customAxios";
+import {customAxiosTelegram} from "utils/customAxios";
 import { useTranslation } from "react-i18next";
 
 const wallet = inAppWallet();
@@ -33,6 +33,7 @@ const TelegramLogin = () => {
         if (!signature || !message) {
             console.log('Missing signature or message');
         } else {
+           //arranca el login
             const connectWallet = (async () => {
                 try {
                     await wallet.connect({
@@ -47,6 +48,7 @@ const TelegramLogin = () => {
                     // eslint-disable-next-line react-hooks/exhaustive-deps
                     const walletOrFn = await connect(wallet);
                     if (walletOrFn) {
+                      //corto loading
                         setIsGenerateWallet(true);
                         setError(false);
                         const profiles = await getProfiles({ client });
@@ -58,6 +60,8 @@ const TelegramLogin = () => {
                         }
                         return true;
                     } else {
+                        //no corto loading
+                        //muesto error login
                         setIsGenerateWallet(false);
                         setError(true);
                         return false;
@@ -66,6 +70,8 @@ const TelegramLogin = () => {
 
                 } catch (error: any) {
                     if (!error?.message.includes("There is already an authentication attempt in progress")) {
+                       //no corto loading
+                         //muesto error login
                         console.log('Connection error:', error);
                         setIsGenerateWallet(false);
                         setError(true);
@@ -73,10 +79,12 @@ const TelegramLogin = () => {
                     }
                 }
             })
+
             customAxiosTelegram()
                 .get("/user/validatesession?tag=telegram")
                 .then(response => {
-                        navigate(`/${i18n.language}/home`);
+                  //corto loading
+                    navigate(`/${i18n.language}/home`);
                 })
                 .catch((error: any) => {
                     connectWallet();
@@ -87,14 +95,13 @@ const TelegramLogin = () => {
     }, [signature, message]);
 
     useEffect(() => {
-        if (error && !isGenerateWallet) {
-            // navigate(`/${lang}/home`);
+        if (error ) {
             setAlert("There was an error logging in", "error");
         }
-    }, [error, isGenerateWallet]);
+    }, [error]);
 
     return (
-        <Layout>
+        <Layout showHelp={false}>
             <Container maxWidth={false} disableGutters={true}>
                 <Box className={styled.main}>
                     <div

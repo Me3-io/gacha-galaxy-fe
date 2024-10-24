@@ -133,6 +133,21 @@ export const customAxiosTelegram = (contentType?: string) => {
     config.params = _parse(params);
     return config;
   });
+  instance.interceptors.response.use(
+    (response) => {
+   
+      if (response.data.status === 401) {
+      } else if (response.data.status === 400) {
+        return Promise.reject(response.data);
+      }
+      return response;
+    },
+    (error) => {
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
+      }
+      return Promise.reject(error);
+    }
+  );
   return instance;
 };
 
