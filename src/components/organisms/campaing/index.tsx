@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
 import Button from "components/atoms/buttons/base";
 //import CloseIcon from "@mui/icons-material/Close";
-import CircularProgress from "@mui/material/CircularProgress";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import loadingImg from "assets/loading.gif";
 
 import { MapContext } from "pages/home";
 import { useTranslation } from "react-i18next";
@@ -36,13 +36,12 @@ const Campaing = () => {
       window.claimr.logout();
       setDetails({});
       dispatch(fetchLeaderboard() as any);
-      
+
       setTimeout(() => {
         //@ts-ignore
         window.claimr.destroy();
         console.log("Claimr destroyed");
       }, 1000);
-
     }
   };
 
@@ -96,8 +95,7 @@ const Campaing = () => {
           </Box>
           {loading && (
             <Box className={styled.loading}>
-              <CircularProgress className={styled.spinner} size={36} />
-              loading campaign...
+              <img src={loadingImg} alt="loading" />
             </Box>
           )}
 
