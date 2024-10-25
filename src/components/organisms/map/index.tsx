@@ -2,13 +2,13 @@ import { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import { ReactSVGPanZoom, TOOL_AUTO } from "react-svg-pan-zoom";
 import useResizeObserver from "use-resize-observer";
 
-import CircularProgress from "@mui/material/CircularProgress";
 import { Add, Remove, CropFree, Numbers, ShareOutlined } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
 import Tooltip from "components/atoms/tooltip";
 import Button from "components/atoms/buttons/base";
 import Buildings from "./buildings";
+import loadingImg from "assets/loading.gif";
 
 import styled from "./styled.module.scss";
 import { useTranslation } from "react-i18next";
@@ -241,8 +241,7 @@ const InteractiveMap = () => {
     <Box ref={ref} className={styled.main}>
       {loading && (
         <Box className={styled.loading}>
-          <CircularProgress className={styled.spinner} size={36} />
-          {t("loading-map")}
+          <img src={loadingImg} alt="loading" />
         </Box>
       )}
       <Box className={styled.backgroundImage}></Box>

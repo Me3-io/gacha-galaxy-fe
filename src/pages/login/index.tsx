@@ -56,8 +56,10 @@ const Login = () => {
       await connect({ ...modalConfig, size: "wide" });
 
       const profiles = await getProfiles({ client });
+
       if (profiles) {
         const social = profiles[0]?.type || "";
+
         dispatch(setSocial(social) as any);
       } else {
         dispatch(setSocial("") as any);
