@@ -4,7 +4,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
   position: relative;
   background-color: #140716;
 
@@ -49,6 +48,11 @@
     align-items: center;
     height: auto;
     outline: none;
+
+    .back {
+      width: 863px;
+      background: linear-gradient(180deg, rgba(132, 36, 166, 0.7) 0%, rgba(115, 115, 115, 0) 100%);
+    }
   }
 
   .close {

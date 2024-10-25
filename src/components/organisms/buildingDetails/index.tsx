@@ -11,7 +11,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useTranslation } from "react-i18next";
 import bg from "assets/images/playroom.png";
 import styled from "./styled.module.scss";
-import Card from "./carousel/card";
+import MiniCard from "./carousel/miniCard";
 
 const BuildingDetails = ({ handleClose }: any) => {
   const { t } = useTranslation();
@@ -35,13 +35,19 @@ const BuildingDetails = ({ handleClose }: any) => {
 
         <Grow in={open} timeout={1000}>
           <Box className={styled.modal}>
-            <Partner buildingData={buildingData} />
-            <Grid container spacing={6} sx={{ justifyContent: "center", paddingTop: 6, width: "1200px" }}>
-              {listGames?.map((item: any) => (
-                <Grid item xs={12} sm={6} md={4} key={item.code}>
-                  <Card item={item} setDetails={setGame} type={item.type} />
-                </Grid>
-              ))}
+            <Grid container className={styled.back}>
+              <Partner buildingData={buildingData} />
+              <Grid
+                container
+                spacing={6}
+                sx={{ justifyContent: "center", paddingTop: 6, width: "1200px", height: "100%" }}
+              >
+                {listGames?.map((item: any) => (
+                  <Grid item xs={12} sm={6} md={4} key={item.code}>
+                    <MiniCard item={item} setDetails={setGame} type={item.type} />
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
           </Box>
         </Grow>
