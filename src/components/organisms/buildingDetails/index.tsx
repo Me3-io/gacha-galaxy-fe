@@ -15,7 +15,7 @@ import MiniCard from "./carousel/miniCard";
 
 const BuildingDetails = ({ handleClose }: any) => {
   const { t } = useTranslation();
-  const { setGame, listGames, listCampaings, buildingData } = useContext(MapContext);
+  const { setGame, listGames, setCampaing, listCampaings, buildingData } = useContext(MapContext);
   const open = !!listGames?.length || !!listCampaings?.length || false;
 
   const onClose = (evt: any, reason: string) => {
@@ -50,11 +50,24 @@ const BuildingDetails = ({ handleClose }: any) => {
                   overflowX: "hidden",
                 }}
               >
-                {listGames?.map((item: any) => (
-                  <Grid item xs={12} sm={6} md={3.5} key={item.code}>
-                    <MiniCard item={item} setDetails={setGame} type={item.type} />
-                  </Grid>
-                ))}
+                {listCampaings?.length > 0 && (
+                  <>
+                    {listCampaings?.map((item: any) => (
+                      <Grid item xs={12} sm={6} md={3.5} key={item.claimrId}>
+                        <MiniCard item={item} setDetails={setCampaing} type="campaing" />
+                      </Grid>
+                    ))}
+                  </>
+                )}
+                {listGames?.length > 0 && (
+                  <>
+                    {listGames?.map((item: any) => (
+                      <Grid item xs={12} sm={6} md={3.5} key={item.code}>
+                        <MiniCard item={item} setDetails={setGame} type="game" />
+                      </Grid>
+                    ))}
+                  </>
+                )}
               </Grid>
             </Grid>
           </Box>

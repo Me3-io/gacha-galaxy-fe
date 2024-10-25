@@ -62,6 +62,8 @@ $mask-size: 150px;
     }
 
     .campaing {
+      position: absolute;
+      top: -30px;
       img {
         height: 133px;
         object-fit: cover;
