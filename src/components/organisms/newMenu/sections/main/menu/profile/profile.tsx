@@ -19,12 +19,13 @@ import { useActiveWallet, useConnectModal, useSetActiveWallet } from "thirdweb/r
 import useAlert from "hooks/alertProvider/useAlert";
 
 import { appMetadata, chain, client, onlyWalletConfig, theme } from "config/thirdwebConfig";
-import { inAppWallet } from "thirdweb/wallets";
+import { getProfiles, inAppWallet } from "thirdweb/wallets";
 
 import ListWallets from "./components/listWallets";
 import ListSocials from "./components/listSocial";
 
 import styled from "./styled.module.scss";
+import { setSocial } from "reduxConfig/slices/social";
 
 const Profile = ({ setOpen }: any) => {
   const { t } = useTranslation();
@@ -167,7 +168,6 @@ const Profile = ({ setOpen }: any) => {
 
   const addSocial = async () => {
     const activeAccount = wallet;
-
     const wallets = [inAppWallet({ auth: { options: socials } })];
 
     try {
@@ -181,14 +181,20 @@ const Profile = ({ setOpen }: any) => {
         title: "Link Social",
         showThirdwebBranding: false,
       });
-      const account = response?.getAccount();
-      // @ts-ignore
-      const profiles = await response?.getProfiles();
 
-      if (account?.address) await linkWallet(account.address, profiles[0].type);
+      const account = response?.getAccount();
+
+      const profiles = await getProfiles({ client });
+
+      const social = profiles[0]?.type || "";
+      if (account?.address) {
+        await linkWallet(account.address, social);
+      }
+
       if (activeAccount) setActiveAccount(activeAccount);
     } catch (error: any) {
-      console.error(error);
+      dispatch(setSocial("") as any);
+      console.error("Error:", error);
     }
   };
 
