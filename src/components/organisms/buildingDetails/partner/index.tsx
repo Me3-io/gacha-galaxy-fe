@@ -1,9 +1,9 @@
 import { Box, Grid } from "@mui/material";
 import styled from "./styled.module.scss";
-import TwitterIcon from "assets/icons/miniTwitter.svg";
-import TelegramIcon from "assets/icons/miniTelegram.svg";
-import DiscordIcon from "assets/icons/miniDiscord.svg";
-import GmailIcon from "assets/icons/miniGmail.svg";
+import { ReactComponent as TelegramIcon } from "assets/icons/miniTelegram.svg";
+import { ReactComponent as TwitterIcon } from "assets/icons/miniTwitter.svg";
+import { ReactComponent as DiscordIcon } from "assets/icons/miniDiscord.svg";
+import { ReactComponent as GmailIcon } from "assets/icons/miniGmail.svg";
 
 const Partner = ({ buildingData }: any) => {
   const logoImg = buildingData?.partner?.img ? buildingData?.partner?.img?.url : null;
@@ -26,14 +26,36 @@ const Partner = ({ buildingData }: any) => {
               )}
             </Grid>
             <Grid item xs={12}>
-              <Box className={styled.email}>{buildingData?.partner?.website}</Box>
+              <Box className={styled.email}>
+                {buildingData?.partner?.website && (
+                  <a href={buildingData.partner.website} target="_blank" rel="noopener noreferrer">
+                    {buildingData.partner.website}
+                  </a>
+                )}
+              </Box>
             </Grid>
             <Grid item xs={12} pt={3}>
               <Box className={styled.socialIcos}>
-                <img src={TwitterIcon} alt="twitter" />
-                <img src={TelegramIcon} alt="telegram" />
-                <img src={DiscordIcon} alt="discord" />
-                <img src={GmailIcon} alt="gmail" />
+                {buildingData?.partner?.twitter && (
+                  <a href={buildingData.partner.twitter} target="_blank" rel="noopener noreferrer">
+                    <TwitterIcon />
+                  </a>
+                )}
+                {buildingData?.partner?.telegram && (
+                  <a href={buildingData.partner.telegram} target="_blank" rel="noopener noreferrer">
+                    <TelegramIcon />
+                  </a>
+                )}
+                {buildingData?.partner?.discord && (
+                  <a href={buildingData.partner.discord} target="_blank" rel="noopener noreferrer">
+                    <DiscordIcon />
+                  </a>
+                )}
+                {buildingData?.partner?.gmail && (
+                  <a href={buildingData.partner.gmail} target="_blank" rel="noopener noreferrer">
+                    <GmailIcon />
+                  </a>
+                )}
               </Box>
             </Grid>
           </Grid>
