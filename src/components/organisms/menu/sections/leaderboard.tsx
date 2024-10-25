@@ -24,27 +24,13 @@ import { getLeaderboard } from "reduxConfig/thunks/leaderboard";
 import { useTranslation } from "react-i18next";
 import styled from "../styled.module.scss";
 
-const Leaderboard = ({
-  showBack,
-  goToMap,
-  setOpenPoints,
-  setOpenTokens,
-  setOpenMenu,
-  opacity,
-  openTokens,
-}: any) => {
+const Leaderboard = ({ showBack, goToMap, setOpenPoints, setOpenTokens, setOpenMenu, opacity, openTokens }: any) => {
   const { t } = useTranslation();
   const leaderboardData = useSelector(getLeaderboard);
 
   return (
-    <Grid
-      container
-      component="section"
-      flexDirection="column"
-      className={styled.main}
-      sx={{ opacity: opacity }}
-    >
-     {openTokens && <NFTChekout />}
+    <Grid container component="section" flexDirection="column" className={styled.main} sx={{ opacity: opacity }}>
+      {openTokens && <NFTChekout />}
       <Box className={styled.header}>
         <CustomTooltip title={t("menu")}>
           <Box component="span" onClick={() => setOpenMenu(true)}>
@@ -109,9 +95,7 @@ const Leaderboard = ({
           <Box>
             <Box display={"flex"} alignItems={"center"} gap={1}>
               <span>{t("points")}</span>
-              <Typography className={styled.position}>
-                #{leaderboardData?.userPosition || "-"}
-              </Typography>
+              <Typography className={styled.position}>#{leaderboardData?.userPosition || "-"}</Typography>
             </Box>
             <Typography>{leaderboardData?.userPoints?.toFixed(2) || "0"}</Typography>
           </Box>

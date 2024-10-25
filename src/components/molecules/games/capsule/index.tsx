@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, CircularProgress, Fade } from "@mui/material";
+import { Box, Fade } from "@mui/material";
 import useResizeObserver from "use-resize-observer";
 
 import useAlert from "hooks/alertProvider/useAlert";
 import customAxios from "utils/customAxios";
+import loadingImg from "assets/loading.gif";
 import CongratsModal from "components/molecules/games/modal";
 
 import styled from "./styled.module.scss";
@@ -185,8 +186,7 @@ const Capsule = ({ onPlay, handleEnd, handlePlay, gameData }: any) => {
     <>
       {loading && (
         <Box className={styled.loading}>
-          <CircularProgress className={styled.spinner} size={36} />
-          loading game...
+          <img src={loadingImg} alt="loading" />
         </Box>
       )}
       <Fade in={true}>

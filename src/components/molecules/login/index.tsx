@@ -30,7 +30,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import CircularProgress from "@mui/material/CircularProgress";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-
 import styled from "./styled.module.scss";
 
 const LoginBar = () => {

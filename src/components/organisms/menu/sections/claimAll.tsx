@@ -124,11 +124,7 @@ const RewardButton = ({ reward, setOnAlert }: any) => {
   };
 
   return (
-    <Button
-      onClick={() => getReward(reward)}
-      isLoading={loading}
-      disabled={loading || reward?.rewardStatePending}
-    >
+    <Button onClick={() => getReward(reward)} isLoading={loading} disabled={loading || reward?.rewardStatePending}>
       {t("go").toUpperCase()}
     </Button>
   );
@@ -186,12 +182,7 @@ const ClaimAll = ({ setOpenClaimAll }: any) => {
           <Box className={styled.earnPointsContainer}>
             <TabContext value={value}>
               <Box sx={{ borderBottom: 1, borderColor: "#7A57A5" }}>
-                <TabList
-                  onChange={handleChange}
-                  textColor="inherit"
-                  variant="fullWidth"
-                  indicatorColor="secondary"
-                >
+                <TabList onChange={handleChange} textColor="inherit" variant="fullWidth" indicatorColor="secondary">
                   <Tab label="NFTs" value="1" />
                   <Tab label="Tokens" value="2" disabled />
                 </TabList>
@@ -208,10 +199,7 @@ const ClaimAll = ({ setOpenClaimAll }: any) => {
       </Grid>
 
       {onAlert.show && (
-        <Alert
-          severity={onAlert.severity}
-          onClose={() => setOnAlert({ show: false, severity: "error", msg: "" })}
-        >
+        <Alert severity={onAlert.severity} onClose={() => setOnAlert({ show: false, severity: "error", msg: "" })}>
           {onAlert.msg || "Error"}
         </Alert>
       )}
