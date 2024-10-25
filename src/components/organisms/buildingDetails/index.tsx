@@ -40,10 +40,18 @@ const BuildingDetails = ({ handleClose }: any) => {
               <Grid
                 container
                 spacing={6}
-                sx={{ justifyContent: "center", paddingTop: 6, width: "1200px", height: "100%" }}
+                sx={{
+                  justifyContent: "center",
+                  paddingTop: 6,
+                  marginTop: "-20px !important",
+                  width: "1200px",
+                  height: "340px",
+                  overflowY: "auto",
+                  overflowX: "hidden",
+                }}
               >
                 {listGames?.map((item: any) => (
-                  <Grid item xs={12} sm={6} md={4} key={item.code}>
+                  <Grid item xs={12} sm={6} md={3.5} key={item.code}>
                     <MiniCard item={item} setDetails={setGame} type={item.type} />
                   </Grid>
                 ))}

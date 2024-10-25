@@ -21,10 +21,9 @@ const Partner = ({ buildingData }: any) => {
           </Grid>
           <Grid item xs={12} sm={8} md={7} lg={7} className={styled.containText}>
             <Grid item xs={12}>
-              <Box className={styled.description}>
-                {buildingData?.partner?.description}
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-              </Box>
+              {buildingData?.partner?.description && (
+                <Box className={styled.description}>{buildingData?.partner?.description}</Box>
+              )}
             </Grid>
             <Grid item xs={12}>
               <Box className={styled.email}>{buildingData?.partner?.website}</Box>
