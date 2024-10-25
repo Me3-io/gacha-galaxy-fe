@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { Box, Grid, Grow, Modal } from "@mui/material";
+import { Box, Grow, Modal } from "@mui/material";
 
-import Partner from "./partner";
+import GameCampaingCarousel from "./carousel";
+//import Partner from "./partner";
 
 import { MapContext } from "pages/home";
 
@@ -11,7 +12,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useTranslation } from "react-i18next";
 import bg from "assets/images/playroom.png";
 import styled from "./styled.module.scss";
-import MiniCard from "./carousel/miniCard";
 
 const BuildingDetails = ({ handleClose }: any) => {
   const { t } = useTranslation();
@@ -21,6 +21,7 @@ const BuildingDetails = ({ handleClose }: any) => {
   const onClose = (evt: any, reason: string) => {
     if (reason !== "backdropClick") handleClose();
   };
+  console.log("BuildingDetails -> buildingData", buildingData);
 
   return (
     <Modal open={open} className={styled.modalContainer} onClose={onClose}>
@@ -35,41 +36,13 @@ const BuildingDetails = ({ handleClose }: any) => {
 
         <Grow in={open} timeout={1000}>
           <Box className={styled.modal}>
-            <Grid container className={styled.back}>
-              <Partner buildingData={buildingData} />
-              <Grid
-                container
-                spacing={6}
-                sx={{
-                  justifyContent: "center",
-                  paddingTop: 6,
-                  marginTop: "-20px !important",
-                  width: "1200px",
-                  height: "340px",
-                  overflowY: "auto",
-                  overflowX: "hidden",
-                }}
-              >
-                {listCampaings?.length > 0 && (
-                  <>
-                    {listCampaings?.map((item: any) => (
-                      <Grid item xs={12} sm={6} md={3.5} key={item.claimrId}>
-                        <MiniCard item={item} setDetails={setCampaing} type="campaing" />
-                      </Grid>
-                    ))}
-                  </>
-                )}
-                {listGames?.length > 0 && (
-                  <>
-                    {listGames?.map((item: any) => (
-                      <Grid item xs={12} sm={6} md={3.5} key={item.code}>
-                        <MiniCard item={item} setDetails={setGame} type="game" />
-                      </Grid>
-                    ))}
-                  </>
-                )}
-              </Grid>
-            </Grid>
+            {/*<Partner buildingData={buildingData} />*/}
+            <GameCampaingCarousel
+              listGames={listGames || []}
+              listCampaings={listCampaings || []}
+              setGame={setGame}
+              setCampaing={setCampaing}
+            />
           </Box>
         </Grow>
       </>
