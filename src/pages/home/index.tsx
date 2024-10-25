@@ -112,6 +112,9 @@ const Home = () => {
                     name: buildingDetails.partner.displayName,
                     website: buildingDetails.partner.website,
                     description: buildingDetails?.partner?.description,
+                    twitter: buildingDetails?.partner?.twitter,
+                    discord: buildingDetails?.partner?.discord,
+                    telegram: buildingDetails?.partner?.telegram,
                     img: buildingDetails.partner.logo[0],
                   }
                 : null,
