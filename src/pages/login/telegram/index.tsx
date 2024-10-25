@@ -25,7 +25,6 @@ const TelegramLogin = () => {
 
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isGenerateWallet, setIsGenerateWallet] = useState(false);
 
   useEffect(() => {
     if (!signature || !message) {
@@ -44,10 +43,11 @@ const TelegramLogin = () => {
             encryptionKey: "00000000000",
           });
           // eslint-disable-next-line react-hooks/exhaustive-deps
+          console.log("wallet connect");
+          console.log(wallet);
           const walletOrFn = await connect(wallet);
           if (walletOrFn) {
             setLoading(false);
-            setIsGenerateWallet(true);
             setError(false);
             const profiles = await getProfiles({ client });
             if (profiles) {
@@ -59,14 +59,12 @@ const TelegramLogin = () => {
             return true;
           } else {
             setLoading(true);
-            setIsGenerateWallet(false);
             setError(true);
             return false;
           }
         } catch (error: any) {
           if (!error?.message.includes("There is already an authentication attempt in progress")) {
             setLoading(true);
-            setIsGenerateWallet(false);
             setError(true);
             return false;
           }
@@ -74,7 +72,7 @@ const TelegramLogin = () => {
       };
 
       customAxiosTelegram()
-        .get("/user/validatesession?tag=telegram")
+        .get("/user/validatesession")
         .then((response) => {
           setLoading(false);
           navigate(`/${i18n.language}/home`);
