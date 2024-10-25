@@ -49,6 +49,7 @@ const TelegramLogin = () => {
           if (walletOrFn) {
             setLoading(false);
             setError(false);
+            const account = wallet.getAccount();
             const profiles = await getProfiles({ client });
             if (profiles) {
               const social = profiles[0]?.type || "";
